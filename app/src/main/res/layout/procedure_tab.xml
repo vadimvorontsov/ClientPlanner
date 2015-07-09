@@ -7,7 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Tab 600 says Hello :D"
+        android:text="Tab 600 says Hiiiii :D"
         android:id="@+id/textView1"
         android:textColor="@color/tabsScrollColor"
         android:layout_centerVertical="true"

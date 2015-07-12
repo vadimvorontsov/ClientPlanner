@@ -12,6 +12,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -146,6 +148,12 @@ public class ContactTab1 extends Fragment {
         return relativeLayout;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.client_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
     CompoundButton.OnCheckedChangeListener switherListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -196,7 +204,7 @@ public class ContactTab1 extends Fragment {
     AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            name = mListItems.get(position).toString();
+            name = mListItems.get(position);
             Toast.makeText(fa.getApplicationContext(), "Выбран контакт " + name,
                     Toast.LENGTH_SHORT).show();
             getPhonesByName(fa, name);
@@ -259,7 +267,7 @@ public class ContactTab1 extends Fragment {
     private TextWatcher filterTextWatcher = new TextWatcher() {
         public void afterTextChanged(Editable s) {
             String str = s.toString();
-            if (mAdaptor != null && str != null)
+            if (mAdaptor != null)
                 (new ListFilter()).filter(str);
         }
 
@@ -281,8 +289,8 @@ public class ContactTab1 extends Fragment {
             String constraintStr = constraint.toString().toLowerCase(Locale.getDefault());
             Filter.FilterResults result = new FilterResults();
 
-            if (constraint != null && constraint.toString().length() > 0) {
-                ArrayList<String> filterItems = new ArrayList<String>();
+            if (constraint.toString().length() > 0) {
+                ArrayList<String> filterItems = new ArrayList<>();
 
                 synchronized (this) {
                     for (String item : mContacts) {
@@ -322,37 +330,21 @@ public class ContactTab1 extends Fragment {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private class Poplulate extends AsyncTask<ArrayList<String>, Void, Void> {
 
-        /**
-         * вызывается до начала выполнения AsyncTask.Отображает только загруку
-         *
-         * @param contentView отображение содержимого
-         * @param loadingView отображение загрузки
-         * @param emptyView   отображение пустого списка
-         */
         private void showLoading(View contentView, View loadingView, View emptyView) {
             contentView.setVisibility(View.GONE);
             loadingView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.GONE);
         }
 
-        /**
-         * отображает только содержимое
-         *
-         * @param contentView
-         * @param loadingView
-         * @param emptyView
-         */
         private void showContent(View contentView, View loadingView, View emptyView) {
             contentView.setVisibility(View.VISIBLE);
             loadingView.setVisibility(View.GONE);
             emptyView.setVisibility(View.GONE);
         }
 
-        /**
-         * отображает пустой список
-         */
         private void showEmptyText(View contentView, View loadingView, View emptyView) {
             contentView.setVisibility(View.GONE);
             loadingView.setVisibility(View.GONE);

@@ -9,9 +9,8 @@ import android.util.Log;
 
 import com.example.smena.clientbase.ClientBaseOpenHelper;
 
-/**
- * Created by smena on 25.06.2015.
- */
+import java.util.ArrayList;
+
 public class Procedures {
     private final String TAG = "Procedures";
     Context ctx;
@@ -29,10 +28,10 @@ public class Procedures {
 
         try {
 
-            cursor = db_read.query(helper.TABLE_PROCEDURES, new String[]{helper._ID},
-                    helper.PROCEDURE + "='" + procedureName + "'", null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES, new String[]{ClientBaseOpenHelper._ID},
+                    ClientBaseOpenHelper.PROCEDURE + "='" + procedureName + "'", null, null, null, null);
             while (cursor.moveToNext()) {
-                procedureID = cursor.getLong(cursor.getColumnIndex(helper._ID));
+                procedureID = cursor.getLong(cursor.getColumnIndex(ClientBaseOpenHelper._ID));
             }
             return procedureID;
 
@@ -46,8 +45,6 @@ public class Procedures {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-            }
-            if (helper != null) {
                 helper.close();
             }
         }
@@ -64,13 +61,15 @@ public class Procedures {
             String procedureName = "";
             Integer procedurePrice = 0;
             String procedureNote = "";
-            cursor = db_read.query(helper.TABLE_PROCEDURES, new String[]{helper.PROCEDURE,
-                            helper.PRICE, helper.NOTICE},
-                    helper._ID + "=" + procedureID, null, null, null, null);
+
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES, new String[]{ClientBaseOpenHelper.PROCEDURE,
+                            ClientBaseOpenHelper.PRICE, ClientBaseOpenHelper.NOTICE},
+                    ClientBaseOpenHelper._ID + "=" + procedureID, null, null, null, null);
+
             while (cursor.moveToNext()) {
-                procedureName = cursor.getString(cursor.getColumnIndex(helper.PROCEDURE));
-                procedurePrice = cursor.getInt(cursor.getColumnIndex(helper.PRICE));
-                procedureNote = cursor.getString(cursor.getColumnIndex(helper.NOTICE));
+                procedureName = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.PROCEDURE));
+                procedurePrice = cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.PRICE));
+                procedureNote = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.NOTICE));
             }
             if (!procedureName.isEmpty()) {
                 procedureInfo = new Object[]{procedureName, procedurePrice, procedureNote};
@@ -79,7 +78,7 @@ public class Procedures {
 
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
-            return procedureInfo;
+            return null;
 
         } finally {
             if (cursor != null && !cursor.isClosed()) {
@@ -87,8 +86,6 @@ public class Procedures {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-            }
-            if (helper != null) {
                 helper.close();
             }
         }
@@ -103,12 +100,12 @@ public class Procedures {
 
         try {
             ContentValues cv = new ContentValues();
-            cv.put(helper.PROCEDURE, procedureName);
-            cv.put(helper.PRICE, procedurePrice);
-            cv.put(helper.NOTICE, procedureNote);
-            if (cv != null) {
-                procedureID = db_write.insert(helper.TABLE_PROCEDURES, helper.PROCEDURE, cv);
-            }
+            cv.put(ClientBaseOpenHelper.PROCEDURE, procedureName);
+            cv.put(ClientBaseOpenHelper.PRICE, procedurePrice);
+            cv.put(ClientBaseOpenHelper.NOTICE, procedureNote);
+
+            procedureID = db_write.insert(ClientBaseOpenHelper.TABLE_PROCEDURES, ClientBaseOpenHelper.PROCEDURE, cv);
+
             return procedureID;
 
         } catch (SQLiteConstraintException e) {
@@ -118,11 +115,40 @@ public class Procedures {
         } finally {
             if (db_write != null && db_write.isOpen()) {
                 db_write.close();
-            }
-            if (helper != null) {
                 helper.close();
             }
         }
     }
+
+    public ArrayList<String> getAllProceduresNames() {
+
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        SQLiteDatabase db_read = helper.getReadableDatabase();
+        Cursor cursor = null;
+        ArrayList<String> procedures = new ArrayList<>();
+
+        try {
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES, new String[]{ClientBaseOpenHelper.PROCEDURE}, null,
+                    null, null, null, null);
+            while (cursor.moveToNext()) {
+                procedures.add(cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.PROCEDURE)));
+            }
+            return procedures;
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return procedures;
+
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+            if (db_read != null && db_read.isOpen()) {
+                db_read.close();
+                helper.close();
+            }
+        }
+    }
+
 
 }

@@ -12,4 +12,6 @@
     <string name="search_hint">search</string>
     <string name="empty_list_msg">No Results</string>
 
+    <string name="add">Добавить</string>
+
 </resources>

@@ -11,9 +11,6 @@ import com.example.smena.clientbase.ClientBaseOpenHelper;
 
 import java.util.ArrayList;
 
-/**
- * Created by smena on 20.06.2015.
- */
 public class Clients {
 
     private final String TAG = "Clients";
@@ -31,10 +28,10 @@ public class Clients {
         long clientID = 0;
 
         try {
-            cursor = db_read.query(helper.TABLE_CLIENTS, new String[]{helper._ID},
-                    helper.CLIENT + "='" + clientName + "'", null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS, new String[]{ClientBaseOpenHelper._ID},
+                    ClientBaseOpenHelper.CLIENT + "='" + clientName + "'", null, null, null, null);
             while (cursor.moveToNext()) {
-                clientID = cursor.getLong(cursor.getColumnIndex(helper._ID));
+                clientID = cursor.getLong(cursor.getColumnIndex(ClientBaseOpenHelper._ID));
             }
             return clientID;
 
@@ -48,8 +45,6 @@ public class Clients {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-            }
-            if (helper != null) {
                 helper.close();
             }
         }
@@ -63,10 +58,10 @@ public class Clients {
         String client = "";
 
         try {
-            cursor = db_read.query(helper.TABLE_CLIENTS, new String[]{helper.CLIENT},
-                    helper._ID + "=" + clientID, null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS, new String[]{ClientBaseOpenHelper.CLIENT},
+                    ClientBaseOpenHelper._ID + "=" + clientID, null, null, null, null);
             while (cursor.moveToNext()) {
-                client = cursor.getString(cursor.getColumnIndex(helper.CLIENT));
+                client = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.CLIENT));
             }
             return client;
 
@@ -80,8 +75,6 @@ public class Clients {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-            }
-            if (helper != null) {
                 helper.close();
             }
         }
@@ -96,10 +89,9 @@ public class Clients {
 
         try {
             ContentValues cv = new ContentValues();
-            cv.put(helper.CLIENT, clientName);
-            if (cv != null) {
-                clientID = db_write.insert(helper.TABLE_CLIENTS, helper.CLIENT, cv);
-            }
+            cv.put(ClientBaseOpenHelper.CLIENT, clientName);
+            clientID = db_write.insert(ClientBaseOpenHelper.TABLE_CLIENTS, ClientBaseOpenHelper.CLIENT, cv);
+
             return clientID;
 
         } catch (SQLiteConstraintException e) {
@@ -107,11 +99,8 @@ public class Clients {
             return clientID;
 
         } finally {
-
             if (db_write != null && db_write.isOpen()) {
                 db_write.close();
-            }
-            if (helper != null) {
                 helper.close();
             }
         }
@@ -125,10 +114,10 @@ public class Clients {
         ArrayList<String> clients = new ArrayList<>();
 
         try {
-            cursor = db_read.query(helper.TABLE_CLIENTS, new String[]{helper.CLIENT}, null,
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS, new String[]{ClientBaseOpenHelper.CLIENT}, null,
                     null, null, null, null);
             while (cursor.moveToNext()) {
-                clients.add(cursor.getString(cursor.getColumnIndex(helper._ID)));
+                clients.add(cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.CLIENT)));
             }
             return clients;
 
@@ -142,8 +131,6 @@ public class Clients {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-            }
-            if (helper != null) {
                 helper.close();
             }
         }

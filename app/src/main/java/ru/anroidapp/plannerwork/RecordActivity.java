@@ -1,5 +1,6 @@
 package ru.anroidapp.plannerwork;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,8 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
 
 import ru.anroidapp.plannerwork.contact_choose.ContactTab1;
 import ru.anroidapp.plannerwork.date_choose.DateTab2;
@@ -30,10 +30,21 @@ public class RecordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_record);
 
         toolbar = (Toolbar) findViewById(R.id.tool_record);
+
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.rec_title);
+        toolbar.setTitle(R.string.rec_title);
+        //getSupportActionBar().hide();
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RecordActivity.this, MainActivity.class));
+                finish();
+            }
+        });
 
         adapter = new RecViewPagerAdapter(getSupportFragmentManager(), titles, numbOfTabs);
 
@@ -55,25 +66,6 @@ public class RecordActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_record, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            finish();
-        }
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public class RecViewPagerAdapter extends FragmentStatePagerAdapter {
         CharSequence Titles[]; // This will Store the titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
         int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
@@ -89,16 +81,13 @@ public class RecordActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                ContactTab1 tab1 = new ContactTab1();
-                return tab1;
+                return new ContactTab1();
             }
             if (position == 1) {
-                DateTab2 tab2 = new DateTab2();
-                return tab2;
+                return new DateTab2();
             }
             if (position == 2) {
-                ProcedureTab3 tab3 = new ProcedureTab3();
-                return tab3;
+                return new ProcedureTab3();
             }
             return null;
         }

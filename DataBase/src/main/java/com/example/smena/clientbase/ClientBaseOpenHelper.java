@@ -6,15 +6,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.widget.Toast;
 
-/**
- * Created by smena on 16.06.2015.
- */
+
 public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumns {
 
     Context ctx;
     // db
     private static final String DATABASE_NAME = "sessions.db";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 12;
 
     //tables
     public static final String TABLE_CLIENTS = "clients_table";

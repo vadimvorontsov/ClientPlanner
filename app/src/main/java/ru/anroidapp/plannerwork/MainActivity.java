@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.app_name);
+        toolbar.setTitle(R.string.app_name);
 
         initializeNavigationDrawer(toolbar);
 
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBtn1Click(View view) {
         startActivity(new Intent(this, RecordActivity.class));
+        finish();
     }
 
     @Override

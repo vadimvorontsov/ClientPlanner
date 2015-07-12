@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onBtn1Click(View view) {
         startActivity(new Intent(this, RecordActivity.class));
-        finish();
+        //finish();
     }
 
     @Override

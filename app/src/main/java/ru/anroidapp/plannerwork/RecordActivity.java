@@ -32,7 +32,7 @@ public class RecordActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.tool_record);
 
         setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.rec_title);
+        getSupportActionBar().setTitle(R.string.rec_title);
         //getSupportActionBar().hide();
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -42,7 +42,7 @@ public class RecordActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RecordActivity.this, MainActivity.class));
-                finish();
+                //finish();
             }
         });
 

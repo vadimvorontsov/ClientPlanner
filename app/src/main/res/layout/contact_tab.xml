@@ -6,32 +6,79 @@
 
     <EditText
         android:id="@+id/search_view"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:hint="@string/search_hint"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:hint="@string/search_hint"
-        android:textColorHint="#ffc7fffc"
         android:singleLine="true"
+        android:textColor="@color/ColorPrimary"
+        android:textColorHint="@color/ColorPrimaryHint"
         android:textSize="14sp"
-        android:textColor="@color/ColorPrimary" />
+        android:layout_below="@+id/switcher"
+        android:layout_centerHorizontal="true" />
+
+    <Switch
+        android:id="@+id/switcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:enabled="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:thumb="@drawable/switch_thumb_activated_holo_dark"
+        android:track="@drawable/switch_thumb_disabled_holo_dark"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/history_label"
+        android:layout_toStartOf="@+id/history_label" />
 
     <RelativeLayout
-
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:id="@+id/clients_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="40dp">
+        android:layout_below="@+id/search_view">
 
         <include layout="@layout/loading_empty_view" />
 
         <ru.anroidapp.plannerwork.contact_choose.PinnedHeaderListView
             android:id="@+id/list_view"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scrollingCache="false" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollingCache="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="контакты"
+        android:textSize="16sp"
+        android:textColor="@color/ColorPrimary"
+        android:id="@+id/contacts_label"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/switcher"
+        android:layout_toStartOf="@+id/switcher"
+        android:layout_alignBottom="@+id/switcher"
+        android:gravity="center|right" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="история"
+        android:textSize="16sp"
+        android:textColor="@color/ColorPrimary"
+        android:id="@+id/history_label"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/switcher"
+        android:gravity="center|left"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="10dp" />
 
 </RelativeLayout> 

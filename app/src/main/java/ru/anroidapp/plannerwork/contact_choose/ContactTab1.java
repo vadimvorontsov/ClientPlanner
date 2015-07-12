@@ -15,10 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,12 +33,10 @@ import ru.anroidapp.plannerwork.R;
 import ru.anroidapp.plannerwork.contact_choose.intface.PinnedHeaderAdapter;
 
 
-/**
- * Created by Артём on 14.06.2015.
- */
 public class ContactTab1 extends Fragment {
 
-    ArrayList<String> mItems;
+    ArrayList<String> mContacts;
+    ArrayList<String> mClientsHistory;
 
     ArrayList<Integer> mListSectionPos;
 
@@ -51,6 +51,10 @@ public class ContactTab1 extends Fragment {
     ProgressBar mLoadingView;
 
     TextView mEmptyView;
+    TextView mHistoryLabel;
+    TextView mContactLabel;
+
+    Switch mSwitcher;
 
     private final String TAG = "ContactTab1";
 
@@ -67,7 +71,8 @@ public class ContactTab1 extends Fragment {
         fa = super.getActivity();
 
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.contact_tab, container, false);
-        mItems = new ArrayList<>();
+        mContacts = new ArrayList<>();
+        mClientsHistory = new ArrayList<>();
 
         /*---------------------------------------------*/
         Cursor cursor = null;
@@ -78,7 +83,7 @@ public class ContactTab1 extends Fragment {
                 String name = cursor.getString(cursor
                         .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 if (!name.isEmpty()) {
-                    mItems.add(name);
+                    mContacts.add(name);
                 }
             }
         } catch (Exception e) {
@@ -95,10 +100,20 @@ public class ContactTab1 extends Fragment {
         mListView = (PinnedHeaderListView) relativeLayout.findViewById(R.id.list_view);
         mEmptyView = (TextView) relativeLayout.findViewById(R.id.empty_view);
 
+        mHistoryLabel = (TextView) relativeLayout.findViewById(R.id.history_label);
+        mHistoryLabel.setTextColor(fa.getResources().getColor(R.color.ColorPrimaryHint));
+
+        mContactLabel = (TextView) relativeLayout.findViewById(R.id.contacts_label);
+
+        mSwitcher = (Switch) relativeLayout.findViewById(R.id.switcher);
+        mSwitcher.setChecked(false);
+        mSwitcher.setOnCheckedChangeListener(switherListener);
+
         relativeLayout.findViewById(R.id.contact_tab);
 
-        mListSectionPos = new ArrayList<Integer>();
-        mListItems = new ArrayList<String>();
+
+        mListSectionPos = new ArrayList<>();
+        mListItems = new ArrayList<>();
 
         // for handling configuration change
         if (savedInstanceState != null) {
@@ -116,13 +131,28 @@ public class ContactTab1 extends Fragment {
             }
 
         } else {
-            new Poplulate().execute(mItems);
+            new Poplulate().execute(mContacts);
         }
 
         setHasOptionsMenu(true);
 
         return relativeLayout;
     }
+
+    CompoundButton.OnCheckedChangeListener switherListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                new Poplulate().execute(mClientsHistory);
+                mContactLabel.setTextColor(fa.getResources().getColor(R.color.ColorPrimaryHint));
+                mHistoryLabel.setTextColor(fa.getResources().getColor(R.color.ColorPrimary));
+            } else {
+                new Poplulate().execute(mContacts);
+                mHistoryLabel.setTextColor(fa.getResources().getColor(R.color.ColorPrimaryHint));
+                mContactLabel.setTextColor(fa.getResources().getColor(R.color.ColorPrimary));
+            }
+        }
+    };
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -245,10 +275,10 @@ public class ContactTab1 extends Fragment {
             Filter.FilterResults result = new FilterResults();
 
             if (constraint != null && constraint.toString().length() > 0) {
-                ArrayList<String> filterItems = new ArrayList<>();
+                ArrayList<String> filterItems = new ArrayList<String>();
 
                 synchronized (this) {
-                    for (String item : mItems) {
+                    for (String item : mContacts) {
                         if (item.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
                             filterItems.add(item);
                         }
@@ -258,8 +288,8 @@ public class ContactTab1 extends Fragment {
                 }
             } else {
                 synchronized (this) {
-                    result.count = mItems.size();
-                    result.values = mItems;
+                    result.count = mContacts.size();
+                    result.values = mContacts;
                 }
             }
             return result;
@@ -315,10 +345,6 @@ public class ContactTab1 extends Fragment {
 
         /**
          * отображает пустой список
-         *
-         * @param contentView
-         * @param loadingView
-         * @param emptyView
          */
         private void showEmptyText(View contentView, View loadingView, View emptyView) {
             contentView.setVisibility(View.GONE);
@@ -338,7 +364,7 @@ public class ContactTab1 extends Fragment {
             mListItems.clear();
             mListSectionPos.clear();
             ArrayList<String> items = params[0];
-            if (mItems.size() > 0) {
+            if (mContacts.size() > 0) {
 
                 // NOT forget to sort array
                 Collections.sort(items, new SortIgnoreCase());
@@ -390,7 +416,7 @@ public class ContactTab1 extends Fragment {
             outState.putIntegerArrayList("mListSectionPos", mListSectionPos);
         }
         String searchText = mSearchView.getText().toString();
-        if (searchText != null && searchText.length() > 0) {
+        if (searchText.length() > 0) {
             outState.putString("constraint", searchText);
         }
         super.onSaveInstanceState(outState);

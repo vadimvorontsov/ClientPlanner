@@ -47,7 +47,7 @@ public class DateTab2 extends Fragment {
         DateTimePicker.day
         DateTimePicker.hour
         DateTimePicker.minute
-        ----------------------------------------*/
+        /*----------------------------------------*/
     }
 
 //    private void set_timepicker_text_colour(TimePicker timePicker){

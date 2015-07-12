@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">PlannerWork</string>
 
-    <string name="rec_title">Запись на процедуру</string>
+    <string name="rec_title">В начало</string>
 
     <string name="navDraw_1">Home</string>
     <string name="navDraw_2">Settings</string>

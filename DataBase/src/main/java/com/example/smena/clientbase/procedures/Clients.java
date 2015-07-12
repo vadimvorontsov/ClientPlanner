@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.example.smena.clientbase.ClientBaseOpenHelper;
 
+import java.util.ArrayList;
+
 /**
  * Created by smena on 20.06.2015.
  */
@@ -114,5 +116,38 @@ public class Clients {
             }
         }
     }
+
+    public ArrayList<String> getAllClientsNames() {
+
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        SQLiteDatabase db_read = helper.getReadableDatabase();
+        Cursor cursor = null;
+        ArrayList<String> clients = new ArrayList<>();
+
+        try {
+            cursor = db_read.query(helper.TABLE_CLIENTS, new String[]{helper.CLIENT}, null,
+                    null, null, null, null);
+            while (cursor.moveToNext()) {
+                clients.add(cursor.getString(cursor.getColumnIndex(helper._ID)));
+            }
+            return clients;
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return clients;
+
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+            if (db_read != null && db_read.isOpen()) {
+                db_read.close();
+            }
+            if (helper != null) {
+                helper.close();
+            }
+        }
+    }
+
 
 }

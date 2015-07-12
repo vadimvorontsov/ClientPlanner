@@ -24,6 +24,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.smena.clientbase.procedures.Clients;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -94,6 +96,11 @@ public class ContactTab1 extends Fragment {
             }
         }
         /*----------------------------------------------*/
+
+        Clients clients = new Clients(fa);
+        mClientsHistory = clients.getAllClientsNames();
+
+        /*-----------------------------------------------*/
 
         mSearchView = (EditText) relativeLayout.findViewById(R.id.search_view);
         mLoadingView = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);

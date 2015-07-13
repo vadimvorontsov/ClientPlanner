@@ -1,6 +1,7 @@
 package ru.anroidapp.plannerwork.contact_choose;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,6 +28,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.clientbase.procedures.Clients;
 
 import java.util.ArrayList;
@@ -152,6 +155,26 @@ public class ContactTab1 extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.client_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        final Intent intent = new Intent(Intent.ACTION_INSERT);
+        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+
+        new MaterialDialog.Builder(fa)
+                .content("Чтобы вернуться нажмите 'Назад'")
+                .positiveText("Понял")
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        fa.startActivity(intent);
+                    }
+                })
+                .show();
+
+        return super.onOptionsItemSelected(item);
     }
 
     CompoundButton.OnCheckedChangeListener switherListener = new CompoundButton.OnCheckedChangeListener() {

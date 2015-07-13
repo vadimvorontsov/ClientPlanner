@@ -18,4 +18,11 @@
         android:layout_height="wrap_content"
         android:text="Запись процедуры" />
 
+    <Button
+        android:id="@+id/btn2"
+        android:onClick="onBtn2Click"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Запись процедуры" />
+
 </LinearLayout>

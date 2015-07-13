@@ -9,6 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
+
+import com.example.smena.datechoose.DateTimePicker;
 
 import ru.anroidapp.plannerwork.contact_choose.ContactTab1;
 import ru.anroidapp.plannerwork.date_choose.DateTab2;
@@ -23,6 +26,8 @@ public class RecordActivity extends AppCompatActivity {
     SlidingTabLayout tabs;
     CharSequence titles[] = {"Контакт", "Дата", "Процедура"};
     int numbOfTabs = 3;
+    int time_hour, time_min;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,5 +109,22 @@ public class RecordActivity extends AppCompatActivity {
             return NumbOfTabs;
         }
     }
+
+    public void BtnTime1(View view) {
+        time_hour = DateTimePicker.hour;
+        time_min = DateTimePicker.minute;
+        String time = "С " + Integer.toString(time_hour) + ":" +  time_min ;
+        Toast.makeText(getApplication(), time, Toast.LENGTH_SHORT).show();
+        //finish();
+    }
+
+    public void BtnTime2(View view) {
+        time_hour = DateTimePicker.hour;
+        time_min = DateTimePicker.minute;
+        String time = "По " + Integer.toString(time_hour) + ":" +  time_min ;
+        Toast.makeText(getApplication(),time, Toast.LENGTH_SHORT).show();
+        //finish();
+    }
+
 
 }

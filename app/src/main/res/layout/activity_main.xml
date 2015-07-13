@@ -8,7 +8,7 @@
     <include
         android:id="@+id/tool_bar"
         layout="@layout/toolbar"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_width="match_parent" />
 
     <Button
@@ -23,6 +23,6 @@
         android:onClick="onBtn2Click"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Запись процедуры" />
+        android:text="Календарь" />
 
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,8 @@ import java.util.Locale;
 public class CalendareActivity extends AppCompatActivity implements WeekView.MonthChangeListener,
         WeekView.EventClickListener, WeekView.EventLongPressListener {
 
+    Toolbar toolbar;
+
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
@@ -37,6 +40,13 @@ public class CalendareActivity extends AppCompatActivity implements WeekView.Mon
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendare);
+
+        toolbar = (Toolbar) findViewById(R.id.tool_cal);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);
+
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
@@ -59,6 +69,7 @@ public class CalendareActivity extends AppCompatActivity implements WeekView.Mon
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.menu_calendare, menu);
         return true;
     }
@@ -66,6 +77,9 @@ public class CalendareActivity extends AppCompatActivity implements WeekView.Mon
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        if(id == android.R.id.home){
+            finish();
+        }
         setupDateTimeInterpreter(id == R.id.action_week_view);
         switch (id){
             case R.id.action_today:

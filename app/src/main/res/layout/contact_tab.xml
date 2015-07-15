@@ -25,8 +25,6 @@
         android:enabled="true"
         android:clickable="true"
         android:focusable="true"
-        android:textOn="@string/contacts"
-        android:textOff="@string/history"
         android:thumb="@drawable/switch_thumb_activated_holo_dark"
         android:track="@drawable/switch_thumb_disabled_holo_dark"
         android:layout_alignParentTop="true"

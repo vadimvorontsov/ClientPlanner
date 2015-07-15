@@ -58,8 +58,6 @@ public class ContactTab1 extends Fragment {
     ProgressBar mLoadingView;
 
     TextView mEmptyView;
-    TextView mHistoryLabel;
-    TextView mContactLabel;
 
     Switch mSwitcher;
 
@@ -78,44 +76,14 @@ public class ContactTab1 extends Fragment {
         fa = super.getActivity();
 
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.contact_tab, container, false);
-        mContacts = new ArrayList<>();
-        mClientsHistory = new ArrayList<>();
 
-        /*---------------------------------------------*/
-        Cursor cursor = null;
-        try {
-            cursor = fa.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
-                    null, null, null, null);
-            while (cursor.moveToNext()) {
-                String name = cursor.getString(cursor
-                        .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                if (!name.isEmpty()) {
-                    mContacts.add(name);
-                }
-            }
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        /*----------------------------------------------*/
-
-        Clients clients = new Clients(fa);
-        mClientsHistory = clients.getAllClientsNames();
-
-        /*-----------------------------------------------*/
+        getContacts();
+        getHistoryClients();
 
         mSearchView = (EditText) relativeLayout.findViewById(R.id.search_view);
         mLoadingView = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);
         mListView = (PinnedHeaderListView) relativeLayout.findViewById(R.id.list_view);
         mEmptyView = (TextView) relativeLayout.findViewById(R.id.empty_view);
-
-        mHistoryLabel = (TextView) relativeLayout.findViewById(R.id.history_label);
-        mHistoryLabel.setTextColor(fa.getResources().getColor(R.color.ColorPrimaryHint));
-
-        mContactLabel = (TextView) relativeLayout.findViewById(R.id.contacts_label);
 
         mSwitcher = (Switch) relativeLayout.findViewById(R.id.switcher);
         mSwitcher.setChecked(false);
@@ -152,6 +120,43 @@ public class ContactTab1 extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        new Poplulate().execute(getContacts());
+    }
+
+    private ArrayList<String> getContacts() {
+        mContacts = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            cursor = fa.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
+                    null, null, null, null);
+            while (cursor.moveToNext()) {
+                String name = cursor.getString(cursor
+                        .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                if (!name.isEmpty()) {
+                    mContacts.add(name);
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return mContacts;
+    }
+
+    private ArrayList<String> getHistoryClients() {
+        mClientsHistory = new ArrayList<>();
+        Clients clients = new Clients(fa);
+        mClientsHistory = clients.getAllClientsNames();
+
+        return mClientsHistory;
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.client_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -169,7 +174,7 @@ public class ContactTab1 extends Fragment {
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        fa.startActivity(intent);
+                        fa.startActivityForResult(intent, 1);
                     }
                 })
                 .show();
@@ -177,17 +182,19 @@ public class ContactTab1 extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(fa, "ActivityResult", Toast.LENGTH_LONG).show();
+    }
+
     CompoundButton.OnCheckedChangeListener switherListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (isChecked) {
                 new Poplulate().execute(mClientsHistory);
-                mContactLabel.setTextColor(fa.getResources().getColor(R.color.ColorPrimaryHint));
-                mHistoryLabel.setTextColor(fa.getResources().getColor(R.color.ColorPrimary));
             } else {
                 new Poplulate().execute(mContacts);
-                mHistoryLabel.setTextColor(fa.getResources().getColor(R.color.ColorPrimaryHint));
-                mContactLabel.setTextColor(fa.getResources().getColor(R.color.ColorPrimary));
             }
         }
     };

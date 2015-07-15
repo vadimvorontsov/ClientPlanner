@@ -110,6 +110,7 @@ public class ProcedureTab3 extends Fragment {
         return relativeLayout;
     }
 
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.procedure_menu, menu);

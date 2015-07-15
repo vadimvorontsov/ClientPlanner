@@ -25,8 +25,12 @@
         android:enabled="true"
         android:clickable="true"
         android:focusable="true"
+        android:textOff="@string/contacts"
+        android:textOn="@string/history"
         android:thumb="@drawable/switch_thumb_activated_holo_dark"
         android:track="@drawable/switch_thumb_disabled_holo_dark"
+        android:typeface="serif"
+        android:textColor="@android:color/holo_red_dark"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 

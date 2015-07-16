@@ -65,6 +65,8 @@ public class ContactTab1 extends Fragment {
 
     FragmentActivity fa;
 
+    private TextView lastClientChoose = null;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -233,8 +235,13 @@ public class ContactTab1 extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            if (lastClientChoose != null) {
+                lastClientChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            }
+
             TextView textView = (TextView) view;
-            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.checkbox_on_background, 0, 0, 0);
+            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_check_buttonless_on, 0, 0, 0);
+            lastClientChoose = textView;
 
             name = mListItems.get(position);
             Toast.makeText(fa.getApplicationContext(), "Выбран контакт " + name,

@@ -19,12 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,8 +57,6 @@ public class ContactTab1 extends Fragment {
 
     TextView mEmptyView;
 
-    Switch mSwitcher;
-
     private final String TAG = "ContactTab1";
 
     static String name;
@@ -85,9 +81,6 @@ public class ContactTab1 extends Fragment {
         mListView = (PinnedHeaderListView) relativeLayout.findViewById(R.id.list_view);
         mEmptyView = (TextView) relativeLayout.findViewById(R.id.empty_view);
 
-        mSwitcher = (Switch) relativeLayout.findViewById(R.id.switcher);
-        mSwitcher.setChecked(false);
-        mSwitcher.setOnCheckedChangeListener(switherListener);
 
         relativeLayout.findViewById(R.id.contact_tab);
 
@@ -165,19 +158,34 @@ public class ContactTab1 extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        final Intent intent = new Intent(Intent.ACTION_INSERT);
-        intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+        switch (item.getItemId()) {
+            case R.id.add_client_item:
+                final Intent intent = new Intent(Intent.ACTION_INSERT);
+                intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
 
-        new MaterialDialog.Builder(fa)
-                .content("Чтобы вернуться нажмите 'Назад'")
-                .positiveText("Понял")
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        fa.startActivityForResult(intent, 1);
-                    }
-                })
-                .show();
+                new MaterialDialog.Builder(fa)
+                        .content("Чтобы вернуться нажмите 'Назад'")
+                        .positiveText("Понял")
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                fa.startActivityForResult(intent, 1);
+                            }
+                        })
+                        .show();
+
+                break;
+            case R.id.watch_clients_mode:
+                if (item.getTitle().equals(getResources().getString(R.string.history))) {
+                    item.setTitle(getResources().getString(R.string.contacts));
+                    new Poplulate().execute(mClientsHistory);
+                } else if (item.getTitle().equals(getResources().getString(R.string.contacts))) {
+                    item.setTitle(getResources().getString(R.string.history));
+                    new Poplulate().execute(mContacts);
+                }
+        }
+
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -188,16 +196,6 @@ public class ContactTab1 extends Fragment {
         Toast.makeText(fa, "ActivityResult", Toast.LENGTH_LONG).show();
     }
 
-    CompoundButton.OnCheckedChangeListener switherListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if (isChecked) {
-                new Poplulate().execute(mClientsHistory);
-            } else {
-                new Poplulate().execute(mContacts);
-            }
-        }
-    };
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -234,6 +232,10 @@ public class ContactTab1 extends Fragment {
     AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            TextView textView = (TextView) view;
+            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.checkbox_on_background, 0, 0, 0);
+
             name = mListItems.get(position);
             Toast.makeText(fa.getApplicationContext(), "Выбран контакт " + name,
                     Toast.LENGTH_SHORT).show();

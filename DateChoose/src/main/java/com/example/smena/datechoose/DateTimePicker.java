@@ -29,6 +29,13 @@ public class DateTimePicker {
         datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH), dateChangedListener);
 
+        year = datePicker.getYear();
+        month = datePicker.getMonth();
+        day = datePicker.getDayOfMonth();
+
+        hour = timePicker.getCurrentHour();
+        minute = timePicker.getCurrentMinute();
+
     }
 
     public class MyDateChangedListener implements DatePicker.OnDateChangedListener {

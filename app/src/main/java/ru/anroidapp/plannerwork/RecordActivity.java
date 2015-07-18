@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.smena.datechoose.DateTimePicker;
@@ -28,6 +30,8 @@ public class RecordActivity extends AppCompatActivity {
     int numbOfTabs = 3;
     int time_hour, time_min;
 
+    TextView textDate, textTime;
+    LinearLayout layDate, layTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,9 @@ public class RecordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_record);
 
         toolbar = (Toolbar) findViewById(R.id.tool_record);
+
+
+        //layTime.setVisibility(View.GONE);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.rec_title);
@@ -110,21 +117,28 @@ public class RecordActivity extends AppCompatActivity {
         }
     }
 
-    public void BtnTime1(View view) {
-        time_hour = DateTimePicker.hour;
-        time_min = DateTimePicker.minute;
-        String time = "С " + Integer.toString(time_hour) + ":" +  time_min ;
-        Toast.makeText(getApplication(), time, Toast.LENGTH_SHORT).show();
+  //  public void BtnTime1(View view) {
+  //      time_hour = DateTimePicker.hour;
+   //     time_min = DateTimePicker.minute;
+   //     String time = "С " + Integer.toString(time_hour) + ":" +  time_min ;
+    //    Toast.makeText(getApplication(), time, Toast.LENGTH_SHORT).show();
         //finish();
-    }
+   // }
 
-    public void BtnTime2(View view) {
-        time_hour = DateTimePicker.hour;
-        time_min = DateTimePicker.minute;
-        String time = "По " + Integer.toString(time_hour) + ":" +  time_min ;
-        Toast.makeText(getApplication(),time, Toast.LENGTH_SHORT).show();
+  //  public void BtnTime2(View view) {
+   //     time_hour = DateTimePicker.hour;
+   //     time_min = DateTimePicker.minute;
+     //   String time = "По " + Integer.toString(time_hour) + ":" +  time_min ;
+    //    Toast.makeText(getApplication(),time, Toast.LENGTH_SHORT).show();
         //finish();
-    }
+  //  }
 
+  //  public void BtnStartTime(View view) {
+  //      time_hour = DateTimePicker.hour;
+  //      time_min = DateTimePicker.minute;
+  //      String time = "По " + Integer.toString(time_hour) + ":" +  time_min ;
+  //      Toast.makeText(getApplication(),time, Toast.LENGTH_SHORT).show();
+        //finish();
+  //  }
 
 }

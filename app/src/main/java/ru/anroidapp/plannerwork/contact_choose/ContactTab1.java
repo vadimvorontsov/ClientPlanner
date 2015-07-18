@@ -234,7 +234,7 @@ public class ContactTab1 extends Fragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             TextView textView = (TextView) view;
-            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.checkbox_on_background, 0, 0, 0);
+          //  textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.checkbox_on_background, 0, 0, 0);
 
             name = mListItems.get(position);
             Toast.makeText(fa.getApplicationContext(), "Выбран контакт " + name,

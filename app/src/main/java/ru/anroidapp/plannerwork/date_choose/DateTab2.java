@@ -25,9 +25,9 @@ public class DateTab2 extends Fragment {
     FragmentActivity fragmentActivity;
     Button btnTime1,btnTime2 , btnDate;
     int time_hour, time_min, time_year, time_month, time_day;
-    TextView textDate, textTime1, textTime2, textSelec;
-    LinearLayout layDate, layTime;
-    String time, strHour, strMin;
+    TextView textDate, textTime, textSelec;
+    LinearLayout layDate, layTime, LayReturnDate;
+    String time ,time1, time2, strHour, strMin;
 
     String arrMouth[] = {"января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "декабря"};
 
@@ -45,16 +45,19 @@ public class DateTab2 extends Fragment {
         btnDate = (Button) relativeLayout.findViewById(R.id.BtnDate);
 
         textDate = (TextView) relativeLayout.findViewById(R.id.TextDate);
-        textTime1 = (TextView) relativeLayout.findViewById(R.id.TextTime1);
-        textTime2 = (TextView) relativeLayout.findViewById(R.id.TextTime2);
+        textTime = (TextView) relativeLayout.findViewById(R.id.TextTime);
         textSelec = (TextView )relativeLayout.findViewById(R.id.textSelection);
 
         layDate = (LinearLayout) relativeLayout.findViewById(R.id.LinDatePick);
         layTime = (LinearLayout) relativeLayout.findViewById(R.id.LinTimePick);
+        LayReturnDate = (LinearLayout) relativeLayout.findViewById(R.id.cancelLayDate);
 
         layTime.setVisibility(View.GONE);
         btnTime1.setVisibility(View.GONE);
         btnTime2.setVisibility(View.GONE);
+        LayReturnDate.setVisibility(View.GONE);
+
+        time1 = ""; time2 = "";
 
         View.OnClickListener oclBtnTime1 = new View.OnClickListener() {
             @Override
@@ -74,9 +77,10 @@ public class DateTab2 extends Fragment {
                 else
                     strMin = Integer.toString(time_min);
 
-                time = "с " + strHour + ":" +  strMin ;
-                Toast.makeText(fragmentActivity, time, Toast.LENGTH_SHORT).show();
-                textTime1.setText(time);
+                time1 = "с " + strHour + ":" +  strMin ;
+                time  = time1 + time2;
+                Toast.makeText(fragmentActivity, time1, Toast.LENGTH_SHORT).show();
+                textTime.setText(time);
             }
         };
         btnTime1.setOnClickListener(oclBtnTime1);
@@ -99,9 +103,10 @@ public class DateTab2 extends Fragment {
                 else
                     strMin = Integer.toString(time_min);
 
-                time = " по " + strHour + ":" +  strMin ;
-                Toast.makeText(fragmentActivity, time, Toast.LENGTH_SHORT).show();
-                textTime2.setText(time);
+                time2 = " по " + strHour + ":" +  strMin ;
+                time = time1 + time2;
+                Toast.makeText(fragmentActivity, time2, Toast.LENGTH_SHORT).show();
+                textTime.setText(time);
             }
         };
         btnTime2.setOnClickListener(oclBtnTime2);
@@ -119,6 +124,7 @@ public class DateTab2 extends Fragment {
                 layTime.setVisibility(View.VISIBLE);
                 btnTime1.setVisibility(View.VISIBLE);
                 btnTime2.setVisibility(View.VISIBLE);
+                LayReturnDate.setVisibility(View.VISIBLE);
 
                 textSelec.setText("Выберите время");
                 time = Integer.toString(time_day) + " " + arrMouth[time_month] + " " + Integer.toString(time_year);
@@ -127,6 +133,28 @@ public class DateTab2 extends Fragment {
             }
         };
         btnDate.setOnClickListener(oclBtnDate);
+
+
+        View.OnClickListener oclLayReturnDate = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                layDate.setVisibility(View.VISIBLE);
+                btnDate.setVisibility(View.VISIBLE);
+                btnTime1.setVisibility(View.GONE);
+                btnTime2.setVisibility(View.GONE);
+                layTime.setVisibility(View.GONE);
+                LayReturnDate.setVisibility(View.GONE);
+
+                textSelec.setText("Выберите дату");
+
+
+                Toast.makeText(fragmentActivity, "OK", Toast.LENGTH_SHORT).show();
+
+            }
+        };
+        LayReturnDate.setOnClickListener(oclLayReturnDate);
+
 
         TimePicker timePicker = (TimePicker) relativeLayout.findViewById(R.id.timePicker);
         //set_timepicker_text_colour(timePicker);

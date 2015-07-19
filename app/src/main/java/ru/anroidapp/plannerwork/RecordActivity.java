@@ -9,11 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.smena.datechoose.DateTimePicker;
 
 import ru.anroidapp.plannerwork.contact_choose.ContactTab1;
 import ru.anroidapp.plannerwork.date_choose.DateTab2;
@@ -28,10 +23,6 @@ public class RecordActivity extends AppCompatActivity {
     SlidingTabLayout tabs;
     CharSequence titles[] = {"Контакт", "Дата", "Процедура"};
     int numbOfTabs = 3;
-    int time_hour, time_min;
-
-    TextView textDate, textTime;
-    LinearLayout layDate, layTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +70,11 @@ public class RecordActivity extends AppCompatActivity {
     }
 
     public class RecViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        ContactTab1 tab1;
+        DateTab2 tab2;
+        ProcedureTab3 tab3;
+
         CharSequence Titles[]; // This will Store the titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
         int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
 
@@ -93,13 +89,29 @@ public class RecordActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new ContactTab1();
-            }
-            if (position == 1) {
-                return new DateTab2();
-            }
-            if (position == 2) {
-                return new ProcedureTab3();
+                if (tab1 == null) {
+                    //Log.i("!!", "load tab1");
+                    return tab1 = new ContactTab1();
+                } else {
+                    //Log.i("!!", "not load tab1");
+                    return tab1;
+                }
+            } else if (position == 1) {
+                if (tab2 == null) {
+                    //Log.i("!!", "load tab2");
+                    return tab2 = new DateTab2();
+                } else {
+                    //Log.i("!!", "not load tab2");
+                    return tab2;
+                }
+            } else if (position == 2) {
+                if (tab3 == null) {
+                    //Log.i("!!", "load tab3");
+                    return tab3 = new ProcedureTab3();
+                } else {
+                    //Log.i("!!", "not load tab3");
+                    return tab3;
+                }
             }
             return null;
         }
@@ -116,29 +128,5 @@ public class RecordActivity extends AppCompatActivity {
             return NumbOfTabs;
         }
     }
-
-  //  public void BtnTime1(View view) {
-  //      time_hour = DateTimePicker.hour;
-   //     time_min = DateTimePicker.minute;
-   //     String time = "С " + Integer.toString(time_hour) + ":" +  time_min ;
-    //    Toast.makeText(getApplication(), time, Toast.LENGTH_SHORT).show();
-        //finish();
-   // }
-
-  //  public void BtnTime2(View view) {
-   //     time_hour = DateTimePicker.hour;
-   //     time_min = DateTimePicker.minute;
-     //   String time = "По " + Integer.toString(time_hour) + ":" +  time_min ;
-    //    Toast.makeText(getApplication(),time, Toast.LENGTH_SHORT).show();
-        //finish();
-  //  }
-
-  //  public void BtnStartTime(View view) {
-  //      time_hour = DateTimePicker.hour;
-  //      time_min = DateTimePicker.minute;
-  //      String time = "По " + Integer.toString(time_hour) + ":" +  time_min ;
-  //      Toast.makeText(getApplication(),time, Toast.LENGTH_SHORT).show();
-        //finish();
-  //  }
 
 }

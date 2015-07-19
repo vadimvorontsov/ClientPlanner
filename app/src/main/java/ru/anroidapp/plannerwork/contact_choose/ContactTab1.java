@@ -59,6 +59,8 @@ public class ContactTab1 extends Fragment {
 
     private final String TAG = "ContactTab1";
 
+    TextView lastChooseTextView;
+
     static String name;
     ArrayList<String> phonesToChoice = new ArrayList<>();
     ArrayList<String> emailsToChoice = new ArrayList<>();
@@ -81,7 +83,6 @@ public class ContactTab1 extends Fragment {
         mListView = (PinnedHeaderListView) relativeLayout.findViewById(R.id.list_view);
         mEmptyView = (TextView) relativeLayout.findViewById(R.id.empty_view);
 
-
         relativeLayout.findViewById(R.id.contact_tab);
 
 
@@ -93,7 +94,8 @@ public class ContactTab1 extends Fragment {
             mListItems = savedInstanceState.getStringArrayList("mListItems");
             mListSectionPos = savedInstanceState.getIntegerArrayList("mListSectionPos");
 
-            if (mListItems != null && mListItems.size() > 0 && mListSectionPos != null && mListSectionPos.size() > 0) {
+            if (mListItems != null && mListItems.size() > 0 && mListSectionPos != null
+                    && mListSectionPos.size() > 0) {
                 setListAdaptor();
             }
 
@@ -186,7 +188,6 @@ public class ContactTab1 extends Fragment {
         }
 
 
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -208,6 +209,9 @@ public class ContactTab1 extends Fragment {
         // create instance of PinnedHeaderAdapter and set adapter to list view
         mAdaptor = new PinnedHeaderAdapter(fa, mListItems, mListSectionPos);
         mListView.setAdapter(mAdaptor);
+
+        TextView view = (TextView) mAdaptor.getView(0, mListView.getChildAt(0), mListView);
+        view.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_check_buttonless_on, 0, 0, 0);
 
         LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -233,8 +237,14 @@ public class ContactTab1 extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+            if (lastChooseTextView != null) {
+                lastChooseTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            }
+
             TextView textView = (TextView) view;
-            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.checkbox_on_background, 0, 0, 0);
+            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_check_buttonless_on, 0, 0, 0);
+            lastChooseTextView = textView;
+
 
             name = mListItems.get(position);
             Toast.makeText(fa.getApplicationContext(), "Выбран контакт " + name,
@@ -392,8 +402,11 @@ public class ContactTab1 extends Fragment {
 
         @Override
         protected Void doInBackground(ArrayList<String>... params) {
-            mListItems.clear();
-            mListSectionPos.clear();
+            if (mListItems != null)
+                mListItems.clear();
+            if (mListSectionPos != null)
+                mListSectionPos.clear();
+
             ArrayList<String> items = params[0];
             if (mContacts.size() > 0) {
 
@@ -421,10 +434,11 @@ public class ContactTab1 extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             if (!isCancelled()) {
-                if (mListItems.size() <= 0) {
+                if (mListItems != null && mListItems.size() <= 0) {
                     showEmptyText(mListView, mLoadingView, mEmptyView);
                 } else {
-                    setListAdaptor();
+                    if (mListItems != null)
+                        setListAdaptor();
                     showContent(mListView, mLoadingView, mEmptyView);
                 }
             }
@@ -450,6 +464,7 @@ public class ContactTab1 extends Fragment {
         if (searchText.length() > 0) {
             outState.putString("constraint", searchText);
         }
+
         super.onSaveInstanceState(outState);
     }
 

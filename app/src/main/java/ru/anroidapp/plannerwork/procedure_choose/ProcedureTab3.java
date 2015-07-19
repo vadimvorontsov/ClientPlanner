@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,23 +38,19 @@ public class ProcedureTab3 extends Fragment {
 
     ArrayList<String> mProcedures;
 
-    ArrayList<Integer> mListSectionPos;
+    ArrayList<Integer> mListSectionPosProc;
 
-    ArrayList<String> mListItems;
+    ArrayList<String> mListItemsProc;
 
-    PinnedHeaderListView mListView;
+    PinnedHeaderListView mListViewProc;
 
-    PinnedHeaderAdapter mAdaptor;
+    PinnedHeaderAdapter mAdaptorProc;
 
-    EditText mSearchView;
+    EditText mSearchViewProc;
 
-    ProgressBar mLoadingView;
+    ProgressBar mLoadingViewProc;
 
-    TextView mEmptyView;
-    TextView mHistoryLabel;
-    TextView mContactLabel;
-
-    Switch mSwitcher;
+    TextView mEmptyViewProc;
 
     private final String TAG = "ProcedureTab3";
 
@@ -75,29 +70,28 @@ public class ProcedureTab3 extends Fragment {
         Procedures procedures = new Procedures(fa);
         mProcedures = procedures.getAllProceduresNames();
 
-
-        mSearchView = (EditText) relativeLayout.findViewById(R.id.search_proc_view);
-        mLoadingView = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);
-        mListView = (PinnedHeaderListView) relativeLayout.findViewById(R.id.proc_list_view);
-        mEmptyView = (TextView) relativeLayout.findViewById(R.id.empty_view);
+        mSearchViewProc = (EditText) relativeLayout.findViewById(R.id.search_proc_view);
+        mLoadingViewProc = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);
+        mListViewProc = (PinnedHeaderListView) relativeLayout.findViewById(R.id.proc_list_view);
+        mEmptyViewProc = (TextView) relativeLayout.findViewById(R.id.empty_view);
 
         relativeLayout.findViewById(R.id.procedure_tab);
 
-        mListSectionPos = new ArrayList<>();
-        mListItems = new ArrayList<>();
+        mListSectionPosProc = new ArrayList<>();
+        mListItemsProc = new ArrayList<>();
 
         // for handling configuration change
         if (savedInstanceState != null) {
-            mListItems = savedInstanceState.getStringArrayList("mListItems");
-            mListSectionPos = savedInstanceState.getIntegerArrayList("mListSectionPos");
+            mListItemsProc = savedInstanceState.getStringArrayList("mListItemsProc");
+            mListSectionPosProc = savedInstanceState.getIntegerArrayList("mListSectionPosProc");
 
-            if (mListItems != null && mListItems.size() > 0 && mListSectionPos != null && mListSectionPos.size() > 0) {
+            if (mListItemsProc != null && mListItemsProc.size() > 0 && mListSectionPosProc != null && mListSectionPosProc.size() > 0) {
                 setListAdaptor();
             }
 
             String constraint = savedInstanceState.getString("constraint");
             if (constraint != null && constraint.length() > 0) {
-                mSearchView.setText(constraint);
+                mSearchViewProc.setText(constraint);
                 setIndexBarViewVisibility(constraint);
             }
 
@@ -119,40 +113,40 @@ public class ProcedureTab3 extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        mSearchView.addTextChangedListener(filterTextWatcher);
+        mSearchViewProc.addTextChangedListener(filterTextWatcher);
         super.onActivityCreated(savedInstanceState);
     }
 
 
     private void setListAdaptor() {
         // create instance of PinnedHeaderAdapter and set adapter to list view
-        mAdaptor = new PinnedHeaderAdapter(fa, mListItems, mListSectionPos);
-        mListView.setAdapter(mAdaptor);
+        mAdaptorProc = new PinnedHeaderAdapter(fa, mListItemsProc, mListSectionPosProc);
+        mListViewProc.setAdapter(mAdaptorProc);
 
         LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // set header view
-        View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListView, false);
-        mListView.setPinnedHeaderView(pinnedHeaderView);
+        View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListViewProc, false);
+        mListViewProc.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view
-        IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListView, false);
-        indexBarView.setData(mListView, mListItems, mListSectionPos);
-        mListView.setIndexBarView(indexBarView);
+        IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListViewProc, false);
+        indexBarView.setData(mListViewProc, mListItemsProc, mListSectionPosProc);
+        mListViewProc.setIndexBarView(indexBarView);
 
         // set preview text view
-        View previewTextView = inflater.inflate(R.layout.preview_view, mListView, false);
-        mListView.setPreviewView(previewTextView);
+        View previewTextView = inflater.inflate(R.layout.preview_view, mListViewProc, false);
+        mListViewProc.setPreviewView(previewTextView);
 
         // for configure pinned header view on scroll change
-        mListView.setOnScrollListener(mAdaptor);
-        mListView.setOnItemClickListener(mClickListener);
+        mListViewProc.setOnScrollListener(mAdaptorProc);
+        mListViewProc.setOnItemClickListener(mClickListener);
     }
 
     AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            procedureName = mListItems.get(position);
+            procedureName = mListItemsProc.get(position);
             Toast.makeText(fa.getApplicationContext(), "Выбрана процедура " + procedureName,
                     Toast.LENGTH_SHORT).show();
         }
@@ -162,7 +156,7 @@ public class ProcedureTab3 extends Fragment {
     private TextWatcher filterTextWatcher = new TextWatcher() {
         public void afterTextChanged(Editable s) {
             String str = s.toString();
-            if (mAdaptor != null)
+            if (mAdaptorProc != null)
                 (new ListFilter()).filter(str);
         }
 
@@ -219,9 +213,9 @@ public class ProcedureTab3 extends Fragment {
     private void setIndexBarViewVisibility(String constraint) {
         // hide index bar for search results
         if (constraint != null && constraint.length() > 0) {
-            mListView.setIndexBarVisibility(false);
+            mListViewProc.setIndexBarVisibility(false);
         } else {
-            mListView.setIndexBarVisibility(true);
+            mListViewProc.setIndexBarVisibility(true);
         }
     }
 
@@ -248,14 +242,14 @@ public class ProcedureTab3 extends Fragment {
         @Override
         protected void onPreExecute() {
             // show loading indicator
-            showLoading(mListView, mLoadingView, mEmptyView);
+            showLoading(mListViewProc, mLoadingViewProc, mEmptyViewProc);
             super.onPreExecute();
         }
 
         @Override
         protected Void doInBackground(ArrayList<String>... params) {
-            mListItems.clear();
-            mListSectionPos.clear();
+            mListItemsProc.clear();
+            mListSectionPosProc.clear();
             ArrayList<String> items = params[0];
             if (mProcedures.size() > 0) {
 
@@ -267,13 +261,13 @@ public class ProcedureTab3 extends Fragment {
                     String current_section = current_item.substring(0, 1).toUpperCase(Locale.getDefault());
 
                     if (!prev_section.equals(current_section)) {
-                        mListItems.add(current_section);
-                        mListItems.add(current_item);
+                        mListItemsProc.add(current_section);
+                        mListItemsProc.add(current_item);
                         // array list of section positions
-                        mListSectionPos.add(mListItems.indexOf(current_section));
+                        mListSectionPosProc.add(mListItemsProc.indexOf(current_section));
                         prev_section = current_section;
                     } else {
-                        mListItems.add(current_item);
+                        mListItemsProc.add(current_item);
                     }
                 }
             }
@@ -283,11 +277,11 @@ public class ProcedureTab3 extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             if (!isCancelled()) {
-                if (mListItems.size() <= 0) {
-                    showEmptyText(mListView, mLoadingView, mEmptyView);
+                if (mListItemsProc.size() <= 0) {
+                    showEmptyText(mListViewProc, mLoadingViewProc, mEmptyViewProc);
                 } else {
                     setListAdaptor();
-                    showContent(mListView, mLoadingView, mEmptyView);
+                    showContent(mListViewProc, mLoadingViewProc, mEmptyViewProc);
                 }
             }
             super.onPostExecute(result);
@@ -302,13 +296,13 @@ public class ProcedureTab3 extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if (mListItems != null && mListItems.size() > 0) {
-            outState.putStringArrayList("mListItems", mListItems);
+        if (mListItemsProc != null && mListItemsProc.size() > 0) {
+            outState.putStringArrayList("mListItemsProc", mListItemsProc);
         }
-        if (mListSectionPos != null && mListSectionPos.size() > 0) {
-            outState.putIntegerArrayList("mListSectionPos", mListSectionPos);
+        if (mListSectionPosProc != null && mListSectionPosProc.size() > 0) {
+            outState.putIntegerArrayList("mListSectionPosProc", mListSectionPosProc);
         }
-        String searchText = mSearchView.getText().toString();
+        String searchText = mSearchViewProc.getText().toString();
         if (searchText.length() > 0) {
             outState.putString("constraint", searchText);
         }

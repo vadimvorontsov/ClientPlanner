@@ -9,9 +9,6 @@ import android.net.Uri;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.sendmessage.R;
 
-/**
- * Created by Вадим on 15.06.2015.
- */
 public class WhatsApp extends Activity {
 
     private Context ctx;

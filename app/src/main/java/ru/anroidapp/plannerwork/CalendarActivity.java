@@ -2,7 +2,6 @@ package ru.anroidapp.plannerwork;
 
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -25,7 +24,7 @@ import java.util.Locale;
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
  * Website: http://alamkanak.github.io/
  */
-public class CalendareActivity extends AppCompatActivity implements WeekView.MonthChangeListener,
+public class CalendarActivity extends AppCompatActivity implements WeekView.MonthChangeListener,
         WeekView.EventClickListener, WeekView.EventLongPressListener {
 
     Toolbar toolbar;
@@ -153,7 +152,7 @@ public class CalendareActivity extends AppCompatActivity implements WeekView.Mon
 
             @Override
             public String interpretTime(int hour) {
-                return /*hour > 11 ? (hour - 12) + " PM" : */(hour == 0 ? "00:00" : hour + ":00");//разобраться с часами
+                return /*hour > 11 ? (hour - 12) + " PM" : */(hour == 0 ? "00:00" : hour + ":00");//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             }
         });
     }
@@ -271,11 +270,11 @@ public class CalendareActivity extends AppCompatActivity implements WeekView.Mon
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(CalendareActivity.this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(CalendarActivity.this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(CalendareActivity.this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(CalendarActivity.this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
     }
 }

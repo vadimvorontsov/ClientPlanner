@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBtn2Click(View view) {
-        startActivity(new Intent(this, CalendareActivity.class));
+        startActivity(new Intent(this, CalendarActivity.class));
         //finish();
     }
 

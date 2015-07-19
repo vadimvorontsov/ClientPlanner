@@ -31,7 +31,6 @@ public class RecordActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.tool_record);
 
-
         //layTime.setVisibility(View.GONE);
 
         setSupportActionBar(toolbar);
@@ -88,6 +87,7 @@ public class RecordActivity extends AppCompatActivity {
         //This method return the fragment for the every position in the View Pager
         @Override
         public Fragment getItem(int position) {
+
             if (position == 0) {
                 if (tab1 == null) {
                     //Log.i("!!", "load tab1");

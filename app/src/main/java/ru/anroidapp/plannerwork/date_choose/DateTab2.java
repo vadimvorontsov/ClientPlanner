@@ -1,5 +1,6 @@
 package ru.anroidapp.plannerwork.date_choose;
 
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,10 +20,11 @@ import com.example.smena.datechoose.DateTimePicker;
 
 import ru.anroidapp.plannerwork.R;
 
+
 public class DateTab2 extends Fragment {
 
-
     FragmentActivity fragmentActivity;
+
     Button btnTime1,btnTime2 , btnDate;
     int time_hour, time_min, time_year, time_month, time_day;
     TextView textDate, textTime, textSelec;
@@ -36,7 +38,7 @@ public class DateTab2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        fragmentActivity = super.getActivity();
+        fragmentActivity = (FragmentActivity) super.getActivity();
 
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.date_tab, container, false);
 
@@ -132,6 +134,7 @@ public class DateTab2 extends Fragment {
 
             }
         };
+
         btnDate.setOnClickListener(oclBtnDate);
 
 

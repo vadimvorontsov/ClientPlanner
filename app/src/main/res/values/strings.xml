@@ -13,7 +13,7 @@
     <string name="empty_list_msg">No Results</string>
 
     <string name="add">Добавить</string>
-    <string name="title_activity_calendare">CalendareActivity</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
 
     <string name="contacts">Контакты</string>
     <string name="history">История</string>

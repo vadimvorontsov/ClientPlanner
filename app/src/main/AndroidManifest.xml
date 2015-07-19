@@ -22,7 +22,7 @@
             android:label="@string/title_activity_record" />
         <activity
             android:name=".CalendarActivity"
-            android:label="@string/title_activity_calendare" >
+            android:label="@string/title_activity_calendar">
         </activity>
     </application>
 

@@ -8,6 +8,7 @@
 
     <include layout="@layout/md_stub_titleframe" />
 
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

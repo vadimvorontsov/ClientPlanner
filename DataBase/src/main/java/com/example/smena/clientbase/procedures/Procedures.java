@@ -50,7 +50,7 @@ public class Procedures {
         }
     }
 
-    public Object[] getProcedureInfo(int procedureID) {
+    public Object[] getProcedureInfo(long procedureID) {
 
         ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
         SQLiteDatabase db_read = helper.getReadableDatabase();

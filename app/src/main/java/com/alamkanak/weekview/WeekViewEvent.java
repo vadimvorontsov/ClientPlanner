@@ -7,6 +7,7 @@ import java.util.Calendar;
  * Website: http://april-shower.com
  */
 public class WeekViewEvent {
+
     private long mId;
     private Calendar mStartTime;
     private Calendar mEndTime;

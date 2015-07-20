@@ -12,6 +12,8 @@
                 android:top="5dp"
                 android:right="5dp"
                 android:bottom="5dp" />
+            <corners
+                android:radius="10dp" />
         </shape>
     </item>
     <!-- pressed -->
@@ -26,6 +28,8 @@
                 android:top="5dp"
                 android:right="5dp"
                 android:bottom="5dp" />
+            <corners
+                android:radius="10dp" />
         </shape>
     </item>
     <!-- default state -->

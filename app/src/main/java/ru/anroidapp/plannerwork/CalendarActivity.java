@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.example.smena.datechoose.DateTimePicker;
+import ru.anroidapp.plannerwork.date_choose.DateTab2;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -164,13 +166,13 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
         List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
         Calendar startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
+        startTime.set(Calendar.HOUR_OF_DAY, 3);//Астрономическое время
         startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth-1);
+        startTime.set(Calendar.MONTH, 1 - 1);
         startTime.set(Calendar.YEAR, newYear);
         Calendar endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR, 1);
-        endTime.set(Calendar.MONTH, newMonth-1);
+        endTime.add(Calendar.HOUR, 1);// продолжительность события
+        endTime.set(Calendar.MONTH, 1 - 1);
         WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
         event.setColor(getResources().getColor(R.color.event_color_01));
         events.add(event);

@@ -31,6 +31,8 @@ public class DateTab2 extends Fragment {
     LinearLayout layDate, layTime, LayReturnDate;
     String time ,time1, time2, strHour, strMin;
 
+
+
     String arrMouth[] = {"января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "декабря"};
 
 
@@ -83,6 +85,7 @@ public class DateTab2 extends Fragment {
                 time  = time1 + time2;
                 Toast.makeText(fragmentActivity, time1, Toast.LENGTH_SHORT).show();
                 textTime.setText(time);
+
             }
         };
         btnTime1.setOnClickListener(oclBtnTime1);
@@ -109,6 +112,7 @@ public class DateTab2 extends Fragment {
                 time = time1 + time2;
                 Toast.makeText(fragmentActivity, time2, Toast.LENGTH_SHORT).show();
                 textTime.setText(time);
+
             }
         };
         btnTime2.setOnClickListener(oclBtnTime2);
@@ -172,6 +176,7 @@ public class DateTab2 extends Fragment {
 
         setHasOptionsMenu(true);
         return relativeLayout;
+
 
         /*----------Получение даты и времени-------
         DateTimePicker.year

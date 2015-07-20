@@ -761,7 +761,7 @@ public class WeekView extends View {
             event1.setColor(event.getColor());
             WeekViewEvent event2 = new WeekViewEvent(event.getId(), event.getName(), startTime, event.getEndTime());
             event2.setColor(event.getColor());
-            mEventRects.add(new EventRect(event1, event, null));
+            mEventRects.add(new EventRect(event1, event, null));//Отрисовка Элементов
             mEventRects.add(new EventRect(event2, event, null));
         }
         else

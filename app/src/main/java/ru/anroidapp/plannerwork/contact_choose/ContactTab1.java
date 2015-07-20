@@ -2,6 +2,7 @@ package ru.anroidapp.plannerwork.contact_choose;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -58,13 +59,9 @@ public class ContactTab1 extends Fragment {
     TextView mEmptyView;
 
     private final String TAG = "ContactTab1";
-
-    TextView lastChooseTextView;
+    private TextView lastChoose;
 
     static String name;
-    ArrayList<String> phonesToChoice = new ArrayList<>();
-    ArrayList<String> emailsToChoice = new ArrayList<>();
-
     FragmentActivity fa;
 
 
@@ -84,7 +81,6 @@ public class ContactTab1 extends Fragment {
         mEmptyView = (TextView) relativeLayout.findViewById(R.id.empty_view);
 
         relativeLayout.findViewById(R.id.contact_tab);
-
 
         mListSectionPos = new ArrayList<>();
         mListItems = new ArrayList<>();
@@ -159,7 +155,6 @@ public class ContactTab1 extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.add_client_item:
                 final Intent intent = new Intent(Intent.ACTION_INSERT);
@@ -175,7 +170,6 @@ public class ContactTab1 extends Fragment {
                             }
                         })
                         .show();
-
                 break;
             case R.id.watch_clients_mode:
                 if (item.getTitle().equals(getResources().getString(R.string.history))) {
@@ -186,8 +180,6 @@ public class ContactTab1 extends Fragment {
                     new Poplulate().execute(mContacts);
                 }
         }
-
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -197,13 +189,11 @@ public class ContactTab1 extends Fragment {
         Toast.makeText(fa, "ActivityResult", Toast.LENGTH_LONG).show();
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         mSearchView.addTextChangedListener(filterTextWatcher);
         super.onActivityCreated(savedInstanceState);
     }
-
 
     private void setListAdaptor() {
         // create instance of PinnedHeaderAdapter and set adapter to list view
@@ -231,32 +221,69 @@ public class ContactTab1 extends Fragment {
         // for configure pinned header view on scroll change
         mListView.setOnScrollListener(mAdaptor);
         mListView.setOnItemClickListener(mClickListener);
+        mListView.setOnItemLongClickListener(mLongClickListener);
     }
 
-    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
+    AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-            if (lastChooseTextView != null) {
-                lastChooseTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            Resources resources = getResources();
+
+            String nameTmp = mListItems.get(position);
+            String allPhones = "";
+            String allEmails = "";
+            ArrayList<String> phonesTmp = getPhonesByName(fa, nameTmp);
+
+            if (phonesTmp.isEmpty()) {
+                allPhones = resources.getString(R.string.unknown) + "\n";
+            } else {
+                for (int i = 0; i < phonesTmp.size(); i++) {
+                    allPhones += phonesTmp.get(i) + "\n";
+                }
             }
 
-            TextView textView = (TextView) view;
-            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_check_buttonless_on, 0, 0, 0);
-            lastChooseTextView = textView;
+            ArrayList<String> emailsTmp = getEmailsByName(fa, nameTmp);
+            if (emailsTmp.isEmpty()) {
+                allEmails = resources.getString(R.string.unknown) + "\n";
+            } else {
+                for (int i = 0; i < emailsTmp.size(); i++) {
+                    allEmails += emailsTmp.get(i) + "\n";
+                }
+            }
 
-
-            name = mListItems.get(position);
-            Toast.makeText(fa.getApplicationContext(), "Выбран контакт " + name,
-                    Toast.LENGTH_SHORT).show();
-            getPhonesByName(fa, name);
-            getEmailsByName(fa, name);
+            new MaterialDialog.Builder(fa)
+                    .title(R.string.contact_inf)
+                    .content(resources.getString(R.string.name) + " " + nameTmp + "\n" + "\n" +
+                            resources.getString(R.string.phone) + "\n" + allPhones + "\n" +
+                            resources.getString(R.string.email) + "\n" + allEmails)
+                    .positiveText(R.string.back)
+                    .show();
+            //Toast.makeText(fa, "123", Toast.LENGTH_LONG).show();
+            return true;
         }
     };
 
-    private void getPhonesByName(Context context, String name) {
+    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+            name = mListItems.get(position);
+
+            if (lastChoose != null) {
+                lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            }
+
+            TextView textView = (TextView) view;
+            textView.setCompoundDrawablesWithIntrinsicBounds
+                    (R.drawable.btn_check_buttonless_on, 0, 0, 0);
+            lastChoose = textView;
+        }
+    };
+
+    private ArrayList<String> getPhonesByName(Context context, String name) {
 
         Cursor cursor = null;
+        ArrayList<String> phonesByName = new ArrayList<>();
 
         try {
             String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " like'%" +
@@ -267,7 +294,7 @@ public class ContactTab1 extends Fragment {
                             selection, null, null);
 
             while (cursor.moveToNext()) {
-                phonesToChoice.add(cursor.getString(cursor.getColumnIndex
+                phonesByName.add(cursor.getString(cursor.getColumnIndex
                         (ContactsContract.CommonDataKinds.Phone.NUMBER)));
             }
         } catch (Exception e) {
@@ -277,12 +304,14 @@ public class ContactTab1 extends Fragment {
                 cursor.close();
             }
         }
+        return phonesByName;
 
     }
 
-    private void getEmailsByName(Context context, String name) {
+    private ArrayList<String> getEmailsByName(Context context, String name) {
 
         Cursor cursor = null;
+        ArrayList<String> emailsByName = new ArrayList<>();
 
         try {
             String selection = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " like'%" +
@@ -293,7 +322,7 @@ public class ContactTab1 extends Fragment {
                             selection, null, null);
 
             while (cursor.moveToNext()) {
-                emailsToChoice.add(cursor.getString(cursor.getColumnIndex
+                emailsByName.add(cursor.getString(cursor.getColumnIndex
                         (ContactsContract.CommonDataKinds.Email.ADDRESS)));
             }
         } catch (Exception e) {
@@ -303,6 +332,7 @@ public class ContactTab1 extends Fragment {
                 cursor.close();
             }
         }
+        return emailsByName;
 
     }
 
@@ -320,7 +350,6 @@ public class ContactTab1 extends Fragment {
 
         }
     };
-
 
     private class ListFilter extends Filter {
         @Override

@@ -40,7 +40,7 @@ public class DateTab2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        fragmentActivity = (FragmentActivity) super.getActivity();
+        fragmentActivity = super.getActivity();
 
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.date_tab, container, false);
 

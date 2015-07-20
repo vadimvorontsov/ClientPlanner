@@ -67,7 +67,6 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
         setupDateTimeInterpreter(false);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -163,7 +162,7 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
 
         // Populate the week view with some events.
-        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+        List<WeekViewEvent> events = new ArrayList<>();
 
         Calendar startTime = Calendar.getInstance();
         startTime.set(Calendar.HOUR_OF_DAY, 3);//Астрономическое время

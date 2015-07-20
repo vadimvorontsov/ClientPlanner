@@ -1,6 +1,9 @@
 package ru.anroidapp.plannerwork.procedure_choose;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,6 +25,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.clientbase.procedures.Procedures;
 
 import java.util.ArrayList;
@@ -55,6 +60,7 @@ public class ProcedureTab3 extends Fragment {
     private final String TAG = "ProcedureTab3";
 
     static String procedureName;
+    private TextView lastChoose;
 
     FragmentActivity fa;
 
@@ -67,8 +73,7 @@ public class ProcedureTab3 extends Fragment {
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.procedure_tab, container, false);
         mProcedures = new ArrayList<>();
 
-        Procedures procedures = new Procedures(fa);
-        mProcedures = procedures.getAllProceduresNames();
+        getProcedures();
 
         mSearchViewProc = (EditText) relativeLayout.findViewById(R.id.search_proc_view);
         mLoadingViewProc = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);
@@ -96,7 +101,7 @@ public class ProcedureTab3 extends Fragment {
             }
 
         } else {
-            new Poplulate().execute(mProcedures);
+            new Populate().execute(mProcedures);
         }
 
         setHasOptionsMenu(true);
@@ -104,11 +109,73 @@ public class ProcedureTab3 extends Fragment {
         return relativeLayout;
     }
 
+    private void getProcedures() {
+        Procedures procedures = new Procedures(fa);
+        mProcedures = procedures.getAllProceduresNames();
+    }
+
+    private void refreshList() {
+        getProcedures();
+        new Populate().execute(mProcedures);
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.procedure_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.add_procedure:
+                LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.add_procedure, null);
+                final EditText nameEditText = (EditText) view.findViewById(R.id.input_proc_name);
+                final EditText priceEditText = (EditText) view.findViewById(R.id.input_proc_price);
+                final EditText noteEditText = (EditText) view.findViewById(R.id.input_proc_note);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(fa);
+                builder.setView(view)
+                        .setCancelable(true);
+                builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String name = nameEditText.getText().toString();
+                        Integer price = 0;
+
+                        if (!priceEditText.getText().toString().isEmpty())
+                            price = Integer.parseInt(priceEditText.getText().toString());
+
+                        String note = noteEditText.getText().toString();
+                        if (note.isEmpty())
+                            note = "Примечаний нет";
+
+                        if (!name.isEmpty()) {
+                            long id = 0;
+                            Procedures procedures = new Procedures(fa);
+                            id = procedures.addProcedure(name, price, note);
+                            if (id != 0) {
+                                Toast.makeText(fa, "Процедура добавлена", Toast.LENGTH_SHORT).show();
+                                refreshList();
+                            }
+
+                        }
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -141,17 +208,60 @@ public class ProcedureTab3 extends Fragment {
         // for configure pinned header view on scroll change
         mListViewProc.setOnScrollListener(mAdaptorProc);
         mListViewProc.setOnItemClickListener(mClickListener);
+        mListViewProc.setOnItemLongClickListener(mLongClickListener);
     }
+
+    AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Resources resources = getResources();
+
+            Procedures procedures = new Procedures(fa);
+
+            String procNameTmp = "";
+            procNameTmp = mListItemsProc.get(position);
+            long procIdTmp = procedures.getProcedureID(procNameTmp);
+            Object[] procInfoTmp = procedures.getProcedureInfo(procIdTmp);
+            Integer procPriceTmp = (Integer) procInfoTmp[1];
+            String procNoteTmp = (String) procInfoTmp[2];
+
+            new MaterialDialog.Builder(fa)
+                    .title(R.string.procedure_inf)
+                    .content(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
+                            resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
+                            resources.getString(R.string.note) + ": " + procNoteTmp)
+                    .positiveText(R.string.back)
+                    .show();
+            return true;
+        }
+    };
 
     AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Procedures procedures = new Procedures(fa);
+
             procedureName = mListItemsProc.get(position);
-            Toast.makeText(fa.getApplicationContext(), "Выбрана процедура " + procedureName,
+            long procedureId = procedures.getProcedureID(procedureName);
+            Object[] procedureInfo = procedures.getProcedureInfo(procedureId);
+            Integer procedurePrice = (Integer) procedureInfo[1];
+            String procedureNote = (String) procedureInfo[2];
+
+            if (lastChoose != null) {
+                lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            }
+
+            TextView textView = (TextView) view;
+            textView.setCompoundDrawablesWithIntrinsicBounds
+                    (R.drawable.btn_check_buttonless_on, 0, 0, 0);
+            lastChoose = textView;
+
+            Toast.makeText(fa.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
+                            + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
                     Toast.LENGTH_SHORT).show();
         }
     };
-
 
     private TextWatcher filterTextWatcher = new TextWatcher() {
         public void afterTextChanged(Editable s) {
@@ -167,7 +277,6 @@ public class ProcedureTab3 extends Fragment {
 
         }
     };
-
 
     private class ListFilter extends Filter {
         @Override
@@ -205,9 +314,8 @@ public class ProcedureTab3 extends Fragment {
             ArrayList<String> filtered = (ArrayList<String>) results.values;
             setIndexBarViewVisibility(constraint.toString());
             // sort array and extract sections in background Thread
-            new Poplulate().execute(filtered);
+            new Populate().execute(filtered);
         }
-
     }
 
     private void setIndexBarViewVisibility(String constraint) {
@@ -219,7 +327,7 @@ public class ProcedureTab3 extends Fragment {
         }
     }
 
-    private class Poplulate extends AsyncTask<ArrayList<String>, Void, Void> {
+    private class Populate extends AsyncTask<ArrayList<String>, Void, Void> {
 
         private void showLoading(View contentView, View loadingView, View emptyView) {
             contentView.setVisibility(View.GONE);

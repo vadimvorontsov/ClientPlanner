@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/md_content_padding_bottom"
+    android:paddingLeft="@dimen/md_dialog_frame_margin"
+    android:paddingRight="@dimen/md_dialog_frame_margin"
+    android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/add_proc_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/md_content_padding_bottom"
+        android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif"
+        android:textSize="18sp"
+        android:text="Новая процедура"
+        android:textStyle="bold"
+        android:textColor="@color/ColorPrimary" />
+
+
+    <TextView
+        android:id="@+id/proc_name_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:textSize="@dimen/md_content_textsize"
+        android:text="Название"
+        android:textColor="@color/ColorPrimary" />
+
+    <EditText
+        android:id="@+id/input_proc_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/md_content_textsize"
+        android:layout_marginLeft="-2dp"
+        android:layout_marginRight="-2dp"
+        android:layout_marginBottom="1dp"
+        android:inputType="textAutoCorrect"
+        android:textColor="@color/ColorPrimaryDark" />
+
+    <TextView
+        android:id="@+id/proc_price_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:textSize="@dimen/md_content_textsize"
+        android:text="Цена"
+        android:textColor="@color/ColorPrimary" />
+
+    <EditText
+        android:id="@+id/input_proc_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/md_content_textsize"
+        android:layout_marginLeft="-2dp"
+        android:layout_marginRight="-2dp"
+        android:layout_marginBottom="1dp"
+        android:inputType="number"
+        android:textColor="@color/ColorPrimaryDark" />
+
+
+</LinearLayout>

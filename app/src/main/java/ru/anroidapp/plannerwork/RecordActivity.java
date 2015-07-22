@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import ru.anroidapp.plannerwork.completion_choose.CompletionTab4;
 import ru.anroidapp.plannerwork.contact_choose.ContactTab1;
 import ru.anroidapp.plannerwork.date_choose.DateTab2;
 import ru.anroidapp.plannerwork.procedure_choose.ProcedureTab3;
@@ -21,8 +22,8 @@ public class RecordActivity extends AppCompatActivity {
     ViewPager pager;
     RecViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence titles[] = {"Контакт", "Дата", "Процедура"};
-    int numbOfTabs = 3;
+    CharSequence titles[] = {"Контакт", "Дата", "Процедура", "Завершение"};
+    int numbOfTabs = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,6 @@ public class RecordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_record);
 
         toolbar = (Toolbar) findViewById(R.id.tool_record);
-
-        //layTime.setVisibility(View.GONE);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.rec_title);
@@ -73,6 +72,7 @@ public class RecordActivity extends AppCompatActivity {
         ContactTab1 tab1;
         DateTab2 tab2;
         ProcedureTab3 tab3;
+        CompletionTab4 tab4;
 
         CharSequence Titles[]; // This will Store the titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
         int NumbOfTabs; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
@@ -112,7 +112,16 @@ public class RecordActivity extends AppCompatActivity {
                     //Log.i("!!", "not load tab3");
                     return tab3;
                 }
+            }else if (position == 3) {
+                if (tab4 == null) {
+                    //Log.i("!!", "load tab3");
+                    return tab4 = new CompletionTab4();
+                } else {
+                    //Log.i("!!", "not load tab4");
+                    return tab4;
+                }
             }
+
             return null;
         }
 

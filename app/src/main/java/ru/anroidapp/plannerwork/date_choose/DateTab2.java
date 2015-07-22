@@ -27,8 +27,9 @@ public class DateTab2 extends Fragment {
 
     Button btnTime1,btnTime2 , btnDate;
     int time_hour, time_min, time_year, time_month, time_day;
-    TextView textDate, textTime, textSelec;
-    LinearLayout layDate, layTime, LayReturnDate;
+    int  check_hour1, check_hour2, check_min1, check_min2;
+    TextView textDate, textTime;
+    LinearLayout layDate, layTime, LayReturnDate, LayDateTime;
     String time ,time1, time2, strHour, strMin;
 
 
@@ -50,24 +51,29 @@ public class DateTab2 extends Fragment {
 
         textDate = (TextView) relativeLayout.findViewById(R.id.TextDate);
         textTime = (TextView) relativeLayout.findViewById(R.id.TextTime);
-        textSelec = (TextView )relativeLayout.findViewById(R.id.textSelection);
+      //  textSelec = (TextView )relativeLayout.findViewById(R.id.textSelection);
 
         layDate = (LinearLayout) relativeLayout.findViewById(R.id.LinDatePick);
         layTime = (LinearLayout) relativeLayout.findViewById(R.id.LinTimePick);
         LayReturnDate = (LinearLayout) relativeLayout.findViewById(R.id.cancelLayDate);
+        LayDateTime = (LinearLayout) relativeLayout.findViewById(R.id.LinDateTime);
+
 
         layTime.setVisibility(View.GONE);
         btnTime1.setVisibility(View.GONE);
         btnTime2.setVisibility(View.GONE);
         LayReturnDate.setVisibility(View.GONE);
+      //  LayDateTime.setVisibility(View.GONE);
 
         time1 = ""; time2 = "";
+        check_hour1 = -1; check_hour2 = -1; check_min1 = -1; check_min2 = -1;
 
         View.OnClickListener oclBtnTime1 = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 time_hour = DateTimePicker.hour;
+                check_hour1 = time_hour;
 
                 if( time_hour < 10)
                     strHour = "0" + Integer.toString(time_hour);
@@ -75,6 +81,7 @@ public class DateTab2 extends Fragment {
                     strHour = Integer.toString(time_hour);
 
                 time_min = DateTimePicker.minute;
+                check_min1 = time_min;
 
                 if( time_min < 10)
                     strMin = "0" + Integer.toString(time_min);
@@ -83,7 +90,24 @@ public class DateTab2 extends Fragment {
 
                 time1 = "с " + strHour + ":" +  strMin ;
                 time  = time1 + time2;
-                Toast.makeText(fragmentActivity, time1, Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(fragmentActivity, time1, Toast.LENGTH_SHORT).show();
+
+                if ( check_hour1 != -1 && check_hour2 != -1 &&  check_min1 != -1 && check_min2 != -1)
+                {
+                    if (check_hour1 == check_hour2 )
+                    {
+                        if ( check_min1 >=  check_min2) {
+                            Toast.makeText(fragmentActivity, "Время заданно не верно", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    else if(check_hour1 > check_hour2)
+                    {
+                        Toast.makeText(fragmentActivity, "Время заданно не верно", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
                 textTime.setText(time);
 
             }
@@ -95,6 +119,7 @@ public class DateTab2 extends Fragment {
             public void onClick(View v) {
 
                 time_hour = DateTimePicker.hour;
+                check_hour2 = time_hour;
 
                 if( time_hour < 10)
                     strHour = "0" + Integer.toString(time_hour);
@@ -102,6 +127,7 @@ public class DateTab2 extends Fragment {
                     strHour = Integer.toString(time_hour);
 
                 time_min = DateTimePicker.minute;
+                check_min2 = time_min;
 
                 if( time_min < 10)
                     strMin = "0" + Integer.toString(time_min);
@@ -110,7 +136,24 @@ public class DateTab2 extends Fragment {
 
                 time2 = " по " + strHour + ":" +  strMin ;
                 time = time1 + time2;
-                Toast.makeText(fragmentActivity, time2, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(fragmentActivity, time2, Toast.LENGTH_SHORT).show();
+
+                if ( check_hour1 != -1 && check_hour2 != -1 &&  check_min1 != -1 && check_min2 != -1)
+                {
+                    if (check_hour1 == check_hour2 )
+                    {
+                        if ( check_min1 >=  check_min2) {
+                            Toast.makeText(fragmentActivity, "Время заданно не верно", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    else if(check_hour1 > check_hour2)
+                    {
+                        Toast.makeText(fragmentActivity, "Время заданно не верно", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
                 textTime.setText(time);
 
             }
@@ -131,8 +174,9 @@ public class DateTab2 extends Fragment {
                 btnTime1.setVisibility(View.VISIBLE);
                 btnTime2.setVisibility(View.VISIBLE);
                 LayReturnDate.setVisibility(View.VISIBLE);
+              //  LayDateTime.setVisibility(View.VISIBLE);
 
-                textSelec.setText("Выберите время");
+               // textSelec.setText("Выберите время");
                 time = Integer.toString(time_day) + " " + arrMouth[time_month] + " " + Integer.toString(time_year);
                 textDate.setText(time);
 
@@ -153,10 +197,10 @@ public class DateTab2 extends Fragment {
                 layTime.setVisibility(View.GONE);
                 LayReturnDate.setVisibility(View.GONE);
 
-                textSelec.setText("Выберите дату");
+              //  textSelec.setText("Выберите дату");
 
 
-                Toast.makeText(fragmentActivity, "OK", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(fragmentActivity, "OK", Toast.LENGTH_SHORT).show();
 
             }
         };

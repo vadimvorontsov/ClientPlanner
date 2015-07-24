@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
+import ru.anroidapp.plannerwork.MetaData;
 import ru.anroidapp.plannerwork.R;
 import ru.anroidapp.plannerwork.contact_choose.IndexBarView;
 import ru.anroidapp.plannerwork.contact_choose.PinnedHeaderListView;
@@ -63,12 +64,14 @@ public class ProcedureTab3 extends Fragment {
     private TextView lastChoose;
 
     FragmentActivity fa;
+    MetaData mMetaData;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fa = super.getActivity();
+        mMetaData = (MetaData) getArguments().getSerializable("MetaData");
 
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.procedure_tab, container, false);
         mProcedures = new ArrayList<>();

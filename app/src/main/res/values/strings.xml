@@ -8,6 +8,12 @@
     <string name="navDraw_3">Application</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_record">RecordActivity</string>
+    <string-array name="fragment_titles">
+        <item>Контакт</item>
+        <item>Дата</item>
+        <item>Процедура</item>
+        <item>Завершение</item>
+    </string-array>
 
     <string name="search_hint">поиск</string>
     <string name="empty_list_msg">Нет результов</string>
@@ -34,6 +40,7 @@
     <string name="email_choose">Выберите email</string>
 
     <string name="unknown">неизвестно</string>
+    <string name="no_notes">примечаний нет</string>
 
     <string name="add_proc_title">Новая процедура</string>
     <string name="procedure">Процедура</string>

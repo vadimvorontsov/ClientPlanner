@@ -1,8 +1,5 @@
 package ru.anroidapp.plannerwork.completion_choose;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,12 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.example.smena.clientbase.procedures.Procedures;
-
+import ru.anroidapp.plannerwork.MetaData;
 import ru.anroidapp.plannerwork.R;
 
 /**
@@ -24,14 +18,20 @@ import ru.anroidapp.plannerwork.R;
  */
 public class CompletionTab4 extends Fragment {
 
+    private static final String TAG = "CompletionTab4";
+
     Button btnClickOK;
     FragmentActivity fa;
+
+    MetaData mMetaData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.completion_tab4, container, false);
 
         fa = super.getActivity();
+        mMetaData = (MetaData) getArguments().getSerializable("MetaData");
+
         btnClickOK = (Button) relativeLayout.findViewById(R.id.BtnCompletionOK);
 
         View.OnClickListener oclBtnOK = new View.OnClickListener() {

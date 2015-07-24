@@ -19,6 +19,8 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String TAG = "MainActivity";
+
     Toolbar toolbar;
     Context cntxt;
 
@@ -67,14 +69,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBtn1Click(View view) {
-        startActivity(new Intent(this, RecordActivity.class));
-        //finish();
+        Intent intent = new Intent(this, RecordActivity.class);
+        startActivity(intent);
     }
 
     public void onBtn2Click(View view) {
         startActivity(new Intent(this, CalendarActivity.class));
-        //finish();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,4 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

@@ -18,10 +18,13 @@ import android.widget.Toast;
 
 import com.example.smena.datechoose.DateTimePicker;
 
+import ru.anroidapp.plannerwork.MetaData;
 import ru.anroidapp.plannerwork.R;
 
 
 public class DateTab2 extends Fragment {
+
+    private static final String TAG = "DateTab2";
 
     FragmentActivity fragmentActivity;
 
@@ -32,26 +35,25 @@ public class DateTab2 extends Fragment {
     LinearLayout layDate, layTime, LayReturnDate, LayDateTime;
     String time ,time1, time2, strHour, strMin;
 
-
-
     String arrMouth[] = {"января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "декабря"};
 
-
+    MetaData mMetaData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fragmentActivity = super.getActivity();
+        mMetaData = (MetaData) getArguments().getSerializable("MetaData");
 
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.date_tab, container, false);
 
         btnTime1 = (Button) relativeLayout.findViewById(R.id.BtnTimeHour);
-        btnTime2   = (Button) relativeLayout.findViewById(R.id.BtnTimeMin);
+        btnTime2 = (Button) relativeLayout.findViewById(R.id.BtnTimeMin);
         btnDate = (Button) relativeLayout.findViewById(R.id.BtnDate);
 
         textDate = (TextView) relativeLayout.findViewById(R.id.TextDate);
         textTime = (TextView) relativeLayout.findViewById(R.id.TextTime);
-      //  textSelec = (TextView )relativeLayout.findViewById(R.id.textSelection);
+        //  textSelec = (TextView )relativeLayout.findViewById(R.id.textSelection);
 
         layDate = (LinearLayout) relativeLayout.findViewById(R.id.LinDatePick);
         layTime = (LinearLayout) relativeLayout.findViewById(R.id.LinTimePick);
@@ -63,10 +65,14 @@ public class DateTab2 extends Fragment {
         btnTime1.setVisibility(View.GONE);
         btnTime2.setVisibility(View.GONE);
         LayReturnDate.setVisibility(View.GONE);
-      //  LayDateTime.setVisibility(View.GONE);
+        //  LayDateTime.setVisibility(View.GONE);
 
-        time1 = ""; time2 = "";
-        check_hour1 = -1; check_hour2 = -1; check_min1 = -1; check_min2 = -1;
+        time1 = "";
+        time2 = "";
+        check_hour1 = -1;
+        check_hour2 = -1;
+        check_min1 = -1;
+        check_min2 = -1;
 
         View.OnClickListener oclBtnTime1 = new View.OnClickListener() {
             @Override
@@ -75,7 +81,7 @@ public class DateTab2 extends Fragment {
                 time_hour = DateTimePicker.hour;
                 check_hour1 = time_hour;
 
-                if( time_hour < 10)
+                if (time_hour < 10)
                     strHour = "0" + Integer.toString(time_hour);
                 else
                     strHour = Integer.toString(time_hour);
@@ -83,26 +89,22 @@ public class DateTab2 extends Fragment {
                 time_min = DateTimePicker.minute;
                 check_min1 = time_min;
 
-                if( time_min < 10)
+                if (time_min < 10)
                     strMin = "0" + Integer.toString(time_min);
                 else
                     strMin = Integer.toString(time_min);
 
-                time1 = "с " + strHour + ":" +  strMin ;
-                time  = time1 + time2;
-             //   Toast.makeText(fragmentActivity, time1, Toast.LENGTH_SHORT).show();
+                time1 = "с " + strHour + ":" + strMin;
+                time = time1 + time2;
+                //   Toast.makeText(fragmentActivity, time1, Toast.LENGTH_SHORT).show();
 
-                if ( check_hour1 != -1 && check_hour2 != -1 &&  check_min1 != -1 && check_min2 != -1)
-                {
-                    if (check_hour1 == check_hour2 )
-                    {
-                        if ( check_min1 >=  check_min2) {
+                if (check_hour1 != -1 && check_hour2 != -1 && check_min1 != -1 && check_min2 != -1) {
+                    if (check_hour1 == check_hour2) {
+                        if (check_min1 >= check_min2) {
                             Toast.makeText(fragmentActivity, "Время заданно не верно", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                    }
-                    else if(check_hour1 > check_hour2)
-                    {
+                    } else if (check_hour1 > check_hour2) {
                         Toast.makeText(fragmentActivity, "Время заданно не верно", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -121,7 +123,7 @@ public class DateTab2 extends Fragment {
                 time_hour = DateTimePicker.hour;
                 check_hour2 = time_hour;
 
-                if( time_hour < 10)
+                if (time_hour < 10)
                     strHour = "0" + Integer.toString(time_hour);
                 else
                     strHour = Integer.toString(time_hour);
@@ -129,26 +131,22 @@ public class DateTab2 extends Fragment {
                 time_min = DateTimePicker.minute;
                 check_min2 = time_min;
 
-                if( time_min < 10)
+                if (time_min < 10)
                     strMin = "0" + Integer.toString(time_min);
                 else
                     strMin = Integer.toString(time_min);
 
-                time2 = " по " + strHour + ":" +  strMin ;
+                time2 = " по " + strHour + ":" + strMin;
                 time = time1 + time2;
-               // Toast.makeText(fragmentActivity, time2, Toast.LENGTH_SHORT).show();
+                // Toast.makeText(fragmentActivity, time2, Toast.LENGTH_SHORT).show();
 
-                if ( check_hour1 != -1 && check_hour2 != -1 &&  check_min1 != -1 && check_min2 != -1)
-                {
-                    if (check_hour1 == check_hour2 )
-                    {
-                        if ( check_min1 >=  check_min2) {
+                if (check_hour1 != -1 && check_hour2 != -1 && check_min1 != -1 && check_min2 != -1) {
+                    if (check_hour1 == check_hour2) {
+                        if (check_min1 >= check_min2) {
                             Toast.makeText(fragmentActivity, "Время заданно не верно", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                    }
-                    else if(check_hour1 > check_hour2)
-                    {
+                    } else if (check_hour1 > check_hour2) {
                         Toast.makeText(fragmentActivity, "Время заданно не верно", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -174,9 +172,9 @@ public class DateTab2 extends Fragment {
                 btnTime1.setVisibility(View.VISIBLE);
                 btnTime2.setVisibility(View.VISIBLE);
                 LayReturnDate.setVisibility(View.VISIBLE);
-              //  LayDateTime.setVisibility(View.VISIBLE);
+                //  LayDateTime.setVisibility(View.VISIBLE);
 
-               // textSelec.setText("Выберите время");
+                // textSelec.setText("Выберите время");
                 time = Integer.toString(time_day) + " " + arrMouth[time_month] + " " + Integer.toString(time_year);
                 textDate.setText(time);
 
@@ -197,10 +195,10 @@ public class DateTab2 extends Fragment {
                 layTime.setVisibility(View.GONE);
                 LayReturnDate.setVisibility(View.GONE);
 
-              //  textSelec.setText("Выберите дату");
+                //  textSelec.setText("Выберите дату");
 
 
-               // Toast.makeText(fragmentActivity, "OK", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(fragmentActivity, "OK", Toast.LENGTH_SHORT).show();
 
             }
         };
@@ -208,7 +206,7 @@ public class DateTab2 extends Fragment {
 
 
         TimePicker timePicker = (TimePicker) relativeLayout.findViewById(R.id.timePicker);
-        //set_timepicker_text_colour(timePicker);
+
         timePicker.setIs24HourView(true);
 
         DatePicker datePicker = (DatePicker) relativeLayout.findViewById(R.id.datePicker);
@@ -221,59 +219,5 @@ public class DateTab2 extends Fragment {
         setHasOptionsMenu(true);
         return relativeLayout;
 
-
-        /*----------Получение даты и времени-------
-        DateTimePicker.year
-        DateTimePicker.month
-        DateTimePicker.day
-        DateTimePicker.hour
-        DateTimePicker.minute
-        /*----------------------------------------*/
     }
-
-
-
-
-//    private void set_timepicker_text_colour(TimePicker timePicker){
-//        system = Resources.getSystem();
-//        int hour_numberpicker_id = system.getIdentifier("hour", "id", "android");
-//        int minute_numberpicker_id = system.getIdentifier("minute", "id", "android");
-//        int ampm_numberpicker_id = system.getIdentifier("amPm", "id", "android");
-//
-//        NumberPicker hour_numberpicker = (NumberPicker) timePicker.findViewById(hour_numberpicker_id);
-//        NumberPicker minute_numberpicker = (NumberPicker) timePicker.findViewById(minute_numberpicker_id);
-//        NumberPicker ampm_numberpicker = (NumberPicker) timePicker.findViewById(ampm_numberpicker_id);
-//
-//        set_numberpicker_text_colour(hour_numberpicker);
-//        set_numberpicker_text_colour(minute_numberpicker);
-//        set_numberpicker_text_colour(ampm_numberpicker);
-//    }
-//
-//    private void set_numberpicker_text_colour(NumberPicker number_picker){
-//        final int count = number_picker.getChildCount();
-//        final int color = fragmentActivity.getResources().getColor(R.color.colorPrimaryDark);
-//
-//        for(int i = 0; i < count; i++){
-//            View child = number_picker.getChildAt(i);
-//
-//            try{
-//                Field wheelpaint_field = number_picker.getClass().getDeclaredField("mSelectorWheelPaint");
-//                wheelpaint_field.setAccessible(true);
-//
-//                ((Paint)wheelpaint_field.get(number_picker)).setColor(color);
-//                ((EditText)child).setTextColor(color);
-//                number_picker.invalidate();
-//            }
-//            catch(NoSuchFieldException e){
-//                Log.w("setTimePickerTextColor", e);
-//            }
-//            catch(IllegalAccessException e){
-//                Log.w("setTimePickerTextColor", e);
-//            }
-//            catch(IllegalArgumentException e){
-//                Log.w("setTimePickerTextColor", e);
-//            }
-//        }
-//    }
-
 }

@@ -35,11 +35,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
+import ru.anroidapp.plannerwork.MetaData;
 import ru.anroidapp.plannerwork.R;
 import ru.anroidapp.plannerwork.contact_choose.intface.PinnedHeaderAdapter;
 
 
 public class ContactTab1 extends Fragment {
+
+    MetaData mMetaData;
 
     ArrayList<String> mContacts;
     ArrayList<String> mClientsHistory;
@@ -69,6 +72,7 @@ public class ContactTab1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fa = super.getActivity();
+        mMetaData = (MetaData) getArguments().getSerializable("MetaData");
 
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.contact_tab, container, false);
 
@@ -179,7 +183,10 @@ public class ContactTab1 extends Fragment {
                     item.setTitle(getResources().getString(R.string.history));
                     new Poplulate().execute(mContacts);
                 }
+                break;
+
         }
+
         return super.onOptionsItemSelected(item);
     }
 

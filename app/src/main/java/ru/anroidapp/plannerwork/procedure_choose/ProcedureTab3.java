@@ -60,7 +60,6 @@ public class ProcedureTab3 extends Fragment {
 
     private final String TAG = "ProcedureTab3";
 
-    static String procedureName;
     private TextView lastChoose;
 
     FragmentActivity fa;
@@ -71,7 +70,7 @@ public class ProcedureTab3 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fa = super.getActivity();
-        mMetaData = (MetaData) getArguments().getSerializable("MetaData");
+        mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
 
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.procedure_tab, container, false);
         mProcedures = new ArrayList<>();
@@ -187,7 +186,6 @@ public class ProcedureTab3 extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-
     private void setListAdaptor() {
         // create instance of PinnedHeaderAdapter and set adapter to list view
         mAdaptorProc = new PinnedHeaderAdapter(fa, mListItemsProc, mListSectionPosProc);
@@ -222,8 +220,7 @@ public class ProcedureTab3 extends Fragment {
 
             Procedures procedures = new Procedures(fa);
 
-            String procNameTmp = "";
-            procNameTmp = mListItemsProc.get(position);
+            String procNameTmp = mListItemsProc.get(position);
             long procIdTmp = procedures.getProcedureID(procNameTmp);
             Object[] procInfoTmp = procedures.getProcedureInfo(procIdTmp);
             Integer procPriceTmp = (Integer) procInfoTmp[1];
@@ -245,11 +242,14 @@ public class ProcedureTab3 extends Fragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Procedures procedures = new Procedures(fa);
 
-            procedureName = mListItemsProc.get(position);
+            String procedureName = mListItemsProc.get(position);
+            mMetaData.setProcedureName(procedureName);
             long procedureId = procedures.getProcedureID(procedureName);
             Object[] procedureInfo = procedures.getProcedureInfo(procedureId);
             Integer procedurePrice = (Integer) procedureInfo[1];
+            mMetaData.setProcedurePrice(procedurePrice);
             String procedureNote = (String) procedureInfo[2];
+            mMetaData.setProcedureNote(procedureNote);
 
             if (lastChoose != null) {
                 lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);

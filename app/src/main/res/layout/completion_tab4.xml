@@ -48,12 +48,12 @@
         android:textColor="@color/ColorPrimary"
         android:textSize="20sp" />
     <TextView
+        android:id="@+id/client_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
         android:gravity="left"
-        android:text="Велосипедов Иван"
         android:textColor="@color/ColorPrimary"
         android:textSize="20sp"
         android:fontFamily="sans-serif-light"
@@ -78,12 +78,12 @@
                 android:textColor="@color/ColorPrimary"
                 android:textSize="20sp" />
         <TextView
+            android:id="@+id/date_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
             android:gravity="left"
-            android:text="26 января 2015г."
             android:textColor="@color/ColorPrimary"
             android:textSize="20sp"
             android:fontFamily="sans-serif-light"
@@ -107,12 +107,12 @@
                 android:textColor="@color/ColorPrimary"
                 android:textSize="20sp" />
         <TextView
+            android:id="@+id/time_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:gravity="left"
-            android:text="с 12:30 по 13:30"
             android:textColor="@color/ColorPrimary"
             android:textSize="20sp"
             android:fontFamily="sans-serif-light"
@@ -137,12 +137,12 @@
                 android:textColor="@color/ColorPrimary"
                 android:textSize="20sp" />
         <TextView
+            android:id="@+id/procedure_name_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
             android:gravity="left"
-            android:text="Маникюр"
             android:textColor="@color/ColorPrimary"
             android:textSize="20sp"
             android:fontFamily="sans-serif-light"
@@ -166,12 +166,12 @@
             android:textColor="@color/ColorPrimary"
             android:textSize="20sp" />
             <TextView
+                android:id="@+id/procedure_price_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
                 android:gravity="left"
-                android:text="1000р."
                 android:textColor="@color/ColorPrimary"
                 android:textSize="20sp"
                 android:fontFamily="sans-serif-light"
@@ -195,12 +195,12 @@
             android:textColor="@color/ColorPrimary"
             android:textSize="20sp" />
             <TextView
+                android:id="@+id/procedure_note_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"
                 android:gravity="left"
-                android:text="не переносит разговоров во время процедуры"
                 android:textColor="@color/ColorPrimary"
                 android:textSize="20sp"
                 android:fontFamily="sans-serif-light"

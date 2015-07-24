@@ -25,7 +25,6 @@ import android.widget.Filter;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.clientbase.procedures.Clients;
@@ -64,7 +63,6 @@ public class ContactTab1 extends Fragment {
     private final String TAG = "ContactTab1";
     private TextView lastChoose;
 
-    static String name;
     FragmentActivity fa;
 
 
@@ -72,7 +70,7 @@ public class ContactTab1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fa = super.getActivity();
-        mMetaData = (MetaData) getArguments().getSerializable("MetaData");
+        mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
 
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.contact_tab, container, false);
 
@@ -170,7 +168,7 @@ public class ContactTab1 extends Fragment {
                         .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog dialog) {
-                                fa.startActivityForResult(intent, 1);
+                                fa.startActivity(intent);
                             }
                         })
                         .show();
@@ -188,12 +186,6 @@ public class ContactTab1 extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(fa, "ActivityResult", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -274,7 +266,9 @@ public class ContactTab1 extends Fragment {
     AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-            name = mListItems.get(position);
+
+            String clientName = mListItems.get(position);
+            mMetaData.setClientName(clientName);
 
             if (lastChoose != null) {
                 lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);

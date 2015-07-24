@@ -12,7 +12,7 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
     Context ctx;
     // db
     private static final String DATABASE_NAME = "sessions.db";
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 13;
 
     //tables
     public static final String TABLE_CLIENTS = "clients_table";
@@ -38,8 +38,8 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
     public static final String ID_PHONE = "id_phone";
     public static final String ID_EMAIL = "id_email";
     public static final String ID_PROCEDURE = "id_procedure";
-    public static final String TIME = "time";
-
+    public static final String TIME_START = "time_start";
+    public static final String TIME_END = "time_end";
 
     public ClientBaseOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -72,7 +72,8 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
                 + ID_PHONE + " INTEGER, "
                 + ID_EMAIL + " INTEGER, "
                 + ID_PROCEDURE + " INTEGER, "
-                + TIME + " TEXT, "
+                + TIME_START + " TEXT, "
+                + TIME_END + " TEXT, "
 
                 + "FOREIGN KEY(" + ID_CLIENT_SESSION + ") REFERENCES " + TABLE_CLIENTS
                 + "(" + ClientBaseOpenHelper._ID + "),"

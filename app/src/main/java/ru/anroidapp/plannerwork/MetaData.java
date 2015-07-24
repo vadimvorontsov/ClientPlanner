@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by Вадим on 23.07.2015.
+ * Created by Р’Р°РґРёРј on 23.07.2015.
  */
 public class MetaData implements Serializable {
 

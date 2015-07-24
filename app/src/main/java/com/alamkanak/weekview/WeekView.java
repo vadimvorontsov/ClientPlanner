@@ -24,6 +24,7 @@ import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.OverScroller;
 import android.widget.Scroller;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -87,7 +88,7 @@ public class WeekView extends View {
     private int mDayBackgroundColor = Color.rgb(245, 245, 245);
     private int mHourSeparatorColor = Color.rgb(230, 230, 230);
     private int mTodayBackgroundColor = Color.rgb(239, 247, 254);
-    private int mHourSeparatorHeight = 5;//разделение часовых блоков
+    private int mHourSeparatorHeight = 5;//СЂР°Р·РґРµР»РµРЅРёРµ С‡Р°СЃРѕРІС‹С… Р±Р»РѕРєРѕРІ
     private int mTodayHeaderTextColor = Color.rgb(39, 137, 228);
     private int mEventTextSize = 12;
     private int mEventTextColor = Color.BLACK;
@@ -761,7 +762,7 @@ public class WeekView extends View {
             event1.setColor(event.getColor());
             WeekViewEvent event2 = new WeekViewEvent(event.getId(), event.getName(), startTime, event.getEndTime());
             event2.setColor(event.getColor());
-            mEventRects.add(new EventRect(event1, event, null));//Отрисовка Элементов
+            mEventRects.add(new EventRect(event1, event, null));//РћС‚СЂРёСЃРѕРІРєР° Р­Р»РµРјРµРЅС‚РѕРІ
             mEventRects.add(new EventRect(event2, event, null));
         }
         else

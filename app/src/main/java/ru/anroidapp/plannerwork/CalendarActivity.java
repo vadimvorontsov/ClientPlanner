@@ -12,8 +12,6 @@ import android.widget.Toast;
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
-import com.example.smena.datechoose.DateTimePicker;
-import ru.anroidapp.plannerwork.date_choose.DateTab2;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

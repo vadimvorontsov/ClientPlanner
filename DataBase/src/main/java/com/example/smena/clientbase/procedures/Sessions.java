@@ -23,7 +23,8 @@ public class Sessions {
     }
 
     public long addSession(String clientName, String procedureName, int procedurePrice,
-                           String procedureNote, String session_time, String phone, String email) {
+                           String procedureNote, String sessionTimeStart, String sessionTimeEnd,
+                           String phone, String email) {
 
         Clients clients = new Clients(ctx);
         long clientID = clients.addClient(clientName);
@@ -56,7 +57,8 @@ public class Sessions {
             ContentValues cv = new ContentValues();
             cv.put(helper.ID_CLIENT_SESSION, clientID);
             cv.put(helper.ID_PROCEDURE, procedureID);
-            cv.put(helper.TIME, session_time);
+            cv.put(helper.TIME_START, sessionTimeStart);
+            cv.put(helper.TIME_END, sessionTimeEnd);
             cv.put(helper.ID_PHONE, phoneID);
             cv.put(helper.ID_EMAIL, emailID);
             if (cv != null) {
@@ -76,7 +78,7 @@ public class Sessions {
         }
     }
 
-    public ArrayList<Integer> getSessionsByTime(String timeStart, String timeEnd) {
+    public ArrayList<Integer> getSessionsByTimeStart(String timeStart, String timeEnd) {
 
         if (timeStart.isEmpty()) {
             timeStart = " datetime('2015-01-01 01:01:01') ";
@@ -93,7 +95,49 @@ public class Sessions {
 
         try {
             cursor = db_read.query(helper.TABLE_SESSIONS, new String[]{helper._ID},
-                    helper.TIME + " BETWEEN '" + timeStart + "' AND '" + timeEnd + "'",
+                    helper.TIME_START + " BETWEEN '" + timeStart + "' AND '" + timeEnd + "'",
+                    null, null, null, null);
+            while (cursor.moveToNext()) {
+                sessionsID.add(cursor.getInt(cursor.getColumnIndex(helper._ID)));
+            }
+
+            return sessionsID;
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return null;
+
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+            if (db_read != null && db_read.isOpen()) {
+                db_read.close();
+            }
+            if (helper != null) {
+                helper.close();
+            }
+        }
+    }
+
+    public ArrayList<Integer> getSessionsByTimeEnd(String timeStart, String timeEnd) {
+
+        if (timeStart.isEmpty()) {
+            timeStart = " datetime('2015-01-01 01:01:01') ";
+        }
+
+        if (timeEnd.isEmpty()) {
+            timeEnd = " datetime('now') ";
+        }
+
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        SQLiteDatabase db_read = helper.getReadableDatabase();
+        Cursor cursor = null;
+        ArrayList<Integer> sessionsID = new ArrayList<>();
+
+        try {
+            cursor = db_read.query(helper.TABLE_SESSIONS, new String[]{helper._ID},
+                    helper.TIME_START + " BETWEEN '" + timeStart + "' AND '" + timeEnd + "'",
                     null, null, null, null);
             while (cursor.moveToNext()) {
                 sessionsID.add(cursor.getInt(cursor.getColumnIndex(helper._ID)));
@@ -128,21 +172,24 @@ public class Sessions {
         try {
             String clientName = "";
             Object[] procedureName = null;
-            String time = "";
+            String time_start = "";
+            String time_end = "";
             String phone = "";
             String email = "";
 
             cursor = db_read.query(helper.TABLE_SESSIONS, new String[]{helper.ID_CLIENT_SESSION,
-                            helper.ID_PROCEDURE, helper.TIME, helper.ID_PHONE, helper.ID_EMAIL},
+                            helper.ID_PROCEDURE, helper.TIME_START, helper.TIME_END,
+                            helper.ID_PHONE, helper.ID_EMAIL},
                     helper._ID + "=" + sessionID, null, null, null, null);
             while (cursor.moveToNext()) {
                 clientName = getClientName(cursor.getInt(cursor.getColumnIndex(helper.ID_CLIENT_SESSION)));
                 procedureName = getProcedure(cursor.getInt(cursor.getColumnIndex(helper.ID_PROCEDURE)));
-                time = cursor.getString(cursor.getColumnIndex(helper.TIME));
+                time_start = cursor.getString(cursor.getColumnIndex(helper.TIME_START));
+                time_end = cursor.getString(cursor.getColumnIndex(helper.TIME_END));
                 phone = getPhone(cursor.getInt(cursor.getColumnIndex(helper.ID_PHONE)));
                 email = getEmail(cursor.getInt(cursor.getColumnIndex(helper.ID_EMAIL)));
             }
-            session = new Object[]{clientName, phone, email, procedureName, time};
+            session = new Object[]{clientName, phone, email, procedureName, time_start, time_end};
 
             return session;
         } catch (Exception e) {

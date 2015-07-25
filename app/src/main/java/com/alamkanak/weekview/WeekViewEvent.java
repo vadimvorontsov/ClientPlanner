@@ -33,8 +33,10 @@ public class WeekViewEvent {
      * @param endHour Hour (in 24-hour format) when the event ends.
      * @param endMinute Minute when the event ends.
      */
-    public WeekViewEvent(long id, String name, int startYear, int startMonth, int startDay, int startHour, int startMinute, int endYear, int endMonth, int endDay, int endHour, int endMinute) {
-        this.mId = id;
+    public WeekViewEvent(long id, String name, int startYear, int startMonth, int startDay,
+                         int startHour, int startMinute, int endYear, int endMonth,
+                         int endDay, int endHour, int endMinute) {
+        this.mId = id; //id сессии
 
         this.mStartTime = Calendar.getInstance();
         this.mStartTime.set(Calendar.YEAR, startYear);
@@ -50,7 +52,7 @@ public class WeekViewEvent {
         this.mEndTime.set(Calendar.HOUR_OF_DAY, endHour);
         this.mEndTime.set(Calendar.MINUTE, endMinute);
 
-        this.mName = name;
+        this.mName = name; //имя клиента
     }
 
     /**
@@ -66,7 +68,6 @@ public class WeekViewEvent {
         this.mStartTime = startTime;
         this.mEndTime = endTime;
     }
-
 
     public Calendar getStartTime() {
         return mStartTime;

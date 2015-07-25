@@ -4,15 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.smena.clientbase.procedures.Sessions;
 
 import ru.anroidapp.plannerwork.MetaData;
 import ru.anroidapp.plannerwork.R;
@@ -60,6 +60,18 @@ public class CompletionTab4 extends Fragment {
         @Override
         public void onClick(View v) {
 
+
+            Sessions sessions = new Sessions(fa);
+
+
+            long sessinonId = sessions.addSession(mMetaData.getClientName(), mMetaData.getProcedureName(),
+                    mMetaData.getProcedurePrice(), mMetaData.getProcedureNote(),
+                    "" + mMetaData.getYear() + "-" + mMetaData.getMonth() + "-" + mMetaData.getDay() +
+                            " " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart(),
+                    "" + mMetaData.getYear() + "-" + mMetaData.getMonth() + "-" + mMetaData.getDay() +
+                            " " + mMetaData.getHourEnd() + ":" + mMetaData.getMinuteEnd(),
+                    mMetaData.getClientPhones().get(0), mMetaData.getClientEmails().get(0));
+            Log.i(TAG, "" + sessinonId);
         }
     };
 
@@ -84,18 +96,16 @@ public class CompletionTab4 extends Fragment {
         btnClickOK = (Button) relativeLayout.findViewById(R.id.BtnCompletionOK);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        if(CURRNT_XML_FILE == 1) {
-            getFragmentManager().beginTransaction()
-                    .detach(this)
-                    .attach(this)
-                    .commit();
-            return;
-        }
-    }
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        if(CURRNT_XML_FILE == 1) {
+//            getFragmentManager().beginTransaction()
+//                    .detach(this)
+//                    .attach(this)
+//                    .commit();
+//        }
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
     private String  addedNullInt( int cellTime )
     {

@@ -162,7 +162,7 @@ public class Sessions {
         }
     }
 
-    public Object[] getSessionById(int sessionID) {
+    public Object[] getSessionById(long sessionID) {
 
         ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
         SQLiteDatabase db_read = helper.getReadableDatabase();
@@ -207,6 +207,38 @@ public class Sessions {
             }
         }
     }
+
+    public ArrayList<Long> getAllSessionsId() {
+
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        SQLiteDatabase db_read = helper.getReadableDatabase();
+        Cursor cursor = null;
+        ArrayList<Long> sessions = new ArrayList<>();
+
+        try {
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{ClientBaseOpenHelper._ID}, null,
+                    null, null, null, null);
+            while (cursor.moveToNext()) {
+                sessions.add(cursor.getLong(cursor.getColumnIndex(ClientBaseOpenHelper._ID)));
+            }
+            return sessions;
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return sessions;
+
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+            if (db_read != null && db_read.isOpen()) {
+                db_read.close();
+                helper.close();
+            }
+        }
+    }
+
+
 
     private String getClientName(int clientID) {
         return new Clients(ctx).getClientName(clientID);

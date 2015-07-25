@@ -269,6 +269,8 @@ public class ContactTab1 extends Fragment {
 
             String clientName = mListItems.get(position);
             mMetaData.setClientName(clientName);
+            mMetaData.setClientPhones(getPhonesByName(fa, clientName));
+            mMetaData.setClientEmails(getEmailsByName(fa, clientName));
 
             if (lastChoose != null) {
                 lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);

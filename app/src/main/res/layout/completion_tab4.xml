@@ -55,7 +55,7 @@
         android:layout_marginLeft="5dp"
         android:gravity="left"
         android:textColor="@color/ColorPrimary"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:fontFamily="sans-serif-light"
         android:layout_centerHorizontal="true"/>
      </LinearLayout>
@@ -85,7 +85,7 @@
             android:layout_marginLeft="5dp"
             android:gravity="left"
             android:textColor="@color/ColorPrimary"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:fontFamily="sans-serif-light"
             android:layout_centerHorizontal="true"/>
             </LinearLayout>
@@ -114,7 +114,7 @@
             android:layout_marginLeft="5dp"
             android:gravity="left"
             android:textColor="@color/ColorPrimary"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:fontFamily="sans-serif-light"
             android:layout_centerHorizontal="true"/>
             </LinearLayout>
@@ -144,7 +144,7 @@
             android:layout_marginLeft="5dp"
             android:gravity="left"
             android:textColor="@color/ColorPrimary"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:fontFamily="sans-serif-light"
             android:layout_centerHorizontal="true"/>
             </LinearLayout>
@@ -173,7 +173,7 @@
                 android:layout_marginLeft="5dp"
                 android:gravity="left"
                 android:textColor="@color/ColorPrimary"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif-light"
                 android:layout_centerHorizontal="true"/>
             </LinearLayout>
@@ -202,7 +202,7 @@
                 android:layout_marginLeft="5dp"
                 android:gravity="left"
                 android:textColor="@color/ColorPrimary"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif-light"
                 android:layout_centerHorizontal="true"/>
 

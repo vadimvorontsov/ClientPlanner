@@ -45,7 +45,7 @@ public class RecordActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.rec_title);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);
+        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

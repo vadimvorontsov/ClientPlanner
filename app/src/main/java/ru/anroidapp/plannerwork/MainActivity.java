@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, CalendarActivity.class));
     }
 
+    public void onBtn3Click(View view) {
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

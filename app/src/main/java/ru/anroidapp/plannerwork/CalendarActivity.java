@@ -44,7 +44,7 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);
+       // getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);
 
 
         // Get a reference for the week view in the layout.

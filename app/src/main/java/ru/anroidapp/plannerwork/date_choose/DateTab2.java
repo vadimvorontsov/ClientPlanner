@@ -167,7 +167,6 @@ public class DateTab2 extends Fragment {
             } else {
                 Toast.makeText(mFragmentActivity, "Время завершения задано неверно", Toast.LENGTH_SHORT).show();
                 mTimeViewEnd = "";
-
             }
             mTextTime.setText(mTimeViewStart + mTimeViewEnd);
 

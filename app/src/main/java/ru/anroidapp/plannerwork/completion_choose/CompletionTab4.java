@@ -32,7 +32,6 @@ public class CompletionTab4 extends Fragment {
     TextView procedurePriceTextView;
     TextView procedureNoteTextView;
     Button btnClickOK;
-    String hourStart, minStart, hourEnd, minEnd;
 
     String[] months;
 
@@ -72,29 +71,9 @@ public class CompletionTab4 extends Fragment {
                 + " " + mMetaData.getYear());
         timeTextView = (TextView) relativeLayout.findViewById(R.id.time_textview);
 
-        if (mMetaData.getHourStart() < 10)
-
-            hourStart = "0" + mMetaData.getHourStart();
-        else
-            hourStart = "" + mMetaData.getHourStart();
-
-        if (mMetaData.getMinuteStart() < 10)
-            minStart = "0" + mMetaData.getMinuteStart();
-        else
-            minStart = "" + mMetaData.getMinuteStart();
-
-        if (mMetaData.getHourEnd() < 10)
-            hourEnd = "0" + mMetaData.getHourEnd();
-        else
-            hourEnd = "" + mMetaData.getHourEnd();
-
-        if (mMetaData.getMinuteEnd() < 10)
-            minEnd = "0" + mMetaData.getMinuteEnd();
-        else
-            minEnd = "" + mMetaData.getMinuteEnd();
-
-
-        timeTextView.setText("c " + hourStart + ":" + minStart + " по " + hourEnd + ":" + minEnd);
+        timeTextView.setText("c " + addedNullInt(mMetaData.getHourStart()) + ":" +
+                addedNullInt(mMetaData.getMinuteStart()) + " по " + addedNullInt(mMetaData.getHourEnd()) +
+                ":" + addedNullInt(mMetaData.getMinuteEnd()));
         procedureNameTextView = (TextView) relativeLayout.findViewById(R.id.procedure_name_textview);
         procedureNameTextView.setText(mMetaData.getProcedureName());
         procedurePriceTextView = (TextView) relativeLayout.findViewById(R.id.procedure_price_textview);
@@ -118,4 +97,14 @@ public class CompletionTab4 extends Fragment {
         }
     }
 
+    private String  addedNullInt( int cellTime )
+    {
+        String strTime = "";
+
+        if (cellTime < 10)
+            strTime = "0" + cellTime;
+        else
+            strTime = "" + cellTime;
+        return strTime;
+    }
 }

@@ -12,7 +12,7 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
     Context ctx;
     // db
     private static final String DATABASE_NAME = "sessions.db";
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 15;
 
     //tables
     public static final String TABLE_CLIENTS = "clients_table";

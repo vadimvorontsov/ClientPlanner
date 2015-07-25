@@ -168,6 +168,8 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
         Sessions sessions = new Sessions(CalendarActivity.this);
         ArrayList<Long> sessionsId = sessions.getAllSessionsId();
 
+        WeekViewEvent event;
+
         for (Long id : sessionsId) {
 
             Object[] sessionInfo = sessions.getSessionById(id);
@@ -193,18 +195,34 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
             int hourEnd = Integer.parseInt(timeEndArray[3]);
             int minuteEnd = Integer.parseInt(timeEndArray[4]);
 
+            int deltaHour;
+            int deltaMinute;
+
+            if (minuteEnd - minuteStart < 0 && hourEnd - hourStart <= 1) {
+                deltaHour = 0;
+                deltaMinute = minuteEnd - minuteStart + 60;
+            } else {
+                deltaHour = hourEnd - hourStart;
+                deltaMinute = minuteEnd - minuteStart;
+            }
+
             Calendar startTime = Calendar.getInstance();
             startTime.set(Calendar.HOUR_OF_DAY, hourStart);//Астрономическое время
+            startTime.set(Calendar.DAY_OF_MONTH, day);
             startTime.set(Calendar.MINUTE, minuteStart);
             startTime.set(Calendar.MONTH, month);
             startTime.set(Calendar.YEAR, year);
             Calendar endTime = (Calendar) startTime.clone();
-            endTime.add(Calendar.HOUR, hourEnd);
-            endTime.add(Calendar.MINUTE, minuteEnd);
+            endTime.add(Calendar.HOUR_OF_DAY, deltaHour);
+            endTime.add(Calendar.MINUTE, deltaMinute);
             //endTime.set(Calendar.MONTH, minuteEnd);
 
-            WeekViewEvent event = new WeekViewEvent(sessionsId.get(0), clientName, year, month, day,
-                    hourStart, minuteStart, year, month, day, hourEnd, minuteEnd);
+//            WeekViewEvent event = new WeekViewEvent(id, clientName, year, month, day,
+//                    hourStart, minuteStart, year, month, day, hourEnd, minuteEnd);
+//            event.setColor(getResources().getColor(R.color.event_color_01));
+//            events.add(event);
+
+            event = new WeekViewEvent(id, "132", startTime, endTime);
             event.setColor(getResources().getColor(R.color.event_color_01));
             events.add(event);
         }

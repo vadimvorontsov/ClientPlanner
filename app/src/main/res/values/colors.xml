@@ -18,4 +18,11 @@
     <color name="toolbar">#efefef</color>
     <color name="toolbar_text">#8f000000</color>
     <color name="accent">#2789e4</color>
+
+    <color name="record_first">#0097A7</color>
+    <color name="record_second">#00BCD4</color>
+    <color name="calendar_first">#F57C00</color>
+    <color name="calendar_second">#FF9800</color>
+    <color name="procedure_first">#9C27B0</color>
+    <color name="procedure_second">#E040FB</color>
 </resources>

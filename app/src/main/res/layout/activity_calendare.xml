@@ -9,10 +9,11 @@
     <!--растояние между дневными блоками columnGap-->
     <!--высота верхнего блока(дни) headerRowPadding-->
 
-    <include layout="@layout/toolbar"
+    <include
+        layout="@layout/toolbar_cal"
         android:id="@+id/tool_cal"
         android:layout_width="match_parent"
-        android:layout_height="48dp"/>
+        android:layout_height="wrap_content"/>
 
     <com.alamkanak.weekview.WeekView
         android:id="@+id/weekView"

@@ -42,7 +42,7 @@ public class RecordActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_record);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.rec_title);
+        getSupportActionBar().setTitle(R.string.record);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);

@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,6 +23,7 @@ import ru.anroidapp.plannerwork.R;
 public class CompletionTab4 extends Fragment {
 
     private static final String TAG = "CompletionTab4";
+    int  CURRNT_XML_FILE = 1;
 
     TextView clientNameTextView;
     TextView dateTextView;
@@ -28,6 +32,7 @@ public class CompletionTab4 extends Fragment {
     TextView procedurePriceTextView;
     TextView procedureNoteTextView;
     Button btnClickOK;
+    String hourStart, minStart, hourEnd, minEnd;
 
     String[] months;
 
@@ -47,6 +52,7 @@ public class CompletionTab4 extends Fragment {
 
         btnClickOK.setOnClickListener(oclBtnOK);
 
+
         setHasOptionsMenu(true);
         return relativeLayout;
     }
@@ -65,8 +71,30 @@ public class CompletionTab4 extends Fragment {
         dateTextView.setText(mMetaData.getDay() + " " + months[mMetaData.getMonth()]
                 + " " + mMetaData.getYear());
         timeTextView = (TextView) relativeLayout.findViewById(R.id.time_textview);
-        timeTextView.setText("c " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart()
-                + " по " + +mMetaData.getHourEnd() + ":" + mMetaData.getMinuteEnd());
+
+        if (mMetaData.getHourStart() < 10)
+
+            hourStart = "0" + mMetaData.getHourStart();
+        else
+            hourStart = "" + mMetaData.getHourStart();
+
+        if (mMetaData.getMinuteStart() < 10)
+            minStart = "0" + mMetaData.getMinuteStart();
+        else
+            minStart = "" + mMetaData.getMinuteStart();
+
+        if (mMetaData.getHourEnd() < 10)
+            hourEnd = "0" + mMetaData.getHourEnd();
+        else
+            hourEnd = "" + mMetaData.getHourEnd();
+
+        if (mMetaData.getMinuteEnd() < 10)
+            minEnd = "0" + mMetaData.getMinuteEnd();
+        else
+            minEnd = "" + mMetaData.getMinuteEnd();
+
+
+        timeTextView.setText("c " + hourStart + ":" + minStart + " по " + hourEnd + ":" + minEnd);
         procedureNameTextView = (TextView) relativeLayout.findViewById(R.id.procedure_name_textview);
         procedureNameTextView.setText(mMetaData.getProcedureName());
         procedurePriceTextView = (TextView) relativeLayout.findViewById(R.id.procedure_price_textview);
@@ -76,4 +104,18 @@ public class CompletionTab4 extends Fragment {
 
         btnClickOK = (Button) relativeLayout.findViewById(R.id.BtnCompletionOK);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        if(CURRNT_XML_FILE == 1) {
+            getFragmentManager().beginTransaction()
+                    .detach(this)
+                    .attach(this)
+                    .commit();
+            return;
+        }
+    }
+
 }

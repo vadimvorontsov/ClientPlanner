@@ -267,10 +267,23 @@ public class ContactTab1 extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 
+            Resources resourses = getResources();
+            String unknown = resourses.getString(R.string.unknown);
+
             String clientName = mListItems.get(position);
             mMetaData.setClientName(clientName);
-            mMetaData.setClientPhones(getPhonesByName(fa, clientName));
-            mMetaData.setClientEmails(getEmailsByName(fa, clientName));
+
+            ArrayList<String> clientPhones = getPhonesByName(fa, clientName);
+            if (clientPhones.isEmpty()) {
+                clientPhones.add(unknown);
+            }
+            mMetaData.setClientPhones(clientPhones);
+
+            ArrayList<String> clientEmails = getEmailsByName(fa, clientName);
+            if (clientEmails.isEmpty()) {
+                clientEmails.add(unknown);
+            }
+            mMetaData.setClientEmails(clientEmails);
 
             if (lastChoose != null) {
                 lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);

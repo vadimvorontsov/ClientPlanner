@@ -196,7 +196,7 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
             Calendar startTime = Calendar.getInstance();
             startTime.set(Calendar.HOUR_OF_DAY, hourStart);//Астрономическое время
             startTime.set(Calendar.MINUTE, minuteStart);
-            startTime.set(Calendar.MONTH, month - 1);
+            startTime.set(Calendar.MONTH, month);
             startTime.set(Calendar.YEAR, year);
             Calendar endTime = (Calendar) startTime.clone();
             endTime.add(Calendar.HOUR, hourEnd);
@@ -208,16 +208,6 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
             event.setColor(getResources().getColor(R.color.event_color_01));
             events.add(event);
         }
-
-
-//        public WeekViewEvent(long id, String name, int startYear, int startMonth, int startDay,
-//        int startHour, int startMinute, int endYear, int endMonth,
-//        int endDay, int endHour, int endMinute) {
-//
-//        }
-        //WeekViewEvent event = new WeekViewEvent(sessionsId, sessionInfo[0], )
-//        event.setColor(getResources().getColor(R.color.event_color_01));
-//        events.add(event);
 
         return events;
     }

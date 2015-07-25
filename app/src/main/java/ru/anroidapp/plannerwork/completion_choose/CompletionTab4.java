@@ -1,19 +1,21 @@
 package ru.anroidapp.plannerwork.completion_choose;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.smena.clientbase.procedures.Sessions;
 
+import ru.anroidapp.plannerwork.MainActivity;
 import ru.anroidapp.plannerwork.MetaData;
 import ru.anroidapp.plannerwork.R;
 
@@ -63,7 +65,6 @@ public class CompletionTab4 extends Fragment {
 
             Sessions sessions = new Sessions(fa);
 
-
             long sessinonId = sessions.addSession(mMetaData.getClientName(), mMetaData.getProcedureName(),
                     mMetaData.getProcedurePrice(), mMetaData.getProcedureNote(),
                     "" + mMetaData.getYear() + "-" + mMetaData.getMonth() + "-" + mMetaData.getDay() +
@@ -71,7 +72,11 @@ public class CompletionTab4 extends Fragment {
                     "" + mMetaData.getYear() + "-" + mMetaData.getMonth() + "-" + mMetaData.getDay() +
                             " " + mMetaData.getHourEnd() + ":" + mMetaData.getMinuteEnd(),
                     mMetaData.getClientPhones().get(0), mMetaData.getClientEmails().get(0));
-            Log.i(TAG, "" + sessinonId);
+            if (sessinonId != -1) {
+                Toast.makeText(fa, "Запись добавлена календарь", Toast.LENGTH_SHORT).show();
+                mMetaData = null;
+                startActivity(new Intent(fa, MainActivity.class));
+            }
         }
     };
 

@@ -3,9 +3,11 @@
 
     <string name="rec_title">В начало</string>
 
-    <string name="navDraw_1">Home</string>
-    <string name="navDraw_2">Settings</string>
-    <string name="navDraw_3">Application</string>
+    <string name="navDraw_1">Главная</string>
+    <string name="navDraw_2">Календарь</string>
+    <string name="navDraw_3">Архив</string>
+    <string name="navDraw_4">Настройки</string>
+    <string name="navDraw_5">О приложении</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_record">RecordActivity</string>
     <string-array name="fragment_titles">

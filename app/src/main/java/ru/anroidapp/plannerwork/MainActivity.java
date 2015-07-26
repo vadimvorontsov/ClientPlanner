@@ -13,9 +13,12 @@ import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileSettingDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 
@@ -42,15 +45,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeNavigationDrawer(Toolbar toolbar) {
 
-        IProfile profile = new ProfileDrawerItem()
-                .withName("VadArt")
-                .withEmail("PlannerWork@gmail.com")
-                .withIcon(getResources().getDrawable(R.mipmap.ic_calendar));
+      //  IProfile profile = new ProfileDrawerItem()
+      //          .withName("VadArt")
+      //          .withEmail("PlannerWork@gmail.com");
 
         AccountHeader resultHeder = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.header)
-                .addProfiles(profile)
+                .withHeaderBackground(R.drawable.arni2)
+              //  .addProfiles(profile)
                 .build();
 
         Drawer resultDrawer = new DrawerBuilder()
@@ -60,16 +62,27 @@ public class MainActivity extends AppCompatActivity {
                 .withAccountHeader(resultHeder)
                 .withActionBarDrawerToggleAnimated(true)
                 .addDrawerItems(
+                        //new DividerDrawerItem(),
                         new PrimaryDrawerItem()
                                 .withName(R.string.navDraw_1)
                                 .withIcon(R.drawable.ic_home_black_18dp),
-                        // new DividerDrawerItem(),
+                        new DividerDrawerItem(),
                         new SecondaryDrawerItem()
                                 .withName(R.string.navDraw_2)
                                 .withIcon(R.drawable.ic_settings_applications_black_18dp),
+                        new DividerDrawerItem(),
                         new SecondaryDrawerItem()
                                 .withName(R.string.navDraw_3)
-                                .withIcon(R.drawable.ic_stars_black_18dp)
+                                .withIcon(R.drawable.ic_stars_black_18dp),
+                        new DividerDrawerItem(),
+                        new SecondaryDrawerItem()
+                                .withName(R.string.navDraw_4),
+                        new DividerDrawerItem(),
+                        new SecondaryDrawerItem()
+                                .withName(R.string.navDraw_5),
+                         new DividerDrawerItem()
+
+
                 )
                         //            .withSliderBackgroundColor(R.color.md_grey_100)
                 .build();

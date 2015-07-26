@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/send_msg_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_horizontal"
+        android:text="test"/>
+
+    <EditText
+        android:id="@+id/send_msg_edit_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/send_msg_title"
+        android:background="@drawable/msg_edit_text"
+        android:singleLine="false"/>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/send_msg_edit_text"
+        android:layout_margin="5dp">
+
+        <LinearLayout
+            android:id="@+id/sms_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/sms_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="Medium Text"
+                android:layout_weight="1"
+                android:gravity="center_vertical"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отправить"
+                android:id="@+id/send_sms_btn"
+                android:background="@drawable/msg_send_btn"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/email_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/sms_layout">
+
+            <TextView
+                android:id="@+id/email_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="Medium Text"
+                android:layout_weight="1"
+                android:gravity="center_vertical"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отправить"
+                android:id="@+id/send_email_btn"
+                android:background="@drawable/msg_send_btn"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/whatsapp_layout"
+            android:layout_below="@+id/email_layout">
+
+            <TextView
+                android:id="@+id/whatsapp_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="Medium Text"
+                android:layout_weight="1"
+                android:gravity="center_vertical"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отправить"
+                android:id="@+id/send_whatsapp_btn"
+                android:background="@drawable/msg_send_btn"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:id="@+id/viber_layout"
+            android:layout_below="@+id/whatsapp_layout">
+
+            <TextView
+                android:id="@+id/viber_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="Medium Text"
+                android:layout_weight="1"
+                android:gravity="center_vertical"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отправить"
+                android:id="@+id/send_viber_btn"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/msg_send_btn"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

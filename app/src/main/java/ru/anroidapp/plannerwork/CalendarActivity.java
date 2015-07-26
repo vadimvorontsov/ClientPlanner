@@ -215,14 +215,8 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
             Calendar endTime = (Calendar) startTime.clone();
             endTime.add(Calendar.HOUR_OF_DAY, deltaHour);
             endTime.add(Calendar.MINUTE, deltaMinute);
-            //endTime.set(Calendar.MONTH, minuteEnd);
 
-//            WeekViewEvent event = new WeekViewEvent(id, clientName, year, month, day,
-//                    hourStart, minuteStart, year, month, day, hourEnd, minuteEnd);
-//            event.setColor(getResources().getColor(R.color.event_color_01));
-//            events.add(event);
-
-            event = new WeekViewEvent(id, "132", startTime, endTime);
+            event = new WeekViewEvent(id, clientName, startTime, endTime);
             event.setColor(getResources().getColor(R.color.event_color_01));
             events.add(event);
         }
@@ -230,10 +224,6 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
         return events;
     }
 
-    private String getEventTitle(Calendar time) {
-        return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY),
-                time.get(Calendar.MINUTE), time.get(Calendar.MONTH) + 1, time.get(Calendar.DAY_OF_MONTH));
-    }
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {

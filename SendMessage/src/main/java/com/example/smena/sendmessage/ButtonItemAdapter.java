@@ -2,7 +2,6 @@ package com.example.smena.sendmessage;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.ArrayRes;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.example.smena.sendmessage.vk.VK;
 
 import java.util.ArrayList;
 
@@ -109,11 +107,6 @@ class ButtonItemAdapter extends BaseAdapter implements View.OnClickListener {
 //                showToast("EMAIL");
                 break;
             case 2:
-                Intent intent = new Intent();
-                intent.setClass(mContext, VK.class);
-                showToast("VK");
-                break;
-            case 3:
                 if (phones.size() > 1) {
                     showSingleChoice(phones, "whatsapp");
 //                    WhatsApp whatsApp = new WhatsApp(mContext);
@@ -128,7 +121,7 @@ class ButtonItemAdapter extends BaseAdapter implements View.OnClickListener {
 
 //                showToast("WHATSAPP");
                 break;
-            case 4:
+            case 3:
                 if (phones.size() > 1) {
                     showSingleChoice(phones, "viber");
 //                    Viber viber = new Viber(mContext);

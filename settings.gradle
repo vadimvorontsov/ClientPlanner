@@ -1,1 +1,1 @@
-include ':app', ':SendMessage', ':AndroidVkSdk', ':MaterialDialogsLib', ':library', ':DataBase'
+include ':app', ':SendMessage', ':MaterialDialogsLib', ':DataBase'

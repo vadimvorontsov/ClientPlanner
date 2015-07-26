@@ -14,7 +14,9 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -40,9 +42,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeNavigationDrawer(Toolbar toolbar) {
 
+        IProfile profile = new ProfileDrawerItem()
+                .withName("VadArt")
+                .withEmail("PlannerWork@gmail.com")
+                .withIcon(getResources().getDrawable(R.mipmap.ic_calendar));
+
         AccountHeader resultHeder = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.header)
+                .addProfiles(profile)
                 .build();
 
         Drawer resultDrawer = new DrawerBuilder()

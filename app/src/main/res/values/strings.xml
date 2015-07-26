@@ -65,6 +65,9 @@
         <item>Ноября</item>
         <item>Декабря</item>
     </string-array>
+    <string name="title_activity_procedure">ProcedureActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 
 </resources>

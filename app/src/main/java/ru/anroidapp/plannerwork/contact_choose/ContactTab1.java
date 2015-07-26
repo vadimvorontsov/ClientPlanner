@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -22,12 +23,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.clientbase.procedures.Clients;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +64,10 @@ public class ContactTab1 extends Fragment {
 
     TextView mEmptyView;
 
+    LinearLayout laySearch, layCanselSearch;
+
+    FloatingActionButton fab;
+
     private final String TAG = "ContactTab1";
     private TextView lastChoose;
 
@@ -69,10 +77,14 @@ public class ContactTab1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+//http://www.youtube.com/watch?v=i_HwX5CEL6g&list=PLIU76b8Cjem7x0Ot_d0Z1nIq1Mk3PUW_Q&index=3
+
         fa = super.getActivity();
         mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
 
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.contact_tab, container, false);
+
+        fab = (FloatingActionButton) relativeLayout.findViewById(R.id.fab);
 
         getContacts();
         getHistoryClients();
@@ -81,6 +93,15 @@ public class ContactTab1 extends Fragment {
         mLoadingView = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);
         mListView = (PinnedHeaderListView) relativeLayout.findViewById(R.id.list_view);
         mEmptyView = (TextView) relativeLayout.findViewById(R.id.empty_view);
+        laySearch = (LinearLayout) relativeLayout.findViewById(R.id.LaySearch);
+        layCanselSearch = (LinearLayout) relativeLayout.findViewById(R.id.LayCanselSearch);
+
+        fab.attachToListView(mListView);
+
+        fab.setOnClickListener(oclFabClick);
+        layCanselSearch.setOnClickListener(oclCloseSearch);
+
+        laySearch.setVisibility(View.GONE);
 
         relativeLayout.findViewById(R.id.contact_tab);
 
@@ -117,6 +138,26 @@ public class ContactTab1 extends Fragment {
         super.onResume();
         new Poplulate().execute(getContacts());
     }
+
+    View.OnClickListener oclFabClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            laySearch.setVisibility(View.VISIBLE);
+            fab.hide();
+            Toast.makeText(fa, "Проверка search", Toast.LENGTH_SHORT).show();
+
+        }
+    };
+
+    View.OnClickListener oclCloseSearch = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            laySearch.setVisibility(View.GONE);
+            fab.show();
+            Toast.makeText(fa, "Проверка close search", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
     private ArrayList<String> getContacts() {
         mContacts = new ArrayList<>();

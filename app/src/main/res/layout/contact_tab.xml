@@ -1,21 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/contact_tab"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/search_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:id="@+id/LaySearch">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:src="@drawable/ic_search"/>
+
+    <EditText
+        android:id="@+id/search_view"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:hint="@string/search_hint"
+        android:layout_weight="8"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:singleLine="true"
+        android:background="@color/white"
         android:textColor="@color/ColorPrimary"
         android:textColorHint="@color/ColorPrimaryHint"
-        android:textSize="14sp"
-        android:layout_centerHorizontal="true" />
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:id="@+id/LayCanselSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:onClick="LayCanselClick"
+        android:background="@drawable/contact_closelay"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ImClose"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_close"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <!--<Switch-->
     <!--android:id="@+id/switcher"-->
@@ -36,7 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@+id/search_view">
+        android:layout_below="@+id/LaySearch">
 
         <include layout="@layout/loading_empty_view" />
 
@@ -48,6 +84,22 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:src="@drawable/ic_search"
+            fab:fab_colorNormal="@color/record_first"
+            fab:fab_colorPressed="@color/record_second"
+            fab:fab_colorRipple="@color/event_color_01"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
 
     </RelativeLayout>
 

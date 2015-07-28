@@ -217,7 +217,6 @@ public class ProcedureTab3 extends Fragment {
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
             Resources resources = getResources();
-
             Procedures procedures = new Procedures(fa);
 
             String procNameTmp = mListItemsProc.get(position);

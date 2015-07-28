@@ -2,16 +2,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
                 android:orientation="vertical">
 
     <TextView
         android:id="@+id/send_msg_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="test"/>
+        android:text="@string/send_msg_title"
+        android:textSize="20sp"
+        android:textColor="@color/ColorPrimary"
+        android:fontFamily="sans-serif-medium"/>
 
     <EditText
         android:id="@+id/send_msg_edit_text"
@@ -21,13 +24,18 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/send_msg_title"
         android:background="@drawable/msg_edit_text"
-        android:singleLine="false"/>
+        android:singleLine="false"
+        android:padding="10dp"
+        android:layout_margin="15dp"
+        android:textColor="@color/ColorPrimary"
+        android:textSize="13sp"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/send_msg_edit_text"
-        android:layout_margin="5dp">
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp">
 
         <LinearLayout
             android:id="@+id/sms_layout"
@@ -39,19 +47,20 @@
                 android:id="@+id/sms_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:text="Medium Text"
                 android:layout_weight="1"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"
+                android:text="@string/sms"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/ColorPrimary"/>
 
             <Button
+                android:id="@+id/send_sms_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Отправить"
-                android:id="@+id/send_sms_btn"
                 android:background="@drawable/msg_send_btn"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                />
+                android:text="@string/send"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 
@@ -59,78 +68,84 @@
             android:id="@+id/email_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/sms_layout">
+            android:layout_below="@+id/sms_layout"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/email_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:text="Medium Text"
                 android:layout_weight="1"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"
+                android:text="@string/email"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/ColorPrimary"/>
 
             <Button
+                android:id="@+id/send_email_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Отправить"
-                android:id="@+id/send_email_btn"
                 android:background="@drawable/msg_send_btn"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"/>
+                android:text="@string/send"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/whatsapp_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/whatsapp_layout"
-            android:layout_below="@+id/email_layout">
+            android:layout_below="@+id/email_layout"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/whatsapp_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:text="Medium Text"
                 android:layout_weight="1"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"
+                android:text="@string/whatsapp"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/ColorPrimary"/>
 
             <Button
+                android:id="@+id/send_whatsapp_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Отправить"
-                android:id="@+id/send_whatsapp_btn"
                 android:background="@drawable/msg_send_btn"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"/>
+                android:text="@string/send"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/viber_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:id="@+id/viber_layout"
-            android:layout_below="@+id/whatsapp_layout">
+            android:layout_below="@+id/whatsapp_layout"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/viber_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
-                android:text="Medium Text"
                 android:layout_weight="1"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"
+                android:text="@string/viber"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/ColorPrimary"/>
 
             <Button
+                android:id="@+id/send_viber_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Отправить"
-                android:id="@+id/send_viber_btn"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/msg_send_btn"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"/>
+                android:text="@string/send"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
 

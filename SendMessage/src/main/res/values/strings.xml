@@ -31,10 +31,4 @@
     <string name="no_phone">У данного контакта нет ни одного номера</string>
     <string name="no_email">У данного контакта нет ни одного почтового адреса</string>
 
-    <string name="VK_search_title">Искать среди</string>
-    <string-array name="VK_search">
-        <item>Всех пользователей</item>
-        <item>Друзей</item>
-    </string-array>
-
 </resources>

@@ -1,22 +1,20 @@
-package ru.anroidapp.plannerwork.procedure_choose;
+package ru.anroidapp.plannerwork;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
@@ -33,14 +31,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
-import ru.anroidapp.plannerwork.MetaData;
-import ru.anroidapp.plannerwork.R;
 import ru.anroidapp.plannerwork.contact_choose.IndexBarView;
 import ru.anroidapp.plannerwork.contact_choose.PinnedHeaderListView;
 import ru.anroidapp.plannerwork.contact_choose.intface.PinnedHeaderAdapter;
 
 
-public class ProcedureTab3 extends Fragment {
+public class ProcedureActivity extends AppCompatActivity {
 
     ArrayList<String> mProcedures;
 
@@ -58,31 +54,31 @@ public class ProcedureTab3 extends Fragment {
 
     TextView mEmptyViewProc;
 
-    private final String TAG = "ProcedureTab3";
+    private final String TAG = "ProcedureActivity";
 
     private TextView lastChoose;
 
-    FragmentActivity fa;
+    ProcedureActivity fa;
     MetaData mMetaData;
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_procedure);
 
-        fa = super.getActivity();
-        mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
+       // fa = super.getActivity();
+       // mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
 
-        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.procedure_tab, container, false);
         mProcedures = new ArrayList<>();
 
         getProcedures();
 
-        mSearchViewProc = (EditText) relativeLayout.findViewById(R.id.search_proc_view2);
-        mLoadingViewProc = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);
-        mListViewProc = (PinnedHeaderListView) relativeLayout.findViewById(R.id.proc_list_view);
-        mEmptyViewProc = (TextView) relativeLayout.findViewById(R.id.empty_view);
+        mSearchViewProc = (EditText) findViewById(R.id.search_proc_view);
+        mLoadingViewProc = (ProgressBar) findViewById(R.id.loading_view);
+        mListViewProc = (PinnedHeaderListView) findViewById(R.id.proc_list_view2);
+        mEmptyViewProc = (TextView) findViewById(R.id.empty_view);
 
-        relativeLayout.findViewById(R.id.procedure_tab2);
+        findViewById(R.id.procedure_tab);
 
         mListSectionPosProc = new ArrayList<>();
         mListItemsProc = new ArrayList<>();
@@ -106,10 +102,8 @@ public class ProcedureTab3 extends Fragment {
             new Populate().execute(mProcedures);
         }
 
-        setHasOptionsMenu(true);
-
-        return relativeLayout;
     }
+
 
     private void getProcedures() {
         Procedures procedures = new Procedures(fa);
@@ -122,14 +116,14 @@ public class ProcedureTab3 extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.procedure_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_procedure, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.add_procedure:
                 LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -178,12 +172,6 @@ public class ProcedureTab3 extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        mSearchViewProc.addTextChangedListener(filterTextWatcher);
-        super.onActivityCreated(savedInstanceState);
     }
 
     private void setListAdaptor() {

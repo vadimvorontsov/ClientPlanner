@@ -25,6 +25,10 @@
             android:name=".CalendarActivity"
             android:label="@string/title_activity_calendar" >
         </activity>
+        <activity
+            android:name=".ProcedureActivity"
+            android:label="@string/title_activity_procedure" >
+        </activity>
     </application>
 
 </manifest>

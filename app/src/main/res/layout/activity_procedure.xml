@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/procedure_tab2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/search_proc_view2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_hint"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:textColor="@color/ColorPrimary"
+        android:textColorHint="@color/ColorPrimaryHint"
+        android:textSize="14sp"
+        android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:id="@+id/procedure_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/search_proc_view2">
+
+        <include layout="@layout/loading_empty_view" />
+
+        <ru.anroidapp.plannerwork.contact_choose.PinnedHeaderListView
+            android:id="@+id/proc_list_view2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollingCache="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+</RelativeLayout> 

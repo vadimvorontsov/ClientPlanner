@@ -63,24 +63,26 @@ public class MainActivity extends AppCompatActivity {
                 .withActionBarDrawerToggleAnimated(true)
                 .addDrawerItems(
                         //new DividerDrawerItem(),
-                        new PrimaryDrawerItem()
+                        new SecondaryDrawerItem()
                                 .withName(R.string.navDraw_1)
-                                .withIcon(R.drawable.ic_home_black_18dp),
+                                .withIcon(R.mipmap.home),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem()
                                 .withName(R.string.navDraw_2)
-                                .withIcon(R.drawable.ic_settings_applications_black_18dp),
+                                .withIcon(R.mipmap.ic_calendare),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem()
                                 .withName(R.string.navDraw_3)
-                                .withIcon(R.drawable.ic_stars_black_18dp),
+                                .withIcon(R.mipmap.arhiv_2),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem()
-                                .withName(R.string.navDraw_4),
+                                .withName(R.string.navDraw_4)
+                                .withIcon(R.mipmap.settings_1),
                         new DividerDrawerItem(),
                         new SecondaryDrawerItem()
-                                .withName(R.string.navDraw_5),
-                         new DividerDrawerItem()
+                                .withName(R.string.navDraw_5)
+                                .withIcon(R.mipmap.information_1),
+                        new DividerDrawerItem()
 
 
                 )
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBtn3Click(View view) {
-
+        startActivity(new Intent(this, ProcedureActivity.class));
     }
 
     @Override

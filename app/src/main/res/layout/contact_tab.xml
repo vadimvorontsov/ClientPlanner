@@ -18,7 +18,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@color/white"
-            android:src="@drawable/ic_search"/>
+            android:src="@mipmap/search_green"/>
 
     <EditText
         android:id="@+id/search_view"
@@ -49,7 +49,7 @@
             android:layout_height="match_parent"
             android:id="@+id/ImClose"
             android:layout_gravity="center"
-            android:src="@drawable/ic_close"/>
+            android:src="@mipmap/close_1"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:src="@drawable/ic_search"
+            android:src="@mipmap/search_black"
             fab:fab_colorNormal="@color/record_first"
             fab:fab_colorPressed="@color/record_second"
             fab:fab_colorRipple="@color/event_color_01"

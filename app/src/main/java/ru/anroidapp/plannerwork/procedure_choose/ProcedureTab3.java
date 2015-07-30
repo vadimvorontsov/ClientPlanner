@@ -77,12 +77,12 @@ public class ProcedureTab3 extends Fragment {
 
         getProcedures();
 
-        mSearchViewProc = (EditText) relativeLayout.findViewById(R.id.search_proc_view2);
+        mSearchViewProc = (EditText) relativeLayout.findViewById(R.id.search_proc_view);
         mLoadingViewProc = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);
         mListViewProc = (PinnedHeaderListView) relativeLayout.findViewById(R.id.proc_list_view);
         mEmptyViewProc = (TextView) relativeLayout.findViewById(R.id.empty_view);
 
-        relativeLayout.findViewById(R.id.procedure_tab2);
+        relativeLayout.findViewById(R.id.procedure_tab);
 
         mListSectionPosProc = new ArrayList<>();
         mListItemsProc = new ArrayList<>();

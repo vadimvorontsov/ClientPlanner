@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -19,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +55,6 @@ public class ProcedureActivity extends AppCompatActivity {
 
     private TextView lastChoose;
 
-    ProcedureActivity fa;
     MetaData mMetaData;
 
     @Override
@@ -69,13 +65,14 @@ public class ProcedureActivity extends AppCompatActivity {
        // fa = super.getActivity();
        // mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
 
+
         mProcedures = new ArrayList<>();
 
         getProcedures();
 
-        mSearchViewProc = (EditText) findViewById(R.id.search_proc_view);
+        mSearchViewProc = (EditText) findViewById(R.id.act_search_proc_view);
         mLoadingViewProc = (ProgressBar) findViewById(R.id.loading_view);
-        mListViewProc = (PinnedHeaderListView) findViewById(R.id.proc_list_view2);
+        mListViewProc = (PinnedHeaderListView) findViewById(R.id.act_proc_list_view);
         mEmptyViewProc = (TextView) findViewById(R.id.empty_view);
 
         findViewById(R.id.procedure_tab);
@@ -102,11 +99,12 @@ public class ProcedureActivity extends AppCompatActivity {
             new Populate().execute(mProcedures);
         }
 
+        mSearchViewProc.addTextChangedListener(filterTextWatcher);
     }
 
 
     private void getProcedures() {
-        Procedures procedures = new Procedures(fa);
+        Procedures procedures = new Procedures(ProcedureActivity.this);
         mProcedures = procedures.getAllProceduresNames();
     }
 
@@ -126,13 +124,13 @@ public class ProcedureActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add_procedure:
-                LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View view = inflater.inflate(R.layout.add_procedure, null);
                 final EditText nameEditText = (EditText) view.findViewById(R.id.input_proc_name);
                 final EditText priceEditText = (EditText) view.findViewById(R.id.input_proc_price);
                 final EditText noteEditText = (EditText) view.findViewById(R.id.input_proc_note);
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(fa);
+                AlertDialog.Builder builder = new AlertDialog.Builder(ProcedureActivity.this);
                 builder.setView(view)
                         .setCancelable(true);
                 builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
@@ -151,10 +149,10 @@ public class ProcedureActivity extends AppCompatActivity {
 
                         if (!name.isEmpty()) {
                             long id = 0;
-                            Procedures procedures = new Procedures(fa);
+                            Procedures procedures = new Procedures(ProcedureActivity.this);
                             id = procedures.addProcedure(name, price, note);
                             if (id != 0) {
-                                Toast.makeText(fa, "Процедура добавлена", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ProcedureActivity.this, "Процедура добавлена", Toast.LENGTH_SHORT).show();
                                 refreshList();
                             }
 
@@ -176,10 +174,10 @@ public class ProcedureActivity extends AppCompatActivity {
 
     private void setListAdaptor() {
         // create instance of PinnedHeaderAdapter and set adapter to list view
-        mAdaptorProc = new PinnedHeaderAdapter(fa, mListItemsProc, mListSectionPosProc);
+        mAdaptorProc = new PinnedHeaderAdapter(ProcedureActivity.this, mListItemsProc, mListSectionPosProc);
         mListViewProc.setAdapter(mAdaptorProc);
 
-        LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // set header view
         View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListViewProc, false);
@@ -205,7 +203,7 @@ public class ProcedureActivity extends AppCompatActivity {
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
             Resources resources = getResources();
-            Procedures procedures = new Procedures(fa);
+            Procedures procedures = new Procedures(ProcedureActivity.this);
 
             String procNameTmp = mListItemsProc.get(position);
             long procIdTmp = procedures.getProcedureID(procNameTmp);
@@ -213,7 +211,7 @@ public class ProcedureActivity extends AppCompatActivity {
             Integer procPriceTmp = (Integer) procInfoTmp[1];
             String procNoteTmp = (String) procInfoTmp[2];
 
-            new MaterialDialog.Builder(fa)
+            new MaterialDialog.Builder(ProcedureActivity.this)
                     .title(R.string.procedure_inf)
                     .content(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
                             resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
@@ -227,7 +225,7 @@ public class ProcedureActivity extends AppCompatActivity {
     AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Procedures procedures = new Procedures(fa);
+            Procedures procedures = new Procedures(ProcedureActivity.this);
 
             String procedureName = mListItemsProc.get(position);
             mMetaData.setProcedureName(procedureName);
@@ -247,7 +245,7 @@ public class ProcedureActivity extends AppCompatActivity {
                     (R.drawable.btn_check_buttonless_on, 0, 0, 0);
             lastChoose = textView;
 
-            Toast.makeText(fa.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
+            Toast.makeText(ProcedureActivity.this.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
                             + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
                     Toast.LENGTH_SHORT).show();
         }

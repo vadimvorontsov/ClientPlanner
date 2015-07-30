@@ -2,12 +2,12 @@
 <RelativeLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/procedure_tab2"
+    android:id="@+id/activity_procedure"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/search_proc_view2"
+        android:id="@+id/act_search_proc_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/search_hint"
@@ -20,16 +20,16 @@
         android:layout_centerHorizontal="true" />
 
     <RelativeLayout
-        android:id="@+id/procedure_layout2"
+        android:id="@+id/act_procedure_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@+id/search_proc_view2">
+        android:layout_below="@+id/act_search_proc_view">
 
         <include layout="@layout/loading_empty_view" />
 
         <ru.anroidapp.plannerwork.contact_choose.PinnedHeaderListView
-            android:id="@+id/proc_list_view2"
+            android:id="@+id/act_proc_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollingCache="false"

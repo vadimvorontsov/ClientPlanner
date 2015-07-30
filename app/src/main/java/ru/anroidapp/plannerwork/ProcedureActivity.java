@@ -62,10 +62,6 @@ public class ProcedureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_procedure);
 
-       // fa = super.getActivity();
-       // mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
-
-
         mProcedures = new ArrayList<>();
 
         getProcedures();

@@ -19,6 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.smena.clientbase.procedures.Sessions;
+import com.example.smena.sendmessage.email.Email;
+import com.example.smena.sendmessage.sms.SMS;
+import com.example.smena.sendmessage.viber.Viber;
+import com.example.smena.sendmessage.whatsapp.WhatsApp;
+
+import java.util.ArrayList;
 
 import ru.anroidapp.plannerwork.MainActivity;
 import ru.anroidapp.plannerwork.MetaData;
@@ -44,6 +50,10 @@ public class CompletionTab4 extends Fragment {
 
     FragmentActivity fa;
     MetaData mMetaData;
+
+    Toast mToast;
+    String mTextMsg;
+    ArrayList<String> mPhones;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,6 +96,8 @@ public class CompletionTab4 extends Fragment {
 
     private AlertDialog.Builder sendMsgView() {
 
+        mPhones = mMetaData.getClientPhones();
+
         LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.send_message, null);
 
@@ -95,12 +107,18 @@ public class CompletionTab4 extends Fragment {
         final Button btnSendWhatsApp = (Button) view.findViewById(R.id.send_whatsapp_btn);
         final Button btnSendViber = (Button) view.findViewById(R.id.send_viber_btn);
 
-        editTextMsg.setText("Здравствуйте, " + mMetaData.getClientName() + "!" +
+        btnSendSms.setOnClickListener(sendSmsListener);
+        btnSendEmail.setOnClickListener(sendEmailListener);
+        btnSendWhatsApp.setOnClickListener(sendWhatsAppListener);
+        btnSendViber.setOnClickListener(sendViberListener);
+
+        mTextMsg = "Здравствуйте, " + mMetaData.getClientName() + "!" +
                 "Вы записаны на " + mMetaData.getProcedureName() + "." +
                 "Цена " + mMetaData.getProcedurePrice() + "." +
                 "Дата " + mMetaData.getDay() + " " + months[mMetaData.getMonth()] + "," +
                 "время " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart() + "." +
-                "И чтоб без опозданий сучка!!!!!!");
+                "И чтоб без опозданий сучка!!!!!!";
+        editTextMsg.setText(mTextMsg);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(fa);
         builder.setView(view)
@@ -138,6 +156,67 @@ public class CompletionTab4 extends Fragment {
         btnClickOK = (Button) relativeLayout.findViewById(R.id.BtnCompletionOK);
     }
 
+    View.OnClickListener sendViberListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mPhones.size() > 1) {
+                Viber viber = new Viber(fa);
+                viber.sendMsg(mTextMsg, mPhones.get(0));
+            } else if (mPhones.size() == 0) {
+                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
+            } else {
+                Viber viber = new Viber(fa);
+                viber.sendMsg(mTextMsg, mPhones.get(0));
+            }
+        }
+    };
+
+    View.OnClickListener sendWhatsAppListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mPhones.size() > 1) {
+                WhatsApp whatsApp = new WhatsApp(fa);
+                whatsApp.sendMsg(mTextMsg, mPhones.get(0));
+            } else if (mPhones.size() == 0) {
+                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
+            } else {
+                WhatsApp whatsApp = new WhatsApp(fa);
+                whatsApp.sendMsg(mTextMsg, mPhones.get(0));
+            }
+        }
+    };
+
+    View.OnClickListener sendEmailListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            ArrayList<String> emails = mMetaData.getClientEmails();
+            if (emails.size() > 1) {
+                Email email = new Email(fa);
+                email.sendEmail(emails.get(0), mTextMsg);
+            } else if (emails.size() == 0) {
+                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_email));
+            } else {
+                Email email = new Email(fa);
+                email.sendEmail(emails.get(0), mTextMsg);
+            }
+        }
+    };
+
+    View.OnClickListener sendSmsListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (mPhones.size() > 1) {
+                SMS sms = new SMS(fa);
+                sms.sendSMS(mPhones.get(0), mTextMsg);
+            } else if (mPhones.size() == 0) {
+                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
+            } else {
+                SMS sms = new SMS(fa);
+                sms.sendSMS(mPhones.get(0), mTextMsg);
+            }
+        }
+    };
+
 //    @Override
 //    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 //        if(CURRNT_XML_FILE == 1) {
@@ -149,8 +228,7 @@ public class CompletionTab4 extends Fragment {
 //        super.onCreateOptionsMenu(menu, inflater);
 //    }
 
-    private String addedNullInt(int cellTime)
-    {
+    private String addedNullInt(int cellTime) {
         String strTime;
 
         if (cellTime < 10)
@@ -160,4 +238,15 @@ public class CompletionTab4 extends Fragment {
 
         return strTime;
     }
+
+
+    private void showToast(String message) {
+        if (mToast != null) {
+            mToast.cancel();
+            mToast = null;
+        }
+        mToast = Toast.makeText(fa, message, Toast.LENGTH_SHORT);
+        mToast.show();
+    }
+
 }

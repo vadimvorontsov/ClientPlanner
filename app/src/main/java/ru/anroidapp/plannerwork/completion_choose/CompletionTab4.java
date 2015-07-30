@@ -161,12 +161,12 @@ public class CompletionTab4 extends Fragment {
         public void onClick(View v) {
             if (mPhones.size() > 1) {
                 Viber viber = new Viber(fa);
-                viber.sendMsg(mTextMsg, mPhones.get(0));
+                viber.sendMsg(mTextMsg, "+79254446525");
             } else if (mPhones.size() == 0) {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             } else {
                 Viber viber = new Viber(fa);
-                viber.sendMsg(mTextMsg, mPhones.get(0));
+                viber.sendMsg(mTextMsg, "+79254446525");
             }
         }
     };
@@ -176,12 +176,12 @@ public class CompletionTab4 extends Fragment {
         public void onClick(View v) {
             if (mPhones.size() > 1) {
                 WhatsApp whatsApp = new WhatsApp(fa);
-                whatsApp.sendMsg(mTextMsg, mPhones.get(0));
+                whatsApp.sendMsg(mTextMsg, "+79254446525");
             } else if (mPhones.size() == 0) {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             } else {
                 WhatsApp whatsApp = new WhatsApp(fa);
-                whatsApp.sendMsg(mTextMsg, mPhones.get(0));
+                whatsApp.sendMsg(mTextMsg, "+79254446525");
             }
         }
     };
@@ -192,12 +192,12 @@ public class CompletionTab4 extends Fragment {
             ArrayList<String> emails = mMetaData.getClientEmails();
             if (emails.size() > 1) {
                 Email email = new Email(fa);
-                email.sendEmail(emails.get(0), mTextMsg);
+                email.sendEmail("voronczov-vadim@mail.ru", mTextMsg);
             } else if (emails.size() == 0) {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_email));
             } else {
                 Email email = new Email(fa);
-                email.sendEmail(emails.get(0), mTextMsg);
+                email.sendEmail("voronczov-vadim@mail.ru", mTextMsg);
             }
         }
     };
@@ -207,12 +207,12 @@ public class CompletionTab4 extends Fragment {
         public void onClick(View v) {
             if (mPhones.size() > 1) {
                 SMS sms = new SMS(fa);
-                sms.sendSMS(mPhones.get(0), mTextMsg);
+                sms.sendSMS("+79254446525", mTextMsg);
             } else if (mPhones.size() == 0) {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             } else {
                 SMS sms = new SMS(fa);
-                sms.sendSMS(mPhones.get(0), mTextMsg);
+                sms.sendSMS("+79254446525", mTextMsg);
             }
         }
     };

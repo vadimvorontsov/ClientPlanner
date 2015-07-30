@@ -2,6 +2,7 @@ package ru.anroidapp.plannerwork;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.app_name);
-
+        toolbar.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
         initializeNavigationDrawer(toolbar);
 
     }

@@ -12,13 +12,21 @@
         android:weightSum="10"
         android:id="@+id/LaySearch">
 
+    <LinearLayout
+        android:id="@+id/LayImageSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:onClick="LayCanselClick"
+        android:background="@drawable/contact_closelay"
+        android:orientation="horizontal">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:background="@color/white"
             android:src="@mipmap/search_green"/>
+        </LinearLayout>
 
     <EditText
         android:id="@+id/search_view"
@@ -39,14 +47,13 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:layout_gravity="center"
         android:onClick="LayCanselClick"
         android:background="@drawable/contact_closelay"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:id="@+id/ImClose"
             android:layout_gravity="center"
             android:src="@mipmap/close_1"/>
@@ -90,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:src="@mipmap/search_black"
+            android:src="@drawable/ic_search"
             fab:fab_colorNormal="@color/record_first"
             fab:fab_colorPressed="@color/record_second"
             fab:fab_colorRipple="@color/event_color_01"

@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -57,10 +58,17 @@ public class ProcedureActivity extends AppCompatActivity {
 
     MetaData mMetaData;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_procedure);
+
+        toolbar = (Toolbar) findViewById(R.id.tool_bar_procedure);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.uslugi);
+       toolbar.setBackgroundColor(getResources().getColor(R.color.procedure_first));
 
         mProcedures = new ArrayList<>();
 

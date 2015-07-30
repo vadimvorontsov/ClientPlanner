@@ -49,6 +49,7 @@
 
     <string name="add_proc_title">Новая процедура</string>
     <string name="procedure">Процедура</string>
+    <string name="uslugi">Услуги</string>
     <string name="record">Запись</string>
     <string name="price">Цена</string>
     <string name="note">Примечание</string>

@@ -27,8 +27,8 @@ public class SMS extends Activity {
 
         SendReceipt sendReceipt = new SendReceipt();
         DeliveryReceipt deliveryReceipt = new DeliveryReceipt();
-        registerReceiver(sendReceipt, new IntentFilter(SENT));
-        registerReceiver(deliveryReceipt, new IntentFilter(DELIVERED));
+        ctx.registerReceiver(sendReceipt, new IntentFilter(SENT));
+        ctx.registerReceiver(deliveryReceipt, new IntentFilter(DELIVERED));
 
         PendingIntent sentPI = PendingIntent.getBroadcast(ctx, 0, new Intent(SENT), 0);
         PendingIntent deliveredPI = PendingIntent.getBroadcast(ctx, 0, new Intent(DELIVERED), 0);

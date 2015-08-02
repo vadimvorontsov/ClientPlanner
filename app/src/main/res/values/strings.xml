@@ -84,29 +84,9 @@
         <item>Viber</item>
     </string-array>
 
-    <string name="choose">"Выбрать"</string>
-    <string name="send">Отправить</string>
-    <string name="yes">Да</string>
-    <string name="no">Нет,спасибо</string>
-    <string name="not_install">Приложение не установлено</string>
-    <string name="wish_install">Желаете установить?</string>
-    <string name="choose_to_send">Выберите адресат отправки</string>
-    <string name="send_msg_title">Желаете оповестить клиента?</string>
+    <string name="end_btn">Завершить запись</string>
 
-    <string name="delivered">Доставлено</string>
-    <string name="undelivered">Не доставлено</string>
-    <string name="delivery_unknown">Статус доставки сообщения неизвестен</string>
-    <string name="sending">Отправлено</string>
-    <string name="send_error_unknown">Ошибка: тип ошибки неизвестен</string>
-    <string name="send_error_service">Ошибка: служба недоступна</string>
-    <string name="send_error_module">Ошибка: модуль не работает</string>
-    <string name="send_error_pdu">Ошибка: ошибка в формате PDU</string>
-    <string name="send_unknown">Статус отправки сообщения неизвестен</string>
-
-    <string name="no_phone">У данного контакта нет ни одного номера</string>
-    <string name="no_email">У данного контакта нет ни одного почтового адреса</string>
-
-    <string name="end_success">Запись успешно завершена и добавлена в календарь!</string>
+    <string name="send_msg_title">Запись успешно завершена и добавлена в календарь\nЖелаете оповестить клиента?</string>
     <string name="end_error">Ошибка завершения записи!</string>
 
 

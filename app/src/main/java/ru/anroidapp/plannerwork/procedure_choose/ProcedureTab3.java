@@ -259,9 +259,9 @@ public class ProcedureTab3 extends Fragment {
                     (R.drawable.btn_check_buttonless_on, 0, 0, 0);
             lastChoose = textView;
 
-            Toast.makeText(fa.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
-                            + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
-                    Toast.LENGTH_SHORT).show();
+//            Toast.makeText(fa.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
+//                            + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
+//                    Toast.LENGTH_SHORT).show();
         }
     };
 

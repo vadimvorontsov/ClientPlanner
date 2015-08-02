@@ -12,10 +12,12 @@ import com.example.smena.sendmessage.R;
 public class WhatsApp extends Activity {
 
     private Context ctx;
-    private boolean isWhatsappInstalled = whatsappInstalledOrNot("com.whatsapp");
+    private boolean isWhatsappInstalled;
+    private String packageName = "com.whatsapp";
 
     public WhatsApp(Context context) {
         this.ctx = context;
+        isWhatsappInstalled = whatsappInstalledOrNot(packageName);
     }
 
     public void sendMsg(String text, String phone) {
@@ -28,7 +30,7 @@ public class WhatsApp extends Activity {
             startActivity(sendIntent);
         } else {
             new MaterialDialog.Builder(ctx)
-                    .iconRes(000).limitIconToDefaultSize()
+                    .iconRes(R.drawable.whatsapp).limitIconToDefaultSize()
                     .title(R.string.not_install)
                     .content(R.string.wish_install)
                     .positiveText(R.string.yes)
@@ -36,9 +38,13 @@ public class WhatsApp extends Activity {
                     .callback(new MaterialDialog.ButtonCallback() {
                         @Override
                         public void onPositive(MaterialDialog dialog) {
-                            Uri uri = Uri.parse("market://details?id=com.whatsapp");
-                            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-                            startActivity(goToMarket);
+                            try {
+                                ctx.startActivity(new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("market://details?id=" + packageName)));
+                            } catch (android.content.ActivityNotFoundException anfe) {
+                                ctx.startActivity(new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+                            }
                         }
 
                         @Override
@@ -51,7 +57,7 @@ public class WhatsApp extends Activity {
     }
 
     private boolean whatsappInstalledOrNot(String uri) {
-        PackageManager pm = getPackageManager();
+        PackageManager pm = ctx.getPackageManager();
         boolean app_installed;
         try {
             pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);

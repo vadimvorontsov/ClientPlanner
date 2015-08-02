@@ -26,7 +26,7 @@ public class Email extends Activity {
             emailIntent.putExtra(Intent.EXTRA_TEXT, text);
             emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //???
 
-            this.startActivity(Intent.createChooser(emailIntent, "Отправка сообщения..."));
+            ctx.startActivity(emailIntent);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(ctx, "У Вас не установлен почтовый клиент", Toast.LENGTH_LONG).show();
         }

@@ -53,7 +53,7 @@ public class CompletionTab4 extends Fragment {
 
     Toast mToast;
     String mTextMsg;
-    ArrayList<String> mPhones;
+    ArrayList<String> mPhonesForCall;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +71,12 @@ public class CompletionTab4 extends Fragment {
         return relativeLayout;
     }
 
+    @Override
+    public void onDetach() {
+        mMetaData = null;
+        super.onDetach();
+    }
+
     View.OnClickListener oclBtnOK = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -85,9 +91,7 @@ public class CompletionTab4 extends Fragment {
                             " " + mMetaData.getHourEnd() + ":" + mMetaData.getMinuteEnd(),
                     mMetaData.getClientPhones().get(0), mMetaData.getClientEmails().get(0));
             if (sessinonId != -1) {
-                Toast.makeText(fa, resources.getString(R.string.end_success), Toast.LENGTH_SHORT).show();
                 sendMsgView().show();
-                mMetaData = null;
             } else {
                 Toast.makeText(fa, resources.getString(R.string.end_error), Toast.LENGTH_SHORT).show();
             }
@@ -96,7 +100,10 @@ public class CompletionTab4 extends Fragment {
 
     private AlertDialog.Builder sendMsgView() {
 
-        mPhones = mMetaData.getClientPhones();
+        mPhonesForCall = new ArrayList<>();
+        for (String phone : mMetaData.getClientPhones()) {
+            mPhonesForCall.add("+" + phone.replaceAll("\\D", ""));
+        }
 
         LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.send_message, null);
@@ -113,21 +120,21 @@ public class CompletionTab4 extends Fragment {
         btnSendViber.setOnClickListener(sendViberListener);
 
         mTextMsg = "Здравствуйте, " + mMetaData.getClientName() + "!" +
-                "Вы записаны на " + mMetaData.getProcedureName() + "." +
-                "Цена " + mMetaData.getProcedurePrice() + "." +
-                "Дата " + mMetaData.getDay() + " " + months[mMetaData.getMonth()] + "," +
+                "Вы записаны на " + mMetaData.getProcedureName() + " " +
+                mMetaData.getDay() + " " + months[mMetaData.getMonth()].toLowerCase() + "," +
                 "время " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart() + "." +
-                "И чтоб без опозданий сучка!!!!!!";
+                "Цена " + mMetaData.getProcedurePrice();
         editTextMsg.setText(mTextMsg);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(fa);
         builder.setView(view)
                 .setCancelable(false);
-        builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.end_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
                 startActivity(new Intent(fa, MainActivity.class));
+                fa.finish();
             }
         });
 
@@ -159,14 +166,14 @@ public class CompletionTab4 extends Fragment {
     View.OnClickListener sendViberListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mPhones.size() > 1) {
+            if (mPhonesForCall.size() > 1) {
                 Viber viber = new Viber(fa);
-                viber.sendMsg(mTextMsg, "+79254446525");
-            } else if (mPhones.size() == 0) {
+                viber.sendMsg(mTextMsg, mPhonesForCall.get(0));
+            } else if (mPhonesForCall.size() == 0) {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             } else {
                 Viber viber = new Viber(fa);
-                viber.sendMsg(mTextMsg, "+79254446525");
+                viber.sendMsg(mTextMsg, mPhonesForCall.get(0));
             }
         }
     };
@@ -174,14 +181,14 @@ public class CompletionTab4 extends Fragment {
     View.OnClickListener sendWhatsAppListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mPhones.size() > 1) {
+            if (mPhonesForCall.size() > 1) {
                 WhatsApp whatsApp = new WhatsApp(fa);
-                whatsApp.sendMsg(mTextMsg, "+79254446525");
-            } else if (mPhones.size() == 0) {
+                whatsApp.sendMsg(mTextMsg, mPhonesForCall.get(0));
+            } else if (mPhonesForCall.size() == 0) {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             } else {
                 WhatsApp whatsApp = new WhatsApp(fa);
-                whatsApp.sendMsg(mTextMsg, "+79254446525");
+                whatsApp.sendMsg(mTextMsg, mPhonesForCall.get(0));
             }
         }
     };
@@ -190,14 +197,16 @@ public class CompletionTab4 extends Fragment {
         @Override
         public void onClick(View v) {
             ArrayList<String> emails = mMetaData.getClientEmails();
-            if (emails.size() > 1) {
-                Email email = new Email(fa);
-                email.sendEmail("voronczov-vadim@mail.ru", mTextMsg);
-            } else if (emails.size() == 0) {
+            if (emails == null || emails.isEmpty()) {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_email));
             } else {
-                Email email = new Email(fa);
-                email.sendEmail("voronczov-vadim@mail.ru", mTextMsg);
+                if (emails.size() > 1) {
+                    Email email = new Email(fa);
+                    email.sendEmail("voronczov-vadim@mail.ru", mTextMsg);
+                } else {
+                    Email email = new Email(fa);
+                    email.sendEmail("voronczov-vadim@mail.ru", mTextMsg);
+                }
             }
         }
     };
@@ -205,14 +214,14 @@ public class CompletionTab4 extends Fragment {
     View.OnClickListener sendSmsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mPhones.size() > 1) {
+            if (mPhonesForCall.size() > 1) {
                 SMS sms = new SMS(fa);
-                sms.sendSMS("+79254446525", mTextMsg);
-            } else if (mPhones.size() == 0) {
+                sms.sendSMS(mPhonesForCall.get(0), mTextMsg);
+            } else if (mPhonesForCall.size() == 0) {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             } else {
                 SMS sms = new SMS(fa);
-                sms.sendSMS("+79254446525", mTextMsg);
+                sms.sendSMS(mPhonesForCall.get(0), mTextMsg);
             }
         }
     };
@@ -238,7 +247,6 @@ public class CompletionTab4 extends Fragment {
 
         return strTime;
     }
-
 
     private void showToast(String message) {
         if (mToast != null) {

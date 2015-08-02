@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.telephony.SmsManager;
 
-import java.util.List;
-
 /**
  * Created by smena on 12.06.2015.
  */
@@ -33,11 +31,11 @@ public class SMS extends Activity {
         PendingIntent sentPI = PendingIntent.getBroadcast(ctx, 0, new Intent(SENT), 0);
         PendingIntent deliveredPI = PendingIntent.getBroadcast(ctx, 0, new Intent(DELIVERED), 0);
 
-        List<String> messages = smsManager.divideMessage(text);
-
-        for (String message : messages) {
-            smsManager.sendTextMessage(number, null, message, sentPI, deliveredPI);
-        }
+//        List<String> messages = smsManager.divideMessage(text);
+//
+//        for (String message : messages) {
+        smsManager.sendTextMessage(number, null, text, sentPI, deliveredPI);
+//        }
     }
 
 }

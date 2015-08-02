@@ -168,12 +168,12 @@ public class CompletionTab4 extends Fragment {
         public void onClick(View v) {
             if (mPhonesForCall.size() > 1) {
                 Viber viber = new Viber(fa);
-                viber.sendMsg(mTextMsg, mPhonesForCall.get(0));
+                viber.sendMsg(mTextMsg, /*mPhonesForCall.get(0)*/"+79254446525");
             } else if (mPhonesForCall.size() == 0) {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             } else {
                 Viber viber = new Viber(fa);
-                viber.sendMsg(mTextMsg, mPhonesForCall.get(0));
+                viber.sendMsg(mTextMsg, /*mPhonesForCall.get(0)*/"+79254446525");
             }
         }
     };
@@ -183,12 +183,12 @@ public class CompletionTab4 extends Fragment {
         public void onClick(View v) {
             if (mPhonesForCall.size() > 1) {
                 WhatsApp whatsApp = new WhatsApp(fa);
-                whatsApp.sendMsg(mTextMsg, mPhonesForCall.get(0));
+                whatsApp.sendMsg(mTextMsg, /*mPhonesForCall.get(0)*/"+79254446525");
             } else if (mPhonesForCall.size() == 0) {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             } else {
                 WhatsApp whatsApp = new WhatsApp(fa);
-                whatsApp.sendMsg(mTextMsg, mPhonesForCall.get(0));
+                whatsApp.sendMsg(mTextMsg, /*mPhonesForCall.get(0)*/"+79254446525");
             }
         }
     };

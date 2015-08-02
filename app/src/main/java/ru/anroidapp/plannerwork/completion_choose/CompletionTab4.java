@@ -216,26 +216,15 @@ public class CompletionTab4 extends Fragment {
         public void onClick(View v) {
             if (mPhonesForCall.size() > 1) {
                 SMS sms = new SMS(fa);
-                sms.sendSMS(mPhonesForCall.get(0), mTextMsg);
+                sms.sendSMS(/*mPhonesForCall.get(0)*/"+79254446525", mTextMsg);
             } else if (mPhonesForCall.size() == 0) {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             } else {
                 SMS sms = new SMS(fa);
-                sms.sendSMS(mPhonesForCall.get(0), mTextMsg);
+                sms.sendSMS(/*mPhonesForCall.get(0)*/"+79254446525", mTextMsg);
             }
         }
     };
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        if(CURRNT_XML_FILE == 1) {
-//            getFragmentManager().beginTransaction()
-//                    .detach(this)
-//                    .attach(this)
-//                    .commit();
-//        }
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
 
     private String addedNullInt(int cellTime) {
         String strTime;

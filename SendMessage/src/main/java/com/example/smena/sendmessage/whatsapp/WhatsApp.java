@@ -27,7 +27,7 @@ public class WhatsApp extends Activity {
             sendIntent.putExtra(Intent.EXTRA_TEXT, text);
             sendIntent.setType("text/plain");
             sendIntent.setPackage("com.whatsapp");
-            startActivity(sendIntent);
+            ctx.startActivity(sendIntent);
         } else {
             new MaterialDialog.Builder(ctx)
                     .iconRes(R.drawable.whatsapp).limitIconToDefaultSize()

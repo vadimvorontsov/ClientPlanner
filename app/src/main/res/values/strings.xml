@@ -86,7 +86,8 @@
 
     <string name="end_btn">Завершить запись</string>
 
-    <string name="send_msg_title">Запись успешно завершена и добавлена в календарь\nЖелаете оповестить клиента?</string>
+    <string name="send_msg_title">Запись успешно завершена и добавлена в календарь</string>
+    <string name="send_msg_question">Желаете оповестить клиента?</string>
     <string name="end_error">Ошибка завершения записи!</string>
 
 

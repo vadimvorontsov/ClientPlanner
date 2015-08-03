@@ -22,8 +22,8 @@ public class Viber extends Activity {
 
     public void sendMsg(String text, String phone) {
         if (isViberInstalled) {
-            Uri uri = Uri.parse("smsto:" + phone);
-            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
+            //Uri uri = Uri.parse("smsto:" + phone);
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT, text);
             sendIntent.setType("text/plain");
             sendIntent.setPackage("com.viber.voip");

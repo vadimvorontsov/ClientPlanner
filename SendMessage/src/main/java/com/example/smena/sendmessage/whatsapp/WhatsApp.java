@@ -22,11 +22,11 @@ public class WhatsApp extends Activity {
 
     public void sendMsg(String text, String phone) {
         if (isWhatsappInstalled) {
-            Uri uri = Uri.parse("smsto:" + phone);
-            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, uri);
+            //Uri uri = Uri.parse("smsto:" + phone);
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT, text);
             sendIntent.setType("text/plain");
-            sendIntent.setPackage("com.whatsapp");
+            sendIntent.setPackage(packageName);
             ctx.startActivity(sendIntent);
         } else {
             new MaterialDialog.Builder(ctx)

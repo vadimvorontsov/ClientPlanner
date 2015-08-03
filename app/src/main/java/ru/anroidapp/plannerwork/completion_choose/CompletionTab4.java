@@ -12,9 +12,13 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +58,8 @@ public class CompletionTab4 extends Fragment {
     Toast mToast;
     String mTextMsg;
     ArrayList<String> mPhonesForCall;
+    ArrayList<String> mPhones;
+    ArrayList<String> mEmails;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,7 +69,7 @@ public class CompletionTab4 extends Fragment {
         mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
 
         months = getResources().getStringArray(R.array.months);
-        setupViews(relativeLayout);
+        setupViewTab(relativeLayout);
 
         btnClickOK.setOnClickListener(oclBtnOK);
 
@@ -100,13 +106,32 @@ public class CompletionTab4 extends Fragment {
 
     private AlertDialog.Builder sendMsgView() {
 
-        mPhonesForCall = new ArrayList<>();
-        for (String phone : mMetaData.getClientPhones()) {
-            mPhonesForCall.add("+" + phone.replaceAll("\\D", ""));
-        }
+        mPhones = mMetaData.getClientPhones();
+        mEmails = mMetaData.getClientEmails();
+
+//        mPhonesForCall = new ArrayList<>();
+//        for (String phone : mPhones) {
+//            mPhonesForCall.add("+" + phone.replaceAll("\\D", ""));
+//        }
 
         LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.send_message, null);
+
+        LinearLayout choosePhoneEmail = (LinearLayout) view.findViewById(R.id.choose_phone_email_layout);
+        LinearLayout choosePhone = (LinearLayout) choosePhoneEmail.findViewById(R.id.choose_phone_layout);
+        LinearLayout chooseEmail = (LinearLayout) choosePhoneEmail.findViewById(R.id.choose_email_layout);
+
+        if (mPhones.size() > 1) {
+            choosePhone.addView(setupPhonesSpinner());
+        } else {
+            choosePhone.addView(setupPhoneTextView());
+        }
+
+        if (mEmails.size() > 1) {
+            chooseEmail.addView(setupEmailsSpinner());
+        } else {
+            chooseEmail.addView(setupEmailTextView());
+        }
 
         final EditText editTextMsg = (EditText) view.findViewById(R.id.send_msg_edit_text);
         final Button btnSendSms = (Button) view.findViewById(R.id.send_sms_btn);
@@ -142,7 +167,81 @@ public class CompletionTab4 extends Fragment {
 
     }
 
-    private void setupViews(RelativeLayout relativeLayout) {
+    private Spinner setupPhonesSpinner() {
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(fa,
+                R.layout.my_spinner, mPhones);
+        adapter.setDropDownViewResource(R.layout.my_spinner_dropdown_item);
+        Spinner spinner = new Spinner(fa);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+
+        return spinner;
+    }
+
+    private Spinner setupEmailsSpinner() {
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(fa,
+                R.layout.my_spinner, mEmails);
+        adapter.setDropDownViewResource(R.layout.my_spinner_dropdown_item);
+        Spinner spinner = new Spinner(fa);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,
+                                       int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+            }
+        });
+
+        return spinner;
+    }
+
+    private TextView setupPhoneTextView() {
+
+        TextView phoneTextView = new TextView(fa);
+        if (mPhones == null || mPhones.isEmpty()) {
+            phoneTextView.setText("неизвестно");
+        } else {
+            phoneTextView.setText(mPhones.get(0));
+        }
+        phoneTextView.setTextColor(getResources().getColor(R.color.ColorPrimary));
+
+        phoneTextView.setTextSize(16);
+
+        return phoneTextView;
+    }
+
+    private TextView setupEmailTextView() {
+
+        TextView emailTextView = new TextView(fa);
+        if (mPhones == null || mEmails.isEmpty()) {
+            emailTextView.setText("неизвестно");
+        } else {
+            emailTextView.setText(mEmails.get(0));
+        }
+        emailTextView.setTextColor(getResources().getColor(R.color.ColorPrimary));
+        emailTextView.setTextSize(16);
+
+
+        return emailTextView;
+    }
+
+    private void setupViewTab(RelativeLayout relativeLayout) {
         clientNameTextView = (TextView) relativeLayout.findViewById(R.id.client_name_textview);
         clientNameTextView.setText(mMetaData.getClientName());
         dateTextView = (TextView) relativeLayout.findViewById(R.id.date_textview);

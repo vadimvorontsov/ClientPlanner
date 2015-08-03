@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.Toast;
 
 /**
@@ -20,13 +21,14 @@ public class Email extends Activity {
 
     public void sendEmail(String address, String text) {
         try {
+            emailIntent.setData(Uri.parse("mailto:"));
             emailIntent.setType("plain/text");
             emailIntent.putExtra(Intent.EXTRA_EMAIL, address); //кому
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Запись на процедуры"); //тема
             emailIntent.putExtra(Intent.EXTRA_TEXT, text);
-            emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //???
-
-            ctx.startActivity(emailIntent);
+            //emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //???
+            ctx.startActivity(Intent.createChooser(emailIntent,
+                    "Отправка письма..."));
         } catch (ActivityNotFoundException e) {
             Toast.makeText(ctx, "У Вас не установлен почтовый клиент", Toast.LENGTH_LONG).show();
         }

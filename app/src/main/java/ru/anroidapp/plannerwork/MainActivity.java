@@ -3,11 +3,17 @@ package ru.anroidapp.plannerwork;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
@@ -16,6 +22,12 @@ import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 
+import ru.anroidapp.plannerwork.ScreenSlide.ScreenSlidePageFragment1;
+import ru.anroidapp.plannerwork.ScreenSlide.ScreenSlidePageFragment2;
+import ru.anroidapp.plannerwork.ScreenSlide.ScreenSlidePageFragment3;
+import ru.anroidapp.plannerwork.ScreenSlide.ScreenSlidePageFragment4;
+import ru.anroidapp.plannerwork.ScreenSlide.ScreenSlidePageFragment5;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     Context cntxt;
+    TextView textView;
+    private static final int NUM_PAGES = 5;
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +52,20 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
         initializeNavigationDrawer(toolbar);
 
+        mPager = (ViewPager) findViewById(R.id.pagerMain);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+
+
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(mPager.getCurrentItem() == 0){
+            super.onBackPressed();
+        }else {
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+        }
     }
 
     private void initializeNavigationDrawer(Toolbar toolbar) {
@@ -86,7 +116,41 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onBtn1Click(View view) {
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm2) {
+            super(fm2);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                return new ScreenSlidePageFragment1();
+            }
+            if (position == 1) {
+                return new ScreenSlidePageFragment2();
+            }
+            if (position == 2) {
+                return new ScreenSlidePageFragment3();
+            }
+            if (position == 3) {
+                return new ScreenSlidePageFragment4();
+            }
+            if (position == 4) {
+                return new ScreenSlidePageFragment5();
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
+    }
+
+
+
+
+        public void onBtn1Click(View view) {
         Intent intent = new Intent(this, RecordActivity.class);
         startActivity(intent);
     }
@@ -120,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
 
 }

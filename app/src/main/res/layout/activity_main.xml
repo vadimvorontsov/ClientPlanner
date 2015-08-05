@@ -50,7 +50,7 @@
                 android:layout_height="80dp"
                 android:src="@mipmap/ic_record"
                 app:border="true"
-                app:border_color="#00BCD4"
+                app:border_color="@color/record_second"
                 app:shadow="true"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -93,7 +93,7 @@
                 android:layout_height="80dp"
                 android:src="@mipmap/ic_calendar"
                 app:border="true"
-                app:border_color="#FF9800"
+                app:border_color="@color/calendar_second"
                 app:shadow="true"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,7 +136,7 @@
             android:layout_height="80dp"
             android:src="@mipmap/ic_procedure"
             app:border="true"
-            app:border_color="#E040FB"
+            app:border_color="@color/procedure_second"
             app:shadow="true"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -167,90 +167,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:background="@color/white"
-            android:orientation="horizontal">
+            android:background="#d7ccc8">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/white"
-                    android:layout_weight="5"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/white"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="50dp"
-                        android:orientation="horizontal">
-                        <ru.anroidapp.plannerwork.CircularImageView
-                            android:paddingLeft="8dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/arni1"
-                            app:border="true"
-                            app:border_color="#1976d2"
-                            app:shadow="true"/>
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:background="@color/white"
-                            android:layout_gravity="center"
-                            android:orientation="vertical"
-                            android:weightSum="1">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="#1976d2"
-                    android:textSize="18sp"
-                    android:text="Иван Велосипедов"
-                    android:fontFamily="sans-serif-light"
-                    android:layout_centerHorizontal="true" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:gravity="center"
-                                android:textStyle="bold"
-                                android:textColor="#1976d2"
-                                android:textSize="18sp"
-                                android:text="8 августа"
-                                android:fontFamily="sans-serif-light"
-                                android:layout_centerHorizontal="true" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:gravity="center"
-                                android:textStyle="bold"
-                                android:textColor="#1976d2"
-                                android:textSize="18sp"
-                                android:text="15:30 - 17:30"
-                                android:fontFamily="sans-serif-light"
-                                android:layout_centerHorizontal="true" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:gravity="center"
-                                android:textStyle="bold"
-                                android:textColor="#1976d2"
-                                android:textSize="18sp"
-                                android:text="Оповещен"
-                                android:fontFamily="sans-serif-light"
-                                android:layout_centerHorizontal="true" />
-                    </LinearLayout>
-            </LinearLayout>
-            </LinearLayout>
-            </LinearLayout>
+            <android.support.v4.view.ViewPager
+                android:layout_gravity="center"
+                android:background="#d7ccc8"
+                android:id="@+id/pagerMain"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"/>
+
+        </LinearLayout>
 
    </LinearLayout>
 

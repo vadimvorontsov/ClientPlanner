@@ -5,8 +5,8 @@
         <!-- selected -->
         <shape>
             <gradient
-                android:startColor="#E040FB"
-                android:endColor="#E040FB"
+                android:startColor="@color/procedure_second"
+                android:endColor="@color/procedure_second"
                 android:angle="270" />
             <padding
                 android:left="5dp"
@@ -20,8 +20,8 @@
     <item android:state_pressed="true">
         <shape>
             <gradient
-                android:startColor="#E040FB"
-                android:endColor="#E040FB"
+                android:startColor="@color/procedure_second"
+                android:endColor="@color/procedure_second"
                 android:angle="270" />
             <padding
                 android:left="5dp"
@@ -35,8 +35,8 @@
     <item>
         <shape>
             <gradient
-                android:startColor="#9C27B0"
-                android:endColor="#9C27B0"
+                android:startColor="@color/procedure_first"
+                android:endColor="@color/procedure_first"
                 android:angle="270" />
             <padding
                 android:left="5dp"

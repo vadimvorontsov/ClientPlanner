@@ -25,6 +25,10 @@
     <color name="calendar_second">#aed581</color>
     <color name="procedure_first">#f48fb1</color>
     <color name="procedure_second">#f06292</color>
+    <color name="viewPagerPrimary">#d7ccc8</color>
+    <color name="viewPagerText">#795548</color>
+    <color name="viewPagerTextDark">#6d4c41</color>
+
 
     <!-- Material DEFAULT colors -->
     <color name="material_drawer_primary">#2196F3</color>

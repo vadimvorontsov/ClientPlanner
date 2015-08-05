@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#d7ccc8">
+            android:background="@color/viewPagerPrimary">
 
             <ru.anroidapp.plannerwork.CircularImageView
                 android:id="@+id/cntctImg3"
@@ -23,7 +23,7 @@
                 android:layout_height="90dp"
                 android:src="@drawable/arni1"
                 app:border="true"
-                app:border_color="#795548"
+                app:border_color="@color/viewPagerTextDark"
                 app:shadow="true"/>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,14 +37,14 @@
                     android:layout_marginLeft="30dp"
                     android:textStyle="bold"
                     android:textSize="18sp"
-                    android:textColor="#6d4c41"
+                    android:textColor="@color/viewPagerTextDark"
                     android:text="Иван Велосипедов"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:layout_marginLeft="30dp"
-                    android:textColor="#795548"
+                    android:textColor="@color/viewPagerText"
                     android:textStyle="bold"
                     android:text="8 августа"/>
                 <TextView
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:layout_marginLeft="30dp"
-                    android:textColor="#795548"
+                    android:textColor="@color/viewPagerText"
                     android:textStyle="bold"
                     android:text="15:30 - 17:30"/>
                 <TextView
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:layout_marginLeft="30dp"
-                    android:textColor="#795548"
+                    android:textColor="@color/viewPagerText"
                     android:textStyle="bold"
                     android:text="Оповещен"/>
 

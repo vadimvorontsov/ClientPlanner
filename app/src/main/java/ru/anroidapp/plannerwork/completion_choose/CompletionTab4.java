@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -60,17 +62,18 @@ public class CompletionTab4 extends Fragment {
     ArrayList<String> mPhonesForCall;
     ArrayList<String> mPhones;
     ArrayList<String> mEmails;
+    RelativeLayout relativeLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.completion_tab4, container, false);
+        relativeLayout = (RelativeLayout) inflater.inflate(R.layout.completion_tab4, container, false);
         fa = super.getActivity();
         mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
 
         months = getResources().getStringArray(R.array.months);
-        setupViewTab(relativeLayout);
 
+        btnClickOK = (Button) relativeLayout.findViewById(R.id.BtnCompletionOK);
         btnClickOK.setOnClickListener(oclBtnOK);
 
         setHasOptionsMenu(true);
@@ -167,6 +170,13 @@ public class CompletionTab4 extends Fragment {
 
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        setupViewTab(relativeLayout);
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
     private Spinner setupPhonesSpinner() {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(fa,
@@ -259,7 +269,7 @@ public class CompletionTab4 extends Fragment {
         procedureNoteTextView = (TextView) relativeLayout.findViewById(R.id.procedure_note_textview);
         procedureNoteTextView.setText(mMetaData.getProcedureNote());
 
-        btnClickOK = (Button) relativeLayout.findViewById(R.id.BtnCompletionOK);
+
     }
 
     View.OnClickListener sendViberListener = new View.OnClickListener() {

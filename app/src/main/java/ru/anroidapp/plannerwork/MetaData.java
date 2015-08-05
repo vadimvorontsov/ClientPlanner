@@ -21,6 +21,16 @@ public class MetaData implements Serializable {
     private String mProcedureName, mProcedureNote;
     private int mProcedurePrice;
 
+    public int getCurrentFragment() {
+        return currentFragment;
+    }
+
+    public void setCurrentFragment(int currentFragment) {
+        this.currentFragment = currentFragment;
+    }
+
+    private int currentFragment = 0;
+
     public MetaData(Context context) {
 
         Resources resources = context.getResources();

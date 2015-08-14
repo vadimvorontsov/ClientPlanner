@@ -14,10 +14,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -61,8 +62,14 @@ public class CompletionTab4 extends Fragment {
     String mTextMsg;
     ArrayList<String> mPhonesForCall;
     ArrayList<String> mPhones;
+    String phone;
     ArrayList<String> mEmails;
+    String email;
     RelativeLayout relativeLayout;
+
+    Animation fadeIn, fadeOut;
+    LinearLayout mDataLayout;
+    boolean mAlpha = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -112,11 +119,6 @@ public class CompletionTab4 extends Fragment {
         mPhones = mMetaData.getClientPhones();
         mEmails = mMetaData.getClientEmails();
 
-//        mPhonesForCall = new ArrayList<>();
-//        for (String phone : mPhones) {
-//            mPhonesForCall.add("+" + phone.replaceAll("\\D", ""));
-//        }
-
         LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.send_message, null);
 
@@ -136,7 +138,7 @@ public class CompletionTab4 extends Fragment {
             chooseEmail.addView(setupEmailTextView());
         }
 
-        final EditText editTextMsg = (EditText) view.findViewById(R.id.send_msg_edit_text);
+        //final EditText editTextMsg = (EditText) view.findViewById(R.id.send_msg_edit_text);
         final Button btnSendSms = (Button) view.findViewById(R.id.send_sms_btn);
         final Button btnSendEmail = (Button) view.findViewById(R.id.send_email_btn);
         final Button btnSendWhatsApp = (Button) view.findViewById(R.id.send_whatsapp_btn);
@@ -152,7 +154,7 @@ public class CompletionTab4 extends Fragment {
                 mMetaData.getDay() + " " + months[mMetaData.getMonth()].toLowerCase() + "," +
                 "время " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart() + "." +
                 "Цена " + mMetaData.getProcedurePrice();
-        editTextMsg.setText(mTextMsg);
+        //editTextMsg.setText(mTextMsg);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(fa);
         builder.setView(view)
@@ -172,7 +174,7 @@ public class CompletionTab4 extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        setupViewTab(relativeLayout);
+        setupData(relativeLayout);
         super.onCreateOptionsMenu(menu, inflater);
 
     }
@@ -188,11 +190,12 @@ public class CompletionTab4 extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-
+                phone = reformatPhone(mPhones.get(position));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
+                phone = reformatPhone(mPhones.get(0));
             }
         });
 
@@ -210,11 +213,12 @@ public class CompletionTab4 extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-
+                email = mEmails.get(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
+                email = mEmails.get(0);
             }
         });
 
@@ -226,11 +230,12 @@ public class CompletionTab4 extends Fragment {
         TextView phoneTextView = new TextView(fa);
         if (mPhones == null || mPhones.isEmpty()) {
             phoneTextView.setText("неизвестно");
+            phone = null;
         } else {
-            phoneTextView.setText(mPhones.get(0));
+            phone = mPhones.get(0);
+            phoneTextView.setText(phone);
         }
         phoneTextView.setTextColor(getResources().getColor(R.color.ColorPrimary));
-
         phoneTextView.setTextSize(16);
 
         return phoneTextView;
@@ -241,17 +246,18 @@ public class CompletionTab4 extends Fragment {
         TextView emailTextView = new TextView(fa);
         if (mPhones == null || mEmails.isEmpty()) {
             emailTextView.setText("неизвестно");
+            email = null;
         } else {
-            emailTextView.setText(mEmails.get(0));
+            email = mEmails.get(0);
+            emailTextView.setText(email);
         }
         emailTextView.setTextColor(getResources().getColor(R.color.ColorPrimary));
         emailTextView.setTextSize(16);
 
-
         return emailTextView;
     }
 
-    private void setupViewTab(RelativeLayout relativeLayout) {
+    private void setupData(RelativeLayout relativeLayout) {
         clientNameTextView = (TextView) relativeLayout.findViewById(R.id.client_name_textview);
         clientNameTextView.setText(mMetaData.getClientName());
         dateTextView = (TextView) relativeLayout.findViewById(R.id.date_textview);
@@ -269,20 +275,75 @@ public class CompletionTab4 extends Fragment {
         procedureNoteTextView = (TextView) relativeLayout.findViewById(R.id.procedure_note_textview);
         procedureNoteTextView.setText(mMetaData.getProcedureNote());
 
+        mDataLayout = (LinearLayout) relativeLayout.findViewById(R.id.data_layout);
+        LinearLayout viewMessageBtn = (LinearLayout) relativeLayout.findViewById(R.id.view_message_layout);
+        viewMessageBtn.setOnClickListener(viewMsgBtnListener);
+
+        fadeIn = AnimationUtils.loadAnimation(fa, R.anim.fade_in);
+        fadeOut = AnimationUtils.loadAnimation(fa, R.anim.fade_out);
+        fadeIn.setAnimationListener(fadeInAnimationListener);
+        fadeOut.setAnimationListener(fadeOutAnimationListener);
+    }
+
+    private void setupDataLayout() {
 
     }
+
+    View.OnClickListener viewMsgBtnListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            if (!mAlpha) {
+                mDataLayout.startAnimation(fadeIn);
+                mAlpha = true;
+            } else {
+                mDataLayout.startAnimation(fadeOut);
+                mAlpha = false;
+            }
+
+        }
+    };
+
+    Animation.AnimationListener fadeInAnimationListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation animation) {
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            mDataLayout.setAlpha(0.0f);
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    };
+
+    Animation.AnimationListener fadeOutAnimationListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation animation) {
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            mDataLayout.setAlpha(1.0f);
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    };
 
     View.OnClickListener sendViberListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mPhonesForCall.size() > 1) {
+            if (phone != null || !phone.isEmpty()) {
                 Viber viber = new Viber(fa);
-                viber.sendMsg(mTextMsg, /*mPhonesForCall.get(0)*/"+79254446525");
-            } else if (mPhonesForCall.size() == 0) {
-                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
+                viber.sendMsg(mTextMsg, mPhonesForCall.get(0));
             } else {
-                Viber viber = new Viber(fa);
-                viber.sendMsg(mTextMsg, /*mPhonesForCall.get(0)*/"+79254446525");
+                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             }
         }
     };
@@ -290,14 +351,11 @@ public class CompletionTab4 extends Fragment {
     View.OnClickListener sendWhatsAppListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mPhonesForCall.size() > 1) {
+            if (phone != null || !phone.isEmpty()) {
                 WhatsApp whatsApp = new WhatsApp(fa);
-                whatsApp.sendMsg(mTextMsg, /*mPhonesForCall.get(0)*/"+79254446525");
-            } else if (mPhonesForCall.size() == 0) {
-                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
+                whatsApp.sendMsg(mTextMsg, mPhonesForCall.get(0));
             } else {
-                WhatsApp whatsApp = new WhatsApp(fa);
-                whatsApp.sendMsg(mTextMsg, /*mPhonesForCall.get(0)*/"+79254446525");
+                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             }
         }
     };
@@ -306,16 +364,11 @@ public class CompletionTab4 extends Fragment {
         @Override
         public void onClick(View v) {
             ArrayList<String> emails = mMetaData.getClientEmails();
-            if (emails == null || emails.isEmpty()) {
-                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_email));
+            if (email != null || !email.isEmpty()) {
+                Email email = new Email(fa);
+                email.sendEmail("voronczov-vadim@mail.ru", mTextMsg);
             } else {
-                if (emails.size() > 1) {
-                    Email email = new Email(fa);
-                    email.sendEmail("voronczov-vadim@mail.ru", mTextMsg);
-                } else {
-                    Email email = new Email(fa);
-                    email.sendEmail("voronczov-vadim@mail.ru", mTextMsg);
-                }
+                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_email));
             }
         }
     };
@@ -323,14 +376,11 @@ public class CompletionTab4 extends Fragment {
     View.OnClickListener sendSmsListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (mPhonesForCall.size() > 1) {
+            if (phone != null || !phone.isEmpty()) {
                 SMS sms = new SMS(fa);
-                sms.sendSMS(/*mPhonesForCall.get(0)*/"+79254446525", mTextMsg);
+                sms.sendSMS(mPhonesForCall.get(0), mTextMsg);
             } else if (mPhonesForCall.size() == 0) {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
-            } else {
-                SMS sms = new SMS(fa);
-                sms.sendSMS(/*mPhonesForCall.get(0)*/"+79254446525", mTextMsg);
             }
         }
     };
@@ -344,6 +394,15 @@ public class CompletionTab4 extends Fragment {
             strTime = "" + cellTime;
 
         return strTime;
+    }
+
+    private String reformatPhone(String phone) {
+        if (phone.startsWith("+7")) {
+            phone = "+" + phone.replaceAll("\\D", "");
+        } else if (phone.startsWith("8")) {
+            phone = "+7" + phone.substring(0, 1).replaceAll("\\D", "");
+        }
+        return phone;
     }
 
     private void showToast(String message) {

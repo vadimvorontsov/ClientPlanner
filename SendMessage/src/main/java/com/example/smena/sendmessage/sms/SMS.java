@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.telephony.SmsManager;
 
+import java.util.ArrayList;
+
 /**
  * Created by smena on 12.06.2015.
  */
@@ -28,13 +30,15 @@ public class SMS extends Activity {
         ctx.registerReceiver(sendReceipt, new IntentFilter(SENT));
         ctx.registerReceiver(deliveryReceipt, new IntentFilter(DELIVERED));
 
-        PendingIntent sentPI = PendingIntent.getBroadcast(ctx, 0, new Intent(SENT), 0);
-        PendingIntent deliveredPI = PendingIntent.getBroadcast(ctx, 0, new Intent(DELIVERED), 0);
+        ArrayList<PendingIntent> sentPI = new ArrayList<>(1);
+        sentPI.add(PendingIntent.getBroadcast(ctx, 0, new Intent(SENT), 0));
+        ArrayList<PendingIntent> deliveredPI = new ArrayList<>(1);
+        deliveredPI.add(PendingIntent.getBroadcast(ctx, 0, new Intent(DELIVERED), 0));
 
-//        List<String> messages = smsManager.divideMessage(text);
+        ArrayList<String> messages = smsManager.divideMessage(text);
 //
 //        for (String message : messages) {
-        smsManager.sendTextMessage(number, null, text, sentPI, deliveredPI);
+        smsManager.sendMultipartTextMessage(number, null, messages, sentPI, deliveredPI);
 //        }
     }
 

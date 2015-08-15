@@ -137,7 +137,83 @@ public class Sessions {
 
         try {
             cursor = db_read.query(helper.TABLE_SESSIONS, new String[]{helper._ID},
-                    helper.TIME_START + " BETWEEN '" + timeStart + "' AND '" + timeEnd + "'",
+                    helper.TIME_END + " BETWEEN '" + timeStart + "' AND '" + timeEnd + "'",
+                    null, null, null, null);
+            while (cursor.moveToNext()) {
+                sessionsID.add(cursor.getInt(cursor.getColumnIndex(helper._ID)));
+            }
+
+            return sessionsID;
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return null;
+
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+            if (db_read != null && db_read.isOpen()) {
+                db_read.close();
+            }
+            if (helper != null) {
+                helper.close();
+            }
+        }
+    }
+
+    public ArrayList<Integer> getSessionByTimeEnd(String timeEnd) {
+
+        if (timeEnd.isEmpty()) {
+            timeEnd = " datetime('now') ";
+        }
+
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        SQLiteDatabase db_read = helper.getReadableDatabase();
+        Cursor cursor = null;
+        ArrayList<Integer> sessionsID = new ArrayList<>();
+
+        try {
+            cursor = db_read.query(helper.TABLE_SESSIONS, new String[]{helper._ID},
+                    helper.TIME_END + " = '" + timeEnd + "'",
+                    null, null, null, null);
+            while (cursor.moveToNext()) {
+                sessionsID.add(cursor.getInt(cursor.getColumnIndex(helper._ID)));
+            }
+
+            return sessionsID;
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return null;
+
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+            if (db_read != null && db_read.isOpen()) {
+                db_read.close();
+            }
+            if (helper != null) {
+                helper.close();
+            }
+        }
+    }
+
+    public ArrayList<Integer> getSessionByTimeStart(String timeStart) {
+
+        if (timeStart.isEmpty()) {
+            timeStart = " datetime('now') ";
+        }
+
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        SQLiteDatabase db_read = helper.getReadableDatabase();
+        Cursor cursor = null;
+        ArrayList<Integer> sessionsID = new ArrayList<>();
+
+        try {
+            cursor = db_read.query(helper.TABLE_SESSIONS, new String[]{helper._ID},
+                    helper.TIME_START + " BETWEEN '" + timeStart,
                     null, null, null, null);
             while (cursor.moveToNext()) {
                 sessionsID.add(cursor.getInt(cursor.getColumnIndex(helper._ID)));

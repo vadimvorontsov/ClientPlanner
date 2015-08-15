@@ -33,223 +33,6 @@
             android:background="@drawable/grey_bckgrnd"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="left"
-                    android:text="Имя:"
-                    android:textColor="@color/ColorPrimary"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/client_name_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="left"
-                    android:textColor="@color/ColorPrimary"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="left"
-                    android:text="Дата:"
-                    android:textColor="@color/ColorPrimary"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/date_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="left"
-                    android:textColor="@color/ColorPrimary"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="left"
-                    android:text="Время:"
-                    android:textColor="@color/ColorPrimary"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/time_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="left"
-                    android:textColor="@color/ColorPrimary"
-                    android:textSize="18sp"/>
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:gravity="left"
-                    android:text="Процедура:"
-                    android:textColor="@color/ColorPrimary"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/procedure_name_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="left"
-                    android:textColor="@color/ColorPrimary"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="left"
-                    android:text="Сумма:"
-                    android:textColor="@color/ColorPrimary"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/procedure_price_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="left"
-                    android:textColor="@color/ColorPrimary"
-                    android:textSize="18sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="left"
-                    android:text="Примечания:"
-                    android:textColor="@color/ColorPrimary"
-                    android:textSize="20sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:id="@+id/procedure_note_textview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:fontFamily="sans-serif-light"
-                    android:gravity="left"
-                    android:textColor="@color/ColorPrimary"
-                    android:textSize="18sp"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/view_message_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="@drawable/drkgrey_bckgrnd"
-                android:onClick="BtnCancel1Click"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_back"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:paddingLeft="4dp"
-                    android:text="  СООБЩЕНИЕ  "
-                    android:textColor="@android:color/white"
-                    android:textSize="10sp"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -257,7 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button
@@ -271,6 +53,39 @@
                 android:textSize="8pt"/>
         </LinearLayout>
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/view_message_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:background="@drawable/drkgrey_bckgrnd"
+        android:onClick="BtnCancel1Click"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentBottom="true"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignParentRight="true"
+        android:textAlignment="center">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="4dp"
+            android:text="  СООБЩЕНИЕ  "
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

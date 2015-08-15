@@ -15,10 +15,10 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -66,6 +66,9 @@ public class CompletionTab4 extends Fragment {
     ArrayList<String> mEmails;
     String email;
     RelativeLayout relativeLayout;
+    private View mData;
+    private EditText editMsg;
+    LayoutInflater mInflater;
 
     Animation fadeIn, fadeOut;
     LinearLayout mDataLayout;
@@ -74,11 +77,25 @@ public class CompletionTab4 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        mInflater = inflater;
+
         relativeLayout = (RelativeLayout) inflater.inflate(R.layout.completion_tab4, container, false);
+
+        mDataLayout = (LinearLayout) relativeLayout.findViewById(R.id.data_layout);
+        mData = inflater.inflate(R.layout.layout_tab4, null);
+        mDataLayout.addView(mData);
+
         fa = super.getActivity();
         mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
 
         months = getResources().getStringArray(R.array.months);
+
+        editMsg = (EditText) mInflater.inflate(R.layout.edit_msg_tab4, null);
+
+//        fadeIn = AnimationUtils.loadAnimation(fa, R.anim.fade_in);
+//        fadeOut = AnimationUtils.loadAnimation(fa, R.anim.fade_out);
+//        fadeIn.setAnimationListener(fadeInAnimationListener);
+//        fadeOut.setAnimationListener(fadeOutAnimationListener);
 
         btnClickOK = (Button) relativeLayout.findViewById(R.id.BtnCompletionOK);
         btnClickOK.setOnClickListener(oclBtnOK);
@@ -149,11 +166,7 @@ public class CompletionTab4 extends Fragment {
         btnSendWhatsApp.setOnClickListener(sendWhatsAppListener);
         btnSendViber.setOnClickListener(sendViberListener);
 
-        mTextMsg = "Здравствуйте, " + mMetaData.getClientName() + "!" +
-                "Вы записаны на " + mMetaData.getProcedureName() + " " +
-                mMetaData.getDay() + " " + months[mMetaData.getMonth()].toLowerCase() + "," +
-                "время " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart() + "." +
-                "Цена " + mMetaData.getProcedurePrice();
+
         //editTextMsg.setText(mTextMsg);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(fa);
@@ -279,25 +292,39 @@ public class CompletionTab4 extends Fragment {
         LinearLayout viewMessageBtn = (LinearLayout) relativeLayout.findViewById(R.id.view_message_layout);
         viewMessageBtn.setOnClickListener(viewMsgBtnListener);
 
-        fadeIn = AnimationUtils.loadAnimation(fa, R.anim.fade_in);
-        fadeOut = AnimationUtils.loadAnimation(fa, R.anim.fade_out);
-        fadeIn.setAnimationListener(fadeInAnimationListener);
-        fadeOut.setAnimationListener(fadeOutAnimationListener);
     }
 
     private void setupDataLayout() {
-
+        mDataLayout.removeAllViews();
+        mDataLayout.addView(mData);
+        setupData(relativeLayout);
     }
+
+    private void setupViewMsgLayout() {
+        mDataLayout.removeAllViews();
+
+        mTextMsg = "Здравствуйте, " + mMetaData.getClientName() + "!" +
+                "Вы записаны на " + mMetaData.getProcedureName() + " " +
+                mMetaData.getDay() + " " + months[mMetaData.getMonth()].toLowerCase() + "," +
+                "время " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart() + "." +
+                "Цена " + mMetaData.getProcedurePrice();
+        editMsg.setText(mTextMsg);
+        mDataLayout.addView(editMsg);
+    }
+
 
     View.OnClickListener viewMsgBtnListener = new View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
+
             if (!mAlpha) {
-                mDataLayout.startAnimation(fadeIn);
+                //mData.startAnimation(fadeIn);
+                setupViewMsgLayout();
                 mAlpha = true;
             } else {
-                mDataLayout.startAnimation(fadeOut);
+                //editMsg.startAnimation(fadeOut);
+                setupDataLayout();
                 mAlpha = false;
             }
 
@@ -311,7 +338,7 @@ public class CompletionTab4 extends Fragment {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            mDataLayout.setAlpha(0.0f);
+
         }
 
         @Override
@@ -327,7 +354,7 @@ public class CompletionTab4 extends Fragment {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            mDataLayout.setAlpha(1.0f);
+
         }
 
         @Override

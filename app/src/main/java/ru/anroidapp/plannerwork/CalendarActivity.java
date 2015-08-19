@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
@@ -37,11 +38,14 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
     private static final int TYPE_WEEK_VIEW = 3;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private WeekView mWeekView;
+    MetaData mMetaData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendare);
+
+        //mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
 
         toolbar = (Toolbar) findViewById(R.id.tool_cal);
         setSupportActionBar(toolbar);
@@ -227,7 +231,29 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(CalendarActivity.this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+
+        Sessions sessions = new Sessions(CalendarActivity.this);
+        Object[] sessionInfo = sessions.getSessionById(event.getId());
+        String clientName = (String) sessionInfo[0];
+        Object[] procedureInfo = (Object[]) sessionInfo[3];
+        String procedureName = (String) procedureInfo[0];
+        String[] timeStartArray = ((String) sessionInfo[4]).split("\\D");
+        String[] timeEndArray = ((String) sessionInfo[5]).split("\\D");
+        int hourStart = Integer.parseInt(timeStartArray[3]);
+        int minuteStart = Integer.parseInt(timeStartArray[4]);
+        int hourEnd = Integer.parseInt(timeEndArray[3]);
+        int minuteEnd = Integer.parseInt(timeEndArray[4]);
+
+        //.customView(R.layout.custom_view, wrapInScrollView)
+        //.positiveText(R.string.positive)
+        new MaterialDialog.Builder(CalendarActivity.this)
+                .title("Информация")
+                .content(clientName + "\n" + procedureName + "\n" +
+                        hourStart + ":" + minuteStart + "-"
+                        + hourEnd + ":" + minuteEnd)
+                .positiveText(R.string.back)
+                .show();
+        //Toast.makeText(CalendarActivity.this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

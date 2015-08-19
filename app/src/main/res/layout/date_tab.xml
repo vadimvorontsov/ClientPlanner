@@ -40,6 +40,7 @@
                     android:textColor="@color/ColorPrimary"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -68,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/grey_bckgrnd"
             android:orientation="vertical">
 
@@ -89,6 +90,26 @@
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/BtnDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/custom_btn_shakespeare"
+                    android:onClick="BtnStartTime"
+                    android:text="OK"
+                    android:textSize="8pt"/>
+            </LinearLayout>
+
         </LinearLayout>
 
 
@@ -96,18 +117,47 @@
             android:id="@+id/LinTimePick"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:background="@drawable/grey_bckgrnd"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:weightSum="1"
+                android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:gravity="center"
+                android:layout_weight="1"
                 android:text="Выберите время"
                 android:textColor="@color/ColorPrimary"
                 android:textSize="26sp"/>
+
+            <LinearLayout
+                android:id="@+id/cancelLayDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="BtnCancel1Click"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@mipmap/ic_redo_variant"/>                                                                                                                                                  "/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="дата"/>
+
+            </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -122,61 +172,7 @@
                     android:layout_below="@+id/datePicker"
                     android:layout_centerHorizontal="true"
                     android:timePickerMode="spinner"/>
-            </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/cancelLayDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="@drawable/drkgrey_bckgrnd"
-                android:onClick="BtnCancel1Click"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_back"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:paddingLeft="4dp"
-                    android:text="  ДАТА  "
-                    android:textColor="@android:color/white"
-                    android:textSize="10sp"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/LinDateBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:weightSum="2">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/BtnDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/custom_btn_shakespeare"
-                    android:onClick="BtnStartTime"
-                    android:text="OK"
-                    android:textSize="8pt"/>
             </LinearLayout>
 
             <LinearLayout
@@ -186,25 +182,21 @@
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:weightSum="2">
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:orientation="horizontal">
-
                     <Button
                         android:id="@+id/BtnTimeHour"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
                         android:background="@drawable/custom_btn_shakespeare"
                         android:onClick="BtnTime1"
                         android:text="с"
                         android:textSize="8pt"/>
                 </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -212,18 +204,15 @@
                     android:layout_marginLeft="3dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
-
                     <Button
                         android:id="@+id/BtnTimeMin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
                         android:background="@drawable/custom_btn_shakespeare"
                         android:onClick="BtnTime2"
                         android:text="по"
                         android:textSize="8pt"/>
                 </LinearLayout>
-
             </LinearLayout>
 
         </LinearLayout>

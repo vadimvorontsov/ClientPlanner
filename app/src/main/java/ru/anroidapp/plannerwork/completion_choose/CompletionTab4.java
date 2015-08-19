@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -51,7 +52,7 @@ public class CompletionTab4 extends Fragment {
     TextView procedureNameTextView;
     TextView procedurePriceTextView;
     TextView procedureNoteTextView;
-    Button btnClickOK;
+    Button btnClickOK, btnMessage;
 
     String[] months;
 
@@ -99,6 +100,8 @@ public class CompletionTab4 extends Fragment {
 
         btnClickOK = (Button) relativeLayout.findViewById(R.id.BtnCompletionOK);
         btnClickOK.setOnClickListener(oclBtnOK);
+        btnMessage = (Button) relativeLayout.findViewById(R.id.BtnCompletionMessage);
+        btnMessage.setOnClickListener(oclBtnMessage);
 
         setHasOptionsMenu(true);
         return relativeLayout;
@@ -128,6 +131,19 @@ public class CompletionTab4 extends Fragment {
             } else {
                 Toast.makeText(fa, resources.getString(R.string.end_error), Toast.LENGTH_SHORT).show();
             }
+        }
+    };
+
+    View.OnClickListener oclBtnMessage = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+
+            Animation animation_in = AnimationUtils.loadAnimation(fa, R.anim.scale_in);
+            animation_in.setAnimationListener(fadeInAnimationListener);
+            mDataLayout.startAnimation(animation_in);
+           // fadeInAnimationListener.onAnimationStart(animation_in);
+          //  fadeInAnimationListener.onAnimationEnd(animation_in);
         }
     };
 
@@ -319,7 +335,7 @@ public class CompletionTab4 extends Fragment {
         public void onClick(View v) {
 
             if (!mAlpha) {
-                //mData.startAnimation(fadeIn);
+               // mData.startAnimation(fadeIn);
                 setupViewMsgLayout();
                 mAlpha = true;
             } else {
@@ -334,11 +350,23 @@ public class CompletionTab4 extends Fragment {
     Animation.AnimationListener fadeInAnimationListener = new Animation.AnimationListener() {
         @Override
         public void onAnimationStart(Animation animation) {
+            //mDataLayout.startAnimation(animation);
         }
 
         @Override
         public void onAnimationEnd(Animation animation) {
+            Animation animation_out = AnimationUtils.loadAnimation(fa, R.anim.scale_out);
+            mDataLayout.removeAllViews();
 
+            mTextMsg = "Здравствуйте, " + mMetaData.getClientName() + "!" +
+                    "Вы записаны на " + mMetaData.getProcedureName() + " " +
+                    mMetaData.getDay() + " " + months[mMetaData.getMonth()].toLowerCase() + "," +
+                    "время " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart() + "." +
+                    "Цена " + mMetaData.getProcedurePrice();
+            editMsg.setText(mTextMsg);
+
+            mDataLayout.addView(editMsg);
+            mDataLayout.startAnimation(animation_out);
         }
 
         @Override

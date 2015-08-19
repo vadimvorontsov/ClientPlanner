@@ -28,11 +28,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/grey_bckgrnd"
             android:orientation="vertical">
-
 
         </LinearLayout>
 
@@ -40,19 +38,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:weightSum="2"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/BtnCompletionOK"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:background="@drawable/custom_btn_shakespeare"
                 android:onClick="BtnComOK"
                 android:text="OK"
+                android:layout_weight="1"
+                android:textSize="8pt"/>
+
+            <Button
+                android:id="@+id/BtnCompletionMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/custom_btn_shakespeare"
+                android:onClick="BtnComOK"
+                android:text="СООБЩЕНИЕ"
+                android:layout_weight="1"
                 android:textSize="8pt"/>
         </LinearLayout>
-
 
     </LinearLayout>
 

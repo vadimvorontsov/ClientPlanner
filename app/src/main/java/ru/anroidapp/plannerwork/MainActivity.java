@@ -14,13 +14,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.smena.clientbase.procedures.Sessions;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import ru.anroidapp.plannerwork.ScreenSlide.ScreenSlidePageFragment1;
 import ru.anroidapp.plannerwork.ScreenSlide.ScreenSlidePageFragment2;
@@ -39,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int NUM_PAGES = 5;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
-
+    int closeId[] = {-1, -1, -1, -1, -1};
+    int  maxYear, maxMonth, maxDay, maxHourStart, maxMinuteStart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +63,19 @@ public class MainActivity extends AppCompatActivity {
         mPager.setAdapter(mPagerAdapter);
 
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+
+        Sessions sessions = new Sessions(MainActivity.this);
+        ArrayList<Long> sessionsId = sessions.getAllSessionsId();
+
+       // String currentDateTimeString = DateFormat.format("yyyy-MM-dd kk:mm:ss", new Date());
+
+       // Calendar calendar = Calendar.getInstance();
+
+       // int year_close = calendar.get(calendar.YEAR);
+       // int month_close = calendar.get(calendar.MONTH)+1;
+      //  int day_close = calendar.get(calendar.DAY_OF_MONTH);
+      //  int hour_close = calendar.get(calendar.HOUR_OF_DAY);
+       // int minute_close = calendar.get(calendar.MINUTE);
 
     }
 
@@ -123,23 +142,20 @@ public class MainActivity extends AppCompatActivity {
                         new SecondaryDrawerItem()
                                 .withName(R.string.navDraw_1)
                                 .withIcon(R.mipmap.home),
-                        new DividerDrawerItem(),
-                        new SecondaryDrawerItem()
-                                .withName(R.string.navDraw_2)
-                                .withIcon(R.mipmap.ic_calendare),
-                        new DividerDrawerItem(),
+                        // new DividerDrawerItem(),
                         new SecondaryDrawerItem()
                                 .withName(R.string.navDraw_3)
                                 .withIcon(R.mipmap.arhiv_2),
-                        new DividerDrawerItem(),
-                        new SecondaryDrawerItem()
-                                .withName(R.string.navDraw_4)
-                                .withIcon(R.mipmap.settings_1),
-                        new DividerDrawerItem(),
+                        //new DividerDrawerItem(),
                         new SecondaryDrawerItem()
                                 .withName(R.string.navDraw_5)
                                 .withIcon(R.mipmap.information_1),
-                        new DividerDrawerItem()
+                        new SecondaryDrawerItem()
+                                .withName(R.string.navDraw_4)
+                                .withIcon(R.mipmap.settings_1)
+                        //new DividerDrawerItem(),
+
+                       // new DividerDrawerItem()
 
 
                 )

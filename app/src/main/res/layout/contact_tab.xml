@@ -92,22 +92,21 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:src="@drawable/ic_search"
-            fab:fab_colorNormal="@color/record_first"
-            fab:fab_colorPressed="@color/record_second"
-            fab:fab_colorRipple="@color/event_color_01"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="60dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-
     </RelativeLayout>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/ic_search"
+        fab:fab_colorNormal="@color/record_first"
+        fab:fab_colorPressed="@color/record_second"
+        fab:fab_colorRipple="@color/event_color_01"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

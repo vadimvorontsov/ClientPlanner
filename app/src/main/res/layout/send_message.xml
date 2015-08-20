@@ -10,8 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="5dp"
-        android:background="@drawable/grey_bckgrnd">
+        android:layout_marginTop="5dp"
+        android:layout_margin="5dp">
+       <!-- android:background="@drawable/grey_bckgrnd">-->
 
         <LinearLayout
             android:id="@+id/choose_phone_layout"
@@ -30,8 +31,8 @@
                 android:layout_marginRight="5dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Телефон: "
-                android:textSize="16sp"
-                android:textColor="@color/ColorPrimary"/>
+                android:textSize="20sp"
+                android:textColor="@color/record_second"/>
 
         </LinearLayout>
 
@@ -51,8 +52,8 @@
                 android:layout_marginRight="5dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Почта: "
-                android:textSize="16sp"
-                android:textColor="@color/ColorPrimary"/>
+                android:textSize="20sp"
+                android:textColor="@color/record_second"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -73,8 +74,8 @@
         android:layout_below="@+id/send_msg_edit_layout"
         android:layout_margin="5dp"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:background="@drawable/grey_bckgrnd">
+        android:paddingBottom="5dp">
+       <!-- android:background="@drawable/grey_bckgrnd">-->
 
         <LinearLayout
             android:id="@+id/sms_layout"
@@ -92,8 +93,8 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical"
                 android:text="@string/sms"
-                android:textColor="@color/ColorPrimary"
-                android:textSize="16sp"/>
+                android:textColor="@color/record_second"
+                android:textSize="20sp"/>
 
             <Button
                 android:id="@+id/send_sms_btn"
@@ -122,8 +123,8 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical"
                 android:text="@string/email"
-                android:textColor="@color/ColorPrimary"
-                android:textSize="16sp"/>
+                android:textColor="@color/record_second"
+                android:textSize="20sp"/>
 
             <Button
                 android:id="@+id/send_email_btn"
@@ -152,8 +153,8 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical"
                 android:text="@string/whatsapp"
-                android:textColor="@color/ColorPrimary"
-                android:textSize="16sp"/>
+                android:textColor="@color/record_second"
+                android:textSize="20sp"/>
 
             <Button
                 android:id="@+id/send_whatsapp_btn"
@@ -182,8 +183,8 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical"
                 android:text="@string/viber"
-                android:textColor="@color/ColorPrimary"
-                android:textSize="16sp"/>
+                android:textColor="@color/record_second"
+                android:textSize="20sp"/>
 
             <Button
                 android:id="@+id/send_viber_btn"

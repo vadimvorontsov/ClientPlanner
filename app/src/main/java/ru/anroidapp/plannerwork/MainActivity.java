@@ -22,7 +22,9 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -121,20 +123,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeNavigationDrawer(Toolbar toolbar) {
 
-      //  IProfile profile = new ProfileDrawerItem()
-      //          .withName("VadArt")
-      //          .withEmail("PlannerWork@gmail.com");
+        IProfile profile = new ProfileDrawerItem()
+                .withName("VadArt")
+              //  .withIcon(getResources().getDrawable(R.drawable.arni1))
+                .withEmail("PlannerWork@gmail.com");
 
         AccountHeader resultHeder = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.arni2)
-              //  .addProfiles(profile)
+                .addProfiles(profile)
                 .build();
 
         Drawer resultDrawer = new DrawerBuilder()
                 .withActivity(this)
-                .withToolbar(toolbar)
-                .withDisplayBelowToolbar(true)
                 .withAccountHeader(resultHeder)
                 .withActionBarDrawerToggleAnimated(true)
                 .addDrawerItems(

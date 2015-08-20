@@ -8,4 +8,4 @@
     android:ellipsize="marquee"
     android:singleLine="true"
     android:textAlignment="inherit"
-    android:textColor="@color/ColorPrimary"/>
+    android:textColor="@color/record_second"/>

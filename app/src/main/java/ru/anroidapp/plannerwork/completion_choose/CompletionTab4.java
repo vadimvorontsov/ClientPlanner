@@ -72,7 +72,7 @@ public class CompletionTab4 extends Fragment {
     LayoutInflater mInflater;
 
     Animation fadeIn, fadeOut;
-    LinearLayout mDataLayout;
+    LinearLayout mDataLayout, mDataAllLayout;
     boolean mAlpha = false;
 
     @Override
@@ -85,6 +85,7 @@ public class CompletionTab4 extends Fragment {
         mDataLayout = (LinearLayout) relativeLayout.findViewById(R.id.data_layout);
         mData = inflater.inflate(R.layout.layout_tab4, null);
         mDataLayout.addView(mData);
+        mDataAllLayout = (LinearLayout) relativeLayout.findViewById(R.id.LayDataAll);
 
         fa = super.getActivity();
         mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
@@ -141,7 +142,7 @@ public class CompletionTab4 extends Fragment {
 
             Animation animation_in = AnimationUtils.loadAnimation(fa, R.anim.scale_in);
             animation_in.setAnimationListener(fadeInAnimationListener);
-            mDataLayout.startAnimation(animation_in);
+            mDataAllLayout.startAnimation(animation_in);
            // fadeInAnimationListener.onAnimationStart(animation_in);
           //  fadeInAnimationListener.onAnimationEnd(animation_in);
         }
@@ -203,7 +204,8 @@ public class CompletionTab4 extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        setupData(relativeLayout);
+        setupDataLayout();
+       //setupData(relativeLayout);
         super.onCreateOptionsMenu(menu, inflater);
 
     }
@@ -305,8 +307,8 @@ public class CompletionTab4 extends Fragment {
         procedureNoteTextView.setText(mMetaData.getProcedureNote());
 
         mDataLayout = (LinearLayout) relativeLayout.findViewById(R.id.data_layout);
-        LinearLayout viewMessageBtn = (LinearLayout) relativeLayout.findViewById(R.id.view_message_layout);
-        viewMessageBtn.setOnClickListener(viewMsgBtnListener);
+       // LinearLayout viewMessageBtn = (LinearLayout) relativeLayout.findViewById(R.id.view_message_layout);
+      //  viewMessageBtn.setOnClickListener(viewMsgBtnListener);
 
     }
 
@@ -343,7 +345,6 @@ public class CompletionTab4 extends Fragment {
                 setupDataLayout();
                 mAlpha = false;
             }
-
         }
     };
 
@@ -357,7 +358,7 @@ public class CompletionTab4 extends Fragment {
         public void onAnimationEnd(Animation animation) {
             Animation animation_out = AnimationUtils.loadAnimation(fa, R.anim.scale_out);
             mDataLayout.removeAllViews();
-
+            btnMessage.setVisibility(View.GONE);
             mTextMsg = "Здравствуйте, " + mMetaData.getClientName() + "!" +
                     "Вы записаны на " + mMetaData.getProcedureName() + " " +
                     mMetaData.getDay() + " " + months[mMetaData.getMonth()].toLowerCase() + "," +
@@ -366,7 +367,7 @@ public class CompletionTab4 extends Fragment {
             editMsg.setText(mTextMsg);
 
             mDataLayout.addView(editMsg);
-            mDataLayout.startAnimation(animation_out);
+            mDataAllLayout.startAnimation(animation_out);
         }
 
         @Override

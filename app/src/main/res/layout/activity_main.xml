@@ -166,15 +166,106 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_weight="3"
             android:background="#d7ccc8">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
             <android.support.v4.view.ViewPager
                 android:layout_gravity="center"
+                android:layout_marginTop="30dp"
                 android:background="#d7ccc8"
                 android:id="@+id/pagerMain"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+                    </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:id="@+id/LayCircle1">
+               <ru.anroidapp.plannerwork.Circle
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/circle_1" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal">
+                <ru.anroidapp.plannerwork.Circle
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/circle_2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+                    <ru.anroidapp.plannerwork.Circle
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/circle_3" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+                    <ru.anroidapp.plannerwork.Circle
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/circle_4" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+                    <ru.anroidapp.plannerwork.Circle
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:id="@+id/circle_5" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+                </LinearLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

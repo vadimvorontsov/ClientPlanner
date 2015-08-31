@@ -1,7 +1,12 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ru.anroidapp.plannerwork.ProcedureActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context=".ProcedureActivity">
+    <item
+        android:id="@+id/add_procedure"
+        android:icon="@drawable/ic_menu_add"
+        android:title="@string/add"
+        android:orderInCategory="1"
+        app:showAsAction="always|withText" />
 </menu>

@@ -151,7 +151,7 @@ public class CircularImageView extends ImageView
 	 * Sets the stroke color to be drawn around the CircularImageView 
 	 * during click events when the selector is enabled.
 	 * 
-	 * @param borderColor
+	 * @param //borderColor
 	 */
 	public void setSelectorStrokeColor(int selectorStrokeColor)
 	{

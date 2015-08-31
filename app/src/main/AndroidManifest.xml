@@ -30,7 +30,7 @@
         </activity>
         <activity
             android:name=".ProcedureActivity"
-            android:label="@string/title_activity_procedure" >
+            android:label="@string/uslugi" >
         </activity>
     </application>
 

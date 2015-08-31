@@ -31,6 +31,7 @@
                 android:layout_marginTop="5dp"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/TextSlide1Name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
@@ -40,6 +41,7 @@
                     android:textColor="@color/viewPagerTextDark"
                     android:text="Иван Велосипедов"/>
                 <TextView
+                    android:id="@+id/TextSlide1Data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
@@ -48,6 +50,7 @@
                     android:textStyle="bold"
                     android:text="8 августа"/>
                 <TextView
+                    android:id="@+id/TextSlide1Time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
@@ -56,6 +59,7 @@
                     android:textStyle="bold"
                     android:text="15:30 - 17:30"/>
                 <TextView
+                    android:id="@+id/TextSlide1Status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"

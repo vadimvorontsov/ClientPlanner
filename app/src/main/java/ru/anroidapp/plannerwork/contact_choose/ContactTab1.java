@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
@@ -144,7 +145,12 @@ public class ContactTab1 extends Fragment {
         public void onClick(View v) {
             laySearch.setVisibility(View.VISIBLE);
             fab.hide();
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(mSearchView.getWindowToken(), InputMethodManager.SHOW_IMPLICIT);
+
             Toast.makeText(fa, "Проверка search", Toast.LENGTH_SHORT).show();
+
+            mSearchView.setCursorVisible(false);
 
         }
     };

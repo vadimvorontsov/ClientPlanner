@@ -31,6 +31,7 @@
                 android:layout_marginTop="5dp"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/TextSlide5Name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
@@ -40,6 +41,7 @@
                     android:textColor="@color/viewPagerTextDark"
                     android:text="Анна Каренина"/>
                 <TextView
+                    android:id="@+id/TextSlide5Data"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
@@ -48,6 +50,7 @@
                     android:textStyle="bold"
                     android:text="8 августа"/>
                 <TextView
+                    android:id="@+id/TextSlide5Time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
@@ -56,6 +59,7 @@
                     android:textStyle="bold"
                     android:text="20:30 - 21:30"/>
                 <TextView
+                    android:id="@+id/TextSlide5Status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
@@ -63,7 +67,6 @@
                     android:textColor="@color/viewPagerText"
                     android:textStyle="bold"
                     android:text="Оповещен"/>
-
 
             </LinearLayout>
 

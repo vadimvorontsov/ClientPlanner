@@ -2,6 +2,9 @@ package ru.anroidapp.plannerwork;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,9 +13,11 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,11 +48,13 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     Context cntxt;
     TextView textView;
+    LinearLayout LayCircle1;
     private static final int NUM_PAGES = 5;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     int closeId[] = {-1, -1, -1, -1, -1};
     int  maxYear, maxMonth, maxDay, maxHourStart, maxMinuteStart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,11 +65,12 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
-        initializeNavigationDrawer(toolbar);
 
         mPager = (ViewPager) findViewById(R.id.pagerMain);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        LayCircle1 = (LinearLayout) findViewById(R.id.LayCircle1);
 
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
@@ -121,50 +129,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeNavigationDrawer(Toolbar toolbar) {
-
-        IProfile profile = new ProfileDrawerItem()
-                .withName("VadArt")
-              //  .withIcon(getResources().getDrawable(R.drawable.arni1))
-                .withEmail("PlannerWork@gmail.com");
-
-        AccountHeader resultHeder = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.arni2)
-                .addProfiles(profile)
-                .build();
-
-        Drawer resultDrawer = new DrawerBuilder()
-                .withActivity(this)
-                .withAccountHeader(resultHeder)
-                .withActionBarDrawerToggleAnimated(true)
-                .addDrawerItems(
-                        //new DividerDrawerItem(),
-                        new SecondaryDrawerItem()
-                                .withName(R.string.navDraw_1)
-                                .withIcon(R.mipmap.home),
-                        // new DividerDrawerItem(),
-                        new SecondaryDrawerItem()
-                                .withName(R.string.navDraw_3)
-                                .withIcon(R.mipmap.arhiv_2),
-                        //new DividerDrawerItem(),
-                        new SecondaryDrawerItem()
-                                .withName(R.string.navDraw_5)
-                                .withIcon(R.mipmap.information_1),
-                        new SecondaryDrawerItem()
-                                .withName(R.string.navDraw_4)
-                                .withIcon(R.mipmap.settings_1)
-                        //new DividerDrawerItem(),
-
-                       // new DividerDrawerItem()
-
-
-                )
-                        //            .withSliderBackgroundColor(R.color.md_grey_100)
-                .build();
-
-    }
-
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm2) {
             super(fm2);
@@ -199,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        public void onBtn1Click(View view) {
+    public void onBtn1Click(View view) {
         Intent intent = new Intent(this, RecordActivity.class);
         startActivity(intent);
     }
@@ -233,8 +197,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
 
 }

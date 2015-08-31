@@ -75,36 +75,6 @@ public class RecordActivity extends AppCompatActivity {
         //initializeNavigationDrawer(toolbar);
     }
 
-//    private void initializeNavigationDrawer(Toolbar toolbar) {
-//
-//        AccountHeader resultHeder = new AccountHeaderBuilder()
-//                .withActivity(this)
-//                .withHeaderBackground(R.drawable.header)
-//                .build();
-//
-//        Drawer resultDrawer = new DrawerBuilder()
-//                .withActivity(this)
-//                .withToolbar(toolbar)
-//                .withDisplayBelowToolbar(true)
-//                .withAccountHeader(resultHeder)
-//                .withActionBarDrawerToggleAnimated(true)
-//                .addDrawerItems(
-//                        new PrimaryDrawerItem()
-//                                .withName(R.string.navDraw_1)
-//                                .withIcon(R.drawable.ic_home_black_18dp),
-//                        // new DividerDrawerItem(),
-//                        new SecondaryDrawerItem()
-//                                .withName(R.string.navDraw_2)
-//                                .withIcon(R.drawable.ic_settings_applications_black_18dp),
-//                        new SecondaryDrawerItem()
-//                                .withName(R.string.navDraw_3)
-//                                .withIcon(R.drawable.ic_stars_black_18dp)
-//                )
-//                        //            .withSliderBackgroundColor(R.color.md_grey_100)
-//                .build();
-//
-//    }
-
     public class RecViewPagerAdapter extends FragmentStatePagerAdapter {
 
         Bundle bundle;

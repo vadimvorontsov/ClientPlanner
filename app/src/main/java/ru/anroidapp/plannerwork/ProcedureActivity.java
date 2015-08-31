@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
@@ -67,8 +68,8 @@ public class ProcedureActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar_procedure);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.uslugi);
-       toolbar.setBackgroundColor(getResources().getColor(R.color.procedure_first));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         mProcedures = new ArrayList<>();
 

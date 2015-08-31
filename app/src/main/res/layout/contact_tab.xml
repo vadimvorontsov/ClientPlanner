@@ -9,14 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="10"
+        android:weightSum="1"
         android:id="@+id/LaySearch">
 
     <LinearLayout
         android:id="@+id/LayImageSearch"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:onClick="LayCanselClick"
         android:background="@drawable/contact_closelay"
         android:orientation="horizontal">
@@ -33,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:hint="@string/search_hint"
-        android:layout_weight="8"
+        android:layout_weight="1"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:singleLine="true"
@@ -46,7 +45,6 @@
         android:id="@+id/LayCanselSearch"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:onClick="LayCanselClick"
         android:background="@drawable/contact_closelay"
         android:orientation="horizontal">

@@ -45,6 +45,7 @@ public class CompletionTab4 extends Fragment {
 
     private static final String TAG = "CompletionTab4";
     int  CURRNT_XML_FILE = 1;
+    int iMessage = 0;
 
     TextView clientNameTextView;
     TextView dateTextView;
@@ -128,7 +129,12 @@ public class CompletionTab4 extends Fragment {
                             " " + mMetaData.getHourEnd() + ":" + mMetaData.getMinuteEnd(),
                     mMetaData.getClientPhones().get(0), mMetaData.getClientEmails().get(0));
             if (sessinonId != -1) {
-                sendMsgView().show();
+                if (iMessage == 1)
+                    sendMsgView().show();
+                else {
+                    Toast.makeText(fa, "Запись завершена успешно", Toast.LENGTH_SHORT).show();
+                    fa.finish();
+                }
             } else {
                 Toast.makeText(fa, resources.getString(R.string.end_error), Toast.LENGTH_SHORT).show();
             }
@@ -143,6 +149,7 @@ public class CompletionTab4 extends Fragment {
             Animation animation_in = AnimationUtils.loadAnimation(fa, R.anim.scale_in);
             animation_in.setAnimationListener(fadeInAnimationListener);
             mDataAllLayout.startAnimation(animation_in);
+            iMessage = 1;
            // fadeInAnimationListener.onAnimationStart(animation_in);
           //  fadeInAnimationListener.onAnimationEnd(animation_in);
         }
@@ -194,6 +201,7 @@ public class CompletionTab4 extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
                 startActivity(new Intent(fa, MainActivity.class));
+                Toast.makeText(fa, "Запись завершена успешно", Toast.LENGTH_SHORT).show();
                 fa.finish();
             }
         });

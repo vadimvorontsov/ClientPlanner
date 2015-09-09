@@ -56,7 +56,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:weightSum="3"
-                android:layout_marginTop="20dp"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
@@ -99,7 +98,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="3"
-                android:layout_marginTop="20dp"
                 android:orientation="vertical">
                 <TextView
                     android:layout_width="match_parent"
@@ -142,7 +140,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="4"
-            android:layout_marginTop="20dp"
             android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
@@ -202,7 +199,7 @@
                     android:layout_gravity="center_horizontal"
                     android:orientation="horizontal"
                     android:id="@+id/LayCircle1">
-               <ru.anroidapp.plannerwork.Circle
+               <ru.anroidapp.plannerwork.animation.Circle
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -214,7 +211,7 @@
                         android:layout_height="10dp"
                         android:layout_gravity="center_horizontal"
                         android:orientation="horizontal">
-                <ru.anroidapp.plannerwork.Circle
+                <ru.anroidapp.plannerwork.animation.Circle
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -226,7 +223,7 @@
                     android:layout_height="10dp"
                     android:layout_gravity="center_horizontal"
                     android:orientation="horizontal">
-                    <ru.anroidapp.plannerwork.Circle
+                    <ru.anroidapp.plannerwork.animation.Circle
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -238,7 +235,7 @@
                     android:layout_height="10dp"
                     android:layout_gravity="center_horizontal"
                     android:orientation="horizontal">
-                    <ru.anroidapp.plannerwork.Circle
+                    <ru.anroidapp.plannerwork.animation.Circle
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -250,7 +247,7 @@
                     android:layout_height="10dp"
                     android:layout_gravity="center_horizontal"
                     android:orientation="horizontal">
-                    <ru.anroidapp.plannerwork.Circle
+                    <ru.anroidapp.plannerwork.animation.Circle
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

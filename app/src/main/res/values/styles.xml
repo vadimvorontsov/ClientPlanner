@@ -6,6 +6,21 @@
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
     </style>
 
+    <style name="RecordTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/record_first</item>
+        <item name="colorPrimaryDark">@color/record_second</item>
+    </style>
+
+    <style name="CalendareTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/calendar_first</item>
+        <item name="colorPrimaryDark">@color/calendar_second</item>
+    </style>
+
+    <style name="ProcedureTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/procedure_first</item>
+        <item name="colorPrimaryDark">@color/procedure_second</item>
+    </style>
+
     <style name="btnStyleShakespeare" parent="@android:style/Widget.Button">
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>

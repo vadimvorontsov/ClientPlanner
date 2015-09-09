@@ -30,7 +30,7 @@ public class DateTab2 extends Fragment {
     DatePicker mDatePicker;
     TimePicker mTimePicker;
 
-    int mHour, mMinute, mHourStart, mHourEnd = 25, mMinuteStart, mMinuteEnd = 60, mYear, mMonth, mDay;
+    int mHour, mMinute, mHourStart, mHourEnd = 25, mMinuteStart, mMinuteEnd = 60, mYear, mMonth, mDay, iTime = 0;
     String mAllTime, mTimeViewStart, mTimeViewEnd, mHourStartStr, mHourEndStr, mMinuteStartStr, mMinuteEndStr;
 
     Button mBtnTimeStart, mBtnTimeEnd, mBtnDate;
@@ -167,6 +167,7 @@ public class DateTab2 extends Fragment {
             } else {
                 Toast.makeText(mFragmentActivity, "Время завершения задано неверно", Toast.LENGTH_SHORT).show();
                 mTimeViewEnd = "";
+                iTime = 1;
             }
             mTextTime.setText(mTimeViewStart + mTimeViewEnd);
 
@@ -190,6 +191,14 @@ public class DateTab2 extends Fragment {
 
             mTimeViewStart = "с " + mHourStartStr + ":" + mMinuteStartStr;
 
+            if ( iTime == 1){
+                mHourEnd = 25;
+                mMinuteEnd = 60;
+                iTime = 0;
+                mTimeViewEnd = "";
+                Toast.makeText(mFragmentActivity, "iTime = 1", Toast.LENGTH_SHORT).show();
+            }
+
             if (mHourStart < mHourEnd) {
                 mMetaData.setHourStart(mHourStart);
                 mMetaData.setMinuteStart(mMinuteStart);
@@ -197,7 +206,7 @@ public class DateTab2 extends Fragment {
                 mMetaData.setHourStart(mHourStart);
                 mMetaData.setMinuteStart(mMinuteStart);
             } else {
-                Toast.makeText(mFragmentActivity, "Время начала задано неверно", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mFragmentActivity, "Время начала задано неверно" + mHourEnd, Toast.LENGTH_SHORT).show();
                 mTimeViewStart = "";
             }
 

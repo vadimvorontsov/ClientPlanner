@@ -102,7 +102,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/msg_send_btn"
                 android:text="@string/send"
-                android:textColor="@color/white"/>
+                android:textColor="@color/color_white"/>
 
         </LinearLayout>
 
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/msg_send_btn"
                 android:text="@string/send"
-                android:textColor="@color/white"/>
+                android:textColor="@color/color_white"/>
 
         </LinearLayout>
 
@@ -162,7 +162,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/msg_send_btn"
                 android:text="@string/send"
-                android:textColor="@color/white"/>
+                android:textColor="@color/color_white"/>
 
         </LinearLayout>
 
@@ -193,7 +193,7 @@
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/msg_send_btn"
                 android:text="@string/send"
-                android:textColor="@color/white"/>
+                android:textColor="@color/color_white"/>
 
         </LinearLayout>
 

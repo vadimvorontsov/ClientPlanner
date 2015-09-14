@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -65,7 +64,7 @@ public class ContactTab1 extends Fragment {
 
     TextView mEmptyView;
 
-    LinearLayout laySearch, layCanselSearch;
+    LinearLayout laySearch, layCancelSearch;
 
     FloatingActionButton fab;
 
@@ -78,7 +77,7 @@ public class ContactTab1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-//http://www.youtube.com/watch?v=i_HwX5CEL6g&list=PLIU76b8Cjem7x0Ot_d0Z1nIq1Mk3PUW_Q&index=3
+        //http://www.youtube.com/watch?v=i_HwX5CEL6g&list=PLIU76b8Cjem7x0Ot_d0Z1nIq1Mk3PUW_Q&index=3
 
         fa = super.getActivity();
         mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
@@ -95,12 +94,12 @@ public class ContactTab1 extends Fragment {
         mListView = (PinnedHeaderListView) relativeLayout.findViewById(R.id.list_view);
         mEmptyView = (TextView) relativeLayout.findViewById(R.id.empty_view);
         laySearch = (LinearLayout) relativeLayout.findViewById(R.id.LaySearch);
-        layCanselSearch = (LinearLayout) relativeLayout.findViewById(R.id.LayCanselSearch);
+        layCancelSearch = (LinearLayout) relativeLayout.findViewById(R.id.LayCanselSearch);
 
         fab.attachToListView(mListView);
 
         fab.setOnClickListener(oclFabClick);
-        layCanselSearch.setOnClickListener(oclCloseSearch);
+        layCancelSearch.setOnClickListener(oclCloseSearch);
 
         laySearch.setVisibility(View.GONE);
 
@@ -256,9 +255,9 @@ public class ContactTab1 extends Fragment {
         mListView.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view
-        IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListView, false);
-        indexBarView.setData(mListView, mListItems, mListSectionPos);
-        mListView.setIndexBarView(indexBarView);
+//        IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListView, false);
+//        indexBarView.setData(mListView, mListItems, mListSectionPos);
+//        mListView.setIndexBarView(indexBarView);
 
         // set preview text view
         View previewTextView = inflater.inflate(R.layout.preview_view, mListView, false);

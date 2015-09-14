@@ -14,7 +14,6 @@ import ru.anroidapp.plannerwork.contact_choose.intface.IIndexBarFilter;
 import ru.anroidapp.plannerwork.contact_choose.intface.IPinnedHeader;
 import ru.anroidapp.plannerwork.contact_choose.intface.PinnedHeaderAdapter;
 
-
 /*
  * A ListView that maintains a header pinned at the top of the list. The
  * pinned header can be pushed up and dissolved as needed.

@@ -36,7 +36,10 @@ import com.melnykov.fab.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import ru.anroidapp.plannerwork.MetaData;
 import ru.anroidapp.plannerwork.R;
@@ -125,7 +128,7 @@ public class ContactTab1 extends Fragment {
             }
 
         } else {
-            new Poplulate().execute(mContacts);
+            new Populate().execute(mContacts);
         }
 
         setHasOptionsMenu(true);
@@ -136,7 +139,7 @@ public class ContactTab1 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        new Poplulate().execute(getContacts());
+        new Populate().execute(getContacts());
     }
 
     View.OnClickListener oclFabClick = new View.OnClickListener() {
@@ -147,7 +150,7 @@ public class ContactTab1 extends Fragment {
             InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(mSearchView.getWindowToken(), InputMethodManager.SHOW_IMPLICIT);
 
-            Toast.makeText(fa, "Проверка search", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(fa, "Проверка search", Toast.LENGTH_SHORT).show();
 
             mSearchView.setCursorVisible(false);
 
@@ -159,7 +162,7 @@ public class ContactTab1 extends Fragment {
         public void onClick(View v) {
             laySearch.setVisibility(View.GONE);
             fab.show();
-            Toast.makeText(fa, "Проверка close search", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(fa, "Проверка close search", Toast.LENGTH_SHORT).show();
 
         }
     };
@@ -184,6 +187,9 @@ public class ContactTab1 extends Fragment {
                 cursor.close();
             }
         }
+
+        ignoreDublicateStrings(mContacts);
+
         return mContacts;
     }
 
@@ -207,25 +213,26 @@ public class ContactTab1 extends Fragment {
             case R.id.add_client_item:
                 final Intent intent = new Intent(Intent.ACTION_INSERT);
                 intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                fa.startActivity(intent);
 
-                new MaterialDialog.Builder(fa)
-                        .content("Чтобы вернуться нажмите 'Назад'")
-                        .positiveText("Понял")
-                        .callback(new MaterialDialog.ButtonCallback() {
-                            @Override
-                            public void onPositive(MaterialDialog dialog) {
-                                fa.startActivity(intent);
-                            }
-                        })
-                        .show();
+//                new MaterialDialog.Builder(fa)
+//                        .content("Чтобы вернуться нажмите 'Назад'")
+//                        .positiveText("Понял")
+//                        .callback(new MaterialDialog.ButtonCallback() {
+//                            @Override
+//                            public void onPositive(MaterialDialog dialog) {
+//
+//                            }
+//                        })
+//                        .show();
                 break;
             case R.id.watch_clients_mode:
                 if (item.getTitle().equals(getResources().getString(R.string.history))) {
                     item.setTitle(getResources().getString(R.string.contacts));
-                    new Poplulate().execute(mClientsHistory);
+                    new Populate().execute(mClientsHistory);
                 } else if (item.getTitle().equals(getResources().getString(R.string.contacts))) {
                     item.setTitle(getResources().getString(R.string.history));
-                    new Poplulate().execute(mContacts);
+                    new Populate().execute(mContacts);
                 }
                 break;
 
@@ -366,6 +373,9 @@ public class ContactTab1 extends Fragment {
                 cursor.close();
             }
         }
+
+        phonesByName = ignoreDublicatePhones(phonesByName);
+
         return phonesByName;
 
     }
@@ -429,6 +439,8 @@ public class ContactTab1 extends Fragment {
                     for (String item : mContacts) {
                         if (item.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
                             filterItems.add(item);
+                        } else if (item.toLowerCase(Locale.getDefault()).contains(constraintStr)) {
+                            filterItems.add(item);
                         }
                     }
                     result.count = filterItems.size();
@@ -449,7 +461,7 @@ public class ContactTab1 extends Fragment {
             ArrayList<String> filtered = (ArrayList<String>) results.values;
             setIndexBarViewVisibility(constraint.toString());
             // sort array and extract sections in background Thread
-            new Poplulate().execute(filtered);
+            new Populate().execute(filtered);
         }
 
     }
@@ -464,7 +476,7 @@ public class ContactTab1 extends Fragment {
     }
 
     @SuppressWarnings("unchecked")
-    private class Poplulate extends AsyncTask<ArrayList<String>, Void, Void> {
+    private class Populate extends AsyncTask<ArrayList<String>, Void, Void> {
 
         private void showLoading(View contentView, View loadingView, View emptyView) {
             contentView.setVisibility(View.GONE);
@@ -499,6 +511,7 @@ public class ContactTab1 extends Fragment {
                 mListSectionPos.clear();
 
             ArrayList<String> items = params[0];
+
             if (mContacts.size() > 0) {
 
                 // NOT forget to sort array
@@ -557,6 +570,57 @@ public class ContactTab1 extends Fragment {
         }
 
         super.onSaveInstanceState(outState);
+    }
+
+    private void ignoreDublicateStrings(List listWithDublicate) {
+        Set<String> listWithoutDublicate = new HashSet<>();
+        listWithoutDublicate.addAll(listWithDublicate);
+        listWithDublicate.clear();
+        listWithDublicate.addAll(listWithoutDublicate);
+    }
+
+    private ArrayList<String> ignoreDublicatePhones(ArrayList<String> phones) {
+
+        ArrayList<String> goodPhones = new ArrayList<>();
+        for(int i = 0; i < phones.size(); i++) {
+            goodPhones.add(reformatPhones(phones.get(i)));
+        }
+
+        int size = goodPhones.size();
+        switch (size) {
+            case 0:
+                return null;
+            case 1:
+                return goodPhones;
+            default:
+
+                Set<String> originalPhones = new HashSet<>();
+                originalPhones.addAll(goodPhones);
+                goodPhones.clear();
+                goodPhones.addAll(originalPhones);
+
+                return goodPhones;
+        }
+    }
+
+    private String reformatPhones(String oldPhone) {
+
+        if (oldPhone.startsWith("8")) {
+            oldPhone = "7" + oldPhone.substring(1, oldPhone.length());
+        }
+
+        String newPhone = oldPhone.replaceAll("\\D", "");
+        newPhone.replace(" ", "");
+
+        newPhone = "+" + newPhone.substring(0,1) + " (" + newPhone.substring(1,4) + ") " +
+                newPhone.substring(4,7) + "-" + newPhone.substring(7,9) +
+                "-" + newPhone.substring(9,newPhone.length());
+        if (newPhone.length() == 18) {
+            return newPhone;
+        } else {
+            Toast.makeText(fa, "Номер " + oldPhone + " записан неверно!", Toast.LENGTH_SHORT).show();
+            return null;
+        }
     }
 
 }

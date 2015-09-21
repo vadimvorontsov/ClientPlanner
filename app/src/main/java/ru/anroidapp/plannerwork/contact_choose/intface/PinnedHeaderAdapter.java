@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import ru.anroidapp.plannerwork.CircularImageView;
 import ru.anroidapp.plannerwork.R;
 import ru.anroidapp.plannerwork.contact_choose.PinnedHeaderListView;
 
@@ -23,7 +24,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     private static final int TYPE_MAX_COUNT = TYPE_SECTION + 1;
 
     LayoutInflater mLayoutInflater;
-    int mCurrentSectionPosition = 0, mNextSectionPostion = 0;
+    int mCurrentSectionPosition = 0, mNextSectionPosition = 0;
 
     // array list to store section positions
     ArrayList<Integer> mListSectionPos;
@@ -90,19 +91,25 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 
             switch (type) {
                 case TYPE_ITEM:
-                    convertView = mLayoutInflater.inflate(R.layout.row_view, null);
+                    convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
+//                    holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
+//                    Drawable drawable = mContext.getDrawable(R.drawable.header);
+//                    holder.contactPhoto.setImageDrawable(drawable);
                     break;
                 case TYPE_SECTION:
-                    convertView = mLayoutInflater.inflate(R.layout.section_row_view, null);
+                    convertView = mLayoutInflater.inflate(R.layout.contact_section_row_view, null);
                     break;
             }
+
             holder.textView = (TextView) convertView.findViewById(R.id.row_title);
+
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         holder.textView.setText(mListItems.get(position).toString());
+
         return convertView;
     }
 
@@ -118,8 +125,8 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
         // the header should get pushed up if the top item shown
         // is the last item in a section for a particular letter.
         mCurrentSectionPosition = getCurrentSectionPosition(position);
-        mNextSectionPostion = getNextSectionPosition(mCurrentSectionPosition);
-        if (mNextSectionPostion != -1 && position == mNextSectionPostion - 1) {
+        mNextSectionPosition = getNextSectionPosition(mCurrentSectionPosition);
+        if (mNextSectionPosition != -1 && position == mNextSectionPosition - 1) {
             return PINNED_HEADER_PUSHED_UP;
         }
 
@@ -166,6 +173,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 
     public static class ViewHolder {
         public TextView textView;
+        public CircularImageView contactPhoto;
     }
 }
 

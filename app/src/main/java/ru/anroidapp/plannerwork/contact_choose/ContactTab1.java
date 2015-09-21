@@ -1,9 +1,13 @@
 package ru.anroidapp.plannerwork.contact_choose;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -23,6 +27,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -33,6 +38,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.clientbase.procedures.Clients;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -51,6 +58,7 @@ public class ContactTab1 extends Fragment {
     MetaData mMetaData;
 
     ArrayList<String> mContacts;
+    ArrayList<String> mContactsID = new ArrayList<>();
     ArrayList<String> mClientsHistory;
 
     ArrayList<Integer> mListSectionPos;
@@ -176,8 +184,10 @@ public class ContactTab1 extends Fragment {
             while (cursor.moveToNext()) {
                 String name = cursor.getString(cursor
                         .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                 if (!name.isEmpty()) {
                     mContacts.add(name);
+                    mContactsID.add(contactID);
                 }
             }
         } catch (Exception e) {
@@ -252,13 +262,13 @@ public class ContactTab1 extends Fragment {
         mAdaptor = new PinnedHeaderAdapter(fa, mListItems, mListSectionPos);
         mListView.setAdapter(mAdaptor);
 
-        TextView view = (TextView) mAdaptor.getView(0, mListView.getChildAt(0), mListView);
-        view.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_check_buttonless_on, 0, 0, 0);
+        //TextView view = (TextView) mAdaptor.getView(0, mListView.getChildAt(0), mListView);
+        //view.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_check_buttonless_on, 0, 0, 0);
 
         LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // set header view
-        View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListView, false);
+        View pinnedHeaderView = inflater.inflate(R.layout.contact_section_row_view, mListView, false);
         mListView.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view
@@ -272,6 +282,7 @@ public class ContactTab1 extends Fragment {
 
         // for configure pinned header view on scroll change
         mListView.setOnScrollListener(mAdaptor);
+
         mListView.setOnItemClickListener(mClickListener);
         mListView.setOnItemLongClickListener(mLongClickListener);
     }
@@ -621,6 +632,35 @@ public class ContactTab1 extends Fragment {
             Toast.makeText(fa, "Номер " + oldPhone + " записан неверно!", Toast.LENGTH_SHORT).show();
             return null;
         }
+    }
+
+    private void getContactPhoto(Long contactID) {
+
+        Bitmap photo = null;
+        InputStream inputStream = null;
+
+        try {
+            inputStream = ContactsContract.Contacts.openContactPhotoInputStream(fa.getContentResolver(),
+                    ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, new Long(contactID)));
+
+            if (inputStream != null) {
+                photo = BitmapFactory.decodeStream(inputStream);
+                //ImageView imageView = (ImageView) fa.findViewById(R.id.img_contact);
+                //imageView.setImageBitmap(photo);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
 }

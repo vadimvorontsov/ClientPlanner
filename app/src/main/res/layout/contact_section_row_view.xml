@@ -12,13 +12,3 @@
     android:clickable="false"
     android:enabled="false"
     android:focusable="false" />
-<!--<LinearLayout
-android:layout_width="fill_parent"
-android:layout_height="wrap_content"
-android:background="@color/ColorPrimary">
-<LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:layout_marginBottom="3dp">-->
-

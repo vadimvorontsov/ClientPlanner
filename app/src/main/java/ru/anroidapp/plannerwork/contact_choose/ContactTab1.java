@@ -1,6 +1,5 @@
 package ru.anroidapp.plannerwork.contact_choose;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -21,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -147,10 +145,12 @@ public class ContactTab1 extends Fragment {
         public void onClick(View v) {
             laySearch.setVisibility(View.VISIBLE);
             fab.hide();
-            InputMethodManager imm = (InputMethodManager)fa.getSystemService(Service.INPUT_METHOD_SERVICE);
-            mSearchView.requestFocus();
-            imm.showSoftInput(mSearchView, 0);
-            mSearchView.setCursorVisible(true);
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(mSearchView.getWindowToken(), InputMethodManager.SHOW_IMPLICIT);
+
+            Toast.makeText(fa, "Проверка search", Toast.LENGTH_SHORT).show();
+
+            mSearchView.setCursorVisible(false);
 
         }
     };
@@ -159,9 +159,9 @@ public class ContactTab1 extends Fragment {
         @Override
         public void onClick(View v) {
             laySearch.setVisibility(View.GONE);
-            InputMethodManager imm = (InputMethodManager)fa.getSystemService(Service.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
             fab.show();
+            Toast.makeText(fa, "Проверка close search", Toast.LENGTH_SHORT).show();
+
         }
     };
 

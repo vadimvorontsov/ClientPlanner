@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/contact_tab"
     android:layout_width="match_parent"
@@ -23,7 +24,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center"
-            android:background="@color/white"
+            android:background="@color/color_white"
             android:src="@mipmap/search_green"/>
         </LinearLayout>
 
@@ -36,7 +37,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:singleLine="true"
-        android:background="@color/white"
+        android:background="@color/color_white"
         android:textColor="@color/ColorPrimary"
         android:textColorHint="@color/ColorPrimaryHint"
         android:textSize="14sp" />

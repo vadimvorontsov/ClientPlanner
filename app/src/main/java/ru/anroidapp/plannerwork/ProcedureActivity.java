@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
@@ -188,7 +187,7 @@ public class ProcedureActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // set header view
-        View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListViewProc, false);
+        View pinnedHeaderView = inflater.inflate(R.layout.contact_section_row_view, mListViewProc, false);
         mListViewProc.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view

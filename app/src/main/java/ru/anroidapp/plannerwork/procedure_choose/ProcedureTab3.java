@@ -17,9 +17,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.clientbase.procedures.Procedures;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,9 +61,12 @@ public class ProcedureTab3 extends Fragment {
 
     TextView mEmptyViewProc;
 
+    LinearLayout laySearch, layCanselSearch;
+
     private final String TAG = "ProcedureTab3";
 
     private TextView lastChoose;
+    FloatingActionButton fab;
 
     FragmentActivity fa;
     MetaData mMetaData;
@@ -77,10 +83,19 @@ public class ProcedureTab3 extends Fragment {
 
         getProcedures();
 
-        mSearchViewProc = (EditText) relativeLayout.findViewById(R.id.search_proc_view);
+        mSearchViewProc = (EditText) relativeLayout.findViewById(R.id.SearchViewProc);
         mLoadingViewProc = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);
         mListViewProc = (PinnedHeaderListView) relativeLayout.findViewById(R.id.proc_list_view);
         mEmptyViewProc = (TextView) relativeLayout.findViewById(R.id.empty_view);
+        laySearch = (LinearLayout) relativeLayout.findViewById(R.id.LaySearchProc);
+        layCanselSearch = (LinearLayout) relativeLayout.findViewById(R.id.LayCanselSearchProc);
+
+        fab = (FloatingActionButton) relativeLayout.findViewById(R.id.fab_proc);
+        fab.attachToListView(mListViewProc);
+        fab.setOnClickListener(oclFabClick);
+
+        layCanselSearch.setOnClickListener(oclCloseSearch);
+        laySearch.setVisibility(View.GONE);
 
         relativeLayout.findViewById(R.id.procedure_tab);
 
@@ -110,6 +125,29 @@ public class ProcedureTab3 extends Fragment {
 
         return relativeLayout;
     }
+
+    View.OnClickListener oclFabClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            laySearch.setVisibility(View.VISIBLE);
+            fab.hide();
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(mSearchViewProc.getWindowToken(), InputMethodManager.SHOW_IMPLICIT);
+            Toast.makeText(fa, "Проверка fab", Toast.LENGTH_SHORT).show();
+            mSearchViewProc.setCursorVisible(false);
+
+        }
+    };
+
+    View.OnClickListener oclCloseSearch = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            laySearch.setVisibility(View.GONE);
+            fab.show();
+            Toast.makeText(fa, "Проверка close search proc", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
     private void getProcedures() {
         Procedures procedures = new Procedures(fa);

@@ -20,6 +20,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -50,23 +52,14 @@ public class ContactTab1 extends Fragment {
 
     ArrayList<String> mContacts;
     ArrayList<String> mClientsHistory;
-
     ArrayList<Integer> mListSectionPos;
-
     ArrayList<String> mListItems;
-
     PinnedHeaderListView mListView;
-
     PinnedHeaderAdapter mAdaptor;
-
     EditText mSearchView;
-
     ProgressBar mLoadingView;
-
     TextView mEmptyView;
-
     LinearLayout laySearch, layCanselSearch;
-
     FloatingActionButton fab;
 
     private final String TAG = "ContactTab1";
@@ -252,8 +245,8 @@ public class ContactTab1 extends Fragment {
         LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // set header view
-        View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListView, false);
-        mListView.setPinnedHeaderView(pinnedHeaderView);
+       // View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListView, false);
+        //mListView.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view
         IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListView, false);

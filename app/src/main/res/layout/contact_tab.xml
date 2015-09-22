@@ -17,7 +17,6 @@
         android:id="@+id/LayImageSearch"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:onClick="LayCanselClick"
         android:background="@drawable/contact_closelay"
         android:orientation="horizontal">
         <ImageView

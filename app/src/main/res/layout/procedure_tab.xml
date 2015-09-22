@@ -2,29 +2,69 @@
 <RelativeLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/procedure_tab"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/search_proc_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/search_hint"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:singleLine="true"
-        android:textColor="@color/ColorPrimary"
-        android:textColorHint="@color/ColorPrimaryHint"
-        android:textSize="14sp"
-        android:layout_centerHorizontal="true" />
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:id="@+id/LaySearchProc">
+
+        <LinearLayout
+            android:id="@+id/LayImageSearchProc"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/contact_closelay"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:background="@color/color_white"
+                android:src="@mipmap/search_green"/>
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/SearchViewProc"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:hint="@string/search_hint"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:background="@color/color_white"
+            android:textColor="@color/ColorPrimary"
+            android:textColorHint="@color/ColorPrimaryHint"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:id="@+id/LayCanselSearchProc"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:onClick="LayCanselClickProc"
+            android:background="@drawable/contact_closelay"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/ImClose"
+                android:layout_gravity="center"
+                android:src="@mipmap/close_1"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/procedure_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@+id/search_proc_view">
+        android:layout_below="@+id/LaySearchProc">
 
         <include layout="@layout/loading_empty_view" />
 
@@ -38,5 +78,20 @@
             android:layout_alignParentStart="true" />
 
     </RelativeLayout>
+
+    <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab_proc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/ic_search"
+        fab:fab_colorNormal="@color/record_first"
+        fab:fab_colorPressed="@color/record_second"
+        fab:fab_colorRipple="@color/event_color_01"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout> 

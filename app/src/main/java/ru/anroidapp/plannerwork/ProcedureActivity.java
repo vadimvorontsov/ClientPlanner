@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -229,31 +230,13 @@ public class ProcedureActivity extends AppCompatActivity {
         }
     };
 
-    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
+ AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Procedures procedures = new Procedures(ProcedureActivity.this);
 
-            String procedureName = mListItemsProc.get(position);
-            mMetaData.setProcedureName(procedureName);
-            long procedureId = procedures.getProcedureID(procedureName);
-            Object[] procedureInfo = procedures.getProcedureInfo(procedureId);
-            Integer procedurePrice = (Integer) procedureInfo[1];
-            mMetaData.setProcedurePrice(procedurePrice);
-            String procedureNote = (String) procedureInfo[2];
-            mMetaData.setProcedureNote(procedureNote);
 
-            if (lastChoose != null) {
-                lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-            }
-
-            TextView textView = (TextView) view;
-            textView.setCompoundDrawablesWithIntrinsicBounds
-                    (R.drawable.btn_check_buttonless_on, 0, 0, 0);
-            lastChoose = textView;
-
-            Toast.makeText(ProcedureActivity.this.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
-                            + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
+            Toast.makeText(ProcedureActivity.this.getApplicationContext(), "Проверка",
                     Toast.LENGTH_SHORT).show();
         }
     };

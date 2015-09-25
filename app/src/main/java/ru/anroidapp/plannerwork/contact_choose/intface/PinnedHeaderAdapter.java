@@ -83,6 +83,9 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+
+
         ViewHolder holder = null;
 
         if (convertView == null) {
@@ -95,6 +98,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 //                    holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
 //                    Drawable drawable = mContext.getDrawable(R.drawable.header);
 //                    holder.contactPhoto.setImageDrawable(drawable);
+                    convertView.setOnLongClickListener(qqq);
                     break;
                 case TYPE_SECTION:
                     convertView = mLayoutInflater.inflate(R.layout.contact_section_row_view, null);
@@ -112,6 +116,14 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 
         return convertView;
     }
+
+    View.OnLongClickListener qqq = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            int a = 0;
+            return false;
+        }
+    };
 
     @Override
     public int getPinnedHeaderState(int position) {

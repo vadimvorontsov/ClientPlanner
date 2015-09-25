@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -18,10 +17,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -59,7 +57,7 @@ public class ContactTab1 extends Fragment {
     EditText mSearchView;
     ProgressBar mLoadingView;
     TextView mEmptyView;
-    LinearLayout laySearch, layCanselSearch;
+    LinearLayout laySearch, layCancelSearch;
     FloatingActionButton fab;
 
     private final String TAG = "ContactTab1";
@@ -88,12 +86,12 @@ public class ContactTab1 extends Fragment {
         mListView = (PinnedHeaderListView) relativeLayout.findViewById(R.id.list_view);
         mEmptyView = (TextView) relativeLayout.findViewById(R.id.empty_view);
         laySearch = (LinearLayout) relativeLayout.findViewById(R.id.LaySearch);
-        layCanselSearch = (LinearLayout) relativeLayout.findViewById(R.id.LayCanselSearch);
+        layCancelSearch = (LinearLayout) relativeLayout.findViewById(R.id.LayCancelSearch);
 
         fab.attachToListView(mListView);
 
         fab.setOnClickListener(oclFabClick);
-        layCanselSearch.setOnClickListener(oclCloseSearch);
+        layCancelSearch.setOnClickListener(oclCloseSearch);
 
         laySearch.setVisibility(View.GONE);
 
@@ -119,7 +117,7 @@ public class ContactTab1 extends Fragment {
             }
 
         } else {
-            new Poplulate().execute(mContacts);
+            new Populate().execute(mContacts);
         }
 
         setHasOptionsMenu(true);
@@ -130,7 +128,7 @@ public class ContactTab1 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        new Poplulate().execute(getContacts());
+        new Populate().execute(getContacts());
     }
 
     View.OnClickListener oclFabClick = new View.OnClickListener() {
@@ -202,24 +200,24 @@ public class ContactTab1 extends Fragment {
                 final Intent intent = new Intent(Intent.ACTION_INSERT);
                 intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
 
-                new MaterialDialog.Builder(fa)
-                        .content("Чтобы вернуться нажмите 'Назад'")
-                        .positiveText("Понял")
-                        .callback(new MaterialDialog.ButtonCallback() {
-                            @Override
-                            public void onPositive(MaterialDialog dialog) {
+//                new MaterialDialog.Builder(fa)
+//                        .content("Чтобы вернуться нажмите 'Назад'")
+//                        .positiveText("Понял")
+//                        .callback(new MaterialDialog.ButtonCallback() {
+//                            @Override
+//                            public void onPositive(MaterialDialog dialog) {
                                 fa.startActivity(intent);
-                            }
-                        })
-                        .show();
+//                            }
+//                        })
+//                        .show();
                 break;
             case R.id.watch_clients_mode:
                 if (item.getTitle().equals(getResources().getString(R.string.history))) {
                     item.setTitle(getResources().getString(R.string.contacts));
-                    new Poplulate().execute(mClientsHistory);
+                    new Populate().execute(mClientsHistory);
                 } else if (item.getTitle().equals(getResources().getString(R.string.contacts))) {
                     item.setTitle(getResources().getString(R.string.history));
-                    new Poplulate().execute(mContacts);
+                    new Populate().execute(mContacts);
                 }
                 break;
 
@@ -249,9 +247,9 @@ public class ContactTab1 extends Fragment {
         //mListView.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view
-        IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListView, false);
-        indexBarView.setData(mListView, mListItems, mListSectionPos);
-        mListView.setIndexBarView(indexBarView);
+//        IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListView, false);
+//        indexBarView.setData(mListView, mListItems, mListSectionPos);
+//        mListView.setIndexBarView(indexBarView);
 
         // set preview text view
         View previewTextView = inflater.inflate(R.layout.preview_view, mListView, false);
@@ -259,8 +257,9 @@ public class ContactTab1 extends Fragment {
 
         // for configure pinned header view on scroll change
         mListView.setOnScrollListener(mAdaptor);
-        mListView.setOnItemClickListener(mClickListener);
-        mListView.setOnItemLongClickListener(mLongClickListener);
+        //mListView.setOnItemClickListener(mClickListener);
+        //mListView.setOnItemLongClickListener(mLongClickListener);
+
     }
 
     AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
@@ -307,8 +306,8 @@ public class ContactTab1 extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 
-            Resources resourses = getResources();
-            String unknown = resourses.getString(R.string.unknown);
+            Resources resources = getResources();
+            String unknown = resources.getString(R.string.unknown);
 
             String clientName = mListItems.get(position);
             mMetaData.setClientName(clientName);
@@ -361,7 +360,6 @@ public class ContactTab1 extends Fragment {
             }
         }
         return phonesByName;
-
     }
 
     private ArrayList<String> getEmailsByName(Context context, String name) {
@@ -420,9 +418,15 @@ public class ContactTab1 extends Fragment {
                 ArrayList<String> filterItems = new ArrayList<>();
 
                 synchronized (this) {
+                    LOOP_FOR_CONTACTS:
                     for (String item : mContacts) {
-                        if (item.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
-                            filterItems.add(item);
+                        String[] subNames = item.split(" ");
+                        LOOP_FOR_SUBNAMES:
+                        for (String subName : subNames) {
+                            if (subName.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
+                                filterItems.add(item);
+                                break LOOP_FOR_SUBNAMES;
+                            }
                         }
                     }
                     result.count = filterItems.size();
@@ -443,7 +447,7 @@ public class ContactTab1 extends Fragment {
             ArrayList<String> filtered = (ArrayList<String>) results.values;
             setIndexBarViewVisibility(constraint.toString());
             // sort array and extract sections in background Thread
-            new Poplulate().execute(filtered);
+            new Populate().execute(filtered);
         }
 
     }
@@ -458,7 +462,7 @@ public class ContactTab1 extends Fragment {
     }
 
     @SuppressWarnings("unchecked")
-    private class Poplulate extends AsyncTask<ArrayList<String>, Void, Void> {
+    private class Populate extends AsyncTask<ArrayList<String>, Void, Void> {
 
         private void showLoading(View contentView, View loadingView, View emptyView) {
             contentView.setVisibility(View.GONE);

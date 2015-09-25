@@ -1,6 +1,7 @@
 package ru.anroidapp.plannerwork.contact_choose.intface;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -120,7 +122,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     View.OnLongClickListener qqq = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-            int a = 0;
+            Toast.makeText(mContext, "долгий клик", Toast.LENGTH_SHORT).show();
             return false;
         }
     };

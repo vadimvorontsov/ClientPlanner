@@ -1,9 +1,13 @@
 package ru.anroidapp.plannerwork.contact_choose;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -17,13 +21,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -34,10 +38,15 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.clientbase.procedures.Clients;
 import com.melnykov.fab.FloatingActionButton;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import ru.anroidapp.plannerwork.MetaData;
 import ru.anroidapp.plannerwork.R;
@@ -49,15 +58,25 @@ public class ContactTab1 extends Fragment {
     MetaData mMetaData;
 
     ArrayList<String> mContacts;
+    ArrayList<String> mContactsID = new ArrayList<>();
     ArrayList<String> mClientsHistory;
+
     ArrayList<Integer> mListSectionPos;
+
     ArrayList<String> mListItems;
+
     PinnedHeaderListView mListView;
+
     PinnedHeaderAdapter mAdaptor;
+
     EditText mSearchView;
+
     ProgressBar mLoadingView;
+
     TextView mEmptyView;
+
     LinearLayout laySearch, layCancelSearch;
+
     FloatingActionButton fab;
 
     private final String TAG = "ContactTab1";
@@ -69,7 +88,7 @@ public class ContactTab1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-//http://www.youtube.com/watch?v=i_HwX5CEL6g&list=PLIU76b8Cjem7x0Ot_d0Z1nIq1Mk3PUW_Q&index=3
+        //http://www.youtube.com/watch?v=i_HwX5CEL6g&list=PLIU76b8Cjem7x0Ot_d0Z1nIq1Mk3PUW_Q&index=3
 
         fa = super.getActivity();
         mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
@@ -139,7 +158,7 @@ public class ContactTab1 extends Fragment {
             InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(mSearchView.getWindowToken(), InputMethodManager.SHOW_IMPLICIT);
 
-            Toast.makeText(fa, "Проверка search", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(fa, "Проверка search", Toast.LENGTH_SHORT).show();
 
             mSearchView.setCursorVisible(false);
 
@@ -151,7 +170,7 @@ public class ContactTab1 extends Fragment {
         public void onClick(View v) {
             laySearch.setVisibility(View.GONE);
             fab.show();
-            Toast.makeText(fa, "Проверка close search", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(fa, "Проверка close search", Toast.LENGTH_SHORT).show();
 
         }
     };
@@ -165,8 +184,10 @@ public class ContactTab1 extends Fragment {
             while (cursor.moveToNext()) {
                 String name = cursor.getString(cursor
                         .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                String contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
                 if (!name.isEmpty()) {
                     mContacts.add(name);
+                    mContactsID.add(contactID);
                 }
             }
         } catch (Exception e) {
@@ -176,6 +197,9 @@ public class ContactTab1 extends Fragment {
                 cursor.close();
             }
         }
+
+        ignoreDublicateStrings(mContacts);
+
         return mContacts;
     }
 
@@ -199,6 +223,7 @@ public class ContactTab1 extends Fragment {
             case R.id.add_client_item:
                 final Intent intent = new Intent(Intent.ACTION_INSERT);
                 intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+                fa.startActivity(intent);
 
 //                new MaterialDialog.Builder(fa)
 //                        .content("Чтобы вернуться нажмите 'Назад'")
@@ -206,7 +231,7 @@ public class ContactTab1 extends Fragment {
 //                        .callback(new MaterialDialog.ButtonCallback() {
 //                            @Override
 //                            public void onPositive(MaterialDialog dialog) {
-                                fa.startActivity(intent);
+//
 //                            }
 //                        })
 //                        .show();
@@ -237,14 +262,14 @@ public class ContactTab1 extends Fragment {
         mAdaptor = new PinnedHeaderAdapter(fa, mListItems, mListSectionPos);
         mListView.setAdapter(mAdaptor);
 
-        TextView view = (TextView) mAdaptor.getView(0, mListView.getChildAt(0), mListView);
-        view.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_check_buttonless_on, 0, 0, 0);
+        //TextView view = (TextView) mAdaptor.getView(0, mListView.getChildAt(0), mListView);
+        //view.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_check_buttonless_on, 0, 0, 0);
 
         LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // set header view
-       // View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListView, false);
-        //mListView.setPinnedHeaderView(pinnedHeaderView);
+        View pinnedHeaderView = inflater.inflate(R.layout.contact_section_row_view, mListView, false);
+        mListView.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view
 //        IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListView, false);
@@ -257,9 +282,9 @@ public class ContactTab1 extends Fragment {
 
         // for configure pinned header view on scroll change
         mListView.setOnScrollListener(mAdaptor);
+
         //mListView.setOnItemClickListener(mClickListener);
         //mListView.setOnItemLongClickListener(mLongClickListener);
-
     }
 
     AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
@@ -306,8 +331,8 @@ public class ContactTab1 extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 
-            Resources resources = getResources();
-            String unknown = resources.getString(R.string.unknown);
+            Resources resourses = getResources();
+            String unknown = resourses.getString(R.string.unknown);
 
             String clientName = mListItems.get(position);
             mMetaData.setClientName(clientName);
@@ -359,7 +384,11 @@ public class ContactTab1 extends Fragment {
                 cursor.close();
             }
         }
+
+        phonesByName = ignoreDublicatePhones(phonesByName);
+
         return phonesByName;
+
     }
 
     private ArrayList<String> getEmailsByName(Context context, String name) {
@@ -418,15 +447,11 @@ public class ContactTab1 extends Fragment {
                 ArrayList<String> filterItems = new ArrayList<>();
 
                 synchronized (this) {
-                    LOOP_FOR_CONTACTS:
                     for (String item : mContacts) {
-                        String[] subNames = item.split(" ");
-                        LOOP_FOR_SUBNAMES:
-                        for (String subName : subNames) {
-                            if (subName.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
-                                filterItems.add(item);
-                                break LOOP_FOR_SUBNAMES;
-                            }
+                        if (item.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
+                            filterItems.add(item);
+                        } else if (item.toLowerCase(Locale.getDefault()).contains(constraintStr)) {
+                            filterItems.add(item);
                         }
                     }
                     result.count = filterItems.size();
@@ -497,6 +522,7 @@ public class ContactTab1 extends Fragment {
                 mListSectionPos.clear();
 
             ArrayList<String> items = params[0];
+
             if (mContacts.size() > 0) {
 
                 // NOT forget to sort array
@@ -555,6 +581,86 @@ public class ContactTab1 extends Fragment {
         }
 
         super.onSaveInstanceState(outState);
+    }
+
+    private void ignoreDublicateStrings(List listWithDublicate) {
+        Set<String> listWithoutDublicate = new HashSet<>();
+        listWithoutDublicate.addAll(listWithDublicate);
+        listWithDublicate.clear();
+        listWithDublicate.addAll(listWithoutDublicate);
+    }
+
+    private ArrayList<String> ignoreDublicatePhones(ArrayList<String> phones) {
+
+        ArrayList<String> goodPhones = new ArrayList<>();
+        for(int i = 0; i < phones.size(); i++) {
+            goodPhones.add(reformatPhones(phones.get(i)));
+        }
+
+        int size = goodPhones.size();
+        switch (size) {
+            case 0:
+                return null;
+            case 1:
+                return goodPhones;
+            default:
+
+                Set<String> originalPhones = new HashSet<>();
+                originalPhones.addAll(goodPhones);
+                goodPhones.clear();
+                goodPhones.addAll(originalPhones);
+
+                return goodPhones;
+        }
+    }
+
+    private String reformatPhones(String oldPhone) {
+
+        if (oldPhone.startsWith("8")) {
+            oldPhone = "7" + oldPhone.substring(1, oldPhone.length());
+        }
+
+        String newPhone = oldPhone.replaceAll("\\D", "");
+        newPhone.replace(" ", "");
+
+        newPhone = "+" + newPhone.substring(0,1) + " (" + newPhone.substring(1,4) + ") " +
+                newPhone.substring(4,7) + "-" + newPhone.substring(7,9) +
+                "-" + newPhone.substring(9,newPhone.length());
+        if (newPhone.length() == 18) {
+            return newPhone;
+        } else {
+            Toast.makeText(fa, "Номер " + oldPhone + " записан неверно!", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+    }
+
+    private void getContactPhoto(Long contactID) {
+
+        Bitmap photo = null;
+        InputStream inputStream = null;
+
+        try {
+            inputStream = ContactsContract.Contacts.openContactPhotoInputStream(fa.getContentResolver(),
+                    ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, new Long(contactID)));
+
+            if (inputStream != null) {
+                photo = BitmapFactory.decodeStream(inputStream);
+                //ImageView imageView = (ImageView) fa.findViewById(R.id.img_contact);
+                //imageView.setImageBitmap(photo);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
 }

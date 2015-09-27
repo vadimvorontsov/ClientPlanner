@@ -108,7 +108,6 @@ public class ContactTab1 extends Fragment {
         layCancelSearch = (LinearLayout) relativeLayout.findViewById(R.id.LayCancelSearch);
 
         fab.attachToListView(mListView);
-
         fab.setOnClickListener(oclFabClick);
         layCancelSearch.setOnClickListener(oclCloseSearch);
 
@@ -155,13 +154,9 @@ public class ContactTab1 extends Fragment {
         public void onClick(View v) {
             laySearch.setVisibility(View.VISIBLE);
             fab.hide();
-            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(mSearchView.getWindowToken(), InputMethodManager.SHOW_IMPLICIT);
-
-            //Toast.makeText(fa, "Проверка search", Toast.LENGTH_SHORT).show();
-
-            mSearchView.setCursorVisible(false);
-
+            mSearchView.requestFocus();
+            InputMethodManager keyboard = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            keyboard.showSoftInput(mSearchView, 0);
         }
     };
 
@@ -170,6 +165,8 @@ public class ContactTab1 extends Fragment {
         public void onClick(View v) {
             laySearch.setVisibility(View.GONE);
             fab.show();
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(mSearchView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             //Toast.makeText(fa, "Проверка close search", Toast.LENGTH_SHORT).show();
 
         }

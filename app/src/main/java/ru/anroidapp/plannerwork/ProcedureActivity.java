@@ -15,15 +15,21 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.clientbase.procedures.Procedures;
+import com.example.smena.clientbase.procedures.Sessions;
+import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,16 +59,21 @@ public class ProcedureActivity extends AppCompatActivity {
 
     TextView mEmptyViewProc;
 
+    FloatingActionButton fab;
+
+    LinearLayout laySearch, layCanselSearch;
     private final String TAG = "ProcedureActivity";
 
     //private TextView lastChoose;
 
     Toolbar toolbar;
+    Context cntxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_procedure);
+        cntxt = this;
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar_procedure);
         setSupportActionBar(toolbar);
@@ -77,11 +88,21 @@ public class ProcedureActivity extends AppCompatActivity {
         mLoadingViewProc = (ProgressBar) findViewById(R.id.loading_view);
         mListViewProc = (PinnedHeaderListView) findViewById(R.id.act_proc_list_view);
         mEmptyViewProc = (TextView) findViewById(R.id.empty_view);
+        laySearch = (LinearLayout) findViewById(R.id.LaySearchProcAct);
+        layCanselSearch = (LinearLayout) findViewById(R.id.LayCanselSearchProcAct);
 
         findViewById(R.id.procedure_tab);
 
         mListSectionPosProc = new ArrayList<>();
         mListItemsProc = new ArrayList<>();
+
+        fab = (FloatingActionButton) findViewById(R.id.fab_proc_act);
+        fab.attachToListView(mListViewProc);
+        fab.setShadow(true);
+        fab.setOnClickListener(oclFabClick);
+
+        layCanselSearch.setOnClickListener(oclCloseSearch);
+        laySearch.setVisibility(View.GONE);
 
         // for handling configuration change
         if (savedInstanceState != null) {
@@ -104,7 +125,49 @@ public class ProcedureActivity extends AppCompatActivity {
         }
 
         mSearchViewProc.addTextChangedListener(filterTextWatcher);
+
+        //hide fab if procedure < 5
+        if (mListItemsProc.size() < 6 )
+            fab.setVisibility(View.GONE);
+        //
+
     }
+
+    View.OnClickListener oclFabClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            Animation openSearch = AnimationUtils.loadAnimation(cntxt, R.anim.s_down);
+            laySearch.startAnimation(openSearch);
+            laySearch.setVisibility(View.VISIBLE);
+            Animation hideFab = AnimationUtils.loadAnimation(cntxt, R.anim.s_down);
+            fab.startAnimation(hideFab);
+            fab.setVisibility(View.GONE);
+            mSearchViewProc.requestFocus();
+            InputMethodManager keyboard = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            keyboard.showSoftInput(mSearchViewProc, 0);
+
+            Toast.makeText(cntxt, "Проверка fab", Toast.LENGTH_SHORT).show();
+
+        }
+    };
+
+    View.OnClickListener oclCloseSearch = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //////
+            //mSearchViewProc.setText("");
+            laySearch.setVisibility(View.GONE);
+            //Animation showFab = AnimationUtils.loadAnimation(cntxt, R.anim.s_up);
+            //fab.startAnimation(showFab);
+            fab.setVisibility(View.VISIBLE);
+            //mSearchViewProc.requestFocus();
+            InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(mSearchViewProc.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            Toast.makeText(cntxt, "Проверка close search proc", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
 
     private void getProcedures() {

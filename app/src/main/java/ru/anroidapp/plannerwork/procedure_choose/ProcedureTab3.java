@@ -93,8 +93,8 @@ public class ProcedureTab3 extends Fragment {
         fab = (FloatingActionButton) relativeLayout.findViewById(R.id.fab_proc);
         fab.attachToListView(mListViewProc);
         fab.setOnClickListener(oclFabClick);
-
         layCanselSearch.setOnClickListener(oclCloseSearch);
+
         laySearch.setVisibility(View.GONE);
 
         relativeLayout.findViewById(R.id.procedure_tab);
@@ -123,6 +123,11 @@ public class ProcedureTab3 extends Fragment {
 
         setHasOptionsMenu(true);
 
+        //hide fab if procedure < 5
+        if (mListItemsProc.size() < 6 )
+            fab.setVisibility(View.GONE);
+        //
+
         return relativeLayout;
     }
 
@@ -131,20 +136,21 @@ public class ProcedureTab3 extends Fragment {
         public void onClick(View v) {
             laySearch.setVisibility(View.VISIBLE);
             fab.hide();
-            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(mSearchViewProc.getWindowToken(), InputMethodManager.SHOW_IMPLICIT);
+            mSearchViewProc.requestFocus();
+            InputMethodManager keyboard = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            keyboard.showSoftInput(mSearchViewProc, 0);
             Toast.makeText(fa, "Проверка fab", Toast.LENGTH_SHORT).show();
-            mSearchViewProc.setCursorVisible(false);
-
         }
     };
+
 
     View.OnClickListener oclCloseSearch = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             laySearch.setVisibility(View.GONE);
             fab.show();
-            Toast.makeText(fa, "Проверка close search proc", Toast.LENGTH_SHORT).show();
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(mSearchViewProc.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
         }
     };
@@ -297,9 +303,9 @@ public class ProcedureTab3 extends Fragment {
                     (R.drawable.btn_check_buttonless_on, 0, 0, 0);
             lastChoose = textView;
 
-//            Toast.makeText(fa.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
-//                            + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
-//                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(fa.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
+                           + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
+                    Toast.LENGTH_SHORT).show();
         }
     };
 

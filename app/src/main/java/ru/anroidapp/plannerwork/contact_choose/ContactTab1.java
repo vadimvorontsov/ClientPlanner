@@ -283,8 +283,8 @@ public class ContactTab1 extends Fragment {
         // for configure pinned header view on scroll change
         mListView.setOnScrollListener(mAdaptor);
 
-        //mListView.setOnItemClickListener(mClickListener);
-        //mListView.setOnItemLongClickListener(mLongClickListener);
+        mListView.setOnItemClickListener(mClickListener);
+        mListView.setOnItemLongClickListener(mLongClickListener);
     }
 
     AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
@@ -447,11 +447,15 @@ public class ContactTab1 extends Fragment {
                 ArrayList<String> filterItems = new ArrayList<>();
 
                 synchronized (this) {
+                    LOOP_FOR_CONTACTS:
                     for (String item : mContacts) {
-                        if (item.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
-                            filterItems.add(item);
-                        } else if (item.toLowerCase(Locale.getDefault()).contains(constraintStr)) {
-                            filterItems.add(item);
+                        String[] subNames = item.split(" ");
+                        LOOP_FOR_SUBNAMES:
+                        for (String subName : subNames) {
+                            if (subName.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
+                                filterItems.add(item);
+                                break LOOP_FOR_SUBNAMES;
+                            }
                         }
                     }
                     result.count = filterItems.size();
@@ -593,7 +597,7 @@ public class ContactTab1 extends Fragment {
     private ArrayList<String> ignoreDublicatePhones(ArrayList<String> phones) {
 
         ArrayList<String> goodPhones = new ArrayList<>();
-        for(int i = 0; i < phones.size(); i++) {
+        for (int i = 0; i < phones.size(); i++) {
             goodPhones.add(reformatPhones(phones.get(i)));
         }
 
@@ -623,9 +627,9 @@ public class ContactTab1 extends Fragment {
         String newPhone = oldPhone.replaceAll("\\D", "");
         newPhone.replace(" ", "");
 
-        newPhone = "+" + newPhone.substring(0,1) + " (" + newPhone.substring(1,4) + ") " +
-                newPhone.substring(4,7) + "-" + newPhone.substring(7,9) +
-                "-" + newPhone.substring(9,newPhone.length());
+        newPhone = "+" + newPhone.substring(0, 1) + " (" + newPhone.substring(1, 4) + ") " +
+                newPhone.substring(4, 7) + "-" + newPhone.substring(7, 9) +
+                "-" + newPhone.substring(9, newPhone.length());
         if (newPhone.length() == 18) {
             return newPhone;
         } else {

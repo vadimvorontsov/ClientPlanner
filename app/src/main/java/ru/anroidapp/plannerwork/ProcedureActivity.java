@@ -55,9 +55,7 @@ public class ProcedureActivity extends AppCompatActivity {
 
     private final String TAG = "ProcedureActivity";
 
-    private TextView lastChoose;
-
-    MetaData mMetaData;
+    //private TextView lastChoose;
 
     Toolbar toolbar;
 
@@ -90,7 +88,8 @@ public class ProcedureActivity extends AppCompatActivity {
             mListItemsProc = savedInstanceState.getStringArrayList("mListItemsProc");
             mListSectionPosProc = savedInstanceState.getIntegerArrayList("mListSectionPosProc");
 
-            if (mListItemsProc != null && mListItemsProc.size() > 0 && mListSectionPosProc != null && mListSectionPosProc.size() > 0) {
+            if (mListItemsProc != null && mListItemsProc.size() > 0 &&
+                    mListSectionPosProc != null && mListSectionPosProc.size() > 0) {
                 setListAdaptor();
             }
 

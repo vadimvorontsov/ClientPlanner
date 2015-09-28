@@ -7,7 +7,6 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -17,6 +16,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +27,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -155,8 +154,28 @@ public class ContactTab1 extends Fragment {
             laySearch.setVisibility(View.VISIBLE);
             fab.hide();
             mSearchView.requestFocus();
-            InputMethodManager keyboard = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            final InputMethodManager keyboard = (InputMethodManager)getActivity().
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.showSoftInput(mSearchView, 0);
+
+            mSearchView.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN)
+                    {
+                        switch (keyCode)
+                        {
+                            case KeyEvent.KEYCODE_ENTER:
+                                keyboard.hideSoftInputFromWindow(mSearchView.getWindowToken(),
+                                        InputMethodManager.HIDE_NOT_ALWAYS);
+                                return true;
+                            default:
+                                break;
+                        }
+                    }
+                    return false;
+                }
+            });
         }
     };
 
@@ -168,6 +187,7 @@ public class ContactTab1 extends Fragment {
             InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(mSearchView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             //Toast.makeText(fa, "Проверка close search", Toast.LENGTH_SHORT).show();
+            new Populate().execute(mContacts);
 
         }
     };
@@ -280,11 +300,11 @@ public class ContactTab1 extends Fragment {
         // for configure pinned header view on scroll change
         mListView.setOnScrollListener(mAdaptor);
 
-        mListView.setOnItemClickListener(mClickListener);
-        mListView.setOnItemLongClickListener(mLongClickListener);
+        mListView.setOnItemClickListener(clickListener);
+        mListView.setOnItemLongClickListener(longClickListener);
     }
 
-    AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
+    AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -324,12 +344,12 @@ public class ContactTab1 extends Fragment {
         }
     };
 
-    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
+    AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 
-            Resources resourses = getResources();
-            String unknown = resourses.getString(R.string.unknown);
+            Resources resources = getResources();
+            String unknown = resources.getString(R.string.unknown);
 
             String clientName = mListItems.get(position);
             mMetaData.setClientName(clientName);
@@ -354,6 +374,8 @@ public class ContactTab1 extends Fragment {
             textView.setCompoundDrawablesWithIntrinsicBounds
                     (R.drawable.btn_check_buttonless_on, 0, 0, 0);
             lastChoose = textView;
+            Toast.makeText(fa, "123", Toast.LENGTH_LONG).show();
+
         }
     };
 

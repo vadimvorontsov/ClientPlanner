@@ -99,8 +99,6 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 //                    holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
 //                    Drawable drawable = mContext.getDrawable(R.drawable.header);
 //                    holder.contactPhoto.setImageDrawable(drawable);
-                    //convertView.setOnLongClickListener(qqq);
-                    //convertView.setOnClickListener(eee);
                     break;
                 case TYPE_SECTION:
                     convertView = mLayoutInflater.inflate(R.layout.contact_section_row_view, null);
@@ -118,21 +116,6 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 
         return convertView;
     }
-
-    View.OnLongClickListener qqq = new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View v) {
-            //Toast.makeText(mContext, "долгий клик", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    };
-
-    View.OnClickListener eee = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //Toast.makeText(mContext, "обычный клик", Toast.LENGTH_SHORT).show();
-        }
-    };
 
     @Override
     public int getPinnedHeaderState(int position) {

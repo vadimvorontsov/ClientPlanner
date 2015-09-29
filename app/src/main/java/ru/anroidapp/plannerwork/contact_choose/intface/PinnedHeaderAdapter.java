@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import ru.anroidapp.plannerwork.CircularImageView;
@@ -32,20 +33,20 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     ArrayList<Integer> mListSectionPos;
 
     // array list to store list view data
-    ArrayList<String> mListItems;
+    List<String> mListItems;
 
     // context object
     Context mContext;
 
 
-    public PinnedHeaderAdapter(Context context, ArrayList<String> listItems,
+    public PinnedHeaderAdapter(Context context, List<String> listItems,
                                ArrayList<Integer> listSectionPos) {
-
         this.mContext = context;
         this.mListItems = listItems;
         this.mListSectionPos = listSectionPos;
 
-        mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mLayoutInflater = LayoutInflater.from(mContext);
     }
 
     @Override
@@ -86,7 +87,6 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-
         ViewHolder holder = null;
 
         if (convertView == null) {
@@ -99,8 +99,8 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 //                    holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
 //                    Drawable drawable = mContext.getDrawable(R.drawable.header);
 //                    holder.contactPhoto.setImageDrawable(drawable);
-                    convertView.setOnLongClickListener(qqq);
-                    convertView.setOnClickListener(eee);
+                    //convertView.setOnLongClickListener(qqq);
+                    //convertView.setOnClickListener(eee);
                     break;
                 case TYPE_SECTION:
                     convertView = mLayoutInflater.inflate(R.layout.contact_section_row_view, null);
@@ -108,8 +108,8 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
             }
 
             holder.textView = (TextView) convertView.findViewById(R.id.row_title);
-
             convertView.setTag(holder);
+
         } else {
             holder = (ViewHolder) convertView.getTag();
         }

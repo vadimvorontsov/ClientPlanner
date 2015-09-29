@@ -278,6 +278,8 @@ public class ContactTab1 extends Fragment {
         // create instance of PinnedHeaderAdapter and set adapter to list view
         mAdaptor = new PinnedHeaderAdapter(fa, mListItems, mListSectionPos);
         mListView.setAdapter(mAdaptor);
+        mListView.setOnItemClickListener(clickListener);
+        mListView.setOnItemLongClickListener(longClickListener);
 
         //TextView view = (TextView) mAdaptor.getView(0, mListView.getChildAt(0), mListView);
         //view.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_check_buttonless_on, 0, 0, 0);
@@ -300,8 +302,7 @@ public class ContactTab1 extends Fragment {
         // for configure pinned header view on scroll change
         mListView.setOnScrollListener(mAdaptor);
 
-        mListView.setOnItemClickListener(clickListener);
-        mListView.setOnItemLongClickListener(longClickListener);
+
     }
 
     AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
@@ -339,7 +340,7 @@ public class ContactTab1 extends Fragment {
                             resources.getString(R.string.email) + "\n" + allEmails)
                     .positiveText(R.string.back)
                     .show();
-            //Toast.makeText(fa, "123", Toast.LENGTH_LONG).show();
+            Toast.makeText(fa, "123long", Toast.LENGTH_LONG).show();
             return true;
         }
     };
@@ -347,6 +348,8 @@ public class ContactTab1 extends Fragment {
     AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+
+            Toast.makeText(fa, "123click", Toast.LENGTH_LONG).show();
 
             Resources resources = getResources();
             String unknown = resources.getString(R.string.unknown);
@@ -370,12 +373,10 @@ public class ContactTab1 extends Fragment {
                 lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
 
-            TextView textView = (TextView) view;
-            textView.setCompoundDrawablesWithIntrinsicBounds
-                    (R.drawable.btn_check_buttonless_on, 0, 0, 0);
-            lastChoose = textView;
-            Toast.makeText(fa, "123", Toast.LENGTH_LONG).show();
-
+//            TextView textView = (TextView) view;
+//            textView.setCompoundDrawablesWithIntrinsicBounds
+//                    (R.drawable.btn_check_buttonless_on, 0, 0, 0);
+//            lastChoose = textView;
         }
     };
 

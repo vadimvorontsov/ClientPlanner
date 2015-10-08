@@ -1,7 +1,9 @@
 package ru.anroidapp.plannerwork.contact_choose;
 
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -316,31 +318,59 @@ public class ContactTab1 extends Fragment {
             String allEmails = "";
             ArrayList<String> phonesTmp = getPhonesByName(fa, nameTmp);
 
-            if (phonesTmp.isEmpty()) {
+            if (phonesTmp == null || phonesTmp.isEmpty()) {
                 allPhones = resources.getString(R.string.unknown) + "\n";
             } else {
                 for (int i = 0; i < phonesTmp.size(); i++) {
-                    allPhones += phonesTmp.get(i) + "\n";
+                    if (i != phonesTmp.size()-1) {
+                        allPhones += phonesTmp.get(i) + "\n";
+                    } else {
+                        allPhones += phonesTmp.get(i);
+                    }
                 }
             }
 
             ArrayList<String> emailsTmp = getEmailsByName(fa, nameTmp);
-            if (emailsTmp.isEmpty()) {
+            if (emailsTmp == null || emailsTmp.isEmpty()) {
                 allEmails = resources.getString(R.string.unknown) + "\n";
             } else {
                 for (int i = 0; i < emailsTmp.size(); i++) {
-                    allEmails += emailsTmp.get(i) + "\n";
+                    if (i != emailsTmp.size()-1) {
+                        allEmails += emailsTmp.get(i) + "\n";
+                    } else {
+                        allEmails += emailsTmp.get(i);
+                    }
                 }
             }
 
-            new MaterialDialog.Builder(fa)
-                    .title(R.string.contact_inf)
-                    .content(resources.getString(R.string.name) + " " + nameTmp + "\n" + "\n" +
-                            resources.getString(R.string.phone) + "\n" + allPhones + "\n" +
-                            resources.getString(R.string.email) + "\n" + allEmails)
-                    .positiveText(R.string.back)
-                    .show();
-            Toast.makeText(fa, "123long", Toast.LENGTH_LONG).show();
+            LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View contactInfo = inflater.inflate(R.layout.contact_info, null);
+            final TextView contactNameTextView = (TextView) contactInfo.findViewById(R.id.contact_info_name_input);
+            contactNameTextView.setText(nameTmp);
+            final TextView contactPhoneTextView = (TextView) contactInfo.findViewById(R.id.contact_info_phone_input);
+            contactPhoneTextView.setText(allPhones);
+            final TextView contactEmailTextView = (TextView) contactInfo.findViewById(R.id.contact_info_email_input);
+            contactEmailTextView.setText(allEmails);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(fa);
+            builder.setView(contactInfo)
+                    .setCancelable(true)
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            builder.show();
+
+//            new MaterialDialog.Builder(fa)
+//                    .title(R.string.contact_inf)
+//                    .content(resources.getString(R.string.name) + " " + nameTmp + "\n" + "\n" +
+//                            resources.getString(R.string.phone) + "\n" + allPhones + "\n" +
+//                            resources.getString(R.string.email) + "\n" + allEmails)
+//                    .positiveText(R.string.back)
+//                    .show();
+//            Toast.makeText(fa, "123long", Toast.LENGTH_LONG).show();
             return true;
         }
     };
@@ -358,13 +388,15 @@ public class ContactTab1 extends Fragment {
             mMetaData.setClientName(clientName);
 
             ArrayList<String> clientPhones = getPhonesByName(fa, clientName);
-            if (clientPhones.isEmpty()) {
+            if (clientPhones == null || clientPhones.isEmpty()) {
+                clientPhones = new ArrayList<>();
                 clientPhones.add(unknown);
             }
             mMetaData.setClientPhones(clientPhones);
 
             ArrayList<String> clientEmails = getEmailsByName(fa, clientName);
-            if (clientEmails.isEmpty()) {
+            if (clientEmails == null || clientEmails.isEmpty()) {
+                clientEmails = new ArrayList<>();
                 clientEmails.add(unknown);
             }
             mMetaData.setClientEmails(clientEmails);

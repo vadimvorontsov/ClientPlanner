@@ -1,6 +1,8 @@
 package ru.anroidapp.plannerwork.contact_choose.intface;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +88,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder;
+        ViewHolder holder = null;
 
         if (convertView == null) {
             holder = new ViewHolder();
@@ -94,20 +97,16 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
             switch (type) {
                 case TYPE_ITEM:
                     convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
-                    holder.textView = (TextView) convertView.findViewById(R.id.row_title);
-                    String name = holder.textView.getText().toString();
-                    //                   Log.i("123", name);
 //                    holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
 //                    Drawable drawable = mContext.getDrawable(R.drawable.header);
 //                    holder.contactPhoto.setImageDrawable(drawable);
                     break;
                 case TYPE_SECTION:
                     convertView = mLayoutInflater.inflate(R.layout.contact_section_row_view, null);
-                    holder.textView = (TextView) convertView.findViewById(R.id.row_title);
                     break;
             }
 
-
+            holder.textView = (TextView) convertView.findViewById(R.id.row_title);
             convertView.setTag(holder);
 
         } else {

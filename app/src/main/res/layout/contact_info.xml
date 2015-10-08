@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/md_content_padding_bottom"
+    android:paddingLeft="@dimen/md_dialog_frame_margin"
+    android:paddingRight="@dimen/md_dialog_frame_margin"
+    android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/contact_info_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/md_content_padding_bottom"
+        android:layout_marginTop="5dp"
+        android:fontFamily="sans-serif"
+        android:textSize="22sp"
+        android:text="Информация о контакте"
+        android:textStyle="bold"
+        android:textColor="@color/ColorPrimary" />
+
+
+    <TextView
+        android:id="@+id/contact_info_name_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:textSize="20sp"
+        android:text="Имя"
+        android:textColor="@color/ColorPrimary" />
+
+    <TextView
+        android:id="@+id/contact_info_name_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginBottom="1dp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/ColorPrimaryDark"
+        android:singleLine="false"/>
+
+    <TextView
+        android:id="@+id/contact_phone_name_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:textSize="20sp"
+        android:text="Номер телефона"
+        android:textColor="@color/ColorPrimary" />
+
+    <TextView
+        android:id="@+id/contact_info_phone_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginBottom="1dp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/ColorPrimaryDark"
+        android:singleLine="false"
+        android:autoLink="phone"/>
+
+    <TextView
+        android:id="@+id/contact_info_email_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif"
+        android:textSize="20sp"
+        android:text="Email"
+        android:textColor="@color/ColorPrimary" />
+
+    <TextView
+        android:id="@+id/contact_info_email_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_marginBottom="1dp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/ColorPrimaryDark"
+        android:singleLine="false"
+        android:autoLink="email"/>
+
+</LinearLayout>

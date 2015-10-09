@@ -15,14 +15,18 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +69,7 @@ public class ProcedureActivity extends AppCompatActivity {
     private final String TAG = "ProcedureActivity";
 
     //private TextView lastChoose;
+    String[] data = {"one", "two", "three", "four"};
 
     Toolbar toolbar;
     Context cntxt;
@@ -169,6 +174,47 @@ public class ProcedureActivity extends AppCompatActivity {
         }
     };
 
+    public class MyCustomAdapter extends ArrayAdapter<String> {
+
+        public MyCustomAdapter(Context context, int textViewResourcedId, String[] objects){
+            super(context, textViewResourcedId, objects);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent){
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent){
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent){
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.row, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.color_circle);
+            label.setText(data[position]);
+            label.setVisibility(View.GONE);
+
+            ImageView icon = (ImageView) row.findViewById(R.id.icon_circle);
+
+            if (data[position] == "one"){
+                icon.setImageResource(R.mipmap.ic_launcher_blue);
+            }
+            else if(data[position] == "two"){
+                icon.setImageResource(R.mipmap.ic_launcher_orange);
+            }
+            else if(data[position] == "three"){
+                icon.setImageResource(R.mipmap.ic_launcher_green);
+            }
+            else if(data[position] == "four"){
+                icon.setImageResource(R.mipmap.ic_launcher_red);
+            }
+            return row;
+        }
+    }
+
 
     private void getProcedures() {
         Procedures procedures = new Procedures(ProcedureActivity.this);
@@ -199,6 +245,26 @@ public class ProcedureActivity extends AppCompatActivity {
                 final EditText nameEditText = (EditText) view.findViewById(R.id.input_proc_name);
                 final EditText priceEditText = (EditText) view.findViewById(R.id.input_proc_price);
                 final EditText noteEditText = (EditText) view.findViewById(R.id.input_proc_note);
+
+                //#######__adapter__#########
+
+                Spinner spinner = (Spinner) view.findViewById(R.id.spin_proc_color);
+                MyCustomAdapter adapter = new MyCustomAdapter(cntxt, R.layout.row, data);
+                spinner.setAdapter(adapter);
+                spinner.setSelection(0,true);
+                //обработчик нажатия
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        // Toast.makeText(getActivity(), "Position = " + position, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                //#######################
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ProcedureActivity.this);
                 builder.setView(view)
@@ -292,7 +358,7 @@ public class ProcedureActivity extends AppCompatActivity {
         }
     };
 
- AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
+    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Procedures procedures = new Procedures(ProcedureActivity.this);

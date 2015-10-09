@@ -1,5 +1,6 @@
 package ru.anroidapp.plannerwork.date_choose;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.smena.clientbase.procedures.Sessions;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import ru.anroidapp.plannerwork.MetaData;
@@ -171,6 +175,41 @@ public class DateTab2 extends Fragment {
             }
             mTextTime.setText(mTimeViewStart + mTimeViewEnd);
 
+            //Проверка есть ли запись на это время?
+            Resources resources = getResources();
+            Sessions sessions = new Sessions(mFragmentActivity);
+            ArrayList<Long> sessionsId = sessions.getAllSessionsId();
+            for (Long id : sessionsId) {
+
+                Object[] sessionInfo = sessions.getSessionById(id);
+                String[] timeStartArray = ((String) sessionInfo[4]).split("\\D");
+                String[] timeEndArray = ((String) sessionInfo[5]).split("\\D");
+
+                int year = Integer.parseInt(timeStartArray[0]);
+                int month = Integer.parseInt(timeStartArray[1]);
+                int day = Integer.parseInt(timeStartArray[2]);
+
+                int hourStart = Integer.parseInt(timeStartArray[3]);
+                int minuteStart = Integer.parseInt(timeStartArray[4]);
+
+                int hourEnd = Integer.parseInt(timeEndArray[3]);
+                int minuteEnd = Integer.parseInt(timeEndArray[4]);
+
+                if(mYear  == year)
+                    if (mMonth == month)
+                        if ( mDay == day ) {
+                            if (mHourStart < hourStart)
+                                break;
+                               else if (mHourStart == hourStart && minuteStart < minuteEnd)
+                                break;
+                                 else {
+                                Toast.makeText(mFragmentActivity, "На данное время есть запись", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+            }
+
+            //
+
         }
     };
 
@@ -197,6 +236,7 @@ public class DateTab2 extends Fragment {
                 iTime = 0;
                 mTimeViewEnd = "";
                 Toast.makeText(mFragmentActivity, "iTime = 1", Toast.LENGTH_SHORT).show();
+
             }
 
             if (mHourStart < mHourEnd) {

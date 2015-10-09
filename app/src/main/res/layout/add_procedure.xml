@@ -46,12 +46,23 @@
         android:inputType="textAutoCorrect"
         android:textColor="@color/ColorPrimaryDark" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:weightSum="3">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_weight="1">
     <TextView
         android:id="@+id/proc_price_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
         android:fontFamily="sans-serif"
         android:textSize="@dimen/md_content_textsize"
         android:text="Цена"
@@ -63,10 +74,32 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/md_content_textsize"
         android:layout_marginLeft="-2dp"
-        android:layout_marginRight="-2dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="1dp"
         android:inputType="number"
         android:textColor="@color/ColorPrimaryDark" />
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="2">
+        <TextView
+            android:id="@+id/proc_color_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="sans-serif"
+            android:textSize="@dimen/md_content_textsize"
+            android:text="Цвет"
+            android:textColor="@color/ColorPrimary" />
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spin_proc_color">
+        </Spinner>
+    </LinearLayout>
+</LinearLayout>
 
     <TextView
         android:id="@+id/proc_note_text_view"

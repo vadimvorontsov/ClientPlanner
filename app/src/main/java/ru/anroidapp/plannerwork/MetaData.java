@@ -19,7 +19,7 @@ public class MetaData implements Serializable {
     private int mYear, mMonth, mDay, mHourStart, mMinuteStart, mHourEnd, mMinuteEnd;
 
     private String mProcedureName, mProcedureNote;
-    private int mProcedurePrice;
+    private int mProcedurePrice, mProcedureColor;
 
     public int getCurrentFragment() {
         return currentFragment;
@@ -52,6 +52,7 @@ public class MetaData implements Serializable {
         mProcedureName = unknown;
         mProcedureNote = noNotes;
         mProcedurePrice = 0;
+        mProcedureColor = 0;
 
     }
 
@@ -153,6 +154,10 @@ public class MetaData implements Serializable {
 
     public int getProcedurePrice() {
         return mProcedurePrice;
+    }
+
+    public int getProcedureColor() {
+        return mProcedureColor;
     }
 
     public void setProcedurePrice(int mProcedurePrice) {

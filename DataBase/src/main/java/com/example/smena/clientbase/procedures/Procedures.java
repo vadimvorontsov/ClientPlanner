@@ -61,18 +61,20 @@ public class Procedures {
             String procedureName = "";
             Integer procedurePrice = 0;
             String procedureNote = "";
+            Integer procedureColor = 0;
 
             cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES, new String[]{ClientBaseOpenHelper.PROCEDURE,
-                            ClientBaseOpenHelper.PRICE, ClientBaseOpenHelper.NOTICE},
+                            ClientBaseOpenHelper.PRICE, ClientBaseOpenHelper.NOTICE, ClientBaseOpenHelper.COLOR},
                     ClientBaseOpenHelper._ID + "=" + procedureID, null, null, null, null);
 
             while (cursor.moveToNext()) {
                 procedureName = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.PROCEDURE));
                 procedurePrice = cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.PRICE));
                 procedureNote = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.NOTICE));
+                procedureColor = cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.COLOR));
             }
             if (!procedureName.isEmpty()) {
-                procedureInfo = new Object[]{procedureName, procedurePrice, procedureNote};
+                procedureInfo = new Object[]{procedureName, procedurePrice, procedureNote, procedureColor};
             }
             return procedureInfo;
 
@@ -92,7 +94,7 @@ public class Procedures {
 
     }
 
-    public long addProcedure(String procedureName, Integer procedurePrice, String procedureNote) {
+    public long addProcedure(String procedureName, Integer procedurePrice, String procedureNote, Integer procedureColor) {
 
         ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
         SQLiteDatabase db_write = helper.getWritableDatabase();
@@ -103,6 +105,7 @@ public class Procedures {
             cv.put(ClientBaseOpenHelper.PROCEDURE, procedureName);
             cv.put(ClientBaseOpenHelper.PRICE, procedurePrice);
             cv.put(ClientBaseOpenHelper.NOTICE, procedureNote);
+            cv.put(ClientBaseOpenHelper.COLOR, procedureColor);
 
             procedureID = db_write.insert(ClientBaseOpenHelper.TABLE_PROCEDURES, ClientBaseOpenHelper.PROCEDURE, cv);
 

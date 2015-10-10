@@ -53,7 +53,7 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-       // getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);
+        // getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);
 
 
         // Get a reference for the week view in the layout.
@@ -187,6 +187,7 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
             String procedureName = (String) procedureInfo[0];
             int procedurePrice = Integer.parseInt(procedureInfo[1].toString());
             String procedureNote = (String) procedureInfo[2];
+            int procedureColor = Integer.parseInt(procedureInfo[3].toString());
 
             String[] timeStartArray = ((String) sessionInfo[4]).split("\\D");
             String[] timeEndArray = ((String) sessionInfo[5]).split("\\D");
@@ -223,7 +224,14 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
             endTime.add(Calendar.MINUTE, deltaMinute);
 
             event = new WeekViewEvent(id, clientName, startTime, endTime);
-            event.setColor(getResources().getColor(R.color.event_color_01));
+            if ( procedureColor == 0 )
+                event.setColor(getResources().getColor(R.color.procedure_color_1));
+            else if ( procedureColor == 1 )
+                event.setColor(getResources().getColor(R.color.procedure_color_2));
+            else if ( procedureColor == 2 )
+                event.setColor(getResources().getColor(R.color.procedure_color_3));
+            else if ( procedureColor == 3 )
+                event.setColor(getResources().getColor(R.color.procedure_color_4));
             events.add(event);
         }
 

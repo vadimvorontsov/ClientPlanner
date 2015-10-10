@@ -73,6 +73,7 @@ public class ProcedureActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     Context cntxt;
+    int choiceColor = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,7 +257,10 @@ public class ProcedureActivity extends AppCompatActivity {
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        // Toast.makeText(getActivity(), "Position = " + position, Toast.LENGTH_SHORT).show();
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Ваш выбор: " + position, Toast.LENGTH_SHORT);
+                        choiceColor = position;
+                        toast.show();
                     }
 
                     @Override
@@ -283,10 +287,12 @@ public class ProcedureActivity extends AppCompatActivity {
                         if (note.isEmpty())
                             note = "Примечаний нет";
 
+                        Integer color = choiceColor;
+
                         if (!name.isEmpty()) {
                             long id = 0;
                             Procedures procedures = new Procedures(ProcedureActivity.this);
-                            id = procedures.addProcedure(name, price, note);
+                            id = procedures.addProcedure(name, price, note, color);
                             if (id != 0) {
                                 Toast.makeText(ProcedureActivity.this, "Процедура добавлена", Toast.LENGTH_SHORT).show();
                                 refreshList();

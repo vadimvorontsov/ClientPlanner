@@ -29,6 +29,11 @@
     <color name="viewPagerText">#795548</color>
     <color name="viewPagerTextDark">#6d4c41</color>
 
+    <!--colors chose procedures -->
+    <color name="procedure_color_1">#03a9f4</color>
+    <color name="procedure_color_2">#ffeb3b</color>
+    <color name="procedure_color_3">#8bc34a</color>
+    <color name="procedure_color_4">#ff5722</color>
 
     <!-- Material DEFAULT colors -->
     <color name="material_drawer_primary">#2196F3</color>

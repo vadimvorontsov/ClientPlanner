@@ -12,7 +12,7 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
     Context ctx;
     // db
     private static final String DATABASE_NAME = "sessions.db";
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 16;
 
     //tables
     public static final String TABLE_CLIENTS = "clients_table";
@@ -33,6 +33,7 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
     public static final String PROCEDURE = "procedure";
     public static final String PRICE = "price";
     public static final String NOTICE = "notice";
+    public static final String COLOR = "color";
 
     public static final String ID_CLIENT_SESSION = "id_client";
     public static final String ID_PHONE = "id_phone";
@@ -62,7 +63,7 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
         db.execSQL(CREATE_TABLE_EMAILS);
         String CREATE_TABLE_PROCEDURES = "CREATE TABLE " + TABLE_PROCEDURES + " (" + ClientBaseOpenHelper._ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PROCEDURE + " TEXT UNIQUE, "
-                + PRICE + " REAL, " + NOTICE + " TEXT);";
+                + PRICE + " REAL, " + NOTICE + " TEXT, " + COLOR + " INTEGER);";
         db.execSQL(CREATE_TABLE_PROCEDURES);
 
         String CREATE_TABLE_SESSIONS = "CREATE TABLE " + TABLE_SESSIONS + " ("

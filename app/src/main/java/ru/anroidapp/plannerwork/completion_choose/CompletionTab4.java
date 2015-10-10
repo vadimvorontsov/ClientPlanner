@@ -122,7 +122,7 @@ public class CompletionTab4 extends Fragment {
 
             Sessions sessions = new Sessions(fa);
             long sessinonId = sessions.addSession(mMetaData.getClientName(), mMetaData.getProcedureName(),
-                    mMetaData.getProcedurePrice(), mMetaData.getProcedureNote(),
+                    mMetaData.getProcedurePrice(), mMetaData.getProcedureNote(), mMetaData.getProcedureColor(),
                     "" + mMetaData.getYear() + "-" + mMetaData.getMonth() + "-" + mMetaData.getDay() +
                             " " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart(),
                     "" + mMetaData.getYear() + "-" + mMetaData.getMonth() + "-" + mMetaData.getDay() +
@@ -150,8 +150,8 @@ public class CompletionTab4 extends Fragment {
             animation_in.setAnimationListener(fadeInAnimationListener);
             mDataAllLayout.startAnimation(animation_in);
             iMessage = 1;
-           // fadeInAnimationListener.onAnimationStart(animation_in);
-          //  fadeInAnimationListener.onAnimationEnd(animation_in);
+            // fadeInAnimationListener.onAnimationStart(animation_in);
+            //  fadeInAnimationListener.onAnimationEnd(animation_in);
         }
     };
 
@@ -213,7 +213,7 @@ public class CompletionTab4 extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         setupDataLayout();
-       //setupData(relativeLayout);
+        //setupData(relativeLayout);
         super.onCreateOptionsMenu(menu, inflater);
 
     }
@@ -315,8 +315,8 @@ public class CompletionTab4 extends Fragment {
         procedureNoteTextView.setText(mMetaData.getProcedureNote());
 
         mDataLayout = (LinearLayout) relativeLayout.findViewById(R.id.data_layout);
-       // LinearLayout viewMessageBtn = (LinearLayout) relativeLayout.findViewById(R.id.view_message_layout);
-      //  viewMessageBtn.setOnClickListener(viewMsgBtnListener);
+        // LinearLayout viewMessageBtn = (LinearLayout) relativeLayout.findViewById(R.id.view_message_layout);
+        //  viewMessageBtn.setOnClickListener(viewMsgBtnListener);
 
     }
 
@@ -345,7 +345,7 @@ public class CompletionTab4 extends Fragment {
         public void onClick(View v) {
 
             if (!mAlpha) {
-               // mData.startAnimation(fadeIn);
+                // mData.startAnimation(fadeIn);
                 setupViewMsgLayout();
                 mAlpha = true;
             } else {

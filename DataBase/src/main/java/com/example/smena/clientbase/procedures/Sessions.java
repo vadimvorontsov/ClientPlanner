@@ -23,7 +23,7 @@ public class Sessions {
     }
 
     public long addSession(String clientName, String procedureName, int procedurePrice,
-                           String procedureNote, String sessionTimeStart, String sessionTimeEnd,
+                           String procedureNote,int procedureColor ,String sessionTimeStart, String sessionTimeEnd,
                            String phone, String email) {
 
         Clients clients = new Clients(ctx);
@@ -45,7 +45,7 @@ public class Sessions {
         }
 
         Procedures procedures = new Procedures(ctx);
-        long procedureID = procedures.addProcedure(procedureName, procedurePrice, procedureNote);
+        long procedureID = procedures.addProcedure(procedureName, procedurePrice, procedureNote, procedureColor);
         if (procedureID == -1) {
             procedureID = procedures.getProcedureID(procedureName);
         }

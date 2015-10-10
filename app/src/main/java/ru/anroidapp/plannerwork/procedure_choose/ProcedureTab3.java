@@ -19,11 +19,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +40,7 @@ import java.util.Comparator;
 import java.util.Locale;
 
 import ru.anroidapp.plannerwork.MetaData;
+import ru.anroidapp.plannerwork.ProcedureActivity;
 import ru.anroidapp.plannerwork.R;
 import ru.anroidapp.plannerwork.contact_choose.IndexBarView;
 import ru.anroidapp.plannerwork.contact_choose.PinnedHeaderListView;
@@ -70,6 +74,8 @@ public class ProcedureTab3 extends Fragment {
 
     FragmentActivity fa;
     MetaData mMetaData;
+    int choiceColor = 0;
+    String[] data = {"one", "two", "three", "four"};
 
 
     @Override
@@ -183,6 +189,29 @@ public class ProcedureTab3 extends Fragment {
                 final EditText priceEditText = (EditText) view.findViewById(R.id.input_proc_price);
                 final EditText noteEditText = (EditText) view.findViewById(R.id.input_proc_note);
 
+                //#######__adapter__#########
+
+                Spinner spinner = (Spinner) view.findViewById(R.id.spin_proc_color);
+                MyCustomAdapter adapter = new MyCustomAdapter(fa, R.layout.row, data);
+                spinner.setAdapter(adapter);
+                spinner.setSelection(0,true);
+                //обработчик нажатия
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Toast toast = Toast.makeText(fa,
+                                "Ваш выбор: " + position, Toast.LENGTH_SHORT);
+                        choiceColor = position;
+                        toast.show();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                //#######################
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(fa);
                 builder.setView(view)
                         .setCancelable(true);
@@ -200,10 +229,12 @@ public class ProcedureTab3 extends Fragment {
                         if (note.isEmpty())
                             note = "Примечаний нет";
 
+                        Integer color = 0;
+
                         if (!name.isEmpty()) {
                             long id = 0;
                             Procedures procedures = new Procedures(fa);
-                            id = procedures.addProcedure(name, price, note);
+                            id = procedures.addProcedure(name, price, note, color);
                             if (id != 0) {
                                 Toast.makeText(fa, "Процедура добавлена", Toast.LENGTH_SHORT).show();
                                 refreshList();
@@ -223,6 +254,47 @@ public class ProcedureTab3 extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public class MyCustomAdapter extends ArrayAdapter<String> {
+
+        public MyCustomAdapter(Context context, int textViewResourcedId, String[] objects){
+            super(context, textViewResourcedId, objects);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent){
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent){
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent){
+            LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View row = inflater.inflate(R.layout.row, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.color_circle);
+            label.setText(data[position]);
+            label.setVisibility(View.GONE);
+
+            ImageView icon = (ImageView) row.findViewById(R.id.icon_circle);
+
+            if (data[position] == "one"){
+                icon.setImageResource(R.mipmap.ic_launcher_blue);
+            }
+            else if(data[position] == "two"){
+                icon.setImageResource(R.mipmap.ic_launcher_orange);
+            }
+            else if(data[position] == "three"){
+                icon.setImageResource(R.mipmap.ic_launcher_green);
+            }
+            else if(data[position] == "four"){
+                icon.setImageResource(R.mipmap.ic_launcher_red);
+            }
+            return row;
+        }
     }
 
     @Override
@@ -299,13 +371,13 @@ public class ProcedureTab3 extends Fragment {
                 lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
 
-            TextView textView = (TextView) view;
-            textView.setCompoundDrawablesWithIntrinsicBounds
-                    (R.drawable.btn_check_buttonless_on, 0, 0, 0);
-            lastChoose = textView;
+            //         TextView textView = (TextView) view;
+            //          textView.setCompoundDrawablesWithIntrinsicBounds
+            //                  (R.drawable.btn_check_buttonless_on, 0, 0, 0);
+            //          lastChoose = textView;
 
             Toast.makeText(fa.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
-                           + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
+                            + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
                     Toast.LENGTH_SHORT).show();
         }
     };

@@ -40,11 +40,9 @@ import java.util.Comparator;
 import java.util.Locale;
 
 import ru.anroidapp.plannerwork.MetaData;
-import ru.anroidapp.plannerwork.ProcedureActivity;
+import ru.anroidapp.plannerwork.intface_procedure.ProcedureHeaderAdapter;
+import ru.anroidapp.plannerwork.intface_procedure.ProcedureHeaderListView;
 import ru.anroidapp.plannerwork.R;
-import ru.anroidapp.plannerwork.contact_choose.IndexBarView;
-import ru.anroidapp.plannerwork.contact_choose.PinnedHeaderListView;
-import ru.anroidapp.plannerwork.contact_choose.intface.PinnedHeaderAdapter;
 
 
 public class ProcedureTab3 extends Fragment {
@@ -53,11 +51,13 @@ public class ProcedureTab3 extends Fragment {
 
     ArrayList<Integer> mListSectionPosProc;
 
+    ArrayList<Integer> mColorProcedures;
+
     ArrayList<String> mListItemsProc;
 
-    PinnedHeaderListView mListViewProc;
+    ProcedureHeaderListView mListViewProc;
 
-    PinnedHeaderAdapter mAdaptorProc;
+    ProcedureHeaderAdapter mAdaptorProc;
 
     EditText mSearchViewProc;
 
@@ -85,13 +85,15 @@ public class ProcedureTab3 extends Fragment {
         mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
 
         RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.procedure_tab, container, false);
-        mProcedures = new ArrayList<>();
 
+        mProcedures = new ArrayList<>();
+        mColorProcedures = new ArrayList<>();
+        getColorProcedures();
         getProcedures();
 
         mSearchViewProc = (EditText) relativeLayout.findViewById(R.id.SearchViewProc);
         mLoadingViewProc = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);
-        mListViewProc = (PinnedHeaderListView) relativeLayout.findViewById(R.id.proc_list_view);
+        mListViewProc = (ProcedureHeaderListView) relativeLayout.findViewById(R.id.proc_list_view);
         mEmptyViewProc = (TextView) relativeLayout.findViewById(R.id.empty_view);
         laySearch = (LinearLayout) relativeLayout.findViewById(R.id.LaySearchProc);
         layCanselSearch = (LinearLayout) relativeLayout.findViewById(R.id.LayCanselSearchProc);
@@ -165,6 +167,11 @@ public class ProcedureTab3 extends Fragment {
     private void getProcedures() {
         Procedures procedures = new Procedures(fa);
         mProcedures = procedures.getAllProceduresNames();
+    }
+
+    private void getColorProcedures() {
+        Procedures procedures = new Procedures(fa);
+        mColorProcedures = procedures.getAllProceduresColor();
     }
 
     private void refreshList() {
@@ -305,7 +312,7 @@ public class ProcedureTab3 extends Fragment {
 
     private void setListAdaptor() {
         // create instance of PinnedHeaderAdapter and set adapter to list view
-        mAdaptorProc = new PinnedHeaderAdapter(fa, mListItemsProc, mListSectionPosProc);
+        mAdaptorProc = new ProcedureHeaderAdapter(fa, mListItemsProc, mListSectionPosProc, mColorProcedures);
         mListViewProc.setAdapter(mAdaptorProc);
 
         LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -315,9 +322,9 @@ public class ProcedureTab3 extends Fragment {
         mListViewProc.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view
-        IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListViewProc, false);
-        indexBarView.setData(mListViewProc, mListItemsProc, mListSectionPosProc);
-        mListViewProc.setIndexBarView(indexBarView);
+       // IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListViewProc, false);
+       // indexBarView.setData(mListViewProc, mListItemsProc, mListSectionPosProc);
+        //mListViewProc.setIndexBarView(indexBarView);
 
         // set preview text view
         View previewTextView = inflater.inflate(R.layout.preview_view, mListViewProc, false);

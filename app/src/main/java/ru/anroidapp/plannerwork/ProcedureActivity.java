@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +31,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.clientbase.procedures.Procedures;
-import com.example.smena.clientbase.procedures.Sessions;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -40,10 +38,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
-import ru.anroidapp.plannerwork.contact_choose.IndexBarView;
-import ru.anroidapp.plannerwork.contact_choose.PinnedHeaderListView;
-import ru.anroidapp.plannerwork.contact_choose.intface.PinnedHeaderAdapter;
-
+import ru.anroidapp.plannerwork.intface_procedure.ProcedureHeaderAdapter;
+import ru.anroidapp.plannerwork.intface_procedure.ProcedureHeaderListView;
 
 public class ProcedureActivity extends AppCompatActivity {
 
@@ -51,11 +47,13 @@ public class ProcedureActivity extends AppCompatActivity {
 
     ArrayList<Integer> mListSectionPosProc;
 
+    ArrayList<Integer> mColorProcedures;
+
     ArrayList<String> mListItemsProc;
 
-    PinnedHeaderListView mListViewProc;
+    ProcedureHeaderListView mListViewProc;
 
-    PinnedHeaderAdapter mAdaptorProc;
+    ProcedureHeaderAdapter mAdaptorProc;
 
     EditText mSearchViewProc;
 
@@ -87,12 +85,14 @@ public class ProcedureActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         mProcedures = new ArrayList<>();
+        mColorProcedures = new ArrayList<>();
 
+        getColorProcedures();
         getProcedures();
 
         mSearchViewProc = (EditText) findViewById(R.id.act_search_proc_view);
         mLoadingViewProc = (ProgressBar) findViewById(R.id.loading_view);
-        mListViewProc = (PinnedHeaderListView) findViewById(R.id.act_proc_list_view);
+        mListViewProc = (ProcedureHeaderListView) findViewById(R.id.act_proc_list_view);
         mEmptyViewProc = (TextView) findViewById(R.id.empty_view);
         laySearch = (LinearLayout) findViewById(R.id.LaySearchProcAct);
         layCanselSearch = (LinearLayout) findViewById(R.id.LayCanselSearchProcAct);
@@ -222,8 +222,14 @@ public class ProcedureActivity extends AppCompatActivity {
         mProcedures = procedures.getAllProceduresNames();
     }
 
+    private void getColorProcedures() {
+        Procedures procedures = new Procedures(ProcedureActivity.this);
+        mColorProcedures = procedures.getAllProceduresColor();
+    }
+
     private void refreshList() {
         getProcedures();
+        getColorProcedures();
         new Populate().execute(mProcedures);
     }
 
@@ -316,7 +322,7 @@ public class ProcedureActivity extends AppCompatActivity {
 
     private void setListAdaptor() {
         // create instance of PinnedHeaderAdapter and set adapter to list view
-        mAdaptorProc = new PinnedHeaderAdapter(ProcedureActivity.this, mListItemsProc, mListSectionPosProc);
+        mAdaptorProc = new ProcedureHeaderAdapter(ProcedureActivity.this, mListItemsProc, mListSectionPosProc,mColorProcedures);
         mListViewProc.setAdapter(mAdaptorProc);
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -326,9 +332,9 @@ public class ProcedureActivity extends AppCompatActivity {
         mListViewProc.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view
-        IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListViewProc, false);
-        indexBarView.setData(mListViewProc, mListItemsProc, mListSectionPosProc);
-        mListViewProc.setIndexBarView(indexBarView);
+       // ProcedureIndexBarView indexBarView = (ProcedureIndexBarView) inflater.inflate(R.layout.index_bar_view, mListViewProc, false);
+      // indexBarView.setData(mListViewProc, mListItemsProc, mListSectionPosProc);
+       /// mListViewProc.setIndexBarView(indexBarView);
 
         // set preview text view
         View previewTextView = inflater.inflate(R.layout.preview_view, mListViewProc, false);

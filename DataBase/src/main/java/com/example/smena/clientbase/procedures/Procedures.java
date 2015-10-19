@@ -153,5 +153,87 @@ public class Procedures {
         }
     }
 
+    public ArrayList<Integer> getAllProceduresColor() {
+
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        SQLiteDatabase db_read = helper.getReadableDatabase();
+        Cursor cursor = null;
+        ArrayList<Integer> colorProcedures = new ArrayList<>();
+
+        try {
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES, new String[]{ClientBaseOpenHelper.COLOR}, null,
+                    null, null, null, null);
+            while (cursor.moveToNext()) {
+                colorProcedures.add(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.COLOR)));
+            }
+            return colorProcedures;
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return colorProcedures;
+
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+            if (db_read != null && db_read.isOpen()) {
+                db_read.close();
+                helper.close();
+            }
+        }
+    }
+
+    public int getColorProcedureName( String nameProcedure ) {
+
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper_color = new ClientBaseOpenHelper(ctx);
+        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read_color = helper_color.getReadableDatabase();
+        Cursor cursor = null;
+        Cursor cursor_color = null;
+        ArrayList<String> procedures = new ArrayList<>();
+        int nameColorProcedure = 0;
+        int i = 0;
+
+
+        try {
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES, new String[]{ClientBaseOpenHelper.PROCEDURE}, null,
+                    null, null, null, null);
+            cursor_color = db_read_color.query(ClientBaseOpenHelper.TABLE_PROCEDURES, new String[]{ClientBaseOpenHelper.COLOR}, null,
+                    null, null, null, null);
+
+            while (cursor.moveToNext()) {
+                procedures.add(cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.PROCEDURE)));
+                if (procedures.get(i) == nameProcedure)
+                {
+                    cursor_color.move(i);
+                    nameColorProcedure = cursor_color.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.COLOR));
+                }
+                 i++;
+            }
+            return nameColorProcedure;
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return nameColorProcedure;
+
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+                if(cursor_color != null && !cursor_color.isClosed())
+                    cursor.close();
+            }
+            if (db_read != null && db_read.isOpen()) {
+                db_read.close();
+                helper.close();
+                if (db_read_color != null && !db_read_color.isOpen())
+                {
+                    db_read_color.close();
+                    helper_color.close();
+                }
+            }
+        }
+    }
+
 
 }

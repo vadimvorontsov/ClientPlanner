@@ -68,7 +68,7 @@
 
         <include layout="@layout/loading_empty_view" />
 
-        <ru.anroidapp.plannerwork.contact_choose.PinnedHeaderListView
+        <ru.anroidapp.plannerwork.intface_procedure.ProcedureHeaderListView
             android:id="@+id/proc_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

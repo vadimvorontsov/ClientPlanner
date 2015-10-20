@@ -155,6 +155,17 @@ public class CompletionTab4 extends Fragment {
             }
         }
     };
+    View.OnClickListener oclBtnMessage = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Animation animation_in = AnimationUtils.loadAnimation(fa, R.anim.scale_in);
+            animation_in.setAnimationListener(fadeInAnimationListener);
+            mDataAllLayout.startAnimation(animation_in);
+            iMessage = 1;
+            // fadeInAnimationListener.onAnimationStart(animation_in);
+            //  fadeInAnimationListener.onAnimationEnd(animation_in);
+        }
+    };
     private View mData;
     private EditText editMsg;
     View.OnClickListener viewMsgBtnListener = new View.OnClickListener() {
@@ -184,11 +195,7 @@ public class CompletionTab4 extends Fragment {
             Animation animation_out = AnimationUtils.loadAnimation(fa, R.anim.scale_out);
             mDataLayout.removeAllViews();
             btnMessage.setVisibility(View.GONE);
-            mTextMsg = "Здравствуйте, " + mMetaData.getClientName() + "!" +
-                    "Вы записаны на " + mMetaData.getProcedureName() + " " +
-                    mMetaData.getDay() + " " + months[mMetaData.getMonth()].toLowerCase() + "," +
-                    "время " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart() + "." +
-                    "Цена " + mMetaData.getProcedurePrice() + ". До встречи!";
+            mTextMsg = createMsg();
             editMsg.setText(mTextMsg);
             mDataLayout.addView(editMsg);
             mDataAllLayout.startAnimation(animation_out);
@@ -197,17 +204,6 @@ public class CompletionTab4 extends Fragment {
         @Override
         public void onAnimationRepeat(Animation animation) {
 
-        }
-    };
-    View.OnClickListener oclBtnMessage = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Animation animation_in = AnimationUtils.loadAnimation(fa, R.anim.scale_in);
-            animation_in.setAnimationListener(fadeInAnimationListener);
-            mDataAllLayout.startAnimation(animation_in);
-            iMessage = 1;
-            // fadeInAnimationListener.onAnimationStart(animation_in);
-            //  fadeInAnimationListener.onAnimationEnd(animation_in);
         }
     };
 
@@ -434,11 +430,7 @@ public class CompletionTab4 extends Fragment {
     private void setupViewMsgLayout() {
         mDataLayout.removeAllViews();
 
-        mTextMsg = "Здравствуйте, " + mMetaData.getClientName() + "!" +
-                "Вы записаны на " + mMetaData.getProcedureName() + " " +
-                mMetaData.getDay() + " " + months[mMetaData.getMonth()].toLowerCase() + "," +
-                "время " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart() + "." +
-                "Цена " + mMetaData.getProcedurePrice();
+        mTextMsg = createMsg();
         editMsg.setText(mTextMsg);
         mDataLayout.addView(editMsg);
     }
@@ -470,6 +462,14 @@ public class CompletionTab4 extends Fragment {
         }
         mToast = Toast.makeText(fa, message, Toast.LENGTH_SHORT);
         mToast.show();
+    }
+
+    private String createMsg() {
+        return "Здравствуйте, " + mMetaData.getClientName() + "!" +
+                "Вы записаны на " + mMetaData.getProcedureName() + " " +
+                mMetaData.getDay() + " " + months[mMetaData.getMonth()].toLowerCase() + "," +
+                "время " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart() + "." +
+                "Цена " + mMetaData.getProcedurePrice() + ". До встречи!";
     }
 
 }

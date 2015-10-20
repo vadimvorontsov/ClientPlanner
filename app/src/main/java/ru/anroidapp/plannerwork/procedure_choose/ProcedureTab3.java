@@ -40,43 +40,116 @@ import java.util.Comparator;
 import java.util.Locale;
 
 import ru.anroidapp.plannerwork.MetaData;
+import ru.anroidapp.plannerwork.R;
 import ru.anroidapp.plannerwork.intface_procedure.ProcedureHeaderAdapter;
 import ru.anroidapp.plannerwork.intface_procedure.ProcedureHeaderListView;
-import ru.anroidapp.plannerwork.R;
 
 
 public class ProcedureTab3 extends Fragment {
 
-    ArrayList<String> mProcedures;
-
-    ArrayList<Integer> mListSectionPosProc;
-
-    ArrayList<Integer> mColorProcedures;
-
-    ArrayList<String> mListItemsProc;
-
-    ProcedureHeaderListView mListViewProc;
-
-    ProcedureHeaderAdapter mAdaptorProc;
-
-    EditText mSearchViewProc;
-
-    ProgressBar mLoadingViewProc;
-
-    TextView mEmptyViewProc;
-
-    LinearLayout laySearch, layCanselSearch;
-
     private final String TAG = "ProcedureTab3";
-
-    private TextView lastChoose;
+    ArrayList<String> mProcedures;
+    ArrayList<Integer> mListSectionPosProc;
+    ArrayList<Integer> mColorProcedures;
+    ArrayList<String> mListItemsProc;
+    ProcedureHeaderListView mListViewProc;
+    ProcedureHeaderAdapter mAdaptorProc;
+    EditText mSearchViewProc;
+    ProgressBar mLoadingViewProc;
+    TextView mEmptyViewProc;
+    LinearLayout laySearch, layCanselSearch;
     FloatingActionButton fab;
-
     FragmentActivity fa;
     MetaData mMetaData;
     int choiceColor = 0;
     String[] data = {"one", "two", "three", "four"};
+    View.OnClickListener oclFabClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            laySearch.setVisibility(View.VISIBLE);
+            fab.hide();
+            mSearchViewProc.requestFocus();
+            InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            keyboard.showSoftInput(mSearchViewProc, 0);
+            Toast.makeText(fa, "Проверка fab", Toast.LENGTH_SHORT).show();
+        }
+    };
+    View.OnClickListener oclCloseSearch = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            laySearch.setVisibility(View.GONE);
+            fab.show();
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(mSearchViewProc.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
+        }
+    };
+    AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Resources resources = getResources();
+            Procedures procedures = new Procedures(fa);
+
+            String procNameTmp = mListItemsProc.get(position);
+            long procIdTmp = procedures.getProcedureID(procNameTmp);
+            Object[] procInfoTmp = procedures.getProcedureInfo(procIdTmp);
+            Integer procPriceTmp = (Integer) procInfoTmp[1];
+            String procNoteTmp = (String) procInfoTmp[2];
+
+            new MaterialDialog.Builder(fa)
+                    .title(R.string.procedure_inf)
+                    .content(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
+                            resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
+                            resources.getString(R.string.note) + ": " + procNoteTmp)
+                    .positiveText(R.string.back)
+                    .show();
+            return true;
+        }
+    };
+    private TextView lastChoose;
+    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Procedures procedures = new Procedures(fa);
+
+            String procedureName = mListItemsProc.get(position);
+            mMetaData.setProcedureName(procedureName);
+            long procedureId = procedures.getProcedureID(procedureName);
+            Object[] procedureInfo = procedures.getProcedureInfo(procedureId);
+            Integer procedurePrice = (Integer) procedureInfo[1];
+            mMetaData.setProcedurePrice(procedurePrice);
+            String procedureNote = (String) procedureInfo[2];
+            mMetaData.setProcedureNote(procedureNote);
+
+            if (lastChoose != null) {
+                lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            }
+
+            //         TextView textView = (TextView) view;
+            //          textView.setCompoundDrawablesWithIntrinsicBounds
+            //                  (R.drawable.btn_check_buttonless_on, 0, 0, 0);
+            //          lastChoose = textView;
+
+            Toast.makeText(fa.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
+                            + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
+                    Toast.LENGTH_SHORT).show();
+        }
+    };
+    private TextWatcher filterTextWatcher = new TextWatcher() {
+        public void afterTextChanged(Editable s) {
+            String str = s.toString();
+            if (mAdaptorProc != null)
+                (new ListFilter()).filter(str);
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -133,36 +206,11 @@ public class ProcedureTab3 extends Fragment {
         setHasOptionsMenu(true);
 
         //hide fab if procedure < 5
-        if (mListItemsProc.size() < 6 )
+        if (mListItemsProc != null && mListItemsProc.size() < 6)
             fab.setVisibility(View.GONE);
-        //
 
         return relativeLayout;
     }
-
-    View.OnClickListener oclFabClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            laySearch.setVisibility(View.VISIBLE);
-            fab.hide();
-            mSearchViewProc.requestFocus();
-            InputMethodManager keyboard = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            keyboard.showSoftInput(mSearchViewProc, 0);
-            Toast.makeText(fa, "Проверка fab", Toast.LENGTH_SHORT).show();
-        }
-    };
-
-
-    View.OnClickListener oclCloseSearch = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            laySearch.setVisibility(View.GONE);
-            fab.show();
-            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(mSearchViewProc.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-        }
-    };
 
     private void getProcedures() {
         Procedures procedures = new Procedures(fa);
@@ -201,7 +249,7 @@ public class ProcedureTab3 extends Fragment {
                 Spinner spinner = (Spinner) view.findViewById(R.id.spin_proc_color);
                 MyCustomAdapter adapter = new MyCustomAdapter(fa, R.layout.row, data);
                 spinner.setAdapter(adapter);
-                spinner.setSelection(0,true);
+                spinner.setSelection(0, true);
                 //обработчик нажатия
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
@@ -236,12 +284,10 @@ public class ProcedureTab3 extends Fragment {
                         if (note.isEmpty())
                             note = "Примечаний нет";
 
-                        Integer color = 0;
-
                         if (!name.isEmpty()) {
                             long id = 0;
                             Procedures procedures = new Procedures(fa);
-                            id = procedures.addProcedure(name, price, note, color);
+                            id = procedures.addProcedure(name, price, note, choiceColor);
                             if (id != 0) {
                                 Toast.makeText(fa, "Процедура добавлена", Toast.LENGTH_SHORT).show();
                                 refreshList();
@@ -263,47 +309,6 @@ public class ProcedureTab3 extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public class MyCustomAdapter extends ArrayAdapter<String> {
-
-        public MyCustomAdapter(Context context, int textViewResourcedId, String[] objects){
-            super(context, textViewResourcedId, objects);
-        }
-
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent){
-            return getCustomView(position, convertView, parent);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent){
-            return getCustomView(position, convertView, parent);
-        }
-
-        public View getCustomView(int position, View convertView, ViewGroup parent){
-            LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = inflater.inflate(R.layout.row, parent, false);
-            TextView label = (TextView) row.findViewById(R.id.color_circle);
-            label.setText(data[position]);
-            label.setVisibility(View.GONE);
-
-            ImageView icon = (ImageView) row.findViewById(R.id.icon_circle);
-
-            if (data[position] == "one"){
-                icon.setImageResource(R.mipmap.ic_launcher_blue);
-            }
-            else if(data[position] == "two"){
-                icon.setImageResource(R.mipmap.ic_launcher_orange);
-            }
-            else if(data[position] == "three"){
-                icon.setImageResource(R.mipmap.ic_launcher_green);
-            }
-            else if(data[position] == "four"){
-                icon.setImageResource(R.mipmap.ic_launcher_red);
-            }
-            return row;
-        }
-    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         mSearchViewProc.addTextChangedListener(filterTextWatcher);
@@ -318,7 +323,7 @@ public class ProcedureTab3 extends Fragment {
         LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // set header view
-        View pinnedHeaderView = inflater.inflate(R.layout.contact_section_row_view, mListViewProc, false);
+        View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListViewProc, false);
         mListViewProc.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view
@@ -336,73 +341,71 @@ public class ProcedureTab3 extends Fragment {
         mListViewProc.setOnItemLongClickListener(mLongClickListener);
     }
 
-    AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-            Resources resources = getResources();
-            Procedures procedures = new Procedures(fa);
-
-            String procNameTmp = mListItemsProc.get(position);
-            long procIdTmp = procedures.getProcedureID(procNameTmp);
-            Object[] procInfoTmp = procedures.getProcedureInfo(procIdTmp);
-            Integer procPriceTmp = (Integer) procInfoTmp[1];
-            String procNoteTmp = (String) procInfoTmp[2];
-
-            new MaterialDialog.Builder(fa)
-                    .title(R.string.procedure_inf)
-                    .content(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
-                            resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
-                            resources.getString(R.string.note) + ": " + procNoteTmp)
-                    .positiveText(R.string.back)
-                    .show();
-            return true;
+    private void setIndexBarViewVisibility(String constraint) {
+        // hide index bar for search results
+        if (constraint != null && constraint.length() > 0) {
+            mListViewProc.setIndexBarVisibility(false);
+        } else {
+            mListViewProc.setIndexBarVisibility(true);
         }
-    };
+    }
 
-    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (mListItemsProc != null && mListItemsProc.size() > 0) {
+            outState.putStringArrayList("mListItemsProc", mListItemsProc);
+        }
+        if (mListSectionPosProc != null && mListSectionPosProc.size() > 0) {
+            outState.putIntegerArrayList("mListSectionPosProc", mListSectionPosProc);
+        }
+        String searchText = mSearchViewProc.getText().toString();
+        if (searchText.length() > 0) {
+            outState.putString("constraint", searchText);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    public class MyCustomAdapter extends ArrayAdapter<String> {
+
+        public MyCustomAdapter(Context context, int textViewResourcedId, String[] objects) {
+            super(context, textViewResourcedId, objects);
+        }
+
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Procedures procedures = new Procedures(fa);
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
 
-            String procedureName = mListItemsProc.get(position);
-            mMetaData.setProcedureName(procedureName);
-            long procedureId = procedures.getProcedureID(procedureName);
-            Object[] procedureInfo = procedures.getProcedureInfo(procedureId);
-            Integer procedurePrice = (Integer) procedureInfo[1];
-            mMetaData.setProcedurePrice(procedurePrice);
-            String procedureNote = (String) procedureInfo[2];
-            mMetaData.setProcedureNote(procedureNote);
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
 
-            if (lastChoose != null) {
-                lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View row = inflater.inflate(R.layout.row, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.color_circle);
+            label.setText(data[position]);
+            label.setVisibility(View.GONE);
+
+            ImageView icon = (ImageView) row.findViewById(R.id.icon_circle);
+
+            if (data[position] == "one") {
+                icon.setImageResource(R.mipmap.ic_launcher_blue);
+                //icon.setImageResource(R.mipmap.ic_launcher);
+            } else if (data[position] == "two") {
+                icon.setImageResource(R.mipmap.ic_launcher_orange);
+                //icon.setImageResource(R.mipmap.ic_launcher);
+            } else if (data[position] == "three") {
+                icon.setImageResource(R.mipmap.ic_launcher_green);
+                //icon.setImageResource(R.mipmap.ic_launcher);
+            } else if (data[position] == "four") {
+                icon.setImageResource(R.mipmap.ic_launcher_red);
+                //icon.setImageResource(R.mipmap.ic_launcher);
             }
-
-            //         TextView textView = (TextView) view;
-            //          textView.setCompoundDrawablesWithIntrinsicBounds
-            //                  (R.drawable.btn_check_buttonless_on, 0, 0, 0);
-            //          lastChoose = textView;
-
-            Toast.makeText(fa.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
-                            + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
-                    Toast.LENGTH_SHORT).show();
+            return row;
         }
-    };
-
-    private TextWatcher filterTextWatcher = new TextWatcher() {
-        public void afterTextChanged(Editable s) {
-            String str = s.toString();
-            if (mAdaptorProc != null)
-                (new ListFilter()).filter(str);
-        }
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-    };
+    }
 
     private class ListFilter extends Filter {
         @Override
@@ -441,15 +444,6 @@ public class ProcedureTab3 extends Fragment {
             setIndexBarViewVisibility(constraint.toString());
             // sort array and extract sections in background Thread
             new Populate().execute(filtered);
-        }
-    }
-
-    private void setIndexBarViewVisibility(String constraint) {
-        // hide index bar for search results
-        if (constraint != null && constraint.length() > 0) {
-            mListViewProc.setIndexBarVisibility(false);
-        } else {
-            mListViewProc.setIndexBarVisibility(true);
         }
     }
 
@@ -526,21 +520,6 @@ public class ProcedureTab3 extends Fragment {
         public int compare(String s1, String s2) {
             return s1.compareToIgnoreCase(s2);
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        if (mListItemsProc != null && mListItemsProc.size() > 0) {
-            outState.putStringArrayList("mListItemsProc", mListItemsProc);
-        }
-        if (mListSectionPosProc != null && mListSectionPosProc.size() > 0) {
-            outState.putIntegerArrayList("mListSectionPosProc", mListSectionPosProc);
-        }
-        String searchText = mSearchViewProc.getText().toString();
-        if (searchText.length() > 0) {
-            outState.putString("constraint", searchText);
-        }
-        super.onSaveInstanceState(outState);
     }
 
 }

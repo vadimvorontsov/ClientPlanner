@@ -35,7 +35,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.clientbase.procedures.Clients;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -56,35 +55,179 @@ import ru.anroidapp.plannerwork.contact_choose.intface.PinnedHeaderAdapter;
 
 public class ContactTab1 extends Fragment {
 
+    private final String TAG = "ContactTab1";
     MetaData mMetaData;
-
     ArrayList<String> mContacts;
     ArrayList<String> mContactsID = new ArrayList<>();
     ArrayList<String> mClientsHistory;
-
     ArrayList<Integer> mListSectionPos;
-
     ArrayList<String> mListItems;
-
     PinnedHeaderListView mListView;
-
     PinnedHeaderAdapter mAdaptor;
-
     EditText mSearchView;
-
     ProgressBar mLoadingView;
-
     TextView mEmptyView;
-
     LinearLayout laySearch, layCancelSearch;
-
     FloatingActionButton fab;
-
-    private final String TAG = "ContactTab1";
-    private TextView lastChoose;
-
     FragmentActivity fa;
+    View.OnClickListener oclFabClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            laySearch.setVisibility(View.VISIBLE);
+            fab.hide();
+            mSearchView.requestFocus();
+            final InputMethodManager keyboard = (InputMethodManager) getActivity().
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            keyboard.showSoftInput(mSearchView, 0);
 
+            mSearchView.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                        switch (keyCode) {
+                            case KeyEvent.KEYCODE_ENTER:
+                                keyboard.hideSoftInputFromWindow(mSearchView.getWindowToken(),
+                                        InputMethodManager.HIDE_NOT_ALWAYS);
+                                return true;
+                            default:
+                                break;
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
+    };
+    View.OnClickListener oclCloseSearch = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            laySearch.setVisibility(View.GONE);
+            fab.show();
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(mSearchView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            //Toast.makeText(fa, "Проверка close search", Toast.LENGTH_SHORT).show();
+            new Populate().execute(mContacts);
+
+        }
+    };
+    AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Resources resources = getResources();
+
+            String nameTmp = mListItems.get(position);
+            String allPhones = "";
+            String allEmails = "";
+            ArrayList<String> phonesTmp = getPhonesByName(fa, nameTmp);
+
+            if (phonesTmp == null || phonesTmp.isEmpty()) {
+                allPhones = resources.getString(R.string.unknown) + "\n";
+            } else {
+                for (int i = 0; i < phonesTmp.size(); i++) {
+                    if (i != phonesTmp.size() - 1) {
+                        allPhones += phonesTmp.get(i) + "\n";
+                    } else {
+                        allPhones += phonesTmp.get(i);
+                    }
+                }
+            }
+
+            ArrayList<String> emailsTmp = getEmailsByName(fa, nameTmp);
+            if (emailsTmp == null || emailsTmp.isEmpty()) {
+                allEmails = resources.getString(R.string.unknown) + "\n";
+            } else {
+                for (int i = 0; i < emailsTmp.size(); i++) {
+                    if (i != emailsTmp.size() - 1) {
+                        allEmails += emailsTmp.get(i) + "\n";
+                    } else {
+                        allEmails += emailsTmp.get(i);
+                    }
+                }
+            }
+
+            LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View contactInfo = inflater.inflate(R.layout.contact_info, null);
+            final TextView contactNameTextView = (TextView) contactInfo.findViewById(R.id.contact_info_name_input);
+            contactNameTextView.setText(nameTmp);
+            final TextView contactPhoneTextView = (TextView) contactInfo.findViewById(R.id.contact_info_phone_input);
+            contactPhoneTextView.setText(allPhones);
+            final TextView contactEmailTextView = (TextView) contactInfo.findViewById(R.id.contact_info_email_input);
+            contactEmailTextView.setText(allEmails);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(fa);
+            builder.setView(contactInfo)
+                    .setCancelable(true)
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            builder.show();
+
+//            new MaterialDialog.Builder(fa)
+//                    .title(R.string.contact_inf)
+//                    .content(resources.getString(R.string.name) + " " + nameTmp + "\n" + "\n" +
+//                            resources.getString(R.string.phone) + "\n" + allPhones + "\n" +
+//                            resources.getString(R.string.email) + "\n" + allEmails)
+//                    .positiveText(R.string.back)
+//                    .show();
+//            Toast.makeText(fa, "123long", Toast.LENGTH_LONG).show();
+            return true;
+        }
+    };
+    private TextView lastChoose;
+    AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+
+            Toast.makeText(fa, "123click", Toast.LENGTH_LONG).show();
+
+            Resources resources = getResources();
+            String unknown = resources.getString(R.string.unknown);
+
+            String clientName = mListItems.get(position);
+            mMetaData.setClientName(clientName);
+
+            ArrayList<String> clientPhones = getPhonesByName(fa, clientName);
+            if (clientPhones == null || clientPhones.isEmpty()) {
+                clientPhones = new ArrayList<>();
+                clientPhones.add(unknown);
+            }
+            mMetaData.setClientPhones(clientPhones);
+
+            ArrayList<String> clientEmails = getEmailsByName(fa, clientName);
+            if (clientEmails == null || clientEmails.isEmpty()) {
+                clientEmails = new ArrayList<>();
+                clientEmails.add(unknown);
+            }
+            mMetaData.setClientEmails(clientEmails);
+
+            if (lastChoose != null) {
+                lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            }
+
+//            TextView textView = (TextView) view;
+//            textView.setCompoundDrawablesWithIntrinsicBounds
+//                    (R.drawable.btn_check_buttonless_on, 0, 0, 0);
+//            lastChoose = textView;
+        }
+    };
+    private TextWatcher filterTextWatcher = new TextWatcher() {
+        public void afterTextChanged(Editable s) {
+            String str = s.toString();
+            if (mAdaptor != null)
+                (new ListFilter()).filter(str);
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -149,50 +292,6 @@ public class ContactTab1 extends Fragment {
         super.onResume();
         new Populate().execute(getContacts());
     }
-
-    View.OnClickListener oclFabClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            laySearch.setVisibility(View.VISIBLE);
-            fab.hide();
-            mSearchView.requestFocus();
-            final InputMethodManager keyboard = (InputMethodManager)getActivity().
-                    getSystemService(Context.INPUT_METHOD_SERVICE);
-            keyboard.showSoftInput(mSearchView, 0);
-
-            mSearchView.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if (event.getAction() == KeyEvent.ACTION_DOWN)
-                    {
-                        switch (keyCode)
-                        {
-                            case KeyEvent.KEYCODE_ENTER:
-                                keyboard.hideSoftInputFromWindow(mSearchView.getWindowToken(),
-                                        InputMethodManager.HIDE_NOT_ALWAYS);
-                                return true;
-                            default:
-                                break;
-                        }
-                    }
-                    return false;
-                }
-            });
-        }
-    };
-
-    View.OnClickListener oclCloseSearch = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            laySearch.setVisibility(View.GONE);
-            fab.show();
-            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(mSearchView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            //Toast.makeText(fa, "Проверка close search", Toast.LENGTH_SHORT).show();
-            new Populate().execute(mContacts);
-
-        }
-    };
 
     private ArrayList<String> getContacts() {
         mContacts = new ArrayList<>();
@@ -289,7 +388,7 @@ public class ContactTab1 extends Fragment {
         LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // set header view
-        View pinnedHeaderView = inflater.inflate(R.layout.contact_section_row_view, mListView, false);
+        View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListView, false);
         mListView.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view
@@ -306,111 +405,6 @@ public class ContactTab1 extends Fragment {
 
 
     }
-
-    AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-            Resources resources = getResources();
-
-            String nameTmp = mListItems.get(position);
-            String allPhones = "";
-            String allEmails = "";
-            ArrayList<String> phonesTmp = getPhonesByName(fa, nameTmp);
-
-            if (phonesTmp == null || phonesTmp.isEmpty()) {
-                allPhones = resources.getString(R.string.unknown) + "\n";
-            } else {
-                for (int i = 0; i < phonesTmp.size(); i++) {
-                    if (i != phonesTmp.size()-1) {
-                        allPhones += phonesTmp.get(i) + "\n";
-                    } else {
-                        allPhones += phonesTmp.get(i);
-                    }
-                }
-            }
-
-            ArrayList<String> emailsTmp = getEmailsByName(fa, nameTmp);
-            if (emailsTmp == null || emailsTmp.isEmpty()) {
-                allEmails = resources.getString(R.string.unknown) + "\n";
-            } else {
-                for (int i = 0; i < emailsTmp.size(); i++) {
-                    if (i != emailsTmp.size()-1) {
-                        allEmails += emailsTmp.get(i) + "\n";
-                    } else {
-                        allEmails += emailsTmp.get(i);
-                    }
-                }
-            }
-
-            LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View contactInfo = inflater.inflate(R.layout.contact_info, null);
-            final TextView contactNameTextView = (TextView) contactInfo.findViewById(R.id.contact_info_name_input);
-            contactNameTextView.setText(nameTmp);
-            final TextView contactPhoneTextView = (TextView) contactInfo.findViewById(R.id.contact_info_phone_input);
-            contactPhoneTextView.setText(allPhones);
-            final TextView contactEmailTextView = (TextView) contactInfo.findViewById(R.id.contact_info_email_input);
-            contactEmailTextView.setText(allEmails);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(fa);
-            builder.setView(contactInfo)
-                    .setCancelable(true)
-                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-            builder.show();
-
-//            new MaterialDialog.Builder(fa)
-//                    .title(R.string.contact_inf)
-//                    .content(resources.getString(R.string.name) + " " + nameTmp + "\n" + "\n" +
-//                            resources.getString(R.string.phone) + "\n" + allPhones + "\n" +
-//                            resources.getString(R.string.email) + "\n" + allEmails)
-//                    .positiveText(R.string.back)
-//                    .show();
-//            Toast.makeText(fa, "123long", Toast.LENGTH_LONG).show();
-            return true;
-        }
-    };
-
-    AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-
-            Toast.makeText(fa, "123click", Toast.LENGTH_LONG).show();
-
-            Resources resources = getResources();
-            String unknown = resources.getString(R.string.unknown);
-
-            String clientName = mListItems.get(position);
-            mMetaData.setClientName(clientName);
-
-            ArrayList<String> clientPhones = getPhonesByName(fa, clientName);
-            if (clientPhones == null || clientPhones.isEmpty()) {
-                clientPhones = new ArrayList<>();
-                clientPhones.add(unknown);
-            }
-            mMetaData.setClientPhones(clientPhones);
-
-            ArrayList<String> clientEmails = getEmailsByName(fa, clientName);
-            if (clientEmails == null || clientEmails.isEmpty()) {
-                clientEmails = new ArrayList<>();
-                clientEmails.add(unknown);
-            }
-            mMetaData.setClientEmails(clientEmails);
-
-            if (lastChoose != null) {
-                lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-            }
-
-//            TextView textView = (TextView) view;
-//            textView.setCompoundDrawablesWithIntrinsicBounds
-//                    (R.drawable.btn_check_buttonless_on, 0, 0, 0);
-//            lastChoose = textView;
-        }
-    };
 
     private ArrayList<String> getPhonesByName(Context context, String name) {
 
@@ -471,155 +465,12 @@ public class ContactTab1 extends Fragment {
 
     }
 
-    private TextWatcher filterTextWatcher = new TextWatcher() {
-        public void afterTextChanged(Editable s) {
-            String str = s.toString();
-            if (mAdaptor != null)
-                (new ListFilter()).filter(str);
-        }
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-    };
-
-    private class ListFilter extends Filter {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            // NOTE: this function is *always* called from a background thread,
-            // and
-            // not the UI thread.
-            String constraintStr = constraint.toString().toLowerCase(Locale.getDefault());
-            Filter.FilterResults result = new FilterResults();
-
-            if (constraint.toString().length() > 0) {
-                ArrayList<String> filterItems = new ArrayList<>();
-
-                synchronized (this) {
-                    LOOP_FOR_CONTACTS:
-                    for (String item : mContacts) {
-                        String[] subNames = item.split(" ");
-                        LOOP_FOR_SUBNAMES:
-                        for (String subName : subNames) {
-                            if (subName.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
-                                filterItems.add(item);
-                                break LOOP_FOR_SUBNAMES;
-                            }
-                        }
-                    }
-                    result.count = filterItems.size();
-                    result.values = filterItems;
-                }
-            } else {
-                synchronized (this) {
-                    result.count = mContacts.size();
-                    result.values = mContacts;
-                }
-            }
-            return result;
-        }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            ArrayList<String> filtered = (ArrayList<String>) results.values;
-            setIndexBarViewVisibility(constraint.toString());
-            // sort array and extract sections in background Thread
-            new Populate().execute(filtered);
-        }
-
-    }
-
     private void setIndexBarViewVisibility(String constraint) {
         // hide index bar for search results
         if (constraint != null && constraint.length() > 0) {
             mListView.setIndexBarVisibility(false);
         } else {
             mListView.setIndexBarVisibility(true);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private class Populate extends AsyncTask<ArrayList<String>, Void, Void> {
-
-        private void showLoading(View contentView, View loadingView, View emptyView) {
-            contentView.setVisibility(View.GONE);
-            loadingView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.GONE);
-        }
-
-        private void showContent(View contentView, View loadingView, View emptyView) {
-            contentView.setVisibility(View.VISIBLE);
-            loadingView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.GONE);
-        }
-
-        private void showEmptyText(View contentView, View loadingView, View emptyView) {
-            contentView.setVisibility(View.GONE);
-            loadingView.setVisibility(View.GONE);
-            emptyView.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            // show loading indicator
-            showLoading(mListView, mLoadingView, mEmptyView);
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(ArrayList<String>... params) {
-            if (mListItems != null)
-                mListItems.clear();
-            if (mListSectionPos != null)
-                mListSectionPos.clear();
-
-            ArrayList<String> items = params[0];
-
-            if (mContacts.size() > 0) {
-
-                // NOT forget to sort array
-                Collections.sort(items, new SortIgnoreCase());
-
-                String prev_section = "";
-                for (String current_item : items) {
-                    String current_section = current_item.substring(0, 1).toUpperCase(Locale.getDefault());
-
-                    if (!prev_section.equals(current_section)) {
-                        mListItems.add(current_section);
-                        mListItems.add(current_item);
-                        // array list of section positions
-                        mListSectionPos.add(mListItems.indexOf(current_section));
-                        prev_section = current_section;
-                    } else {
-                        mListItems.add(current_item);
-                    }
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            if (!isCancelled()) {
-                if (mListItems != null && mListItems.size() <= 0) {
-                    showEmptyText(mListView, mLoadingView, mEmptyView);
-                } else {
-                    if (mListItems != null)
-                        setListAdaptor();
-                    showContent(mListView, mLoadingView, mEmptyView);
-                }
-            }
-            super.onPostExecute(result);
-        }
-    }
-
-    public class SortIgnoreCase implements Comparator<String> {
-        public int compare(String s1, String s2) {
-            return s1.compareToIgnoreCase(s2);
         }
     }
 
@@ -717,6 +568,134 @@ public class ContactTab1 extends Fragment {
             }
         }
 
+    }
+
+    private class ListFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            // NOTE: this function is *always* called from a background thread,
+            // and
+            // not the UI thread.
+            String constraintStr = constraint.toString().toLowerCase(Locale.getDefault());
+            Filter.FilterResults result = new FilterResults();
+
+            if (constraint.toString().length() > 0) {
+                ArrayList<String> filterItems = new ArrayList<>();
+
+                synchronized (this) {
+                    LOOP_FOR_CONTACTS:
+                    for (String item : mContacts) {
+                        String[] subNames = item.split(" ");
+                        LOOP_FOR_SUBNAMES:
+                        for (String subName : subNames) {
+                            if (subName.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
+                                filterItems.add(item);
+                                break LOOP_FOR_SUBNAMES;
+                            }
+                        }
+                    }
+                    result.count = filterItems.size();
+                    result.values = filterItems;
+                }
+            } else {
+                synchronized (this) {
+                    result.count = mContacts.size();
+                    result.values = mContacts;
+                }
+            }
+            return result;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            ArrayList<String> filtered = (ArrayList<String>) results.values;
+            setIndexBarViewVisibility(constraint.toString());
+            // sort array and extract sections in background Thread
+            new Populate().execute(filtered);
+        }
+
+    }
+
+    @SuppressWarnings("unchecked")
+    private class Populate extends AsyncTask<ArrayList<String>, Void, Void> {
+
+        private void showLoading(View contentView, View loadingView, View emptyView) {
+            contentView.setVisibility(View.GONE);
+            loadingView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
+
+        private void showContent(View contentView, View loadingView, View emptyView) {
+            contentView.setVisibility(View.VISIBLE);
+            loadingView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.GONE);
+        }
+
+        private void showEmptyText(View contentView, View loadingView, View emptyView) {
+            contentView.setVisibility(View.GONE);
+            loadingView.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            // show loading indicator
+            showLoading(mListView, mLoadingView, mEmptyView);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(ArrayList<String>... params) {
+            if (mListItems != null)
+                mListItems.clear();
+            if (mListSectionPos != null)
+                mListSectionPos.clear();
+
+            ArrayList<String> items = params[0];
+
+            if (mContacts.size() > 0) {
+
+                // NOT forget to sort array
+                Collections.sort(items, new SortIgnoreCase());
+
+                String prev_section = "";
+                for (String current_item : items) {
+                    String current_section = current_item.substring(0, 1).toUpperCase(Locale.getDefault());
+
+                    if (!prev_section.equals(current_section)) {
+                        mListItems.add(current_section);
+                        mListItems.add(current_item);
+                        // array list of section positions
+                        mListSectionPos.add(mListItems.indexOf(current_section));
+                        prev_section = current_section;
+                    } else {
+                        mListItems.add(current_item);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            if (!isCancelled()) {
+                if (mListItems != null && mListItems.size() <= 0) {
+                    showEmptyText(mListView, mLoadingView, mEmptyView);
+                } else {
+                    if (mListItems != null)
+                        setListAdaptor();
+                    showContent(mListView, mLoadingView, mEmptyView);
+                }
+            }
+            super.onPostExecute(result);
+        }
+    }
+
+    public class SortIgnoreCase implements Comparator<String> {
+        public int compare(String s1, String s2) {
+            return s1.compareToIgnoreCase(s2);
+        }
     }
 
 }

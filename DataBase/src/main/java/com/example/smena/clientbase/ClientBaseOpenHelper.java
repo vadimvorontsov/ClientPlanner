@@ -9,38 +9,32 @@ import android.widget.Toast;
 
 public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumns {
 
-    Context ctx;
-    // db
-    private static final String DATABASE_NAME = "sessions.db";
-    private static final int DATABASE_VERSION = 17;
-
     //tables
     public static final String TABLE_CLIENTS = "clients_table";
     public static final String TABLE_PHONES = "phones_table";
     public static final String TABLE_EMAILS = "emails_table";
     public static final String TABLE_PROCEDURES = "procedures_table";
     public static final String TABLE_SESSIONS = "sessions_table";
-
     //columns
     public static final String CLIENT = "client";
-
     public static final String PHONE = "phone";
     public static final String ID_CLIENT_PHONE = "id_client";
-
     public static final String EMAIL = "email";
     public static final String ID_CLIENT_EMAIL = "id_client";
-
     public static final String PROCEDURE = "procedure";
     public static final String PRICE = "price";
     public static final String NOTICE = "notice";
     public static final String COLOR = "color";
-
     public static final String ID_CLIENT_SESSION = "id_client";
     public static final String ID_PHONE = "id_phone";
     public static final String ID_EMAIL = "id_email";
     public static final String ID_PROCEDURE = "id_procedure";
     public static final String TIME_START = "time_start";
     public static final String TIME_END = "time_end";
+    // db
+    private static final String DATABASE_NAME = "sessions.db";
+    private static final int DATABASE_VERSION = 17;
+    Context ctx;
 
     public ClientBaseOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -53,14 +47,17 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
         String CREATE_TABLE_CLIENTS = "CREATE TABLE " + TABLE_CLIENTS + " (" + ClientBaseOpenHelper._ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CLIENT + " TEXT UNIQUE);";
         db.execSQL(CREATE_TABLE_CLIENTS);
+
         String CREATE_TABLE_PHONES = "CREATE TABLE " + TABLE_PHONES + " (" + ClientBaseOpenHelper._ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_CLIENT_PHONE + " INTEGER, " + PHONE + " TEXT UNIQUE, "
                 + "FOREIGN KEY(" + ID_CLIENT_PHONE + ") REFERENCES " + TABLE_CLIENTS + "(" + ClientBaseOpenHelper._ID + "));";
         db.execSQL(CREATE_TABLE_PHONES);
+
         String CREATE_TABLE_EMAILS = "CREATE TABLE " + TABLE_EMAILS + " (" + ClientBaseOpenHelper._ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_CLIENT_EMAIL + " INTEGER, " + EMAIL + " TEXT UNIQUE, "
                 + "FOREIGN KEY(" + ID_CLIENT_EMAIL + ") REFERENCES " + TABLE_CLIENTS + "(" + ClientBaseOpenHelper._ID + "));";
         db.execSQL(CREATE_TABLE_EMAILS);
+
         String CREATE_TABLE_PROCEDURES = "CREATE TABLE " + TABLE_PROCEDURES + " (" + ClientBaseOpenHelper._ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PROCEDURE + " TEXT UNIQUE, "
                 + PRICE + " REAL, " + NOTICE + " TEXT, " + COLOR + " INTEGER);";

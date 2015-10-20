@@ -3,6 +3,7 @@ package ru.anroidapp.plannerwork;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -18,6 +19,10 @@ import android.widget.TextView;
 
 import com.example.smena.clientbase.procedures.Sessions;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 import ru.anroidapp.plannerwork.ScreenSlide.ScreenSlidePageFragment1;
@@ -30,17 +35,16 @@ import ru.anroidapp.plannerwork.animation.ZoomOutPageTransformer;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int NUM_PAGES = 5;
     private final String TAG = "MainActivity";
-
     Toolbar toolbar;
     Context cntxt;
     TextView textView;
     LinearLayout LayCircle1;
-    private static final int NUM_PAGES = 5;
-    private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
     int closeId[] = {-1, -1, -1, -1, -1};
     int  maxYear, maxMonth, maxDay, maxHourStart, maxMinuteStart;
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,37 +88,6 @@ public class MainActivity extends AppCompatActivity {
    //     }
     //}
 
-    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
-        public ScreenSlidePagerAdapter(FragmentManager fm2) {
-            super(fm2);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            if (position == 0) {
-                return new ScreenSlidePageFragment1();
-            }
-            if (position == 1) {
-                return new ScreenSlidePageFragment2();
-            }
-            if (position == 2) {
-                return new ScreenSlidePageFragment3();
-            }
-            if (position == 3) {
-                return new ScreenSlidePageFragment4();
-            }
-            if (position == 4) {
-                return new ScreenSlidePageFragment5();
-            }
-            return null;
-        }
-
-        @Override
-        public int getCount() {
-            return NUM_PAGES;
-        }
-    }
-
     public void onBtn1Click(View view) {
         Intent intent = new Intent(this, RecordActivity.class);
         startActivity(intent);
@@ -148,6 +121,61 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getDbFile() {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String currentDBPath = data + "/data/" + getPackageName() + "/databases/sessions.db";
+                String backupDBPath = "2.db";
+                File currentDB = new File(currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm2) {
+            super(fm2);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                return new ScreenSlidePageFragment1();
+            }
+            if (position == 1) {
+                return new ScreenSlidePageFragment2();
+            }
+            if (position == 2) {
+                return new ScreenSlidePageFragment3();
+            }
+            if (position == 3) {
+                return new ScreenSlidePageFragment4();
+            }
+            if (position == 4) {
+                return new ScreenSlidePageFragment5();
+            }
+            return null;
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
     }
 
 }

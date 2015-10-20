@@ -20,13 +20,13 @@ public class Viber extends Activity {
         isViberInstalled = viberInstalledOrNot(packageName);
     }
 
-    public void sendMsg(String text, String phone) {
+    public void sendMsg(String text) {
         if (isViberInstalled) {
             //Uri uri = Uri.parse("smsto:" + phone);
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT, text);
             sendIntent.setType("text/plain");
-            sendIntent.setPackage("com.viber.voip");
+            sendIntent.setPackage(packageName);
             ctx.startActivity(sendIntent);
         } else {
             new MaterialDialog.Builder(ctx)

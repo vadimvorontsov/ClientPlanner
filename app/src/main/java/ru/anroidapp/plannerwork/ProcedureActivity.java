@@ -43,35 +43,105 @@ import ru.anroidapp.plannerwork.intface_procedure.ProcedureHeaderListView;
 
 public class ProcedureActivity extends AppCompatActivity {
 
-    ArrayList<String> mProcedures;
-
-    ArrayList<Integer> mListSectionPosProc;
-
-    ArrayList<Integer> mColorProcedures;
-
-    ArrayList<String> mListItemsProc;
-
-    ProcedureHeaderListView mListViewProc;
-
-    ProcedureHeaderAdapter mAdaptorProc;
-
-    EditText mSearchViewProc;
-
-    ProgressBar mLoadingViewProc;
-
-    TextView mEmptyViewProc;
-
-    FloatingActionButton fab;
-
-    LinearLayout laySearch, layCanselSearch;
     private final String TAG = "ProcedureActivity";
-
+    ArrayList<String> mProcedures;
+    ArrayList<Integer> mListSectionPosProc;
+    ArrayList<Integer> mColorProcedures;
+    ArrayList<String> mListItemsProc;
+    ProcedureHeaderListView mListViewProc;
+    ProcedureHeaderAdapter mAdaptorProc;
+    EditText mSearchViewProc;
+    ProgressBar mLoadingViewProc;
+    TextView mEmptyViewProc;
+    FloatingActionButton fab;
+    LinearLayout laySearch, layCanselSearch;
     //private TextView lastChoose;
     String[] data = {"one", "two", "three", "four"};
 
     Toolbar toolbar;
     Context cntxt;
     int choiceColor = 0;
+    View.OnClickListener oclFabClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            Animation openSearch = AnimationUtils.loadAnimation(cntxt, R.anim.s_down);
+            laySearch.startAnimation(openSearch);
+            laySearch.setVisibility(View.VISIBLE);
+            Animation hideFab = AnimationUtils.loadAnimation(cntxt, R.anim.s_down);
+            fab.startAnimation(hideFab);
+            fab.setVisibility(View.GONE);
+            mSearchViewProc.requestFocus();
+            InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            keyboard.showSoftInput(mSearchViewProc, 0);
+
+            Toast.makeText(cntxt, "Проверка fab", Toast.LENGTH_SHORT).show();
+
+        }
+    };
+    View.OnClickListener oclCloseSearch = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //////
+            //mSearchViewProc.setText("");
+            laySearch.setVisibility(View.GONE);
+            //Animation showFab = AnimationUtils.loadAnimation(cntxt, R.anim.s_up);
+            //fab.startAnimation(showFab);
+            fab.setVisibility(View.VISIBLE);
+            //mSearchViewProc.requestFocus();
+            InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(mSearchViewProc.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            Toast.makeText(cntxt, "Проверка close search proc", Toast.LENGTH_SHORT).show();
+
+        }
+    };
+    AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Resources resources = getResources();
+            Procedures procedures = new Procedures(ProcedureActivity.this);
+
+            String procNameTmp = mListItemsProc.get(position);
+            long procIdTmp = procedures.getProcedureID(procNameTmp);
+            Object[] procInfoTmp = procedures.getProcedureInfo(procIdTmp);
+            Integer procPriceTmp = (Integer) procInfoTmp[1];
+            String procNoteTmp = (String) procInfoTmp[2];
+
+            new MaterialDialog.Builder(ProcedureActivity.this)
+                    .title(R.string.procedure_inf)
+                    .content(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
+                            resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
+                            resources.getString(R.string.note) + ": " + procNoteTmp)
+                    .positiveText(R.string.back)
+                    .show();
+            return true;
+        }
+    };
+    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Procedures procedures = new Procedures(ProcedureActivity.this);
+
+
+            Toast.makeText(ProcedureActivity.this.getApplicationContext(), "Проверка",
+                    Toast.LENGTH_SHORT).show();
+        }
+    };
+    private TextWatcher filterTextWatcher = new TextWatcher() {
+        public void afterTextChanged(Editable s) {
+            String str = s.toString();
+            if (mAdaptorProc != null)
+                (new ListFilter()).filter(str);
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,84 +208,6 @@ public class ProcedureActivity extends AppCompatActivity {
         //
 
     }
-
-    View.OnClickListener oclFabClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            Animation openSearch = AnimationUtils.loadAnimation(cntxt, R.anim.s_down);
-            laySearch.startAnimation(openSearch);
-            laySearch.setVisibility(View.VISIBLE);
-            Animation hideFab = AnimationUtils.loadAnimation(cntxt, R.anim.s_down);
-            fab.startAnimation(hideFab);
-            fab.setVisibility(View.GONE);
-            mSearchViewProc.requestFocus();
-            InputMethodManager keyboard = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            keyboard.showSoftInput(mSearchViewProc, 0);
-
-            Toast.makeText(cntxt, "Проверка fab", Toast.LENGTH_SHORT).show();
-
-        }
-    };
-
-    View.OnClickListener oclCloseSearch = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //////
-            //mSearchViewProc.setText("");
-            laySearch.setVisibility(View.GONE);
-            //Animation showFab = AnimationUtils.loadAnimation(cntxt, R.anim.s_up);
-            //fab.startAnimation(showFab);
-            fab.setVisibility(View.VISIBLE);
-            //mSearchViewProc.requestFocus();
-            InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(mSearchViewProc.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            Toast.makeText(cntxt, "Проверка close search proc", Toast.LENGTH_SHORT).show();
-
-        }
-    };
-
-    public class MyCustomAdapter extends ArrayAdapter<String> {
-
-        public MyCustomAdapter(Context context, int textViewResourcedId, String[] objects){
-            super(context, textViewResourcedId, objects);
-        }
-
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent){
-            return getCustomView(position, convertView, parent);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent){
-            return getCustomView(position, convertView, parent);
-        }
-
-        public View getCustomView(int position, View convertView, ViewGroup parent){
-            LayoutInflater inflater = getLayoutInflater();
-            View row = inflater.inflate(R.layout.row, parent, false);
-            TextView label = (TextView) row.findViewById(R.id.color_circle);
-            label.setText(data[position]);
-            label.setVisibility(View.GONE);
-
-            ImageView icon = (ImageView) row.findViewById(R.id.icon_circle);
-
-            if (data[position] == "one"){
-                icon.setImageResource(R.mipmap.ic_launcher_blue);
-            }
-            else if(data[position] == "two"){
-                icon.setImageResource(R.mipmap.ic_launcher_orange);
-            }
-            else if(data[position] == "three"){
-                icon.setImageResource(R.mipmap.ic_launcher_green);
-            }
-            else if(data[position] == "four"){
-                icon.setImageResource(R.mipmap.ic_launcher_red);
-            }
-            return row;
-        }
-    }
-
 
     private void getProcedures() {
         Procedures procedures = new Procedures(ProcedureActivity.this);
@@ -328,7 +320,7 @@ public class ProcedureActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // set header view
-        View pinnedHeaderView = inflater.inflate(R.layout.contact_section_row_view, mListViewProc, false);
+        View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListViewProc, false);
         mListViewProc.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view
@@ -346,55 +338,71 @@ public class ProcedureActivity extends AppCompatActivity {
         mListViewProc.setOnItemLongClickListener(mLongClickListener);
     }
 
-    AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
+    private void setIndexBarViewVisibility(String constraint) {
+        // hide index bar for search results
+        if (constraint != null && constraint.length() > 0) {
+            mListViewProc.setIndexBarVisibility(false);
+        } else {
+            mListViewProc.setIndexBarVisibility(true);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (mListItemsProc != null && mListItemsProc.size() > 0) {
+            outState.putStringArrayList("mListItemsProc", mListItemsProc);
+        }
+        if (mListSectionPosProc != null && mListSectionPosProc.size() > 0) {
+            outState.putIntegerArrayList("mListSectionPosProc", mListSectionPosProc);
+        }
+        String searchText = mSearchViewProc.getText().toString();
+        if (searchText.length() > 0) {
+            outState.putString("constraint", searchText);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    public class MyCustomAdapter extends ArrayAdapter<String> {
+
+        public MyCustomAdapter(Context context, int textViewResourcedId, String[] objects) {
+            super(context, textViewResourcedId, objects);
+        }
+
         @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-            Resources resources = getResources();
-            Procedures procedures = new Procedures(ProcedureActivity.this);
-
-            String procNameTmp = mListItemsProc.get(position);
-            long procIdTmp = procedures.getProcedureID(procNameTmp);
-            Object[] procInfoTmp = procedures.getProcedureInfo(procIdTmp);
-            Integer procPriceTmp = (Integer) procInfoTmp[1];
-            String procNoteTmp = (String) procInfoTmp[2];
-
-            new MaterialDialog.Builder(ProcedureActivity.this)
-                    .title(R.string.procedure_inf)
-                    .content(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
-                            resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
-                            resources.getString(R.string.note) + ": " + procNoteTmp)
-                    .positiveText(R.string.back)
-                    .show();
-            return true;
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
         }
-    };
 
-    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Procedures procedures = new Procedures(ProcedureActivity.this);
-
-
-            Toast.makeText(ProcedureActivity.this.getApplicationContext(), "Проверка",
-                    Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    private TextWatcher filterTextWatcher = new TextWatcher() {
-        public void afterTextChanged(Editable s) {
-            String str = s.toString();
-            if (mAdaptorProc != null)
-                (new ListFilter()).filter(str);
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
         }
 
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = getLayoutInflater();
+            View row = inflater.inflate(R.layout.row, parent, false);
+            TextView label = (TextView) row.findViewById(R.id.color_circle);
+            label.setText(data[position]);
+            label.setVisibility(View.GONE);
 
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            ImageView icon = (ImageView) row.findViewById(R.id.icon_circle);
 
+            if (data[position] == "one") {
+                icon.setImageResource(R.mipmap.ic_launcher_blue);
+                //icon.setImageResource(R.mipmap.ic_launcher);
+            } else if (data[position] == "two") {
+                icon.setImageResource(R.mipmap.ic_launcher_orange);
+                //icon.setImageResource(R.mipmap.ic_launcher);
+            } else if (data[position] == "three") {
+                icon.setImageResource(R.mipmap.ic_launcher_green);
+                //icon.setImageResource(R.mipmap.ic_launcher);
+            } else if (data[position] == "four") {
+                icon.setImageResource(R.mipmap.ic_launcher_red);
+                //icon.setImageResource(R.mipmap.ic_launcher);
+            }
+            return row;
         }
-    };
+    }
 
     private class ListFilter extends Filter {
         @Override
@@ -433,15 +441,6 @@ public class ProcedureActivity extends AppCompatActivity {
             setIndexBarViewVisibility(constraint.toString());
             // sort array and extract sections in background Thread
             new Populate().execute(filtered);
-        }
-    }
-
-    private void setIndexBarViewVisibility(String constraint) {
-        // hide index bar for search results
-        if (constraint != null && constraint.length() > 0) {
-            mListViewProc.setIndexBarVisibility(false);
-        } else {
-            mListViewProc.setIndexBarVisibility(true);
         }
     }
 
@@ -518,21 +517,6 @@ public class ProcedureActivity extends AppCompatActivity {
         public int compare(String s1, String s2) {
             return s1.compareToIgnoreCase(s2);
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        if (mListItemsProc != null && mListItemsProc.size() > 0) {
-            outState.putStringArrayList("mListItemsProc", mListItemsProc);
-        }
-        if (mListSectionPosProc != null && mListSectionPosProc.size() > 0) {
-            outState.putIntegerArrayList("mListSectionPosProc", mListSectionPosProc);
-        }
-        String searchText = mSearchViewProc.getText().toString();
-        if (searchText.length() > 0) {
-            outState.putString("constraint", searchText);
-        }
-        super.onSaveInstanceState(outState);
     }
 
 }

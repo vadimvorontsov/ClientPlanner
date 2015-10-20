@@ -75,4 +75,13 @@
     <color name="view_divider_color">#BABABA</color>
     <color name="view_divider_color_2">#DADADA</color>
 
+    <!--<array name="contact_text_photo">-->
+    <!--<item>#FFFA0703</item>-->
+    <!--<item>#FFFAE103</item>-->
+    <!--<item>#FF2CFA03</item>-->
+    <!--<item>#FF09AA11</item>-->
+    <!--<item>#FF0317FA</item>-->
+    <!--<item>#FFFA03D9</item>-->
+    <!--</array>-->
+
 </resources>

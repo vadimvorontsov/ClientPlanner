@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/contact_row"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/activity_horizontal_margin"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:padding="@dimen/activity_horizontal_margin">
 
     <ImageView
-        android:id="@+id/contact_circle"
+        android:id="@+id/procedure_circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher_orange"/>
@@ -17,8 +16,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/contact_circle"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_toRightOf="@+id/procedure_circle"
         android:orientation="vertical">
 
         <TextView
@@ -32,7 +31,7 @@
             android:id="@+id/contact_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Количество посещений "
+            android:text="Цена "
             android:textColor="#9f9f9f"
             android:textSize="15sp"/>
 

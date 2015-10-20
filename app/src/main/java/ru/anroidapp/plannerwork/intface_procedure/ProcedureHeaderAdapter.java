@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import ru.anroidapp.plannerwork.CircularImageView;
 import ru.anroidapp.plannerwork.R;
 
-public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.OnScrollListener, IPinnedHeaderProcedure, Filterable {
+public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.OnScrollListener,
+        IPinnedHeaderProcedure, Filterable {
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SECTION = 1;
@@ -44,7 +44,8 @@ public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.O
 
     ArrayList<Integer> mColorProcedures;
 
-    int[] arColorProcedures ={R.mipmap.ic_launcher_blue,R.mipmap.ic_launcher_orange, R.mipmap.ic_launcher_green, R.mipmap.ic_launcher_red};
+    int[] arColorProcedures = {R.mipmap.ic_launcher_blue, R.mipmap.ic_launcher_orange,
+            R.mipmap.ic_launcher_green, R.mipmap.ic_launcher_red};
 
 
     public ProcedureHeaderAdapter(Context context, List<String> listItems,
@@ -106,26 +107,21 @@ public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.O
                 case TYPE_ITEM:
                     convertView = mLayoutInflater.inflate(R.layout.procedure_row_view, null);
                     holder.textView = (TextView) convertView.findViewById(R.id.row_title);
-                    convertView.setTag(holder);
-                    String name = holder.textView.getText().toString();
+                    //String name = holder.textView.getText().toString();
+                    String name = mListItems.get(position).toString();
                     getColorProceduresName(name);
-                    ImageView icon = (ImageView) convertView.findViewById(R.id.contact_circle);
+                    ImageView icon = (ImageView) convertView.findViewById(R.id.procedure_circle);
                     icon.setImageResource(arColorProcedures[testColor]);
-                    iColor += 1;
-                    if (iColor == mListItems.size() - mListSectionPos.size())
-                        iColor = 0;
-
-//                    holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
-//                    Drawable drawable = mContext.getDrawable(R.drawable.header);
-//                    holder.contactPhoto.setImageDrawable(drawable);
+//                    iColor += 1;
+//                    if (iColor == mListItems.size() - mListSectionPos.size())
+//                        iColor = 0;
                     break;
                 case TYPE_SECTION:
-                    convertView = mLayoutInflater.inflate(R.layout.contact_section_row_view, null);
-                    holder.textView = (TextView) convertView.findViewById(R.id.row_title);
-                    convertView.setTag(holder);
+                    convertView = mLayoutInflater.inflate(R.layout.section_row_view, null);
                     break;
             }
-
+            holder.textView = (TextView) convertView.findViewById(R.id.row_title);
+            convertView.setTag(holder);
 
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -194,14 +190,13 @@ public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.O
         return null;
     }
 
-    public static class ViewHolder {
-        public TextView textView;
-        public CircularImageView contactPhoto;
-    }
-
     private void getColorProceduresName( String name ) {
         Procedures procedures = new Procedures(mContext);
-        testColor = procedures.getColorProcedureName(name);
+        testColor = procedures.getColorProcedureByName(name);
+    }
+
+    public static class ViewHolder {
+        public TextView textView;
     }
 
 }

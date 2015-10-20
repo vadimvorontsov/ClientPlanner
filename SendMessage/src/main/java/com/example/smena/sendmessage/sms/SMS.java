@@ -9,9 +9,6 @@ import android.telephony.SmsManager;
 
 import java.util.ArrayList;
 
-/**
- * Created by smena on 12.06.2015.
- */
 public class SMS extends Activity {
 
     private final static String SENT = "SMS_SENT", DELIVERED = "SMS_DELIVERED";
@@ -36,10 +33,13 @@ public class SMS extends Activity {
         deliveredPI.add(PendingIntent.getBroadcast(ctx, 0, new Intent(DELIVERED), 0));
 
         ArrayList<String> messages = smsManager.divideMessage(text);
-//
-//        for (String message : messages) {
-        smsManager.sendMultipartTextMessage(number, null, messages, sentPI, deliveredPI);
-//        }
+
+        smsManager.sendMultipartTextMessage("+" + reformatPhone(number), null, messages, sentPI, deliveredPI);
+        int a = 0;
+    }
+
+    private String reformatPhone(String phone) {
+        return phone.replaceAll("\\D", "");
     }
 
 }

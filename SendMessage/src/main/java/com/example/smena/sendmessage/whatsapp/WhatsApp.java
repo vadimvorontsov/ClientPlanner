@@ -20,12 +20,12 @@ public class WhatsApp extends Activity {
         isWhatsappInstalled = whatsappInstalledOrNot(packageName);
     }
 
-    public void sendMsg(String text, String phone) {
+    public void sendMsg(String text) {
         if (isWhatsappInstalled) {
-            //Uri uri = Uri.parse("smsto:" + phone);
+            //Uri uri = Uri.parse("smsto:" + reformatPhone(phone));
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, text);
             sendIntent.setType("text/plain");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, text);
             sendIntent.setPackage(packageName);
             ctx.startActivity(sendIntent);
         } else {

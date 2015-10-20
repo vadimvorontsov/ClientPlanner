@@ -1,6 +1,7 @@
 package ru.anroidapp.plannerwork.contact_choose.intface;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,27 +95,26 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
             switch (type) {
                 case TYPE_ITEM:
                     convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
-                    holder.textView = (TextView) convertView.findViewById(R.id.row_title);
-                    convertView.setTag(holder);
-                    String name = holder.textView.getText().toString();
-//                    holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
-//                    Drawable drawable = mContext.getDrawable(R.drawable.header);
-//                    holder.contactPhoto.setImageDrawable(drawable);
+                    //String name = holder.textView.getText().toString();
+                    String name = mListItems.get(position).toString();
+                    holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
+                    Drawable drawable = mContext.getDrawable(R.drawable.ic_launcher);
+                    holder.contactPhoto.setImageDrawable(drawable);
                     break;
                 case TYPE_SECTION:
-                    convertView = mLayoutInflater.inflate(R.layout.contact_section_row_view, null);
-                    holder.textView = (TextView) convertView.findViewById(R.id.row_title);
-                    convertView.setTag(holder);
+                    convertView = mLayoutInflater.inflate(R.layout.section_row_view, null);
                     break;
             }
 
+            holder.textView = (TextView) convertView.findViewById(R.id.row_title);
+            //holder.textView.setText(mListItems.get(position).toString());
+            convertView.setTag(holder);
 
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         holder.textView.setText(mListItems.get(position).toString());
-
         return convertView;
     }
 
@@ -180,4 +180,37 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
         public TextView textView;
         public CircularImageView contactPhoto;
     }
+
+//    private TextDrawable getContactTextPhoto(String name) {
+//        TextDrawable drawable = null;
+//        String drawCharacters = "";
+//        String firstCharacter = "";
+//        String[] subNames = name.split(" ");
+//
+//        int length = subNames.length;
+//        if (length == 1) {
+//            firstCharacter = subNames[0].toUpperCase().substring(0,1);
+//            if (firstCharacter.matches("[А-Я]"))
+//                drawCharacters = firstCharacter;
+//        } else {
+//            for (int i = 0; i < length; i++) {
+//                if (i == 2)
+//                    break;
+//                firstCharacter = subNames[i].toUpperCase().substring(0,1);
+//                if (firstCharacter.matches("[А-Я]"))
+//                    drawCharacters += firstCharacter;
+//
+//            }
+//        }
+//        if (!drawCharacters.isEmpty()) {
+//            drawable = TextDrawable.builder()
+//                    .buildRect(drawCharacters,
+//                            R.color.ColorPrimary);
+//        } else {
+//            drawable = TextDrawable.builder()
+//                    .buildRect("A",
+//                            R.color.ColorPrimary);
+//        }
+//        return drawable;
+//    }
 }

@@ -2,10 +2,6 @@ package com.alamkanak.weekview;
 
 import java.util.Calendar;
 
-/**
- * Created by Raquib-ul-Alam Kanak on 7/21/2014.
- * Website: http://april-shower.com
- */
 public class WeekViewEvent {
 
     private long mId;

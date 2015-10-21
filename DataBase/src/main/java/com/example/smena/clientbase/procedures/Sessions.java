@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.example.smena.clientbase.ClientBaseOpenHelper;
@@ -15,8 +16,8 @@ import java.util.ArrayList;
  */
 public class Sessions {
 
-    Context ctx;
     private final String TAG = "Sessions";
+    Context ctx;
 
     public Sessions(Context context) {
         ctx = context;
@@ -55,14 +56,14 @@ public class Sessions {
 
         try {
             ContentValues cv = new ContentValues();
-            cv.put(helper.ID_CLIENT_SESSION, clientID);
-            cv.put(helper.ID_PROCEDURE, procedureID);
-            cv.put(helper.TIME_START, sessionTimeStart);
-            cv.put(helper.TIME_END, sessionTimeEnd);
-            cv.put(helper.ID_PHONE, phoneID);
-            cv.put(helper.ID_EMAIL, emailID);
+            cv.put(ClientBaseOpenHelper.ID_CLIENT_SESSION, clientID);
+            cv.put(ClientBaseOpenHelper.ID_PROCEDURE, procedureID);
+            cv.put(ClientBaseOpenHelper.TIME_START, sessionTimeStart);
+            cv.put(ClientBaseOpenHelper.TIME_END, sessionTimeEnd);
+            cv.put(ClientBaseOpenHelper.ID_PHONE, phoneID);
+            cv.put(ClientBaseOpenHelper.ID_EMAIL, emailID);
             if (cv != null) {
-                return db_write.insert(helper.TABLE_SESSIONS, helper.ID_CLIENT_SESSION, cv);
+                return db_write.insert(ClientBaseOpenHelper.TABLE_SESSIONS, ClientBaseOpenHelper.ID_CLIENT_SESSION, cv);
             }
             return 0;
         } catch (Exception e) {
@@ -94,11 +95,11 @@ public class Sessions {
         ArrayList<Integer> sessionsID = new ArrayList<>();
 
         try {
-            cursor = db_read.query(helper.TABLE_SESSIONS, new String[]{helper._ID},
-                    helper.TIME_START + " BETWEEN '" + timeStart + "' AND '" + timeEnd + "'",
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
+                    ClientBaseOpenHelper.TIME_START + " BETWEEN '" + timeStart + "' AND '" + timeEnd + "'",
                     null, null, null, null);
             while (cursor.moveToNext()) {
-                sessionsID.add(cursor.getInt(cursor.getColumnIndex(helper._ID)));
+                sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
             }
 
             return sessionsID;
@@ -136,11 +137,11 @@ public class Sessions {
         ArrayList<Integer> sessionsID = new ArrayList<>();
 
         try {
-            cursor = db_read.query(helper.TABLE_SESSIONS, new String[]{helper._ID},
-                    helper.TIME_END + " BETWEEN '" + timeStart + "' AND '" + timeEnd + "'",
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
+                    ClientBaseOpenHelper.TIME_END + " BETWEEN '" + timeStart + "' AND '" + timeEnd + "'",
                     null, null, null, null);
             while (cursor.moveToNext()) {
-                sessionsID.add(cursor.getInt(cursor.getColumnIndex(helper._ID)));
+                sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
             }
 
             return sessionsID;
@@ -174,11 +175,11 @@ public class Sessions {
         ArrayList<Integer> sessionsID = new ArrayList<>();
 
         try {
-            cursor = db_read.query(helper.TABLE_SESSIONS, new String[]{helper._ID},
-                    helper.TIME_END + " = '" + timeEnd + "'",
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
+                    ClientBaseOpenHelper.TIME_END + " = '" + timeEnd + "'",
                     null, null, null, null);
             while (cursor.moveToNext()) {
-                sessionsID.add(cursor.getInt(cursor.getColumnIndex(helper._ID)));
+                sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
             }
 
             return sessionsID;
@@ -212,11 +213,11 @@ public class Sessions {
         ArrayList<Integer> sessionsID = new ArrayList<>();
 
         try {
-            cursor = db_read.query(helper.TABLE_SESSIONS, new String[]{helper._ID},
-                    helper.TIME_START + " BETWEEN '" + timeStart,
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
+                    ClientBaseOpenHelper.TIME_START + " BETWEEN '" + timeStart,
                     null, null, null, null);
             while (cursor.moveToNext()) {
-                sessionsID.add(cursor.getInt(cursor.getColumnIndex(helper._ID)));
+                sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
             }
 
             return sessionsID;
@@ -253,17 +254,17 @@ public class Sessions {
             String phone = "";
             String email = "";
 
-            cursor = db_read.query(helper.TABLE_SESSIONS, new String[]{helper.ID_CLIENT_SESSION,
-                            helper.ID_PROCEDURE, helper.TIME_START, helper.TIME_END,
-                            helper.ID_PHONE, helper.ID_EMAIL},
-                    helper._ID + "=" + sessionID, null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{ClientBaseOpenHelper.ID_CLIENT_SESSION,
+                            ClientBaseOpenHelper.ID_PROCEDURE, ClientBaseOpenHelper.TIME_START, ClientBaseOpenHelper.TIME_END,
+                            ClientBaseOpenHelper.ID_PHONE, ClientBaseOpenHelper.ID_EMAIL},
+                    BaseColumns._ID + "=" + sessionID, null, null, null, null);
             while (cursor.moveToNext()) {
-                clientName = getClientName(cursor.getInt(cursor.getColumnIndex(helper.ID_CLIENT_SESSION)));
-                procedureName = getProcedure(cursor.getInt(cursor.getColumnIndex(helper.ID_PROCEDURE)));
-                time_start = cursor.getString(cursor.getColumnIndex(helper.TIME_START));
-                time_end = cursor.getString(cursor.getColumnIndex(helper.TIME_END));
-                phone = getPhone(cursor.getInt(cursor.getColumnIndex(helper.ID_PHONE)));
-                email = getEmail(cursor.getInt(cursor.getColumnIndex(helper.ID_EMAIL)));
+                clientName = getClientName(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.ID_CLIENT_SESSION)));
+                procedureName = getProcedure(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.ID_PROCEDURE)));
+                time_start = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.TIME_START));
+                time_end = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.TIME_END));
+                phone = getPhone(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.ID_PHONE)));
+                email = getEmail(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.ID_EMAIL)));
             }
             session = new Object[]{clientName, phone, email, procedureName, time_start, time_end};
 
@@ -312,6 +313,36 @@ public class Sessions {
                 helper.close();
             }
         }
+    }
+
+    public boolean isNotifiedById(long id) {
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        SQLiteDatabase db_read = helper.getReadableDatabase();
+        Cursor cursor = null;
+        Integer isNotified;
+
+        try {
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{ClientBaseOpenHelper.IS_NOTIFIED},
+                    ClientBaseOpenHelper._ID + "=" + id, null, null, null, null);
+            while (cursor.moveToNext()) {
+                isNotified = cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.IS_NOTIFIED));
+                return isNotified == 1;
+            }
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            return false;
+
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+            if (db_read != null && db_read.isOpen()) {
+                db_read.close();
+                helper.close();
+            }
+        }
+        return false;
     }
 
 

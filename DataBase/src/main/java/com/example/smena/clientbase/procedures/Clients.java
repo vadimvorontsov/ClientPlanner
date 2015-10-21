@@ -50,7 +50,7 @@ public class Clients {
         }
     }
 
-    public String getClientName(int clientID) {
+    public String getClientName(long clientID) {
 
         ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
         SQLiteDatabase db_read = helper.getReadableDatabase();
@@ -135,6 +135,5 @@ public class Clients {
             }
         }
     }
-
 
 }

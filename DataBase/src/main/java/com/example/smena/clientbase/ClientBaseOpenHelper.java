@@ -31,9 +31,10 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
     public static final String ID_PROCEDURE = "id_procedure";
     public static final String TIME_START = "time_start";
     public static final String TIME_END = "time_end";
+    public static final String IS_NOTIFIED = "is_notified";
     // db
     private static final String DATABASE_NAME = "sessions.db";
-    private static final int DATABASE_VERSION = 17;
+    private static final int DATABASE_VERSION = 18;
     Context ctx;
 
     public ClientBaseOpenHelper(Context context) {
@@ -72,6 +73,7 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
                 + ID_PROCEDURE + " INTEGER, "
                 + TIME_START + " TEXT, "
                 + TIME_END + " TEXT, "
+                + IS_NOTIFIED + " INTEGER, "
 
                 + "FOREIGN KEY(" + ID_CLIENT_SESSION + ") REFERENCES " + TABLE_CLIENTS
                 + "(" + ClientBaseOpenHelper._ID + "),"

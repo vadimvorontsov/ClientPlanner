@@ -17,13 +17,10 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.smena.clientbase.procedures.Sessions;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
-import java.util.ArrayList;
 
 import ru.anroidapp.plannerwork.ScreenSlide.ScreenSlidePageFragment1;
 import ru.anroidapp.plannerwork.ScreenSlide.ScreenSlidePageFragment2;
@@ -35,12 +32,10 @@ import ru.anroidapp.plannerwork.animation.ZoomOutPageTransformer;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int NUM_PAGES = 5;
+    private final int NUM_PAGES = 5;
     private final String TAG = "MainActivity";
-    Toolbar toolbar;
-    Context cntxt;
+    Context mContext;
     TextView textView;
-    LinearLayout LayCircle1;
     int closeId[] = {-1, -1, -1, -1, -1};
     int  maxYear, maxMonth, maxDay, maxHourStart, maxMinuteStart;
     private ViewPager mPager;
@@ -50,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        cntxt = this;
+        mContext = this;
 
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
@@ -61,12 +56,12 @@ public class MainActivity extends AppCompatActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        LayCircle1 = (LinearLayout) findViewById(R.id.LayCircle1);
+        LinearLayout circles = (LinearLayout) findViewById(R.id.circles);
 
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
-        Sessions sessions = new Sessions(MainActivity.this);
-        ArrayList<Long> sessionsId = sessions.getAllSessionsId();
+        //Sessions sessions = new Sessions(MainActivity.this);
+        // mArrayList<Long> sessionsId = sessions.getAllSessionsId();
 
        // String currentDateTimeString = DateFormat.format("yyyy-MM-dd kk:mm:ss", new Date());
 
@@ -103,16 +98,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -151,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         public ScreenSlidePagerAdapter(FragmentManager fm2) {
             super(fm2);
         }
+
 
         @Override
         public Fragment getItem(int position) {

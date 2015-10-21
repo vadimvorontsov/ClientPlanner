@@ -85,7 +85,7 @@ public class ProcedureActivity extends AppCompatActivity {
             //////
             //mSearchViewProc.setText("");
             laySearch.setVisibility(View.GONE);
-            //Animation showFab = AnimationUtils.loadAnimation(cntxt, R.anim.s_up);
+            //Animation showFab = AnimationUtils.loadAnimation(mContext, R.anim.s_up);
             //fab.startAnimation(showFab);
             fab.setVisibility(View.VISIBLE);
             //mSearchViewProc.requestFocus();

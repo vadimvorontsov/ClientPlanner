@@ -5,15 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.example.smena.clientbase.ClientBaseOpenHelper;
 
 import java.util.ArrayList;
 
-/**
- * Created by smena on 20.06.2015.
- */
 public class Emails {
 
     private final String TAG = "Emails";
@@ -31,10 +29,10 @@ public class Emails {
         long emailID = 0;
 
         try {
-            cursor = db_read.query(helper.TABLE_EMAILS, new String[]{helper._ID},
-                    helper.EMAIL + "='" + clientEmail + "'", null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_EMAILS, new String[]{BaseColumns._ID},
+                    ClientBaseOpenHelper.EMAIL + "='" + clientEmail + "'", null, null, null, null);
             while (cursor.moveToNext()) {
-                emailID = cursor.getLong(cursor.getColumnIndex(helper._ID));
+                emailID = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
             }
             return emailID;
 
@@ -63,10 +61,10 @@ public class Emails {
         String email = "";
 
         try {
-            cursor = db_read.query(helper.TABLE_EMAILS, new String[]{helper.EMAIL},
-                    helper._ID + "=" + emailID, null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_EMAILS, new String[]{ClientBaseOpenHelper.EMAIL},
+                    BaseColumns._ID + "=" + emailID, null, null, null, null);
             while (cursor.moveToNext()) {
-                email = cursor.getString(cursor.getColumnIndex(helper.EMAIL));
+                email = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.EMAIL));
             }
             return email;
 
@@ -96,10 +94,10 @@ public class Emails {
         ArrayList<String> emails = new ArrayList<>();
 
         try {
-            cursor = db_read.query(helper.TABLE_EMAILS, new String[]{helper.EMAIL},
-                    helper.ID_CLIENT_EMAIL + "=" + id_client, null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_EMAILS, new String[]{ClientBaseOpenHelper.EMAIL},
+                    ClientBaseOpenHelper.ID_CLIENT_EMAIL + "=" + id_client, null, null, null, null);
             while (cursor.moveToNext()) {
-                emails.add(cursor.getString(cursor.getColumnIndex(helper.EMAIL)));
+                emails.add(cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.EMAIL)));
             }
             return emails;
 
@@ -129,10 +127,10 @@ public class Emails {
 
         try {
             ContentValues cv = new ContentValues();
-            cv.put(helper.ID_CLIENT_EMAIL, id_client);
-            cv.put(helper.EMAIL, clientEmail);
+            cv.put(ClientBaseOpenHelper.ID_CLIENT_EMAIL, id_client);
+            cv.put(ClientBaseOpenHelper.EMAIL, clientEmail);
             if (cv != null) {
-                emailID = db_write.insert(helper.TABLE_EMAILS, helper.EMAIL, cv);
+                emailID = db_write.insert(ClientBaseOpenHelper.TABLE_EMAILS, ClientBaseOpenHelper.EMAIL, cv);
             }
             return emailID;
 

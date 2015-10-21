@@ -34,10 +34,6 @@ import java.util.List;
 
 import ru.anroidapp.plannerwork.R;
 
-/**
- * Created by Raquib-ul-Alam Kanak on 7/21/2014.
- * Website: http://alamkanak.github.io/
- */
 public class WeekView extends View {
 
     @Deprecated
@@ -112,9 +108,6 @@ public class WeekView extends View {
     private MonthChangeListener mMonthChangeListener;
     private EmptyViewClickListener mEmptyViewClickListener;
     private EmptyViewLongPressListener mEmptyViewLongPressListener;
-    private DateTimeInterpreter mDateTimeInterpreter;
-    private ScrollListener mScrollListener;
-
     private final GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
 
         @Override
@@ -212,10 +205,8 @@ public class WeekView extends View {
             }
         }
     };
-
-    private enum Direction {
-        NONE, HORIZONTAL, VERTICAL
-    }
+    private DateTimeInterpreter mDateTimeInterpreter;
+    private ScrollListener mScrollListener;
 
     public WeekView(Context context) {
         this(context, null);
@@ -353,7 +344,7 @@ public class WeekView extends View {
         canvas.drawRect(0, 0, mTimeTextWidth + mHeaderColumnPadding * 2, mHeaderTextHeight + mHeaderRowPadding * 2, mHeaderBackgroundPaint);
 
         // Hide anything that is in the bottom margin of the header row.
-        canvas.drawRect(mHeaderColumnWidth, mHeaderTextHeight + mHeaderRowPadding * 2, getWidth(), mHeaderRowPadding * 2 + mHeaderTextHeight + mHeaderMarginBottom + mTimeTextHeight/2 - mHourSeparatorHeight / 2, mHeaderColumnBackgroundPaint);
+        canvas.drawRect(mHeaderColumnWidth, mHeaderTextHeight + mHeaderRowPadding * 2, getWidth(), mHeaderRowPadding * 2 + mHeaderTextHeight + mHeaderMarginBottom + mTimeTextHeight / 2 - mHourSeparatorHeight / 2, mHeaderColumnBackgroundPaint);
     }
 
     private void drawTimeColumnAndAxes(Canvas canvas) {
@@ -588,7 +579,6 @@ public class WeekView extends View {
         }
     }
 
-
     /**
      * Draw the name of the event on top of the event rectangle.
      * @param text The text to draw.
@@ -623,43 +613,6 @@ public class WeekView extends View {
         textLayout.draw(canvas);
         canvas.restore();
     }
-
-
-    /**
-     * A class to hold reference to the events and their visual representation. An EventRect is
-     * actually the rectangle that is drawn on the calendar for a given event. There may be more
-     * than one rectangle for a single event (an event that expands more than one day). In that
-     * case two instances of the EventRect will be used for a single event. The given event will be
-     * stored in "originalEvent". But the event that corresponds to rectangle the rectangle
-     * instance will be stored in "event".
-     */
-    private class EventRect {
-        public WeekViewEvent event;
-        public WeekViewEvent originalEvent;
-        public RectF rectF;
-        public float left;
-        public float width;
-        public float top;
-        public float bottom;
-
-        /**
-         * Create a new instance of event rect. An EventRect is actually the rectangle that is drawn
-         * on the calendar for a given event. There may be more than one rectangle for a single
-         * event (an event that expands more than one day). In that case two instances of the
-         * EventRect will be used for a single event. The given event will be stored in
-         * "originalEvent". But the event that corresponds to rectangle the rectangle instance will
-         * be stored in "event".
-         * @param event Represents the event which this instance of rectangle represents.
-         * @param originalEvent The original event that was passed by the user.
-         * @param rectF The rectangle.
-         */
-        public EventRect(WeekViewEvent event, WeekViewEvent originalEvent, RectF rectF) {
-            this.event = event;
-            this.rectF = rectF;
-            this.originalEvent = originalEvent;
-        }
-    }
-
 
     /**
      * Gets more events of one/more month(s) if necessary. This method is called when the user is
@@ -877,7 +830,6 @@ public class WeekView extends View {
         }
     }
 
-
     /**
      * Checks if two events overlap.
      * @param event1 The first event.
@@ -891,7 +843,6 @@ public class WeekView extends View {
         long end2 = event2.getEndTime().getTimeInMillis();
         return !((start1 >= end2) || (end1 <= start2));
     }
-
 
     /**
      * Checks if time1 occurs after (or at the same time) time2.
@@ -940,12 +891,6 @@ public class WeekView extends View {
         mAreDimensionsInvalid = true;
     }
 
-    /////////////////////////////////////////////////////////////////
-    //
-    //      Functions related to setting and getting the properties.
-    //
-    /////////////////////////////////////////////////////////////////
-
     public void setOnEventClickListener (EventClickListener listener) {
         this.mEventClickListener = listener;
     }
@@ -953,6 +898,12 @@ public class WeekView extends View {
     public EventClickListener getEventClickListener() {
         return mEventClickListener;
     }
+
+    /////////////////////////////////////////////////////////////////
+    //
+    //      Functions related to setting and getting the properties.
+    //
+    /////////////////////////////////////////////////////////////////
 
     public MonthChangeListener getMonthChangeListener() {
         return mMonthChangeListener;
@@ -970,29 +921,30 @@ public class WeekView extends View {
         this.mEventLongPressListener = eventLongPressListener;
     }
 
+    public EmptyViewClickListener getEmptyViewClickListener() {
+        return mEmptyViewClickListener;
+    }
+
     public void setEmptyViewClickListener(EmptyViewClickListener emptyViewClickListener){
         this.mEmptyViewClickListener = emptyViewClickListener;
     }
 
-    public EmptyViewClickListener getEmptyViewClickListener(){
-        return mEmptyViewClickListener;
+    public EmptyViewLongPressListener getEmptyViewLongPressListener() {
+        return mEmptyViewLongPressListener;
     }
 
     public void setEmptyViewLongPressListener(EmptyViewLongPressListener emptyViewLongPressListener){
         this.mEmptyViewLongPressListener = emptyViewLongPressListener;
     }
 
-    public EmptyViewLongPressListener getEmptyViewLongPressListener(){
-        return mEmptyViewLongPressListener;
+    public ScrollListener getScrollListener() {
+        return mScrollListener;
     }
 
     public void setScrollListener(ScrollListener scrolledListener){
         this.mScrollListener = scrolledListener;
     }
 
-    public ScrollListener getScrollListener(){
-        return mScrollListener;
-    }
     /**
      * Get the interpreter which provides the text to show in the header column and the header row.
      * @return The date, time interpreter.
@@ -1034,7 +986,6 @@ public class WeekView extends View {
     public void setDateTimeInterpreter(DateTimeInterpreter dateTimeInterpreter){
         this.mDateTimeInterpreter = dateTimeInterpreter;
     }
-
 
     /**
      * Get the number of visible days in a week.
@@ -1318,11 +1269,6 @@ public class WeekView extends View {
     public void setXScrollingSpeed(float xScrollingSpeed) {
         this.mXScrollingSpeed = xScrollingSpeed;
     }
-    /////////////////////////////////////////////////////////////////
-    //
-    //      Functions related to scrolling.
-    //
-    /////////////////////////////////////////////////////////////////
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -1338,7 +1284,6 @@ public class WeekView extends View {
         }
         return mGestureDetector.onTouchEvent(event);
     }
-
 
     @Override
     public void computeScroll() {
@@ -1366,11 +1311,9 @@ public class WeekView extends View {
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
-
-
     /////////////////////////////////////////////////////////////////
     //
-    //      Public methods.
+    //      Functions related to scrolling.
     //
     /////////////////////////////////////////////////////////////////
 
@@ -1415,6 +1358,13 @@ public class WeekView extends View {
         invalidate();
     }
 
+
+    /////////////////////////////////////////////////////////////////
+    //
+    //      Public methods.
+    //
+    /////////////////////////////////////////////////////////////////
+
     /**
      * Refreshes the view and loads the events again.
      */
@@ -1452,6 +1402,32 @@ public class WeekView extends View {
         return -mCurrentOrigin.y / mHourHeight;
     }
 
+    /**
+     * Checks if an integer array contains a particular value.
+     *
+     * @param list  The haystack.
+     * @param value The needle.
+     * @return True if the array contains the value. Otherwise returns false.
+     */
+    private boolean containsValue(int[] list, int value) {
+        for (int i = 0; i < list.length; i++) {
+            if (list[i] == value)
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks if two times are on the same day.
+     *
+     * @param dayOne The first day.
+     * @param dayTwo The second day.
+     * @return Whether the times are on the same day.
+     */
+    private boolean isSameDay(Calendar dayOne, Calendar dayTwo) {
+        return dayOne.get(Calendar.YEAR) == dayTwo.get(Calendar.YEAR) && dayOne.get(Calendar.DAY_OF_YEAR) == dayTwo.get(Calendar.DAY_OF_YEAR);
+    }
+
 
 
     /////////////////////////////////////////////////////////////////
@@ -1460,35 +1436,28 @@ public class WeekView extends View {
     //
     /////////////////////////////////////////////////////////////////
 
+    private enum Direction {
+        NONE, HORIZONTAL, VERTICAL
+    }
+
     public interface EventClickListener {
-        public void onEventClick(WeekViewEvent event, RectF eventRect);
+        void onEventClick(WeekViewEvent event, RectF eventRect);
     }
 
     public interface MonthChangeListener {
-        public List<WeekViewEvent> onMonthChange(int newYear, int newMonth);
+        List<WeekViewEvent> onMonthChange(int newYear, int newMonth);
     }
 
     public interface EventLongPressListener {
-        public void onEventLongPress(WeekViewEvent event, RectF eventRect);
+        void onEventLongPress(WeekViewEvent event, RectF eventRect);
     }
 
     public interface EmptyViewClickListener {
-        public void onEmptyViewClicked(Calendar time);
+        void onEmptyViewClicked(Calendar time);
     }
 
     public interface EmptyViewLongPressListener {
-        public void onEmptyViewLongPress(Calendar time);
-    }
-
-    public interface ScrollListener {
-        /**
-         * Called when the first visible day has changed.
-         *
-         * (this will also be called during the first draw of the weekview)
-         * @param newFirstVisibleDay The new first visible day
-         * @param oldFirstVisibleDay The old first visible day (is null on the first call).
-         */
-        public void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay);
+        void onEmptyViewLongPress(Calendar time);
     }
 
 
@@ -1498,28 +1467,51 @@ public class WeekView extends View {
     //
     /////////////////////////////////////////////////////////////////
 
-    /**
-     * Checks if an integer array contains a particular value.
-     * @param list The haystack.
-     * @param value The needle.
-     * @return True if the array contains the value. Otherwise returns false.
-     */
-    private boolean containsValue(int[] list, int value) {
-        for (int i = 0; i < list.length; i++){
-            if (list[i] == value)
-                return true;
-        }
-        return false;
+    public interface ScrollListener {
+        /**
+         * Called when the first visible day has changed.
+         *
+         * (this will also be called during the first draw of the weekview)
+         * @param newFirstVisibleDay The new first visible day
+         * @param oldFirstVisibleDay The old first visible day (is null on the first call).
+         */
+        void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay);
     }
 
     /**
-     * Checks if two times are on the same day.
-     * @param dayOne The first day.
-     * @param dayTwo The second day.
-     * @return Whether the times are on the same day.
+     * A class to hold reference to the events and their visual representation. An EventRect is
+     * actually the rectangle that is drawn on the calendar for a given event. There may be more
+     * than one rectangle for a single event (an event that expands more than one day). In that
+     * case two instances of the EventRect will be used for a single event. The given event will be
+     * stored in "originalEvent". But the event that corresponds to rectangle the rectangle
+     * instance will be stored in "event".
      */
-    private boolean isSameDay(Calendar dayOne, Calendar dayTwo) {
-        return dayOne.get(Calendar.YEAR) == dayTwo.get(Calendar.YEAR) && dayOne.get(Calendar.DAY_OF_YEAR) == dayTwo.get(Calendar.DAY_OF_YEAR);
+    private class EventRect {
+        public WeekViewEvent event;
+        public WeekViewEvent originalEvent;
+        public RectF rectF;
+        public float left;
+        public float width;
+        public float top;
+        public float bottom;
+
+        /**
+         * Create a new instance of event rect. An EventRect is actually the rectangle that is drawn
+         * on the calendar for a given event. There may be more than one rectangle for a single
+         * event (an event that expands more than one day). In that case two instances of the
+         * EventRect will be used for a single event. The given event will be stored in
+         * "originalEvent". But the event that corresponds to rectangle the rectangle instance will
+         * be stored in "event".
+         *
+         * @param event         Represents the event which this instance of rectangle represents.
+         * @param originalEvent The original event that was passed by the user.
+         * @param rectF         The rectangle.
+         */
+        public EventRect(WeekViewEvent event, WeekViewEvent originalEvent, RectF rectF) {
+            this.event = event;
+            this.rectF = rectF;
+            this.originalEvent = originalEvent;
+        }
     }
 
 }

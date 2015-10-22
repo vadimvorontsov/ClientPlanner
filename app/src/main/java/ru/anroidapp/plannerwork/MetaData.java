@@ -20,15 +20,6 @@ public class MetaData implements Serializable {
 
     private String mProcedureName, mProcedureNote;
     private int mProcedurePrice, mProcedureColor;
-
-    public int getCurrentFragment() {
-        return currentFragment;
-    }
-
-    public void setCurrentFragment(int currentFragment) {
-        this.currentFragment = currentFragment;
-    }
-
     private int currentFragment = 0;
 
     public MetaData(Context context) {
@@ -56,111 +47,131 @@ public class MetaData implements Serializable {
 
     }
 
+    public int getCurrentFragment() {
+        return currentFragment;
+    }
+
+    public void setCurrentFragment(int currentFragment) {
+        this.currentFragment = currentFragment;
+    }
+
     public String getClientName() {
         return mClientName;
     }
 
-    public void setClientName(String mClientName) {
-        this.mClientName = mClientName;
+    public void setClientName(String clientName) {
+        this.mClientName = clientName;
     }
 
     public ArrayList<String> getClientPhones() {
         return mClientPhones;
     }
 
-    public void setClientPhones(ArrayList<String> mClientPhones) {
-        this.mClientPhones = mClientPhones;
+    public void setClientPhones(ArrayList<String> clientPhones) {
+        this.mClientPhones = clientPhones;
     }
 
     public ArrayList<String> getClientEmails() {
         return mClientEmails;
     }
 
-    public void setClientEmails(ArrayList<String> mClientEmails) {
-        this.mClientEmails = mClientEmails;
+    public void setClientEmails(ArrayList<String> clientEmails) {
+        this.mClientEmails = clientEmails;
     }
 
     public int getYear() {
         return mYear;
     }
 
-    public void setYear(int mYear) {
-        this.mYear = mYear;
+    public void setYear(int year) {
+        this.mYear = year;
     }
 
-    public int getMonth() {
-        return mMonth;
+    public String getMonth() {
+        return addZero(mMonth); //для правильной записи в бд (нумерация с 1)
     }
 
-    public void setMonth(int mMonth) {
-        this.mMonth = mMonth;
+    public void setMonth(int month) {
+        this.mMonth = month;
     }
 
-    public int getDay() {
-        return mDay;
+    public String getDay() {
+        return addZero(mDay);
     }
 
-    public void setDay(int mDay) {
-        this.mDay = mDay;
+    public void setDay(int day) {
+        this.mDay = day;
     }
 
-    public int getHourStart() {
-        return mHourStart;
+    public String getHourStart() {
+        return addZero(mHourStart);
     }
 
-    public void setHourStart(int mHourStart) {
-        this.mHourStart = mHourStart;
+    public void setHourStart(int hourStart) {
+        this.mHourStart = hourStart;
     }
 
-    public int getMinuteStart() {
-        return mMinuteStart;
+    public String getMinuteStart() {
+        return addZero(mMinuteStart);
     }
 
-    public void setMinuteStart(int mMinuteStart) {
-        this.mMinuteStart = mMinuteStart;
+    public void setMinuteStart(int minuteStart) {
+        this.mMinuteStart = minuteStart;
     }
 
-    public int getHourEnd() {
-        return mHourEnd;
+    public String getHourEnd() {
+        return addZero(mHourEnd);
     }
 
-    public void setHourEnd(int mHourEnd) {
-        this.mHourEnd = mHourEnd;
+    public void setHourEnd(int hourEnd) {
+        this.mHourEnd = hourEnd;
     }
 
-    public int getMinuteEnd() {
-        return mMinuteEnd;
+    public String getMinuteEnd() {
+        return addZero(mMinuteEnd);
     }
 
-    public void setMinuteEnd(int mMinuteEnd) {
-        this.mMinuteEnd = mMinuteEnd;
+    public void setMinuteEnd(int minuteEnd) {
+        this.mMinuteEnd = minuteEnd;
     }
 
     public String getProcedureName() {
         return mProcedureName;
     }
 
-    public void setProcedureName(String mProcedureName) {
-        this.mProcedureName = mProcedureName;
+    public void setProcedureName(String procedureName) {
+        this.mProcedureName = procedureName;
     }
 
     public String getProcedureNote() {
         return mProcedureNote;
     }
 
-    public void setProcedureNote(String mProcedureNote) {
-        this.mProcedureNote = mProcedureNote;
+    public void setProcedureNote(String procedureNote) {
+        this.mProcedureNote = procedureNote;
     }
 
     public int getProcedurePrice() {
         return mProcedurePrice;
     }
 
+    public void setProcedurePrice(int procedurePrice) {
+        this.mProcedurePrice = procedurePrice;
+    }
+
     public int getProcedureColor() {
         return mProcedureColor;
     }
 
-    public void setProcedurePrice(int mProcedurePrice) {
-        this.mProcedurePrice = mProcedurePrice;
+    private String addZero(int value) {
+        String strValue;
+
+        if (value < 10)
+            strValue = "0" + value;
+        else
+            strValue = "" + value;
+
+        return strValue;
     }
+
 }

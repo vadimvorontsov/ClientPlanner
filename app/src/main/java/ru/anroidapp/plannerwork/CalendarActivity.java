@@ -7,8 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -31,16 +29,14 @@ import java.util.Locale;
 public class CalendarActivity extends AppCompatActivity implements WeekView.MonthChangeListener,
         WeekView.EventClickListener, WeekView.EventLongPressListener {
 
-    Toolbar toolbar;
-
     private final static String TAG = "CalendarActivity";
-
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
+    Toolbar toolbar;
+    MetaData mMetaData;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private WeekView mWeekView;
-    MetaData mMetaData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +95,12 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
                     mWeekView.setNumberOfVisibleDays(1);
 
                     // Lets change some dimensions to best fit the view.
-                    mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
-                    mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
-                    mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
+                    mWeekView.setColumnGap((int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
+                    mWeekView.setTextSize((int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
+                    mWeekView.setEventTextSize((int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
                 }
                 return true;
             case R.id.action_three_day_view:
@@ -111,9 +110,12 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
                     mWeekView.setNumberOfVisibleDays(3);
 
                     // Lets change some dimensions to best fit the view.
-                    mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
-                    mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
-                    mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
+                    mWeekView.setColumnGap((int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
+                    mWeekView.setTextSize((int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
+                    mWeekView.setEventTextSize((int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
                 }
                 return true;
             case R.id.action_week_view:
@@ -123,9 +125,12 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
                     mWeekView.setNumberOfVisibleDays(7);
 
                     // Lets change some dimensions to best fit the view.
-                    mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()));
-                    mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
-                    mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
+                    mWeekView.setColumnGap((int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()));
+                    mWeekView.setTextSize((int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
+                    mWeekView.setEventTextSize((int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
                 }
                 return true;
         }
@@ -193,7 +198,7 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
             String[] timeEndArray = ((String) sessionInfo[5]).split("\\D");
 
             int year = Integer.parseInt(timeStartArray[0]);
-            int month = Integer.parseInt(timeStartArray[1]);
+            int month = Integer.parseInt(timeStartArray[1]); // нумеруются с 0
             int day = Integer.parseInt(timeStartArray[2]);
 
             int hourStart = Integer.parseInt(timeStartArray[3]);

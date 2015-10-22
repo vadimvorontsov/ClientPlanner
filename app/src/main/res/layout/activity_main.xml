@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ru.anroidapp.plannerwork.MainActivity">
+    tools:context="ru.anroidapp.plannerwork.main_activity.MainActivity">
 
     <include
         android:id="@+id/tool_bar"
@@ -12,197 +12,197 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:background="@drawable/selected_record"
+        android:onClick="onBtn1Click">
+
+        <ru.anroidapp.plannerwork.CircularImageView
+            android:id="@+id/cntctImg1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:paddingLeft="8dp"
+            android:src="@mipmap/ic_record"
+            app:border="true"
+            app:border_color="@color/record_second"
+            app:shadow="true" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="@drawable/selected_record"
-            android:onClick="onBtn1Click">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="3">
 
-            <ru.anroidapp.plannerwork.CircularImageView
-                android:id="@+id/cntctImg1"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:paddingLeft="8dp"
-                android:src="@mipmap/ic_record"
-                app:border="true"
-                app:border_color="@color/record_second"
-                app:shadow="true" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="Сделать запись"
+                android:textColor="#FFF"
+                android:textSize="11pt"
+                android:textStyle="bold" />
 
-            <LinearLayout
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="Выбор клиента, даты, услуги. \n Отправка сообщения." />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:background="@drawable/selected_calendar"
+        android:onClick="onBtn2Click"
+        android:orientation="horizontal">
+
+        <ru.anroidapp.plannerwork.CircularImageView
+            android:id="@+id/cntctImg2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:paddingLeft="8dp"
+            android:src="@mipmap/ic_calendar"
+            app:border="true"
+            app:border_color="@color/calendar_second"
+            app:shadow="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="Календарь"
+                android:textColor="#FFF"
+                android:textSize="11pt"
+                android:textStyle="bold" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:weightSum="3">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:text="Сделать запись"
-                    android:textColor="#FFF"
-                    android:textSize="11pt"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="Выбор клиента, даты, услуги. \n Отправка сообщения." />
-            </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="Просмотр записей клиентов." />
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:background="@drawable/selected_procedure"
+        android:onClick="onBtn3Click"
+        android:orientation="horizontal">
+
+        <ru.anroidapp.plannerwork.CircularImageView
+            android:id="@+id/cntctImg3"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:paddingLeft="8dp"
+            android:src="@mipmap/ic_procedure"
+            app:border="true"
+            app:border_color="@color/procedure_second"
+            app:shadow="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="@drawable/selected_calendar"
-            android:onClick="onBtn2Click"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="4">
 
-            <ru.anroidapp.plannerwork.CircularImageView
-                android:id="@+id/cntctImg2"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:paddingLeft="8dp"
-                android:src="@mipmap/ic_calendar"
-                app:border="true"
-                app:border_color="@color/calendar_second"
-                app:shadow="true" />
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:weightSum="3">
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="Услуги"
+                android:textColor="#FFF"
+                android:textSize="11pt"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:text="Календарь"
-                    android:textColor="#FFF"
-                    android:textSize="11pt"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="Просмотр записей клиентов." />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:background="@drawable/selected_procedure"
-            android:onClick="onBtn3Click"
-            android:orientation="horizontal">
-
-            <ru.anroidapp.plannerwork.CircularImageView
-                android:id="@+id/cntctImg3"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:paddingLeft="8dp"
-                android:src="@mipmap/ic_procedure"
-                app:border="true"
-                app:border_color="@color/procedure_second"
-                app:shadow="true" />
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:weightSum="4">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="center"
-                    android:text="Услуги"
-                    android:textColor="#FFF"
-                    android:textSize="11pt"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center_horizontal"
-                    android:text="Заполнение процедур, их цена
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="Заполнение процедур, их цена
                     и дополнительные примечания" />
-            </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
 
 
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
         android:background="#d7ccc8"
         android:orientation="vertical">
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/pagerMain"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="50dp"
-                android:background="#d7ccc8" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pagerMain"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:background="#d7ccc8" />
 
-            <LinearLayout
-                android:id="@+id/circles"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_below="@id/pagerMain"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:weightSum="2">
+        <LinearLayout
+            android:id="@+id/circles"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@id/pagerMain"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-                <ru.anroidapp.plannerwork.animation.Circle
-                    android:id="@+id/circle_1"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="center" />
+            <ru.anroidapp.plannerwork.animation.Circle
+                android:id="@+id/circle_1"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center" />
 
-                <ru.anroidapp.plannerwork.animation.Circle
-                    android:id="@+id/circle_2"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="center" />
+            <ru.anroidapp.plannerwork.animation.Circle
+                android:id="@+id/circle_2"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center" />
 
-                <ru.anroidapp.plannerwork.animation.Circle
-                    android:id="@+id/circle_3"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="center" />
+            <ru.anroidapp.plannerwork.animation.Circle
+                android:id="@+id/circle_3"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center" />
 
-                <ru.anroidapp.plannerwork.animation.Circle
-                    android:id="@+id/circle_4"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="center" />
+            <ru.anroidapp.plannerwork.animation.Circle
+                android:id="@+id/circle_4"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center" />
 
-                <ru.anroidapp.plannerwork.animation.Circle
-                    android:id="@+id/circle_5"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_gravity="center" />
+            <ru.anroidapp.plannerwork.animation.Circle
+                android:id="@+id/circle_5"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="center" />
 
-            </LinearLayout>
+        </LinearLayout>
 
     </RelativeLayout>
 

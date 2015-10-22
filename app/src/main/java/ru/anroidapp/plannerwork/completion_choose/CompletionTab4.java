@@ -33,16 +33,16 @@ import com.example.smena.sendmessage.sms.SMS;
 import com.example.smena.sendmessage.viber.Viber;
 import com.example.smena.sendmessage.whatsapp.WhatsApp;
 
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 
-import ru.anroidapp.plannerwork.MainActivity;
 import ru.anroidapp.plannerwork.MetaData;
 import ru.anroidapp.plannerwork.R;
+import ru.anroidapp.plannerwork.main_activity.MainActivity;
 
 public class CompletionTab4 extends Fragment {
 
     private static final String TAG = "CompletionTab4";
-    int  CURRNT_XML_FILE = 1;
     int iMessage = 0;
 
     TextView clientNameTextView;
@@ -53,38 +53,32 @@ public class CompletionTab4 extends Fragment {
     TextView procedureNoteTextView;
     Button btnClickOK, btnMessage;
 
-    String[] months;
 
     FragmentActivity fa;
-    MetaData mMetaData;
 
     Toast mToast;
     String mTextMsg;
-    //ArrayList<String> mPhonesForCall;
     ArrayList<String> mPhones;
     String phone;
     ArrayList<String> mEmails;
     String email;
     RelativeLayout relativeLayout;
     LayoutInflater mInflater;
-    Animation fadeIn, fadeOut;
     LinearLayout mDataLayout, mDataAllLayout;
     boolean mAlpha = false;
-    Animation.AnimationListener fadeOutAnimationListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation animation) {
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
-    };
+    MetaData mMetaData;
+    String mClientName;
+    String mYear;
+    String mMonthName;
+    String mMonthNumb;
+    String mDay;
+    String mHourStart;
+    String mHourEnd;
+    String mMinuteStart;
+    String mMinuteEnd;
+    String mProcedureName;
+    int mProcedurePrice;
+    String mProcedureNote;
     View.OnClickListener sendViberListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -136,13 +130,14 @@ public class CompletionTab4 extends Fragment {
             Resources resources = getResources();
 
             Sessions sessions = new Sessions(fa);
-            long sessinonId = sessions.addSession(mMetaData.getClientName(), mMetaData.getProcedureName(),
-                    mMetaData.getProcedurePrice(), mMetaData.getProcedureNote(), mMetaData.getProcedureColor(),
-                    "" + mMetaData.getYear() + "-" + mMetaData.getMonth() + "-" + mMetaData.getDay() +
-                            " " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart(),
-                    "" + mMetaData.getYear() + "-" + mMetaData.getMonth() + "-" + mMetaData.getDay() +
-                            " " + mMetaData.getHourEnd() + ":" + mMetaData.getMinuteEnd(),
+            long sessinonId = sessions.addSession(mClientName, mProcedureName,
+                    mProcedurePrice, mProcedureNote, mMetaData.getProcedureColor(),
+                    "" + mYear + "-" + mMonthNumb + "-" + mDay +
+                            " " + mHourStart + ":" + mMinuteStart,
+                    "" + mYear + "-" + mMonthNumb + "-" + mDay +
+                            " " + mHourEnd + ":" + mMinuteEnd,
                     mMetaData.getClientPhones().get(0), mMetaData.getClientEmails().get(0));
+
             if (sessinonId != -1) {
                 if (iMessage == 1)
                     sendMsgView().show();
@@ -155,39 +150,11 @@ public class CompletionTab4 extends Fragment {
             }
         }
     };
-    View.OnClickListener oclBtnMessage = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Animation animation_in = AnimationUtils.loadAnimation(fa, R.anim.scale_in);
-            animation_in.setAnimationListener(fadeInAnimationListener);
-            mDataAllLayout.startAnimation(animation_in);
-            iMessage = 1;
-            // fadeInAnimationListener.onAnimationStart(animation_in);
-            //  fadeInAnimationListener.onAnimationEnd(animation_in);
-        }
-    };
     private View mData;
     private EditText editMsg;
-    View.OnClickListener viewMsgBtnListener = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-
-            if (!mAlpha) {
-                // mData.startAnimation(fadeIn);
-                setupViewMsgLayout();
-                mAlpha = true;
-            } else {
-                //editMsg.startAnimation(fadeOut);
-                setupDataLayout();
-                mAlpha = false;
-            }
-        }
-    };
     Animation.AnimationListener fadeInAnimationListener = new Animation.AnimationListener() {
         @Override
         public void onAnimationStart(Animation animation) {
-            //mDataLayout.startAnimation(animation);
         }
 
         @Override
@@ -206,17 +173,20 @@ public class CompletionTab4 extends Fragment {
 
         }
     };
+    View.OnClickListener oclBtnMessage = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Animation animation_in = AnimationUtils.loadAnimation(fa, R.anim.scale_in);
+            animation_in.setAnimationListener(fadeInAnimationListener);
+            mDataAllLayout.startAnimation(animation_in);
+            iMessage = 1;
+        }
+    };
 
     @Override
     public void onAttach(Activity activity) {
         fa = super.getActivity();
         super.onAttach(activity);
-    }
-
-    @Override
-    public void onResume() {
-        //setupDataLayout();
-        super.onResume();
     }
 
     @Override
@@ -233,15 +203,9 @@ public class CompletionTab4 extends Fragment {
 
 
         mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
-
-        months = getResources().getStringArray(R.array.months);
+        initValues();
 
         editMsg = (EditText) mInflater.inflate(R.layout.edit_msg_tab4, null);
-
-//        fadeIn = AnimationUtils.loadAnimation(fa, R.anim.fade_in);
-//        fadeOut = AnimationUtils.loadAnimation(fa, R.anim.fade_out);
-//        fadeIn.setAnimationListener(fadeInAnimationListener);
-//        fadeOut.setAnimationListener(fadeOutAnimationListener);
 
         btnClickOK = (Button) relativeLayout.findViewById(R.id.BtnCompletionOK);
         btnClickOK.setOnClickListener(oclBtnOK);
@@ -293,9 +257,6 @@ public class CompletionTab4 extends Fragment {
         btnSendWhatsApp.setOnClickListener(sendWhatsAppListener);
         btnSendViber.setOnClickListener(sendViberListener);
 
-
-        //editTextMsg.setText(mTextMsg);
-
         AlertDialog.Builder builder = new AlertDialog.Builder(fa);
         builder.setView(view).
                 setCancelable(false);
@@ -330,12 +291,12 @@ public class CompletionTab4 extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                phone = reformatPhone(mPhones.get(position));
+                phone = mPhones.get(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                phone = reformatPhone(mPhones.get(0));
+                phone = mPhones.get(0);
             }
         });
 
@@ -399,60 +360,29 @@ public class CompletionTab4 extends Fragment {
 
     private void setInfoView(RelativeLayout relativeLayout) {
         clientNameTextView = (TextView) relativeLayout.findViewById(R.id.client_name_textview);
-        clientNameTextView.setText(mMetaData.getClientName());
+        clientNameTextView.setText(mClientName);
         dateTextView = (TextView) relativeLayout.findViewById(R.id.date_textview);
-        dateTextView.setText(mMetaData.getDay() + " " + months[mMetaData.getMonth()]
-                + " " + mMetaData.getYear());
+        dateTextView.setText(mDay + " " + mMonthName + " " + mYear);
         timeTextView = (TextView) relativeLayout.findViewById(R.id.time_textview);
 
-        timeTextView.setText("c " + addedNullInt(mMetaData.getHourStart()) + ":" +
-                addedNullInt(mMetaData.getMinuteStart()) + " по " + addedNullInt(mMetaData.getHourEnd()) +
-                ":" + addedNullInt(mMetaData.getMinuteEnd()));
+        timeTextView.setText("c " + mHourStart + ":" + mMinuteStart +
+                " по " + mHourEnd + ":" + mMinuteEnd);
         procedureNameTextView = (TextView) relativeLayout.findViewById(R.id.procedure_name_textview);
-        procedureNameTextView.setText(mMetaData.getProcedureName());
+        procedureNameTextView.setText(mProcedureName);
         procedurePriceTextView = (TextView) relativeLayout.findViewById(R.id.procedure_price_textview);
-        procedurePriceTextView.setText("" + mMetaData.getProcedurePrice());
+        procedurePriceTextView.setText("" + mProcedurePrice);
         procedureNoteTextView = (TextView) relativeLayout.findViewById(R.id.procedure_note_textview);
-        procedureNoteTextView.setText(mMetaData.getProcedureNote());
+        procedureNoteTextView.setText(mProcedureNote);
 
         mDataLayout = (LinearLayout) relativeLayout.findViewById(R.id.data_layout);
-        // LinearLayout viewMessageBtn = (LinearLayout) relativeLayout.findViewById(R.id.view_message_layout);
-        //  viewMessageBtn.setOnClickListener(viewMsgBtnListener);
 
     }
 
     private void setupDataLayout() {
+        initValues();
         mDataLayout.removeAllViews();
         mDataLayout.addView(mData);
         setInfoView(relativeLayout);
-    }
-
-    private void setupViewMsgLayout() {
-        mDataLayout.removeAllViews();
-
-        mTextMsg = createMsg();
-        editMsg.setText(mTextMsg);
-        mDataLayout.addView(editMsg);
-    }
-
-    private String addedNullInt(int cellTime) {
-        String strTime;
-
-        if (cellTime < 10)
-            strTime = "0" + cellTime;
-        else
-            strTime = "" + cellTime;
-
-        return strTime;
-    }
-
-    private String reformatPhone(String phone) {
-        if (phone.startsWith("+7")) {
-            phone = "+" + phone.replaceAll("\\D", "");
-        } else if (phone.startsWith("8")) {
-            phone = "+7" + phone.substring(0, 1).replaceAll("\\D", "");
-        }
-        return phone;
     }
 
     private void showToast(String message) {
@@ -465,11 +395,32 @@ public class CompletionTab4 extends Fragment {
     }
 
     private String createMsg() {
-        return "Здравствуйте, " + mMetaData.getClientName() + "!" +
-                "Вы записаны на " + mMetaData.getProcedureName() + " " +
-                mMetaData.getDay() + " " + months[mMetaData.getMonth()].toLowerCase() + "," +
-                "время " + mMetaData.getHourStart() + ":" + mMetaData.getMinuteStart() + "." +
-                "Цена " + mMetaData.getProcedurePrice() + ". До встречи!";
+        return "Здравствуйте, " + mClientName + "!" +
+                "Вы записаны на " + mProcedureName + " " +
+                mDay + " " + mMonthName + "," +
+                "время " + mHourStart + ":" + mMinuteStart + "." +
+                "Цена " + mProcedurePrice + ". До встречи!";
     }
+
+    private String getMonthName(String monthNumb) {
+        return DateFormatSymbols.getInstance().getMonths()[Integer.parseInt(monthNumb)]; //вернуть к нумерации с 0
+    }
+
+    private void initValues() {
+        mClientName = mMetaData.getClientName();
+        mYear = "" + mMetaData.getYear();
+        mMonthName = DateFormatSymbols.getInstance().getMonths()[Integer.parseInt(mMetaData.getMonth())];
+        mMonthNumb = "" + (Integer.parseInt(mMetaData.getMonth()) + 1);
+        mDay = mMetaData.getDay();
+        mHourStart = mMetaData.getHourStart();
+        mHourEnd = mMetaData.getHourEnd();
+        mMinuteStart = mMetaData.getMinuteStart();
+        mMinuteEnd = mMetaData.getMinuteEnd();
+        mProcedureName = mMetaData.getProcedureName();
+        mProcedurePrice = mMetaData.getProcedurePrice();
+        mProcedureNote = mMetaData.getProcedureNote();
+    }
+
+
 
 }

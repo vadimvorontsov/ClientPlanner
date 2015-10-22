@@ -14,6 +14,7 @@ import android.widget.Toast;
 import ru.anroidapp.plannerwork.completion_choose.CompletionTab4;
 import ru.anroidapp.plannerwork.contact_choose.ContactTab1;
 import ru.anroidapp.plannerwork.date_choose.DateTab2;
+import ru.anroidapp.plannerwork.main_activity.MainActivity;
 import ru.anroidapp.plannerwork.procedure_choose.ProcedureTab3;
 
 public class RecordActivity extends AppCompatActivity {
@@ -73,6 +74,14 @@ public class RecordActivity extends AppCompatActivity {
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
         //initializeNavigationDrawer(toolbar);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (mMetaData != null) {
+            outState.putSerializable(MetaData.TAG, mMetaData);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     public class RecViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -151,14 +160,6 @@ public class RecordActivity extends AppCompatActivity {
         public int getCount() {
             return numbOfTabs;
         }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if (mMetaData != null) {
-            outState.putSerializable(MetaData.TAG, mMetaData);
-        }
-        super.onSaveInstanceState(outState);
     }
 
 }

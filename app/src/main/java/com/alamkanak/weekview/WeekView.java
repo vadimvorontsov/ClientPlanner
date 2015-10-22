@@ -141,10 +141,12 @@ public class WeekView extends View {
             mStickyScroller.forceFinished(true);
 
             if (mCurrentFlingDirection == Direction.HORIZONTAL){
-                mScroller.fling((int) mCurrentOrigin.x, 0, (int) (velocityX * mXScrollingSpeed), 0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 0);
+                mScroller.fling((int) mCurrentOrigin.x, 0, (int) (velocityX * mXScrollingSpeed),
+                        0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 0);
             }
             else if (mCurrentFlingDirection == Direction.VERTICAL){
-                mScroller.fling(0, (int) mCurrentOrigin.y, 0, (int) velocityY, 0, 0, (int) -(mHourHeight * 24 + mHeaderTextHeight + mHeaderRowPadding * 2 - getHeight()), 0);
+                mScroller.fling(0, (int) mCurrentOrigin.y, 0, (int) velocityY, 0, 0,
+                        (int) -(mHourHeight * 24 + mHeaderTextHeight + mHeaderRowPadding * 2 - getHeight()), 0);
             }
 
             ViewCompat.postInvalidateOnAnimation(WeekView.this);
@@ -159,7 +161,9 @@ public class WeekView extends View {
                 List<EventRect> reversedEventRects = mEventRects;
                 Collections.reverse(reversedEventRects);
                 for (EventRect event : reversedEventRects) {
-                    if (event.rectF != null && e.getX() > event.rectF.left && e.getX() < event.rectF.right && e.getY() > event.rectF.top && e.getY() < event.rectF.bottom) {
+                    if (event.rectF != null && e.getX() > event.rectF.left &&
+                            e.getX() < event.rectF.right && e.getY() > event.rectF.top &&
+                            e.getY() < event.rectF.bottom) {
                         mEventClickListener.onEventClick(event.originalEvent, event.rectF);
                         playSoundEffect(SoundEffectConstants.CLICK);
                         return super.onSingleTapConfirmed(e);
@@ -168,7 +172,8 @@ public class WeekView extends View {
             }
 
             // If the tap was on in an empty space, then trigger the callback.
-            if (mEmptyViewClickListener != null && e.getX() > mHeaderColumnWidth && e.getY() > (mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom)) {
+            if (mEmptyViewClickListener != null && e.getX() > mHeaderColumnWidth &&
+                    e.getY() > (mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom)) {
                 Calendar selectedTime = getTimeFromPoint(e.getX(), e.getY());
                 if (selectedTime != null) {
                     playSoundEffect(SoundEffectConstants.CLICK);
@@ -187,7 +192,8 @@ public class WeekView extends View {
                 List<EventRect> reversedEventRects = mEventRects;
                 Collections.reverse(reversedEventRects);
                 for (EventRect event : reversedEventRects) {
-                    if (event.rectF != null && e.getX() > event.rectF.left && e.getX() < event.rectF.right && e.getY() > event.rectF.top && e.getY() < event.rectF.bottom) {
+                    if (event.rectF != null && e.getX() > event.rectF.left &&
+                            e.getX() < event.rectF.right && e.getY() > event.rectF.top && e.getY() < event.rectF.bottom) {
                         mEventLongPressListener.onEventLongPress(event.originalEvent, event.rectF);
                         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         return;
@@ -196,7 +202,8 @@ public class WeekView extends View {
             }
 
             // If the tap was on in an empty space, then trigger the callback.
-            if (mEmptyViewLongPressListener != null && e.getX() > mHeaderColumnWidth && e.getY() > (mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom)) {
+            if (mEmptyViewLongPressListener != null && e.getX() > mHeaderColumnWidth &&
+                    e.getY() > (mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom)) {
                 Calendar selectedTime = getTimeFromPoint(e.getX(), e.getY());
                 if (selectedTime != null) {
                     performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
@@ -227,7 +234,9 @@ public class WeekView extends View {
         try {
             mFirstDayOfWeek = a.getInteger(R.styleable.WeekView_firstDayOfWeek, mFirstDayOfWeek);
             mHourHeight = a.getDimensionPixelSize(R.styleable.WeekView_hourHeight, mHourHeight);
-            mTextSize = a.getDimensionPixelSize(R.styleable.WeekView_textSize, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, mTextSize, context.getResources().getDisplayMetrics()));
+            mTextSize = a.getDimensionPixelSize(R.styleable.WeekView_textSize,
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+                            mTextSize, context.getResources().getDisplayMetrics()));
             mHeaderColumnPadding = a.getDimensionPixelSize(R.styleable.WeekView_headerColumnPadding, mHeaderColumnPadding);
             mColumnGap = a.getDimensionPixelSize(R.styleable.WeekView_columnGap, mColumnGap);
             mHeaderColumnTextColor = a.getColor(R.styleable.WeekView_headerColumnTextColor, mHeaderColumnTextColor);
@@ -239,10 +248,13 @@ public class WeekView extends View {
             mTodayBackgroundColor = a.getColor(R.styleable.WeekView_todayBackgroundColor, mTodayBackgroundColor);
             mHourSeparatorHeight = a.getDimensionPixelSize(R.styleable.WeekView_hourSeparatorHeight, mHourSeparatorHeight);
             mTodayHeaderTextColor = a.getColor(R.styleable.WeekView_todayHeaderTextColor, mTodayHeaderTextColor);
-            mEventTextSize = a.getDimensionPixelSize(R.styleable.WeekView_eventTextSize, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, mEventTextSize, context.getResources().getDisplayMetrics()));
+            mEventTextSize = a.getDimensionPixelSize(R.styleable.WeekView_eventTextSize,
+                    (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+                            mEventTextSize, context.getResources().getDisplayMetrics()));
             mEventTextColor = a.getColor(R.styleable.WeekView_eventTextColor, mEventTextColor);
             mEventPadding = a.getDimensionPixelSize(R.styleable.WeekView_hourSeparatorHeight, mEventPadding);
-            mHeaderColumnBackgroundColor = a.getColor(R.styleable.WeekView_headerColumnBackground, mHeaderColumnBackgroundColor);
+            mHeaderColumnBackgroundColor = a.getColor(R.styleable.WeekView_headerColumnBackground,
+                    mHeaderColumnBackgroundColor);
             mDayNameLength = a.getInteger(R.styleable.WeekView_dayNameLength, mDayNameLength);
             mOverlappingEventGap = a.getDimensionPixelSize(R.styleable.WeekView_overlappingEventGap, mOverlappingEventGap);
             mEventMarginVertical = a.getDimensionPixelSize(R.styleable.WeekView_eventMarginVertical, mEventMarginVertical);

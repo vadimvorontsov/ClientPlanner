@@ -79,7 +79,7 @@ public class Sessions {
         }
     }
 
-    public ArrayList<Integer> getSessionsByTimeStart(String timeStart, String timeEnd) {
+    public ArrayList<Integer> getSessionsBetweenTimes(String timeStart, String timeEnd) {
 
         if (timeStart.isEmpty()) {
             timeStart = " datetime('2015-01-01 01:01:01') ";
@@ -121,15 +121,7 @@ public class Sessions {
         }
     }
 
-    public ArrayList<Integer> getSessionsByTimeEnd(String timeStart, String timeEnd) {
-
-        if (timeStart.isEmpty()) {
-            timeStart = " datetime('2015-01-01 01:01:01') ";
-        }
-
-        if (timeEnd.isEmpty()) {
-            timeEnd = " datetime('now') ";
-        }
+    public ArrayList<Integer> getSessionsBeforeTime(String time) {
 
         ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
         SQLiteDatabase db_read = helper.getReadableDatabase();
@@ -138,7 +130,7 @@ public class Sessions {
 
         try {
             cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
-                    ClientBaseOpenHelper.TIME_END + " BETWEEN '" + timeStart + "' AND '" + timeEnd + "'",
+                    ClientBaseOpenHelper.TIME_END + " = '" + time + "'",
                     null, null, null, null);
             while (cursor.moveToNext()) {
                 sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
@@ -163,61 +155,19 @@ public class Sessions {
         }
     }
 
-    public ArrayList<Integer> getSessionByTimeEnd(String timeEnd) {
-
-        if (timeEnd.isEmpty()) {
-            timeEnd = " datetime('now') ";
-        }
+    public ArrayList<Long> getSessionsAfterTime(String time) {
 
         ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
-        ArrayList<Integer> sessionsID = new ArrayList<>();
+        ArrayList<Long> sessionsID = new ArrayList<>();
 
         try {
             cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
-                    ClientBaseOpenHelper.TIME_END + " = '" + timeEnd + "'",
+                    ClientBaseOpenHelper.TIME_START + " > " + time,
                     null, null, null, null);
             while (cursor.moveToNext()) {
-                sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
-            }
-
-            return sessionsID;
-
-        } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
-            return null;
-
-        } finally {
-            if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
-            }
-            if (db_read != null && db_read.isOpen()) {
-                db_read.close();
-            }
-            if (helper != null) {
-                helper.close();
-            }
-        }
-    }
-
-    public ArrayList<Integer> getSessionByTimeStart(String timeStart) {
-
-        if (timeStart.isEmpty()) {
-            timeStart = " datetime('now') ";
-        }
-
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
-        Cursor cursor = null;
-        ArrayList<Integer> sessionsID = new ArrayList<>();
-
-        try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
-                    ClientBaseOpenHelper.TIME_START + " BETWEEN '" + timeStart,
-                    null, null, null, null);
-            while (cursor.moveToNext()) {
-                sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
+                sessionsID.add(cursor.getLong(cursor.getColumnIndex(BaseColumns._ID)));
             }
 
             return sessionsID;
@@ -253,10 +203,11 @@ public class Sessions {
             String time_end = "";
             String phone = "";
             String email = "";
+            String isNotified = "";
 
             cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{ClientBaseOpenHelper.ID_CLIENT_SESSION,
                             ClientBaseOpenHelper.ID_PROCEDURE, ClientBaseOpenHelper.TIME_START, ClientBaseOpenHelper.TIME_END,
-                            ClientBaseOpenHelper.ID_PHONE, ClientBaseOpenHelper.ID_EMAIL},
+                            ClientBaseOpenHelper.ID_PHONE, ClientBaseOpenHelper.ID_EMAIL, ClientBaseOpenHelper.IS_NOTIFIED},
                     BaseColumns._ID + "=" + sessionID, null, null, null, null);
             while (cursor.moveToNext()) {
                 clientName = getClientName(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.ID_CLIENT_SESSION)));
@@ -265,8 +216,9 @@ public class Sessions {
                 time_end = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.TIME_END));
                 phone = getPhone(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.ID_PHONE)));
                 email = getEmail(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.ID_EMAIL)));
+                isNotified = getIsNotified(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.IS_NOTIFIED)));
             }
-            session = new Object[]{clientName, phone, email, procedureName, time_start, time_end};
+            session = new Object[]{clientName, phone, email, procedureName, time_start, time_end, isNotified};
 
             return session;
         } catch (Exception e) {
@@ -293,10 +245,10 @@ public class Sessions {
         ArrayList<Long> sessions = new ArrayList<>();
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{ClientBaseOpenHelper._ID}, null,
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID}, null,
                     null, null, null, null);
             while (cursor.moveToNext()) {
-                sessions.add(cursor.getLong(cursor.getColumnIndex(ClientBaseOpenHelper._ID)));
+                sessions.add(cursor.getLong(cursor.getColumnIndex(BaseColumns._ID)));
             }
             return sessions;
 
@@ -361,6 +313,13 @@ public class Sessions {
 
     private String getEmail(int emailID) {
         return new Emails(ctx).getEmailById(emailID);
+    }
+
+    private String getIsNotified(int isNotifiedInt) {
+        if (isNotifiedInt == 1)
+            return "Оповещен";
+        else
+            return "Не оповещен";
     }
 
 }

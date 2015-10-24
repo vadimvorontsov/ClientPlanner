@@ -4,9 +4,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".ProcedureTab3">
     <item
+        android:id="@+id/action_pencil"
+        android:icon="@drawable/ic_content_pencil_white"
+        android:title="@string/add"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom"
+        />
+    <item
         android:id="@+id/add_procedure"
         android:icon="@drawable/ic_content_add_white"
         android:title="@string/add"
-        android:orderInCategory="1"
+        android:orderInCategory="100"
         app:showAsAction="always|withText" />
 </menu>

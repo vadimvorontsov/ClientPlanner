@@ -222,7 +222,7 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
             startTime.set(Calendar.HOUR_OF_DAY, hourStart);//Астрономическое время
             startTime.set(Calendar.DAY_OF_MONTH, day);
             startTime.set(Calendar.MINUTE, minuteStart);
-            startTime.set(Calendar.MONTH, month);
+            startTime.set(Calendar.MONTH, month - 1);
             startTime.set(Calendar.YEAR, year);
             Calendar endTime = (Calendar) startTime.clone();
             endTime.add(Calendar.HOUR_OF_DAY, deltaHour);

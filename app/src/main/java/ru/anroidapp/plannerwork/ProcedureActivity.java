@@ -55,8 +55,10 @@ public class ProcedureActivity extends AppCompatActivity {
     TextView mEmptyViewProc;
     FloatingActionButton fab;
     LinearLayout laySearch, layCanselSearch;
+    int position_pencil = 0;
     //private TextView lastChoose;
     String[] data = {"one", "two", "three", "four"};
+    long procIdTmp = 0;
 
     Toolbar toolbar;
     Context cntxt;
@@ -121,11 +123,9 @@ public class ProcedureActivity extends AppCompatActivity {
     AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Procedures procedures = new Procedures(ProcedureActivity.this);
+            position_pencil = position;
 
 
-            Toast.makeText(ProcedureActivity.this.getApplicationContext(), "Проверка",
-                    Toast.LENGTH_SHORT).show();
         }
     };
     private TextWatcher filterTextWatcher = new TextWatcher() {
@@ -237,18 +237,100 @@ public class ProcedureActivity extends AppCompatActivity {
         if(item.getItemId() == android.R.id.home){
             finish();
         }
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.add_procedure, null);
+        final EditText nameEditText = (EditText) view.findViewById(R.id.input_proc_name);
+        final EditText priceEditText = (EditText) view.findViewById(R.id.input_proc_price);
+        final EditText noteEditText = (EditText) view.findViewById(R.id.input_proc_note);
+        Spinner spinner = (Spinner) view.findViewById(R.id.spin_proc_color);
+        MyCustomAdapter adapter = new MyCustomAdapter(cntxt, R.layout.row, data);
+        AlertDialog.Builder builder = new AlertDialog.Builder(ProcedureActivity.this);
+
         switch (item.getItemId()) {
-            case R.id.add_procedure:
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View view = inflater.inflate(R.layout.add_procedure, null);
-                final EditText nameEditText = (EditText) view.findViewById(R.id.input_proc_name);
-                final EditText priceEditText = (EditText) view.findViewById(R.id.input_proc_price);
-                final EditText noteEditText = (EditText) view.findViewById(R.id.input_proc_note);
+            case R.id.action_pencil:
+                //###########
+                if (position_pencil == 0)
+                {
+                    Toast.makeText(ProcedureActivity.this, "Выберите процедуру", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
+                Resources resources = getResources();
+                Procedures procedures = new Procedures(ProcedureActivity.this);
+                String procNameTmp = mListItemsProc.get(position_pencil);
+                procIdTmp = procedures.getProcedureID(procNameTmp);
+                Object[] procInfoTmp = procedures.getProcedureInfo(procIdTmp);
+                Integer procPriceTmp = (Integer) procInfoTmp[1];
+                String procNoteTmp = (String) procInfoTmp[2];
+                Integer procColorTmp = (Integer) procInfoTmp[3];
+                //###########
 
                 //#######__adapter__#########
+                spinner.setAdapter(adapter);
+                spinner.setSelection(procColorTmp, true);
+                //обработчик нажатия
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Toast toast = Toast.makeText(getApplicationContext(),
+                                "Ваш выбор: " + position, Toast.LENGTH_SHORT);
+                        choiceColor = position;
+                        toast.show();
+                    }
 
-                Spinner spinner = (Spinner) view.findViewById(R.id.spin_proc_color);
-                MyCustomAdapter adapter = new MyCustomAdapter(cntxt, R.layout.row, data);
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                //#######################
+
+                nameEditText.setText(procNameTmp);
+                priceEditText.setText(procPriceTmp + "");
+                noteEditText.setText(procNoteTmp);
+                choiceColor = procColorTmp;
+
+                builder.setView(view)
+                        .setCancelable(true);
+                builder.setPositiveButton("Изменить", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String name = nameEditText.getText().toString();
+                        Integer price = 0;
+
+                        if (!priceEditText.getText().toString().isEmpty())
+                            price = Integer.parseInt(priceEditText.getText().toString());
+
+                        String note = noteEditText.getText().toString();
+                        if (note.isEmpty())
+                            note = "Примечаний нет";
+
+                        Integer color = choiceColor;
+
+                        if (!name.isEmpty()) {
+                            Procedures procedures_update = new Procedures(ProcedureActivity.this);
+                            int test = procedures_update.getUpdateProcedure(procIdTmp + "", name, price, note, color);
+                            if (test == 1) {
+                                Toast.makeText(ProcedureActivity.this, "Процедура изменена", Toast.LENGTH_SHORT).show();
+                                refreshList();
+                            }
+                        }
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+
+                break;
+
+            case R.id.add_procedure:
+                //#######__adapter__#########
                 spinner.setAdapter(adapter);
                 spinner.setSelection(0,true);
                 //обработчик нажатия
@@ -267,8 +349,6 @@ public class ProcedureActivity extends AppCompatActivity {
                     }
                 });
                 //#######################
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(ProcedureActivity.this);
                 builder.setView(view)
                         .setCancelable(true);
                 builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {

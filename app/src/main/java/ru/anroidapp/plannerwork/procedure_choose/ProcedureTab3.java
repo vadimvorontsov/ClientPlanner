@@ -62,6 +62,8 @@ public class ProcedureTab3 extends Fragment {
     FragmentActivity fa;
     MetaData mMetaData;
     int choiceColor = 0;
+    int position_pencil = 0;
+    long procIdTmp = 0;
     String[] data = {"one", "two", "three", "four"};
     View.OnClickListener oclFabClick = new View.OnClickListener() {
         @Override
@@ -111,6 +113,7 @@ public class ProcedureTab3 extends Fragment {
     AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            position_pencil = position;
             Procedures procedures = new Procedures(fa);
 
             String procedureName = mListItemsProc.get(position);
@@ -236,18 +239,102 @@ public class ProcedureTab3 extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.add_procedure, null);
+        final EditText nameEditText = (EditText) view.findViewById(R.id.input_proc_name);
+        final EditText priceEditText = (EditText) view.findViewById(R.id.input_proc_price);
+        final EditText noteEditText = (EditText) view.findViewById(R.id.input_proc_note);
+
+        Spinner spinner = (Spinner) view.findViewById(R.id.spin_proc_color);
+        MyCustomAdapter adapter = new MyCustomAdapter(fa, R.layout.row, data);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(fa);
+
         switch (item.getItemId()) {
-            case R.id.add_procedure:
-                LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View view = inflater.inflate(R.layout.add_procedure, null);
-                final EditText nameEditText = (EditText) view.findViewById(R.id.input_proc_name);
-                final EditText priceEditText = (EditText) view.findViewById(R.id.input_proc_price);
-                final EditText noteEditText = (EditText) view.findViewById(R.id.input_proc_note);
+            case R.id.action_pencil:
+                //###########
+                if (position_pencil == 0)
+                {
+                    Toast.makeText(fa, "Выберите процедуру", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
+                Resources resources = getResources();
+                Procedures procedures = new Procedures(fa);
+                String procNameTmp = mListItemsProc.get(position_pencil);
+                procIdTmp = procedures.getProcedureID(procNameTmp);
+                Object[] procInfoTmp = procedures.getProcedureInfo(procIdTmp);
+                Integer procPriceTmp = (Integer) procInfoTmp[1];
+                String procNoteTmp = (String) procInfoTmp[2];
+                Integer procColorTmp = (Integer) procInfoTmp[3];
+                //###########
 
                 //#######__adapter__#########
+                spinner.setAdapter(adapter);
+                spinner.setSelection(procColorTmp, true);
+                //обработчик нажатия
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Toast toast = Toast.makeText(fa,
+                                "Ваш выбор: " + position, Toast.LENGTH_SHORT);
+                        choiceColor = position;
+                        toast.show();
+                    }
 
-                Spinner spinner = (Spinner) view.findViewById(R.id.spin_proc_color);
-                MyCustomAdapter adapter = new MyCustomAdapter(fa, R.layout.row, data);
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                //#######################
+
+                nameEditText.setText(procNameTmp);
+                priceEditText.setText(procPriceTmp + "");
+                noteEditText.setText(procNoteTmp);
+                choiceColor = procColorTmp;
+
+                builder.setView(view)
+                        .setCancelable(true);
+                builder.setPositiveButton("Изменить", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String name = nameEditText.getText().toString();
+                        Integer price = 0;
+
+                        if (!priceEditText.getText().toString().isEmpty())
+                            price = Integer.parseInt(priceEditText.getText().toString());
+
+                        String note = noteEditText.getText().toString();
+                        if (note.isEmpty())
+                            note = "Примечаний нет";
+
+                        Integer color = choiceColor;
+
+                        if (!name.isEmpty()) {
+                            Procedures procedures_update = new Procedures(fa);
+                            int test = procedures_update.getUpdateProcedure(procIdTmp + "", name, price, note, color);
+                            if (test == 1) {
+                                Toast.makeText(fa, "Процедура изменена", Toast.LENGTH_SHORT).show();
+                                refreshList();
+                            }
+                        }
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+
+                break;
+
+            case R.id.add_procedure:
+                //#######__adapter__#########
+
                 spinner.setAdapter(adapter);
                 spinner.setSelection(0, true);
                 //обработчик нажатия
@@ -267,7 +354,6 @@ public class ProcedureTab3 extends Fragment {
                 });
                 //#######################
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(fa);
                 builder.setView(view)
                         .setCancelable(true);
                 builder.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {

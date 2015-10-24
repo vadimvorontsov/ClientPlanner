@@ -74,7 +74,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:scrollingCache="false" />
+            android:scrollingCache="false"
+            android:choiceMode="singleChoice"
+            android:listSelector="@color/color_gray"/>
 
     </RelativeLayout>
 

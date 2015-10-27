@@ -1,4 +1,4 @@
-package ru.anroidapp.plannerwork;
+package ru.anroidapp.plannerwork.record;
 
 /**
  * Created by Артём on 14.06.2015.

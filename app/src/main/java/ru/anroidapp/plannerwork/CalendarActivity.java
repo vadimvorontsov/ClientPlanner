@@ -21,11 +21,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-
-/**
- * Created by Raquib-ul-Alam Kanak on 7/21/2014.
- * Website: http://alamkanak.github.io/
- */
 public class CalendarActivity extends AppCompatActivity implements WeekView.MonthChangeListener,
         WeekView.EventClickListener, WeekView.EventLongPressListener {
 

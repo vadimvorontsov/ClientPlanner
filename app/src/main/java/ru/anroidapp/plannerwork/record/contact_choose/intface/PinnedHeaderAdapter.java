@@ -1,4 +1,4 @@
-package ru.anroidapp.plannerwork.contact_choose.intface;
+package ru.anroidapp.plannerwork.record.contact_choose.intface;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -15,9 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import ru.anroidapp.plannerwork.record.contact_choose.PinnedHeaderListView;
 import ru.anroidapp.plannerwork.CircularImageView;
 import ru.anroidapp.plannerwork.R;
-import ru.anroidapp.plannerwork.contact_choose.PinnedHeaderListView;
 
 public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnScrollListener, IPinnedHeader, Filterable {
 

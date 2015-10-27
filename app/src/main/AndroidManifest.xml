@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RecordActivity"
+            android:name=".record.RecordActivity"
             android:label="@string/title_activity_record"
             android:theme="@style/RecordTheme"
             android:windowSoftInputMode="adjustPan"/>

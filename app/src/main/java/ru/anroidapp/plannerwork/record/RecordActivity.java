@@ -1,4 +1,4 @@
-package ru.anroidapp.plannerwork;
+package ru.anroidapp.plannerwork.record;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +11,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
-import ru.anroidapp.plannerwork.completion_choose.CompletionTab4;
-import ru.anroidapp.plannerwork.contact_choose.ContactTab1;
-import ru.anroidapp.plannerwork.date_choose.DateTab2;
+import ru.anroidapp.plannerwork.record.completion_choose.CompletionTab4;
+import ru.anroidapp.plannerwork.record.contact_choose.ContactTab1;
+import ru.anroidapp.plannerwork.record.date_choose.DateTab2;
+import ru.anroidapp.plannerwork.record.procedure_choose.ProcedureTab3;
+import ru.anroidapp.plannerwork.MetaData;
+import ru.anroidapp.plannerwork.R;
 import ru.anroidapp.plannerwork.main_activity.MainActivity;
-import ru.anroidapp.plannerwork.procedure_choose.ProcedureTab3;
 
 public class RecordActivity extends AppCompatActivity {
 

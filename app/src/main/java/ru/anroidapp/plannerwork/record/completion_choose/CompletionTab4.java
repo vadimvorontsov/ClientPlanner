@@ -1,4 +1,4 @@
-package ru.anroidapp.plannerwork.completion_choose;
+package ru.anroidapp.plannerwork.record.completion_choose;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -143,6 +143,7 @@ public class CompletionTab4 extends Fragment {
                     sendMsgView().show();
                 else {
                     Toast.makeText(fa, "Запись завершена успешно", Toast.LENGTH_SHORT).show();
+                    MainActivity.refreshList = true;
                     fa.finish();
                 }
             } else {
@@ -420,7 +421,6 @@ public class CompletionTab4 extends Fragment {
         mProcedurePrice = mMetaData.getProcedurePrice();
         mProcedureNote = mMetaData.getProcedureNote();
     }
-
 
 
 }

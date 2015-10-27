@@ -21,10 +21,10 @@ public class NearestSessionFragment extends Fragment {
     private Context mContext;
     private long mSessionId;
 
-    static NearestSessionFragment newInstance(int sessionId) {
+    static NearestSessionFragment newInstance(long sessionId) {
         NearestSessionFragment pageFragment = new NearestSessionFragment();
         Bundle arguments = new Bundle();
-        arguments.putInt(ID_SESSION, sessionId);
+        arguments.putLong(ID_SESSION, sessionId);
         pageFragment.setArguments(arguments);
         return pageFragment;
     }
@@ -52,7 +52,7 @@ public class NearestSessionFragment extends Fragment {
         TextView clientStatusTextView = (TextView) view.findViewById(R.id.nearest_contact_status);
 
         Sessions sessions = new Sessions(mContext);
-        Object[] session = sessions.getSessionById(mSessionId + 1);
+        Object[] session = sessions.getSessionById(mSessionId);
         Object[] procedureObject = (Object[]) session[3];
         String[] timeDayMonthStartForView = getDayMonth((String) session[4], true);
         String[] timeEndForView = getDayMonth((String) session[5], false);
@@ -70,7 +70,7 @@ public class NearestSessionFragment extends Fragment {
         String[] times = time.split("\\D");
         String[] result;
         if (startTime) {
-            String monthResult = DateFormatSymbols.getInstance().getMonths()[Integer.parseInt(times[1])];
+            String monthResult = DateFormatSymbols.getInstance().getMonths()[Integer.parseInt(times[1])-1];
             String dayResult = times[2];
             String timeResult = times[3] + ":" + times[4];
 

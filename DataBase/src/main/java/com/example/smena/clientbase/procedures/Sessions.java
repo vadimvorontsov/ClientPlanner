@@ -165,7 +165,7 @@ public class Sessions {
         try {
             cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
                     ClientBaseOpenHelper.TIME_START + " > " + time,
-                    null, null, null, null);
+                    null, null, null, ClientBaseOpenHelper.TIME_START);
             while (cursor.moveToNext()) {
                 sessionsID.add(cursor.getLong(cursor.getColumnIndex(BaseColumns._ID)));
             }

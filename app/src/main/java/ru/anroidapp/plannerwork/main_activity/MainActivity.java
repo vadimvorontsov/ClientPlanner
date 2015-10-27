@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import ru.anroidapp.plannerwork.CalendarActivity;
 import ru.anroidapp.plannerwork.ProcedureActivity;
 import ru.anroidapp.plannerwork.R;
-import ru.anroidapp.plannerwork.RecordActivity;
+import ru.anroidapp.plannerwork.record.RecordActivity;
 import ru.anroidapp.plannerwork.main_activity.slide_nearest_sessions.ScreenSlidePagerAdapter;
 
 
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     //Context mContext;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
+    public static boolean refreshList = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +41,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //mContext = this;
 
-        getDbFile();
+        //getDbFile();
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
 
-        int count = getCountNearestSessions(this);
-        if (count > 0) {
-            mPager = (ViewPager) findViewById(R.id.pagerMain);
-            mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager(), count);
-            mPager.setAdapter(mPagerAdapter);
-        } else if (count == 0) {
-        }
-
     }
 
+    @Override
+    protected void onPostResume() {
+        if (refreshList) {
+            super.onPostResume();
+            ArrayList<Long> nearestSessions = getNearestSessionsCount(this);
+            if (nearestSessions != null && !nearestSessions.isEmpty()) {
+                mPager = (ViewPager) findViewById(R.id.pagerMain);
+                mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager(), nearestSessions);
+                mPager.setAdapter(mPagerAdapter);
+            } else if (nearestSessions != null && nearestSessions.isEmpty()) {
+            } else {
+            }
+            refreshList = false;
+        }
+    }
 
     public void onBtn1Click(View view) {
         Intent intent = new Intent(this, RecordActivity.class);
@@ -82,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -110,15 +117,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private int getCountNearestSessions(Context ctx) {
+    private ArrayList<Long> getNearestSessionsCount(Context ctx) {
         Sessions sessions = new Sessions(ctx);
         ArrayList<Long> nearestSessionsId = sessions.getSessionsAfterTime("datetime('now')");
-        if (nearestSessionsId != null)
-            return nearestSessionsId.size();
-        else if (nearestSessionsId.isEmpty())
-            return 0;
-        else
-            return -1;
+        return nearestSessionsId;
     }
 
 }

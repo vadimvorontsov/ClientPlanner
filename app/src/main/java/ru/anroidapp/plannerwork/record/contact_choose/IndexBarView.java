@@ -1,4 +1,4 @@
-package ru.anroidapp.plannerwork.contact_choose;
+package ru.anroidapp.plannerwork.record.contact_choose;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -9,8 +9,8 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import ru.anroidapp.plannerwork.record.contact_choose.intface.IIndexBarFilter;
 import ru.anroidapp.plannerwork.R;
-import ru.anroidapp.plannerwork.contact_choose.intface.IIndexBarFilter;
 
 // Represents right side index bar view with unique first latter of list view row text
 public class IndexBarView extends View {

@@ -1,4 +1,4 @@
-package ru.anroidapp.plannerwork;
+package ru.anroidapp.plannerwork.record;
 
 
 import android.content.Context;
@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import ru.anroidapp.plannerwork.R;
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
@@ -44,6 +46,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private ViewPager mViewPager;
     private SparseArray<String> mContentDescriptions = new SparseArray<>();
     private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
+
     public SlidingTabLayout(Context context) {
         this(context, null);
     }

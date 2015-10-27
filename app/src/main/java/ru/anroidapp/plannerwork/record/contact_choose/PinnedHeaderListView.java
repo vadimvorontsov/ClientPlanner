@@ -1,19 +1,18 @@
-package ru.anroidapp.plannerwork.contact_choose;
+package ru.anroidapp.plannerwork.record.contact_choose;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import ru.anroidapp.plannerwork.record.contact_choose.intface.IIndexBarFilter;
+import ru.anroidapp.plannerwork.record.contact_choose.intface.IPinnedHeader;
+import ru.anroidapp.plannerwork.record.contact_choose.intface.PinnedHeaderAdapter;
 import ru.anroidapp.plannerwork.R;
-import ru.anroidapp.plannerwork.contact_choose.intface.IIndexBarFilter;
-import ru.anroidapp.plannerwork.contact_choose.intface.IPinnedHeader;
-import ru.anroidapp.plannerwork.contact_choose.intface.PinnedHeaderAdapter;
 
 /*
  * A ListView that maintains a header pinned at the top of the list. The

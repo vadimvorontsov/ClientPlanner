@@ -1,4 +1,4 @@
-package ru.anroidapp.plannerwork.date_choose;
+package ru.anroidapp.plannerwork.record.date_choose;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -126,14 +126,14 @@ public class DateTab2 extends Fragment {
                 int hourEnd = Integer.parseInt(timeEndArray[3]);
                 int minuteEnd = Integer.parseInt(timeEndArray[4]);
 
-                if(mYear  == year)
+                if (mYear == year)
                     if (mMonth == month)
-                        if ( mDay == day ) {
+                        if (mDay == day) {
                             if (mHourStart < hourStart)
                                 break;
-                               else if (mHourStart == hourStart && minuteStart < minuteEnd)
+                            else if (mHourStart == hourStart && minuteStart < minuteEnd)
                                 break;
-                                 else {
+                            else {
                                 Toast.makeText(mFragmentActivity, "На данное время есть запись", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -160,7 +160,7 @@ public class DateTab2 extends Fragment {
 
             mTimeViewStart = "с " + mHourStartStr + ":" + mMinuteStartStr;
 
-            if ( iTime == 1){
+            if (iTime == 1) {
                 mHourEnd = 25;
                 mMinuteEnd = 60;
                 iTime = 0;

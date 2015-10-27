@@ -1,4 +1,4 @@
-package ru.anroidapp.plannerwork.contact_choose;
+package ru.anroidapp.plannerwork.record.contact_choose;
 
 import android.app.AlertDialog;
 import android.content.ContentUris;
@@ -48,9 +48,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import ru.anroidapp.plannerwork.record.contact_choose.intface.PinnedHeaderAdapter;
 import ru.anroidapp.plannerwork.MetaData;
 import ru.anroidapp.plannerwork.R;
-import ru.anroidapp.plannerwork.contact_choose.intface.PinnedHeaderAdapter;
 
 
 public class ContactTab1 extends Fragment {
@@ -181,8 +181,6 @@ public class ContactTab1 extends Fragment {
     AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-
-            Toast.makeText(fa, "123click", Toast.LENGTH_LONG).show();
 
             Resources resources = getResources();
             String unknown = resources.getString(R.string.unknown);

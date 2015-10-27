@@ -82,14 +82,16 @@
 
         <include layout="@layout/loading_empty_view" />
 
-        <ru.anroidapp.plannerwork.contact_choose.PinnedHeaderListView
+        <ru.anroidapp.plannerwork.record.contact_choose.PinnedHeaderListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollingCache="false"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:choiceMode="singleChoice"
+            android:listSelector="@color/color_gray"/>
 
     </RelativeLayout>
 

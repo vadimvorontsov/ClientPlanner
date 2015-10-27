@@ -61,23 +61,23 @@ public class ProcedureActivity extends AppCompatActivity {
     long procIdTmp = 0;
 
     Toolbar toolbar;
-    Context cntxt;
+    Context mContext;
     int choiceColor = 0;
     View.OnClickListener oclFabClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
-            Animation openSearch = AnimationUtils.loadAnimation(cntxt, R.anim.s_down);
+            Animation openSearch = AnimationUtils.loadAnimation(mContext, R.anim.s_down);
             laySearch.startAnimation(openSearch);
             laySearch.setVisibility(View.VISIBLE);
-            Animation hideFab = AnimationUtils.loadAnimation(cntxt, R.anim.s_down);
+            Animation hideFab = AnimationUtils.loadAnimation(mContext, R.anim.s_down);
             fab.startAnimation(hideFab);
             fab.setVisibility(View.GONE);
             mSearchViewProc.requestFocus();
             InputMethodManager keyboard = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.showSoftInput(mSearchViewProc, 0);
 
-            Toast.makeText(cntxt, "Проверка fab", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Проверка fab", Toast.LENGTH_SHORT).show();
 
         }
     };
@@ -93,7 +93,7 @@ public class ProcedureActivity extends AppCompatActivity {
             //mSearchViewProc.requestFocus();
             InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(mSearchViewProc.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            Toast.makeText(cntxt, "Проверка close search proc", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Проверка close search proc", Toast.LENGTH_SHORT).show();
 
         }
     };
@@ -124,8 +124,6 @@ public class ProcedureActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             position_pencil = position;
-
-
         }
     };
     private TextWatcher filterTextWatcher = new TextWatcher() {
@@ -147,7 +145,7 @@ public class ProcedureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_procedure);
-        cntxt = this;
+        mContext = this;
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar_procedure);
         setSupportActionBar(toolbar);
@@ -157,8 +155,8 @@ public class ProcedureActivity extends AppCompatActivity {
         mProcedures = new ArrayList<>();
         mColorProcedures = new ArrayList<>();
 
-        getColorProcedures();
-        getProcedures();
+        getProcedureColors();
+        getProcedureNames();
 
         mSearchViewProc = (EditText) findViewById(R.id.act_search_proc_view);
         mLoadingViewProc = (ProgressBar) findViewById(R.id.loading_view);
@@ -209,19 +207,19 @@ public class ProcedureActivity extends AppCompatActivity {
 
     }
 
-    private void getProcedures() {
+    private void getProcedureNames() {
         Procedures procedures = new Procedures(ProcedureActivity.this);
         mProcedures = procedures.getAllProceduresNames();
     }
 
-    private void getColorProcedures() {
+    private void getProcedureColors() {
         Procedures procedures = new Procedures(ProcedureActivity.this);
         mColorProcedures = procedures.getAllProceduresColor();
     }
 
     private void refreshList() {
-        getProcedures();
-        getColorProcedures();
+        getProcedureNames();
+        getProcedureColors();
         new Populate().execute(mProcedures);
     }
 
@@ -244,7 +242,7 @@ public class ProcedureActivity extends AppCompatActivity {
         final EditText priceEditText = (EditText) view.findViewById(R.id.input_proc_price);
         final EditText noteEditText = (EditText) view.findViewById(R.id.input_proc_note);
         Spinner spinner = (Spinner) view.findViewById(R.id.spin_proc_color);
-        MyCustomAdapter adapter = new MyCustomAdapter(cntxt, R.layout.row, data);
+        MyCustomAdapter adapter = new MyCustomAdapter(mContext, R.layout.row, data);
         AlertDialog.Builder builder = new AlertDialog.Builder(ProcedureActivity.this);
 
         switch (item.getItemId()) {
@@ -293,7 +291,7 @@ public class ProcedureActivity extends AppCompatActivity {
 
                 builder.setView(view)
                         .setCancelable(true);
-                builder.setPositiveButton("Изменить", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Сохранить", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -497,9 +495,15 @@ public class ProcedureActivity extends AppCompatActivity {
                 ArrayList<String> filterItems = new ArrayList<>();
 
                 synchronized (this) {
+                    LOOP_FOR_PROCEDURES:
                     for (String item : mProcedures) {
-                        if (item.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
-                            filterItems.add(item);
+                        String[] subNames = item.split(" ");
+                        LOOP_FOR_SUBNAMES:
+                        for (String subName : subNames) {
+                            if (subName.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
+                                filterItems.add(item);
+                                break LOOP_FOR_SUBNAMES;
+                            }
                         }
                     }
                     result.count = filterItems.size();

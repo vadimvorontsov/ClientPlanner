@@ -1,4 +1,4 @@
-package ru.anroidapp.plannerwork.procedure_choose;
+package ru.anroidapp.plannerwork.record.procedure_choose;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -253,8 +253,7 @@ public class ProcedureTab3 extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_pencil:
                 //###########
-                if (position_pencil == 0)
-                {
+                if (position_pencil == 0) {
                     Toast.makeText(fa, "Выберите процедуру", Toast.LENGTH_SHORT).show();
                     break;
                 }
@@ -413,8 +412,8 @@ public class ProcedureTab3 extends Fragment {
         mListViewProc.setPinnedHeaderView(pinnedHeaderView);
 
         // set index bar view
-       // IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListViewProc, false);
-       // indexBarView.setData(mListViewProc, mListItemsProc, mListSectionPosProc);
+        // IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListViewProc, false);
+        // indexBarView.setData(mListViewProc, mListItemsProc, mListSectionPosProc);
         //mListViewProc.setIndexBarView(indexBarView);
 
         // set preview text view
@@ -506,9 +505,15 @@ public class ProcedureTab3 extends Fragment {
                 ArrayList<String> filterItems = new ArrayList<>();
 
                 synchronized (this) {
+                    LOOP_FOR_PROCEDURES:
                     for (String item : mProcedures) {
-                        if (item.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
-                            filterItems.add(item);
+                        String[] subNames = item.split(" ");
+                        LOOP_FOR_SUBNAMES:
+                        for (String subName : subNames) {
+                            if (subName.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
+                                filterItems.add(item);
+                                break LOOP_FOR_SUBNAMES;
+                            }
                         }
                     }
                     result.count = filterItems.size();

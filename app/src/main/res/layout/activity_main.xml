@@ -152,22 +152,43 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="3"
-        android:background="#d7ccc8"
+        android:background="@color/viewPagerPrimary"
         android:orientation="vertical">
 
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="2"
+    android:id="@+id/LayPagerMain"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_marginTop="50dp"
+        android:text=""
+        android:id="@+id/txtNotRecord"
+        android:textColor="@color/viewPagerTextDark"
+        android:textSize="11pt"
+        android:textStyle="bold" />
+
         <android.support.v4.view.ViewPager
+            android:layout_weight="1"
             android:id="@+id/pagerMain"
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
-            android:background="#d7ccc8" />
+            android:background="@color/viewPagerPrimary"/>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/circles"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_below="@id/pagerMain"
+            android:layout_below="@id/LayPagerMain"
             android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="2">

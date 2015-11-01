@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ColorPrimary">#00897B</color>
-    <color name="ColorPrimaryDark">#00695C</color>
-    <color name="ColorPrimaryLight">#2000897b</color>
+    <color name="ColorPrimary">#3f51b5</color>
+    <color name="ColorPrimaryDark">#303f9f</color>
+    <color name="ColorPrimaryLight">#448aff</color>
     <color name="ColorPrimaryHint">#4000897b</color>
     <color name="tabsScrollColor">#004D40</color>
     <color name="color_black">#000000</color>
@@ -20,13 +20,13 @@
     <color name="toolbar_text">#8f000000</color>
     <color name="accent">#2789e4</color>
 
-    <color name="record_first">#90caf9</color>
-    <color name="record_second">#64b5f6</color>
-    <color name="calendar_first">#c5e1a5</color>
-    <color name="calendar_second">#aed581</color>
-    <color name="procedure_first">#f48fb1</color>
-    <color name="procedure_second">#f06292</color>
-    <color name="viewPagerPrimary">#d7ccc8</color>
+    <color name="record_first">#a589da</color>
+    <color name="record_second">#7E52D1</color>
+    <color name="calendar_first">#808cd3</color>
+    <color name="calendar_second">#5B6AC2</color>
+    <color name="procedure_first">#ffd670</color>
+    <color name="procedure_second">#FBC337</color>
+    <color name="viewPagerPrimary">#F0F4C3</color>
     <color name="viewPagerText">#795548</color>
     <color name="viewPagerTextDark">#6d4c41</color>
 

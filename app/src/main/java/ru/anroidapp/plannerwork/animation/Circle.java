@@ -15,7 +15,7 @@ public class Circle extends View {
     Paint paint;
     int X;
     int Y;
-    final static int Radius = 5;
+    final static int Radius = 10;
 
     public Circle(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -35,6 +35,11 @@ public class Circle extends View {
         invalidate();// invalidate() нужен для того, чтобы оповестить Android,
         // что нужно выполнить метод OnDraw снова, без него View
         // не будет перериcовываться.
+    }
+
+    public void SetColor(int color)
+    {
+        paint.setColor(color);
     }
 }
 

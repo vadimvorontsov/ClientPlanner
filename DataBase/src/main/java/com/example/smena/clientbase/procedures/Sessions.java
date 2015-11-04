@@ -155,7 +155,7 @@ public class Sessions {
         }
     }
 
-    public ArrayList<Long> getSessionsAfterTime(String time) {
+    public ArrayList<Long>  getSessionsAfterTime(String time) {
 
         ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
         SQLiteDatabase db_read = helper.getReadableDatabase();

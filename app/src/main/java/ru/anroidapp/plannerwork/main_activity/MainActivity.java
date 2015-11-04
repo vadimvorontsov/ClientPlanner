@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.smena.clientbase.procedures.Sessions;
 
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import ru.anroidapp.plannerwork.CalendarActivity;
 import ru.anroidapp.plannerwork.ProcedureActivity;
 import ru.anroidapp.plannerwork.R;
+import ru.anroidapp.plannerwork.animation.Circle;
 import ru.anroidapp.plannerwork.record.RecordActivity;
 import ru.anroidapp.plannerwork.main_activity.slide_nearest_sessions.ScreenSlidePagerAdapter;
 
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     public static boolean refreshList = true;
+    Circle circle_1, circle_2, circle_3, circle_4, circle_5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,19 +58,96 @@ public class MainActivity extends AppCompatActivity {
     protected void onPostResume() {
         if (refreshList) {
             super.onPostResume();
+
+            mPager = (ViewPager) findViewById(R.id.pagerMain);
             ArrayList<Long> nearestSessions = getNearestSessionsCount(this);
             TextView notRecord = (TextView) findViewById(R.id.txtNotRecord);
-            LinearLayout circleTable = (LinearLayout) findViewById(R.id.LayPagerMain);
-            if (nearestSessions != null && !nearestSessions.isEmpty()) {
-                mPager = (ViewPager) findViewById(R.id.pagerMain);
-                mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager(), nearestSessions);
-                mPager.setAdapter(mPagerAdapter);
-                notRecord.setVisibility(View.GONE);
-            } else if (nearestSessions != null && nearestSessions.isEmpty()) {
-            } else {
+            LinearLayout circleTable = (LinearLayout) findViewById(R.id.circles);
+
+            circle_1 = (Circle) findViewById(R.id.circle_1);
+            circle_2 = (Circle) findViewById(R.id.circle_2);
+            circle_3 = (Circle) findViewById(R.id.circle_3);
+            circle_4 = (Circle) findViewById(R.id.circle_4);
+            circle_5 = (Circle) findViewById(R.id.circle_5);
+            //circle_1.SetColor(-7829368);
+
+            mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageSelected(int position) {
+                    Toast.makeText(MainActivity.this, "Long pressed event: " + position, Toast.LENGTH_SHORT).show();
+                    if (position == 0) {
+                        circle_1.SetColor(-7829368);
+                        circle_2.SetColor(-1);
+                    }
+                    else if (position == 1) {
+                        circle_1.SetColor(-1);
+                        circle_3.SetColor(-1);
+                        circle_2.SetColor(-7829368);
+                    }
+                    else if (position == 2) {
+                        circle_2.SetColor(-1);
+                        circle_4.SetColor(-1);
+                        circle_3.SetColor(-7829368);
+                    }
+                    else if (position == 3) {
+                        circle_3.SetColor(-1);
+                        circle_5.SetColor(-1);
+                        circle_4.SetColor(-7829368);
+                    }
+                    else if (position == 4) {
+                        circle_4.SetColor(-1);
+                        circle_5.SetColor(-7829368);
+                    }
+                }
+                @Override
+                public void onPageScrolled(int position, float positionOffset,
+                                           int positionOffsetPixels) {
+                }
+                @Override
+                public void onPageScrollStateChanged(int state) {
+                }
+            });
+
+
+            if (nearestSessions.size() == 0) {
                 notRecord.setText("Ближайших записей нет");
                 mPager.setVisibility(View.GONE);
                 circleTable.setVisibility(View.GONE);
+            }
+            if (nearestSessions != null && !nearestSessions.isEmpty()) {
+                mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager(), nearestSessions);
+                mPager.setAdapter(mPagerAdapter);
+                notRecord.setVisibility(View.GONE);
+                mPager.setVisibility(View.VISIBLE);
+                if (nearestSessions.size() == 1)
+                    circleTable.setVisibility(View.GONE);
+                else
+                    circleTable.setVisibility(View.VISIBLE);
+                if (nearestSessions.size() == 2){
+                    circle_1.SetColor(-7829368);
+                    circle_3.setVisibility(View.GONE);
+                    circle_4.setVisibility(View.GONE);
+                    circle_5.setVisibility(View.GONE);
+                }else if (nearestSessions.size() == 3){
+                    circle_1.SetColor(-7829368);
+                    circle_3.setVisibility(View.VISIBLE);
+                    circle_4.setVisibility(View.GONE);
+                    circle_5.setVisibility(View.GONE);
+                }else if (nearestSessions.size() == 4){
+                    circle_1.SetColor(-7829368);
+                    circle_4.setVisibility(View.VISIBLE);
+                    circle_5.setVisibility(View.GONE);
+                }else if (nearestSessions.size() == 5){
+                    circle_1.SetColor(-7829368);
+                    circle_1.setVisibility(View.VISIBLE);
+                    circle_2.setVisibility(View.VISIBLE);
+                    circle_3.setVisibility(View.VISIBLE);
+                    circle_4.setVisibility(View.VISIBLE);
+                    circle_5.setVisibility(View.VISIBLE);
+                }
+
+            } else if (nearestSessions != null && nearestSessions.isEmpty()) {
+            } else {
             }
             refreshList = false;
         }

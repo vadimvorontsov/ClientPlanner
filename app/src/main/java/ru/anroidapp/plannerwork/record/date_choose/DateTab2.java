@@ -126,17 +126,17 @@ public class DateTab2 extends Fragment {
                 int hourEnd = Integer.parseInt(timeEndArray[3]);
                 int minuteEnd = Integer.parseInt(timeEndArray[4]);
 
-                if (mYear == year)
-                    if (mMonth == month)
-                        if (mDay == day) {
-                            if (mHourStart < hourStart)
-                                break;
-                            else if (mHourStart == hourStart && minuteStart < minuteEnd)
-                                break;
-                            else {
-                                Toast.makeText(mFragmentActivity, "На данное время есть запись", Toast.LENGTH_SHORT).show();
-                            }
-                        }
+              //  if (mYear == year)
+                 //   if (mMonth == month)
+                  //      if (mDay == day) {
+                    //        if (mHourStart < hourStart)
+                      //          break;
+                      //      else if (mHourStart == hourStart && minuteStart < minuteEnd)
+                      //          break;
+                      //      else {
+                      //          Toast.makeText(mFragmentActivity, "На данное время есть запись", Toast.LENGTH_SHORT).show();
+                       //     }
+                      //  }
             }
 
             //

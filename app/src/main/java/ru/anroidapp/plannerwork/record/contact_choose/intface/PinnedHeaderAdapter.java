@@ -95,12 +95,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = null;
-
-        Log.i("213", position + "");
-        if (position < 35 && position > 30) {
-            int a = 0;
-        }
+        ViewHolder holder;
 
         if (convertView == null) {
             holder = new ViewHolder();
@@ -108,24 +103,25 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 
             switch (type) {
                 case TYPE_ITEM:
-                    convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
-                    //String name = holder.textView.getText().toString();
-                    String name = mListItems.get(position).toString();
-                    // лучше заранее проверить весь список уже приходивших клиентов
-                    // чем каждого в записной книжке прогонять через бд
-                    // если найден то удаляем чтоб меньше потом искать
-                    if (allClients.contains(name)) {
-                        int visits = clients.getClientVisits(name);
-                        if (visits > 0) {
-                            holder.visitsTextView = (TextView) convertView.findViewById(R.id.contact_status);
-                            holder.visitsTextView.setText("Количество посещений " + visits);
-                        }
-                        allClients.remove(name);
-                    }
+                        convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
+                        //String name = holder.textView.getText().toString();
 
                     holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
                     Drawable drawable = mContext.getDrawable(R.drawable.ic_launcher);
                     holder.contactPhoto.setImageDrawable(drawable);
+
+                    //String name = mListItems.get(position).toString();
+                    // лучше заранее проверить весь список уже приходивших клиентов
+                    // чем каждого в записной книжке прогонять через бд
+                    // если найден то удаляем чтоб меньше потом искать
+//                    if (allClients.contains(name)) {
+//                        int visits = clients.getClientVisits(name);
+//                        if (visits > 0) {
+//                            holder.visitsTextView = (TextView) convertView.findViewById(R.id.contact_status);
+//                            holder.visitsTextView.setText("Количество посещений " + visits);
+//                        }
+//                        allClients.remove(name);
+//                    }
                     break;
                 case TYPE_SECTION:
                     convertView = mLayoutInflater.inflate(R.layout.section_row_view, null);

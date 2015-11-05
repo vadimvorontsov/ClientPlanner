@@ -201,7 +201,7 @@
                 android:layout_height="15dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:background="@android:color/white"/>
+                />
 
             <ru.anroidapp.plannerwork.animation.Circle
                 android:id="@+id/circle_1"
@@ -209,7 +209,7 @@
                 android:layout_height="15dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:background="@android:color/white"/>
+                />
 
             <ru.anroidapp.plannerwork.animation.Circle
                 android:id="@+id/circle_2"
@@ -217,7 +217,7 @@
                 android:layout_height="15dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:background="@android:color/white"/>
+                />
 
             <ru.anroidapp.plannerwork.animation.Circle
                 android:id="@+id/circle_3"
@@ -225,7 +225,7 @@
                 android:layout_height="15dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:background="@android:color/white"/>
+                />
 
             <ru.anroidapp.plannerwork.animation.Circle
                 android:id="@+id/circle_4"
@@ -233,7 +233,7 @@
                 android:layout_height="15dp"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:background="@android:color/white"/>
+                />
 
         </LinearLayout>
 

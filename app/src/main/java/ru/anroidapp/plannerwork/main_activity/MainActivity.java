@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
     private void setCircleChoose(int position) {
         for (int i = 0; i < sessionsCount && i < MAX_SESSIONS_COUNT; i++) {
             if (i == position)
-                circleArray[i].setColor(android.R.color.holo_purple);
+                circleArray[i].setColor(getResources().getColor(android.R.color.holo_purple));
             else
                 circleArray[i].setColor(getResources().getColor(android.R.color.white));
         }
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
         if (sessionCount == 1)
             return;
 
-        circleArray[0].setColor(-7829368);
+        circleArray[0].setColor(getResources().getColor(android.R.color.holo_purple));
         for (int i = 0; i < sessionCount && i < MAX_SESSIONS_COUNT; i++) {
             circleArray[i].setVisibility(View.VISIBLE);
         }

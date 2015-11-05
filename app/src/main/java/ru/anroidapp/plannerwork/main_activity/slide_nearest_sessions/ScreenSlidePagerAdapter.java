@@ -40,21 +40,4 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         return mSessions.size();
     }
 
-//    @Override
-//    public Object instantiateItem(ViewGroup container, int position) {
-//        Object obj = super.instantiateItem(container, position);
-//        if (obj instanceof Fragment) {
-//            Fragment f = (Fragment) obj;
-//            String tag = f.getTag();
-//            mFragmentTags.put(position, tag);
-//        }
-//        return obj;
-//    }
-//
-//    public Fragment getFragment(int position) {
-//        String tag = mFragmentTags.get(position);
-//        if (tag == null)
-//            return null;
-//        return mFM.findFragmentByTag(tag);
-//    }
 }

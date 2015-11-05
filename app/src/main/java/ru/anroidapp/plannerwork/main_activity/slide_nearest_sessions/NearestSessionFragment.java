@@ -68,30 +68,6 @@ public class NearestSessionFragment extends Fragment {
         timeTextView.setText(timeDayMonthStartForView[0] + " - " + timeEndForView[0]);
         clientStatusTextView.setText((String) session[6]);
 
-//        LinearLayout circles = (LinearLayout)view.findViewById(R.id.circles);
-//        switch (mPosition) {
-//            case 1:
-//                Circle circle1 = (Circle)circles.findViewById(R.id.circle_1);
-//                circle1.setBackgroundColor(getResources().getColor(R.color.primary_dark));
-//                break;
-//            case 2:
-//                Circle circle2 = (Circle)circles.findViewById(R.id.circle_2);
-//                circle2.setBackgroundColor(getResources().getColor(R.color.primary_dark));
-//                break;
-//            case 3:
-//                Circle circle3 = (Circle)circles.findViewById(R.id.circle_3);
-//                circle3.setBackgroundColor(getResources().getColor(R.color.primary_dark));
-//                break;
-//            case 4:
-//                Circle circle4 = (Circle)circles.findViewById(R.id.circle_4);
-//                circle4.setBackgroundColor(getResources().getColor(R.color.primary_dark));
-//                break;
-//            case 5:
-//                Circle circle5 = (Circle)circles.findViewById(R.id.circle_5);
-//                circle5.setBackgroundColor(getResources().getColor(R.color.primary_dark));
-//                break;
-//        }
-
         return view;
     }
 

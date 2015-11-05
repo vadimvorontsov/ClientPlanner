@@ -53,7 +53,7 @@ public class RecordActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(RecordActivity.this, "123", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(RecordActivity.this, "123", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(RecordActivity.this, MainActivity.class));
             }
         });

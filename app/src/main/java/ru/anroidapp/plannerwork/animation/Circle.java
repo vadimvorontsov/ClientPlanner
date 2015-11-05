@@ -37,7 +37,7 @@ public class Circle extends View {
         // не будет перериcовываться.
     }
 
-    public void SetColor(int color)
+    public void setColor(int color)
     {
         paint.setColor(color);
     }

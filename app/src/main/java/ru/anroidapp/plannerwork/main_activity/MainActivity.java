@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.smena.clientbase.procedures.Sessions;
 
@@ -37,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
     //Context mContext;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
-    public static boolean refreshList = true;
-    Circle circle_1, circle_2, circle_3, circle_4, circle_5;
+    //public static boolean refreshList = true;
+    Circle[] circleArray;
     private final int MAX_SESSIONS_COUNT = 5;
+    private int sessionsCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,112 +47,41 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //mContext = this;
 
-        getDbFile();
+        //getDbFile();
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
-
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if (refreshList) {
-            super.onPostResume();
 
-            mPager = (ViewPager) findViewById(R.id.pagerMain);
-            ArrayList<Long> nearestSessions = getNearestSessionsCount(this);
-            TextView notRecord = (TextView) findViewById(R.id.txtNotRecord);
-            LinearLayout circleTable = (LinearLayout) findViewById(R.id.circles);
+        mPager = (ViewPager) findViewById(R.id.pagerMain);
+        ArrayList<Long> nearestSessions = getNearestSessionsCount(this);
+        sessionsCount = nearestSessions.size();
+        TextView notRecord = (TextView) findViewById(R.id.txtNotRecord);
+        LinearLayout circleTable = (LinearLayout) findViewById(R.id.circles);
 
-            circle_1 = (Circle) findViewById(R.id.circle_1);
-            circle_2 = (Circle) findViewById(R.id.circle_2);
-            circle_3 = (Circle) findViewById(R.id.circle_3);
-            circle_4 = (Circle) findViewById(R.id.circle_4);
-            circle_5 = (Circle) findViewById(R.id.circle_5);
-            //circle_1.SetColor(-7829368);
+        initCircles();
 
-            mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageSelected(int position) {
-                    Toast.makeText(MainActivity.this, "Long pressed event: " + position, Toast.LENGTH_SHORT).show();
-                    if (position == 0) {
-                        circle_1.SetColor(-7829368);
-                        circle_2.SetColor(-1);
-                    }
-                    else if (position == 1) {
-                        circle_1.SetColor(-1);
-                        circle_3.SetColor(-1);
-                        circle_2.SetColor(-7829368);
-                    }
-                    else if (position == 2) {
-                        circle_2.SetColor(-1);
-                        circle_4.SetColor(-1);
-                        circle_3.SetColor(-7829368);
-                    }
-                    else if (position == 3) {
-                        circle_3.SetColor(-1);
-                        circle_5.SetColor(-1);
-                        circle_4.SetColor(-7829368);
-                    }
-                    else if (position == 4) {
-                        circle_4.SetColor(-1);
-                        circle_5.SetColor(-7829368);
-                    }
-                }
-                @Override
-                public void onPageScrolled(int position, float positionOffset,
-                                           int positionOffsetPixels) {
-                }
-                @Override
-                public void onPageScrollStateChanged(int state) {
-                }
-            });
+        mPager.addOnPageChangeListener(pageChangeListener);
 
-
-            if (nearestSessions.size() == 0) {
-                notRecord.setText("Ближайших записей нет");
-                mPager.setVisibility(View.GONE);
-                circleTable.setVisibility(View.GONE);
-            }
             if (nearestSessions != null && !nearestSessions.isEmpty()) {
                 mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager(), nearestSessions);
                 mPager.setAdapter(mPagerAdapter);
                 notRecord.setVisibility(View.GONE);
                 mPager.setVisibility(View.VISIBLE);
-                if (nearestSessions.size() == 1)
-                    circleTable.setVisibility(View.GONE);
-                else
-                    circleTable.setVisibility(View.VISIBLE);
-                if (nearestSessions.size() == 2){
-                    circle_1.SetColor(-7829368);
-                    circle_3.setVisibility(View.GONE);
-                    circle_4.setVisibility(View.GONE);
-                    circle_5.setVisibility(View.GONE);
-                }else if (nearestSessions.size() == 3){
-                    circle_1.SetColor(-7829368);
-                    circle_3.setVisibility(View.VISIBLE);
-                    circle_4.setVisibility(View.GONE);
-                    circle_5.setVisibility(View.GONE);
-                }else if (nearestSessions.size() == 4){
-                    circle_1.SetColor(-7829368);
-                    circle_4.setVisibility(View.VISIBLE);
-                    circle_5.setVisibility(View.GONE);
-                }else if (nearestSessions.size() == 5){
-                    circle_1.SetColor(-7829368);
-                    circle_1.setVisibility(View.VISIBLE);
-                    circle_2.setVisibility(View.VISIBLE);
-                    circle_3.setVisibility(View.VISIBLE);
-                    circle_4.setVisibility(View.VISIBLE);
-                    circle_5.setVisibility(View.VISIBLE);
-                }
+                circleTable.setVisibility(View.VISIBLE);
+
+                setCircleVisibility(sessionsCount);
 
             } else if (nearestSessions != null && nearestSessions.isEmpty()) {
+                notRecord.setVisibility(View.VISIBLE);
+                mPager.setVisibility(View.GONE);
             } else {
             }
-            refreshList = false;
-        }
     }
 
     public void onBtn1Click(View view) {
@@ -212,6 +141,49 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Long> nearestSessionsId = sessions.getSessionsAfterTime("datetime('now')",
                 MAX_SESSIONS_COUNT);
         return nearestSessionsId;
+    }
+
+    ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageSelected(int position) {
+            setCircleChoose(position);
+        }
+        @Override
+        public void onPageScrolled(int position, float positionOffset,
+                                   int positionOffsetPixels) {
+        }
+        @Override
+        public void onPageScrollStateChanged(int state) {
+        }
+    };
+
+    private void setCircleChoose(int position) {
+        for (int i = 0; i < sessionsCount && i < MAX_SESSIONS_COUNT; i++) {
+            if (i == position)
+                circleArray[i].setColor(android.R.color.holo_purple);
+            else
+                circleArray[i].setColor(getResources().getColor(android.R.color.white));
+        }
+    }
+
+    private void setCircleVisibility(int sessionCount) {
+        if (sessionCount == 1)
+            return;
+
+        circleArray[0].setColor(-7829368);
+        for (int i = 0; i < sessionCount && i < MAX_SESSIONS_COUNT; i++) {
+            circleArray[i].setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void initCircles() {
+        Circle circle_0 = (Circle) findViewById(R.id.circle_0);
+        Circle circle_1 = (Circle) findViewById(R.id.circle_1);
+        Circle circle_2 = (Circle) findViewById(R.id.circle_2);
+        Circle circle_3 = (Circle) findViewById(R.id.circle_3);
+        Circle circle_4 = (Circle) findViewById(R.id.circle_4);
+
+        circleArray = new Circle[]{circle_0, circle_1, circle_2, circle_3, circle_4};
     }
 
 }

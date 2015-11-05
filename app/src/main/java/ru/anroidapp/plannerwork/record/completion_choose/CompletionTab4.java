@@ -148,7 +148,7 @@ public class CompletionTab4 extends Fragment {
                     sendMsgView().show();
                 else {
                     Toast.makeText(fa, "Запись завершена успешно", Toast.LENGTH_SHORT).show();
-                    MainActivity.refreshList = true;
+                    //MainActivity.refreshList = true;
                     fa.finish();
                 }
             } else {

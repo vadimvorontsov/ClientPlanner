@@ -159,19 +159,19 @@ public class Procedures {
             return 0;
         }
         try {
-        cv.put(ClientBaseOpenHelper.PROCEDURE, procedureName);
-        cv.put(ClientBaseOpenHelper.PRICE, procedurePrice);
-        cv.put(ClientBaseOpenHelper.NOTICE, procedureNote);
-        cv.put(ClientBaseOpenHelper.COLOR, procedureColor);
+            cv.put(ClientBaseOpenHelper.PROCEDURE, procedureName);
+            cv.put(ClientBaseOpenHelper.PRICE, procedurePrice);
+            cv.put(ClientBaseOpenHelper.NOTICE, procedureNote);
+            cv.put(ClientBaseOpenHelper.COLOR, procedureColor);
 
-        int updCount = db.update(ClientBaseOpenHelper.TABLE_PROCEDURES, cv, "_id=" + id, null);
+            int updCount = db.update(ClientBaseOpenHelper.TABLE_PROCEDURES, cv, "_id=" + id, null);
             return 1;
 
         } catch (SQLiteConstraintException e) {
             Log.e(TAG, e.getMessage());
             return 0;
 
-        }finally {
+        } finally {
             if (db != null && db.isOpen()) {
                 db.close();
                 helper.close();

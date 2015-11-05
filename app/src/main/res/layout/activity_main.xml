@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -155,24 +156,12 @@
         android:background="@color/viewPagerPrimary"
         android:orientation="vertical">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:weightSum="2"
-    android:id="@+id/LayPagerMain"
-    android:orientation="vertical">
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_marginTop="50dp"
-        android:text=""
-        android:id="@+id/txtNotRecord"
-        android:textColor="@color/viewPagerTextDark"
-        android:textSize="11pt"
-        android:textStyle="bold" />
+        android:weightSum="2"
+        android:id="@+id/LayPagerMain"
+        android:orientation="vertical">
 
         <android.support.v4.view.ViewPager
             android:layout_weight="1"

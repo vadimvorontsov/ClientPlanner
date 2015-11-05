@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.smena.clientbase.procedures.Clients;
 import com.example.smena.clientbase.procedures.Sessions;
 import com.example.smena.sendmessage.email.Email;
 import com.example.smena.sendmessage.sms.SMS;
@@ -79,6 +80,7 @@ public class CompletionTab4 extends Fragment {
     String mProcedureName;
     int mProcedurePrice;
     String mProcedureNote;
+
     View.OnClickListener sendViberListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -137,6 +139,9 @@ public class CompletionTab4 extends Fragment {
                     "" + mYear + "-" + mMonthNumb + "-" + mDay +
                             " " + mHourEnd + ":" + mMinuteEnd,
                     mMetaData.getClientPhones().get(0), mMetaData.getClientEmails().get(0));
+
+            Clients clients = new Clients(fa);
+            clients.updateClientAddVisit(mClientName);
 
             if (sessinonId != -1) {
                 if (iMessage == 1)

@@ -90,6 +90,7 @@ public class Clients {
         try {
             ContentValues cv = new ContentValues();
             cv.put(ClientBaseOpenHelper.CLIENT, clientName);
+            cv.put(ClientBaseOpenHelper.VISITS, 0);
             clientID = db_write.insert(ClientBaseOpenHelper.TABLE_CLIENTS, ClientBaseOpenHelper.CLIENT, cv);
 
             return clientID;
@@ -104,6 +105,63 @@ public class Clients {
                 helper.close();
             }
         }
+    }
+
+    public long updateClientAddVisit(String clientName) {
+
+        int visits = getClientVisits(clientName);
+        long countUpdates = 0;
+
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        SQLiteDatabase db_write = helper.getWritableDatabase();
+
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put(ClientBaseOpenHelper.VISITS, ++visits);
+            countUpdates = db_write.update(ClientBaseOpenHelper.TABLE_CLIENTS, cv,
+                    ClientBaseOpenHelper.CLIENT + " = '" + clientName + "'", null);
+
+            return countUpdates;
+
+        } catch (SQLiteConstraintException e) {
+            Log.e(TAG, e.getMessage());
+            return countUpdates;
+
+        } finally {
+            if (db_write != null && db_write.isOpen()) {
+                db_write.close();
+                helper.close();
+            }
+        }
+    }
+
+    public int getClientVisits(String clientName) {
+
+        ClientBaseOpenHelper helper = null;
+        SQLiteDatabase db_read = null;
+        Cursor cursor = null;
+        int visits = -1;
+
+        try {
+            helper = new ClientBaseOpenHelper(ctx);
+            db_read = helper.getReadableDatabase();
+
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS, new String[]{ClientBaseOpenHelper.VISITS},
+                    ClientBaseOpenHelper.CLIENT + " = '" + clientName + "'", null, null, null, null);
+            while (cursor.moveToNext()) {
+                visits = cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.VISITS));
+            }
+        } catch (SQLiteConstraintException e) {
+            Log.e(TAG, e.getMessage());
+        } finally {
+            if (cursor != null && !cursor.isClosed())
+                cursor.close();
+            if (db_read != null && db_read.isOpen()) {
+                db_read.close();
+                helper.close();
+            }
+        }
+        return visits;
     }
 
     public ArrayList<String> getAllClientsNames() {

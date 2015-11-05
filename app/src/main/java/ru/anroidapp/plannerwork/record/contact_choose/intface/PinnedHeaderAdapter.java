@@ -2,6 +2,7 @@ package ru.anroidapp.plannerwork.record.contact_choose.intface;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+
+import com.example.smena.clientbase.procedures.Clients;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,9 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     // context object
     Context mContext;
 
+    private Clients clients;
+    private ArrayList<String> allClients;
+
 
     public PinnedHeaderAdapter(Context context, List<String> listItems,
                                ArrayList<Integer> listSectionPos) {
@@ -46,6 +52,9 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 
         //mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLayoutInflater = LayoutInflater.from(mContext);
+
+        clients = new Clients(mContext);
+        allClients = clients.getAllClientsNames();
     }
 
     @Override
@@ -88,6 +97,11 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 
         ViewHolder holder = null;
 
+        Log.i("213", position + "");
+        if (position < 35 && position > 30) {
+            int a = 0;
+        }
+
         if (convertView == null) {
             holder = new ViewHolder();
             int type = getItemViewType(position);
@@ -97,6 +111,18 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
                     convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
                     //String name = holder.textView.getText().toString();
                     String name = mListItems.get(position).toString();
+                    // лучше заранее проверить весь список уже приходивших клиентов
+                    // чем каждого в записной книжке прогонять через бд
+                    // если найден то удаляем чтоб меньше потом искать
+                    if (allClients.contains(name)) {
+                        int visits = clients.getClientVisits(name);
+                        if (visits > 0) {
+                            holder.visitsTextView = (TextView) convertView.findViewById(R.id.contact_status);
+                            holder.visitsTextView.setText("Количество посещений " + visits);
+                        }
+                        allClients.remove(name);
+                    }
+
                     holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
                     Drawable drawable = mContext.getDrawable(R.drawable.ic_launcher);
                     holder.contactPhoto.setImageDrawable(drawable);
@@ -107,7 +133,6 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
             }
 
             holder.textView = (TextView) convertView.findViewById(R.id.row_title);
-            //holder.textView.setText(mListItems.get(position).toString());
             convertView.setTag(holder);
 
         } else {
@@ -179,38 +204,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     public static class ViewHolder {
         public TextView textView;
         public CircularImageView contactPhoto;
+        public TextView visitsTextView;
     }
 
-//    private TextDrawable getContactTextPhoto(String name) {
-//        TextDrawable drawable = null;
-//        String drawCharacters = "";
-//        String firstCharacter = "";
-//        String[] subNames = name.split(" ");
-//
-//        int length = subNames.length;
-//        if (length == 1) {
-//            firstCharacter = subNames[0].toUpperCase().substring(0,1);
-//            if (firstCharacter.matches("[А-Я]"))
-//                drawCharacters = firstCharacter;
-//        } else {
-//            for (int i = 0; i < length; i++) {
-//                if (i == 2)
-//                    break;
-//                firstCharacter = subNames[i].toUpperCase().substring(0,1);
-//                if (firstCharacter.matches("[А-Я]"))
-//                    drawCharacters += firstCharacter;
-//
-//            }
-//        }
-//        if (!drawCharacters.isEmpty()) {
-//            drawable = TextDrawable.builder()
-//                    .buildRect(drawCharacters,
-//                            R.color.ColorPrimary);
-//        } else {
-//            drawable = TextDrawable.builder()
-//                    .buildRect("A",
-//                            R.color.ColorPrimary);
-//        }
-//        return drawable;
-//    }
 }

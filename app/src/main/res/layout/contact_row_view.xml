@@ -35,7 +35,7 @@
             android:id="@+id/contact_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Количество посещений "
+            android:text="Посещений не было"
             android:textColor="#9f9f9f"
             android:textSize="15sp"/>
 

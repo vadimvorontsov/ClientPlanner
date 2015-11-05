@@ -10,9 +10,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.alamkanak.weekview.DateTimeInterpreter;
-import com.alamkanak.weekview.WeekView;
-import com.alamkanak.weekview.WeekViewEvent;
+import ru.anroidapp.plannerwork.calendar.DateTimeInterpreter;
+import ru.anroidapp.plannerwork.calendar.WeekView;
+import ru.anroidapp.plannerwork.calendar.WeekViewEvent;
 import com.example.smena.clientbase.procedures.Sessions;
 
 import java.text.SimpleDateFormat;

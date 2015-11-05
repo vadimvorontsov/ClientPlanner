@@ -155,7 +155,7 @@ public class Sessions {
         }
     }
 
-    public ArrayList<Long> getSessionsAfterTime(String time) {
+    public ArrayList<Long> getSessionsAfterTime(String time, int count) {
 
         ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
         SQLiteDatabase db_read = helper.getReadableDatabase();
@@ -166,8 +166,9 @@ public class Sessions {
             cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
                     ClientBaseOpenHelper.TIME_START + " > " + time,
                     null, null, null, ClientBaseOpenHelper.TIME_START);
-            while (cursor.moveToNext()) {
+            while (cursor.moveToNext() && count != 0) {
                 sessionsID.add(cursor.getLong(cursor.getColumnIndex(BaseColumns._ID)));
+                count--;
             }
 
             return sessionsID;

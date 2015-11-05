@@ -1,4 +1,4 @@
-package com.alamkanak.weekview;
+package ru.anroidapp.plannerwork.calendar;
 
 import java.util.Calendar;
 

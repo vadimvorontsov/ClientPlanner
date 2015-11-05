@@ -17,6 +17,7 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
     public static final String TABLE_SESSIONS = "sessions_table";
     //columns
     public static final String CLIENT = "client";
+    public static final String VISITS = "visits";
     public static final String PHONE = "phone";
     public static final String ID_CLIENT_PHONE = "id_client";
     public static final String EMAIL = "email";
@@ -34,7 +35,7 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
     public static final String IS_NOTIFIED = "is_notified";
     // db
     private static final String DATABASE_NAME = "sessions.db";
-    private static final int DATABASE_VERSION = 20;
+    private static final int DATABASE_VERSION = 22;
     Context ctx;
 
     public ClientBaseOpenHelper(Context context) {
@@ -46,7 +47,7 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
     public void onCreate(SQLiteDatabase db) {
 
         String CREATE_TABLE_CLIENTS = "CREATE TABLE " + TABLE_CLIENTS + " (" + ClientBaseOpenHelper._ID
-                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CLIENT + " TEXT UNIQUE);";
+                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CLIENT + " TEXT UNIQUE, " + VISITS + " INTEGER DEFAULT 0);";
         db.execSQL(CREATE_TABLE_CLIENTS);
 
         String CREATE_TABLE_PHONES = "CREATE TABLE " + TABLE_PHONES + " (" + ClientBaseOpenHelper._ID

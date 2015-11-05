@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     public static boolean refreshList = true;
+    private final int MAX_SESSIONS_COUNT = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //mContext = this;
 
-        //getDbFile();
+        getDbFile();
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.app_name);
@@ -53,21 +54,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPostResume() {
+        super.onPostResume();
         if (refreshList) {
-            super.onPostResume();
             ArrayList<Long> nearestSessions = getNearestSessionsCount(this);
-            TextView notRecord = (TextView) findViewById(R.id.txtNotRecord);
-            LinearLayout circleTable = (LinearLayout) findViewById(R.id.LayPagerMain);
             if (nearestSessions != null && !nearestSessions.isEmpty()) {
                 mPager = (ViewPager) findViewById(R.id.pagerMain);
                 mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager(), nearestSessions);
                 mPager.setAdapter(mPagerAdapter);
-                notRecord.setVisibility(View.GONE);
             } else if (nearestSessions != null && nearestSessions.isEmpty()) {
             } else {
-                notRecord.setText("Ближайших записей нет");
-                mPager.setVisibility(View.GONE);
-                circleTable.setVisibility(View.GONE);
             }
             refreshList = false;
         }
@@ -127,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Long> getNearestSessionsCount(Context ctx) {
         Sessions sessions = new Sessions(ctx);
-        ArrayList<Long> nearestSessionsId = sessions.getSessionsAfterTime("datetime('now')");
+        ArrayList<Long> nearestSessionsId = sessions.getSessionsAfterTime("datetime('now')",
+                MAX_SESSIONS_COUNT);
         return nearestSessionsId;
     }
 

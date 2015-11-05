@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.smena.clientbase.procedures.Sessions;
@@ -14,17 +15,21 @@ import com.example.smena.clientbase.procedures.Sessions;
 import java.text.DateFormatSymbols;
 
 import ru.anroidapp.plannerwork.R;
+import ru.anroidapp.plannerwork.animation.Circle;
 
 public class NearestSessionFragment extends Fragment {
 
     private static final String ID_SESSION = "id_session";
+    //private static final String POSITION = "position";
     private Context mContext;
     private long mSessionId;
+    private int mPosition;
 
     static NearestSessionFragment newInstance(long sessionId) {
         NearestSessionFragment pageFragment = new NearestSessionFragment();
         Bundle arguments = new Bundle();
         arguments.putLong(ID_SESSION, sessionId);
+        //arguments.putInt(POSITION, position);
         pageFragment.setArguments(arguments);
         return pageFragment;
     }
@@ -39,6 +44,7 @@ public class NearestSessionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSessionId = getArguments().getLong(ID_SESSION);
+        //mPosition = getArguments().getInt(POSITION);
     }
 
     @Override
@@ -61,6 +67,30 @@ public class NearestSessionFragment extends Fragment {
         dateTextView.setText(timeDayMonthStartForView[1] + " " + timeDayMonthStartForView[2]);
         timeTextView.setText(timeDayMonthStartForView[0] + " - " + timeEndForView[0]);
         clientStatusTextView.setText((String) session[6]);
+
+//        LinearLayout circles = (LinearLayout)view.findViewById(R.id.circles);
+//        switch (mPosition) {
+//            case 1:
+//                Circle circle1 = (Circle)circles.findViewById(R.id.circle_1);
+//                circle1.setBackgroundColor(getResources().getColor(R.color.primary_dark));
+//                break;
+//            case 2:
+//                Circle circle2 = (Circle)circles.findViewById(R.id.circle_2);
+//                circle2.setBackgroundColor(getResources().getColor(R.color.primary_dark));
+//                break;
+//            case 3:
+//                Circle circle3 = (Circle)circles.findViewById(R.id.circle_3);
+//                circle3.setBackgroundColor(getResources().getColor(R.color.primary_dark));
+//                break;
+//            case 4:
+//                Circle circle4 = (Circle)circles.findViewById(R.id.circle_4);
+//                circle4.setBackgroundColor(getResources().getColor(R.color.primary_dark));
+//                break;
+//            case 5:
+//                Circle circle5 = (Circle)circles.findViewById(R.id.circle_5);
+//                circle5.setBackgroundColor(getResources().getColor(R.color.primary_dark));
+//                break;
+//        }
 
         return view;
     }

@@ -521,6 +521,9 @@ public class ContactTab1 extends Fragment {
 
     private String reformatPhones(String oldPhone) {
 
+        if (oldPhone.length() < 11)
+            return oldPhone;
+
         if (oldPhone.startsWith("8")) {
             oldPhone = "7" + oldPhone.substring(1, oldPhone.length());
         }

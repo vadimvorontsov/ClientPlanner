@@ -26,6 +26,7 @@ import ru.anroidapp.plannerwork.CalendarActivity;
 import ru.anroidapp.plannerwork.ProcedureActivity;
 import ru.anroidapp.plannerwork.R;
 import ru.anroidapp.plannerwork.animation.Circle;
+import ru.anroidapp.plannerwork.animation.ZoomOutPageTransformer;
 import ru.anroidapp.plannerwork.record.RecordActivity;
 import ru.anroidapp.plannerwork.main_activity.slide_nearest_sessions.ScreenSlidePagerAdapter;
 
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     Circle[] circleArray;
     private final int MAX_SESSIONS_COUNT = 5;
     private int sessionsCount;
+    LinearLayout circleTable;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +51,11 @@ public class MainActivity extends AppCompatActivity {
         //mContext = this;
 
         //getDbFile();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
+        toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitle(R.string.app_name);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         toolbar.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
     }
 
@@ -62,10 +67,11 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Long> nearestSessions = getNearestSessionsCount(this);
         sessionsCount = nearestSessions.size();
         TextView notRecord = (TextView) findViewById(R.id.txtNotRecord);
-        LinearLayout circleTable = (LinearLayout) findViewById(R.id.circles);
+        circleTable = (LinearLayout) findViewById(R.id.circles);
 
         initCircles();
 
+        mPager.setPageTransformer(true, new ZoomOutPageTransformer());
         mPager.addOnPageChangeListener(pageChangeListener);
 
             if (nearestSessions != null && !nearestSessions.isEmpty()) {
@@ -90,7 +96,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onBtn2Click(View view) {
-        startActivity(new Intent(this, CalendarActivity.class));
+       // startActivity(new Intent(this, CalendarActivity.class));
+         Intent i = new Intent(MainActivity.this, CalendarActivity.class);
+         i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+          startActivity(i);
     }
 
     public void onBtn3Click(View view) {
@@ -106,6 +115,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
         if (id == R.id.action_settings) {
             return true;
         }
@@ -167,12 +179,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCircleVisibility(int sessionCount) {
-        if (sessionCount == 1)
+        if (sessionCount == 1) {
+            circleTable.setVisibility(View.GONE);
             return;
+        }
 
         circleArray[0].setColor(getResources().getColor(android.R.color.holo_purple));
         for (int i = 0; i < sessionCount && i < MAX_SESSIONS_COUNT; i++) {
             circleArray[i].setVisibility(View.VISIBLE);
+            if (i != 0)
+                circleArray[i].setColor(getResources().getColor(android.R.color.white));
         }
     }
 

@@ -271,4 +271,35 @@ public class Procedures {
         return color;
     }
 
+    public int getPriceProcedureByName(String nameProcedure) {
+
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        SQLiteDatabase db_read = helper.getReadableDatabase();
+        Cursor cursor = null;
+        int price = -1;
+
+        try {
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES,
+                    new String[]{ClientBaseOpenHelper.PRICE}, ClientBaseOpenHelper.PROCEDURE + "='" + nameProcedure + "'",
+                    null, null, null, null);
+
+            while (cursor.moveToNext()) {
+                price = cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.PRICE));
+            }
+
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+            if (db_read != null && db_read.isOpen()) {
+                db_read.close();
+                helper.close();
+            }
+        }
+        return price;
+    }
+
 }

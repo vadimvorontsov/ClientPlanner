@@ -1,18 +1,28 @@
 package ru.anroidapp.plannerwork;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import ru.anroidapp.plannerwork.calendar.DateTimeInterpreter;
 import ru.anroidapp.plannerwork.calendar.WeekView;
 import ru.anroidapp.plannerwork.calendar.WeekViewEvent;
+
+import com.example.smena.clientbase.procedures.Procedures;
 import com.example.smena.clientbase.procedures.Sessions;
 
 import java.text.SimpleDateFormat;
@@ -32,6 +42,7 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
     MetaData mMetaData;
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private WeekView mWeekView;
+    WeekViewEvent event_del;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -242,6 +253,13 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
 
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.calendare_info, null);
+        final TextView textClientName = (TextView) view.findViewById(R.id.calClientName);
+        final TextView textProcedureName = (TextView) view.findViewById(R.id.calProcedureName);
+        final TextView textTime = (TextView) view.findViewById(R.id.calTime);
+        final TextView textStatus = (TextView) view.findViewById(R.id.calStatus);
+
         Sessions sessions = new Sessions(CalendarActivity.this);
         Object[] sessionInfo = sessions.getSessionById(event.getId());
         String clientName = (String) sessionInfo[0];
@@ -253,21 +271,42 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
         int minuteStart = Integer.parseInt(timeStartArray[4]);
         int hourEnd = Integer.parseInt(timeEndArray[3]);
         int minuteEnd = Integer.parseInt(timeEndArray[4]);
-
         //.customView(R.layout.custom_view, wrapInScrollView)
         //.positiveText(R.string.positive)
-        new MaterialDialog.Builder(CalendarActivity.this)
-                .title("Информация")
-                .content(clientName + "\n" + procedureName + "\n" +
-                        hourStart + ":" + minuteStart + "-"
-                        + hourEnd + ":" + minuteEnd)
-                .positiveText(R.string.back)
-                .show();
-        //Toast.makeText(CalendarActivity.this, "Clicked " + event.getName(), Toast.LENGTH_SHORT).show();
+
+        textClientName.setText(clientName);
+        textProcedureName.setText(procedureName);
+        textTime.setText(hourStart + ":" + minuteStart + "-" + hourEnd + ":" + minuteEnd);
+        textStatus.setText("Оповещен через Viber");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(CalendarActivity.this);
+        event_del = event;
+
+
+        builder.setView(view)
+            .setCancelable(true);
+        builder.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Sessions sessions_del = new Sessions(CalendarActivity.this);
+                sessions_del.getDeleteSessionsById(event_del.getId());
+                Intent i = new Intent(CalendarActivity.this, CalendarActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                startActivity(i);
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
+
         Toast.makeText(CalendarActivity.this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
     }
 }

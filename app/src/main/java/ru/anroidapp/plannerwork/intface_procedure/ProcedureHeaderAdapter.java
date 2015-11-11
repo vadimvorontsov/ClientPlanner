@@ -39,8 +39,8 @@ public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.O
     // context object
     Context mContext;
 
-    int iColor = 0;
     int testColor = 0;
+    int testPrice = 0;
 
     ArrayList<Integer> mColorProcedures;
 
@@ -49,7 +49,7 @@ public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.O
 
 
     public ProcedureHeaderAdapter(Context context, List<String> listItems,
-                               ArrayList<Integer> listSectionPos, ArrayList<Integer> colorProcedures) {
+                                  ArrayList<Integer> listSectionPos, ArrayList<Integer> colorProcedures) {
         this.mContext = context;
         this.mListItems = listItems;
         this.mListSectionPos = listSectionPos;
@@ -107,14 +107,13 @@ public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.O
                 case TYPE_ITEM:
                     convertView = mLayoutInflater.inflate(R.layout.procedure_row_view, null);
                     holder.textView = (TextView) convertView.findViewById(R.id.row_title);
-                    //String name = holder.textView.getText().toString();
+                    TextView price = (TextView) convertView.findViewById(R.id.contact_status);
                     String name = mListItems.get(position).toString();
-                    getColorProceduresName(name);
+                    testColor = getColorProceduresName(name);
+                    testPrice = getPriceProcedureName(name);
                     ImageView icon = (ImageView) convertView.findViewById(R.id.procedure_circle);
+                    price.setText("Цена " + testPrice);
                     icon.setImageResource(arColorProcedures[testColor]);
-//                    iColor += 1;
-//                    if (iColor == mListItems.size() - mListSectionPos.size())
-//                        iColor = 0;
                     break;
                 case TYPE_SECTION:
                     convertView = mLayoutInflater.inflate(R.layout.section_row_view, null);
@@ -190,9 +189,16 @@ public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.O
         return null;
     }
 
-    private void getColorProceduresName( String name ) {
+    private int getColorProceduresName( String name ) {
         Procedures procedures = new Procedures(mContext);
-        testColor = procedures.getColorProcedureByName(name);
+        int color = procedures.getColorProcedureByName(name);
+        return color;
+    }
+
+    private int getPriceProcedureName ( String name ){
+        Procedures procedures = new Procedures(mContext);
+        int price = procedures.getPriceProcedureByName(name);
+        return price;
     }
 
     public static class ViewHolder {

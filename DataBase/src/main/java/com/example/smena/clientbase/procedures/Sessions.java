@@ -3,6 +3,7 @@ package com.example.smena.clientbase.procedures;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
@@ -297,6 +298,29 @@ public class Sessions {
         }
         return false;
     }
+
+    public int getDeleteSessionsById( long id ){
+
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        // удаляем по id
+        try {
+            int delCount = db.delete(ClientBaseOpenHelper.TABLE_SESSIONS, "_id=" + id, null);
+            return 1;
+
+        } catch (SQLiteConstraintException e) {
+            Log.e(TAG, e.getMessage());
+            return 0;
+
+        }finally {
+            if (db != null && db.isOpen()) {
+                db.close();
+                helper.close();
+            }
+        }
+    }
+
 
 
 

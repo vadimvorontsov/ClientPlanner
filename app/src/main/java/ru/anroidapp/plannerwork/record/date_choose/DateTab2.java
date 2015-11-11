@@ -1,5 +1,6 @@
 package ru.anroidapp.plannerwork.record.date_choose;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,7 +37,7 @@ public class DateTab2 extends Fragment {
     TimePicker mTimePicker;
 
     int mHour, mMinute, mHourStart, mHourEnd = 25, mMinuteStart, mMinuteEnd = 60, mYear, mMonth, mDay, iTime = 0;
-    String mAllTime, mTimeViewStart, mTimeViewEnd, mHourStartStr, mHourEndStr, mMinuteStartStr, mMinuteEndStr;
+    String mAllTime, mTimeViewStart, mTimeViewEnd, mHourStartStr, mHourEndStr, mMinuteStartStr, mMinuteEndStr, mMonthStr, mDayStr;
 
     Button mBtnTimeStart, mBtnTimeEnd, mBtnDate;
     TextView mTextDate, mTextTime;
@@ -59,8 +60,17 @@ public class DateTab2 extends Fragment {
         public void onClick(View v) {
 
             mDay = mDatePicker.getDayOfMonth();
+            if (mDay < 10)
+                mDayStr = "0" + Integer.toString(mDay);
+            else
+                mDayStr = Integer.toString(mDay);
             mMetaData.setDay(mDay);
             mMonth = mDatePicker.getMonth();
+            if (mMonth < 10)
+                mMonthStr = "0" + Integer.toString(mMonth);
+            else
+                mMonthStr = Integer.toString(mMonth);
+
             mMetaData.setMonth(mMonth);
             mYear = mDatePicker.getYear();
             mMetaData.setYear(mYear);
@@ -106,40 +116,15 @@ public class DateTab2 extends Fragment {
             }
             mTextTime.setText(mTimeViewStart + mTimeViewEnd);
 
-            //Проверка есть ли запись на это время?
-            Resources resources = getResources();
-            Sessions sessions = new Sessions(mFragmentActivity);
-            ArrayList<Long> sessionsId = sessions.getAllSessionsId();
-            for (Long id : sessionsId) {
+            //Проверка есть ли запись на это время? " datetime('2015-01-01 01:01:01') "
+            String timeStart = "";//"datetime('" + mYear + "-" + mMonthStr + "-" + mDayStr + " " + mHourStartStr + ":" + mMinuteStartStr + ":00')";
+            String timeEnd = "";//"datetime('" + mYear + "-" + mMonthStr + "-" + mDayStr + " " + mHourEndStr + ":" + mMinuteEndStr + ":00')";
 
-                Object[] sessionInfo = sessions.getSessionById(id);
-                String[] timeStartArray = ((String) sessionInfo[4]).split("\\D");
-                String[] timeEndArray = ((String) sessionInfo[5]).split("\\D");
+            ArrayList<Integer> checkData = getCheckDataReplay(mFragmentActivity, timeStart , timeEnd);
 
-                int year = Integer.parseInt(timeStartArray[0]);
-                int month = Integer.parseInt(timeStartArray[1]);
-                int day = Integer.parseInt(timeStartArray[2]);
+            // if ( checkData.size() != 0 )
+           //     Toast.makeText(mFragmentActivity, "На это время запись уже есть", Toast.LENGTH_SHORT).show();
 
-                int hourStart = Integer.parseInt(timeStartArray[3]);
-                int minuteStart = Integer.parseInt(timeStartArray[4]);
-
-                int hourEnd = Integer.parseInt(timeEndArray[3]);
-                int minuteEnd = Integer.parseInt(timeEndArray[4]);
-
-              //  if (mYear == year)
-                 //   if (mMonth == month)
-                  //      if (mDay == day) {
-                    //        if (mHourStart < hourStart)
-                      //          break;
-                      //      else if (mHourStart == hourStart && minuteStart < minuteEnd)
-                      //          break;
-                      //      else {
-                      //          Toast.makeText(mFragmentActivity, "На данное время есть запись", Toast.LENGTH_SHORT).show();
-                       //     }
-                      //  }
-            }
-
-            //
 
         }
     };
@@ -184,6 +169,13 @@ public class DateTab2 extends Fragment {
 
         }
     };
+
+    private ArrayList<Integer> getCheckDataReplay(Context ctx, String start_time, String end_time) {
+        Sessions sessions = new Sessions(ctx);
+        ArrayList<Integer> checkDataReplay = sessions.getSessionsBetweenTimes(start_time, end_time);
+
+        return checkDataReplay;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

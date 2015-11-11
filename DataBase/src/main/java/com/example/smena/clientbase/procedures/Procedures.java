@@ -12,6 +12,7 @@ import com.example.smena.clientbase.ClientBaseOpenHelper;
 import java.util.ArrayList;
 
 public class Procedures {
+
     private final String TAG = "Procedures";
     Context ctx;
 
@@ -149,7 +150,8 @@ public class Procedures {
     }
 
 
-    public int getUpdateProcedure(String id, String procedureName, Integer procedurePrice, String procedureNote, Integer procedureColor){
+    public int getUpdateProcedure(String id, String procedureName,
+                                  Integer procedurePrice, String procedureNote, Integer procedureColor){
 
         ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
         SQLiteDatabase db = helper.getWritableDatabase();

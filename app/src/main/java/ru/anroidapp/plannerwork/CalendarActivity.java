@@ -78,7 +78,6 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_calendare, menu);
         return true;
     }

@@ -80,7 +80,7 @@ public class Sessions {
         }
     }
 
-    public ArrayList<Integer> getSessionsBetweenTimes(String timeStart, String timeEnd) {
+    public /*ArrayList<Integer>*/ boolean getSessionsBetweenTimes(String timeStart, String timeEnd) {
 
         if (timeStart.isEmpty()) {
             timeStart = " datetime('2015-01-01 01:01:01') ";
@@ -97,17 +97,17 @@ public class Sessions {
 
         try {
             cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
-                    ClientBaseOpenHelper.TIME_START + " BETWEEN '" + timeStart + "' AND '" + timeEnd + "'",
+                    ClientBaseOpenHelper.TIME_START + " BETWEEN " + timeStart + " AND " + timeEnd + "",
                     null, null, null, null);
-            while (cursor.moveToNext()) {
+            if (cursor.moveToNext()) {
                 sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
+                return true;
+            } else {
+                return false;
             }
-
-            return sessionsID;
 
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
-            return null;
 
         } finally {
             if (cursor != null && !cursor.isClosed()) {
@@ -120,6 +120,7 @@ public class Sessions {
                 helper.close();
             }
         }
+        return true;
     }
 
     public ArrayList<Integer> getSessionsBeforeTime(String time) {

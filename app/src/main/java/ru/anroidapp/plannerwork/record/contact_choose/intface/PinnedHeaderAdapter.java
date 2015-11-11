@@ -103,7 +103,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 
             switch (type) {
                 case TYPE_ITEM:
-                        convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
+                    convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
                         //String name = holder.textView.getText().toString();
 
                     holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);

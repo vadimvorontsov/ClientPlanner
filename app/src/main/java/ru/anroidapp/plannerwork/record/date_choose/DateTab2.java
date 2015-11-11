@@ -67,9 +67,9 @@ public class DateTab2 extends Fragment {
             mMetaData.setDay(mDay);
             mMonth = mDatePicker.getMonth();
             if (mMonth < 10)
-                mMonthStr = "0" + Integer.toString(mMonth);
+                mMonthStr = "0" + Integer.toString(mMonth + 1);
             else
-                mMonthStr = Integer.toString(mMonth);
+                mMonthStr = Integer.toString(mMonth + 1);
 
             mMetaData.setMonth(mMonth);
             mYear = mDatePicker.getYear();
@@ -117,10 +117,13 @@ public class DateTab2 extends Fragment {
             mTextTime.setText(mTimeViewStart + mTimeViewEnd);
 
             //Проверка есть ли запись на это время? " datetime('2015-01-01 01:01:01') "
-            String timeStart = "";//"datetime('" + mYear + "-" + mMonthStr + "-" + mDayStr + " " + mHourStartStr + ":" + mMinuteStartStr + ":00')";
-            String timeEnd = "";//"datetime('" + mYear + "-" + mMonthStr + "-" + mDayStr + " " + mHourEndStr + ":" + mMinuteEndStr + ":00')";
+            String timeStart = "datetime('" + mYear + "-" + mMonthStr + "-"
+                    + mDayStr + " " + mHourStartStr + ":" + mMinuteStartStr + ":00')";
+            String timeEnd = "datetime('" + mYear + "-" + mMonthStr + "-" + mDayStr +
+                    " " + mHourEndStr + ":" + mMinuteEndStr + ":00')";
 
-            ArrayList<Integer> checkData = getCheckDataReplay(mFragmentActivity, timeStart , timeEnd);
+            if (getCheckDataReplay(mFragmentActivity, timeStart, timeEnd))
+                Toast.makeText(mFragmentActivity, "На это время запись уже есть", Toast.LENGTH_SHORT).show();
 
             // if ( checkData.size() != 0 )
            //     Toast.makeText(mFragmentActivity, "На это время запись уже есть", Toast.LENGTH_SHORT).show();
@@ -170,11 +173,9 @@ public class DateTab2 extends Fragment {
         }
     };
 
-    private ArrayList<Integer> getCheckDataReplay(Context ctx, String start_time, String end_time) {
+    private boolean getCheckDataReplay(Context ctx, String start_time, String end_time) {
         Sessions sessions = new Sessions(ctx);
-        ArrayList<Integer> checkDataReplay = sessions.getSessionsBetweenTimes(start_time, end_time);
-
-        return checkDataReplay;
+         return sessions.getSessionsBetweenTimes(start_time, end_time);
     }
 
     @Override

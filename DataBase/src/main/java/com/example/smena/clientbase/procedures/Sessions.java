@@ -26,7 +26,7 @@ public class Sessions {
 
     public long addSession(String clientName, String procedureName, int procedurePrice,
                            String procedureNote,int procedureColor ,String sessionTimeStart, String sessionTimeEnd,
-                           String phone, String email) {
+                           String phone, String email, int isNotified) {
 
         Clients clients = new Clients(ctx);
         long clientID = clients.addClient(clientName);
@@ -63,6 +63,7 @@ public class Sessions {
             cv.put(ClientBaseOpenHelper.TIME_END, sessionTimeEnd);
             cv.put(ClientBaseOpenHelper.ID_PHONE, phoneID);
             cv.put(ClientBaseOpenHelper.ID_EMAIL, emailID);
+            cv.put(ClientBaseOpenHelper.IS_NOTIFIED, isNotified);
             if (cv != null) {
                 return db_write.insert(ClientBaseOpenHelper.TABLE_SESSIONS, ClientBaseOpenHelper.ID_CLIENT_SESSION, cv);
             }
@@ -103,7 +104,15 @@ public class Sessions {
                 sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
                 return true;
             } else {
-                return false;
+                cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
+                        ClientBaseOpenHelper.TIME_END + " BETWEEN " + timeStart + " AND " + timeEnd + "",
+                        null, null, null, null);
+                if (cursor.moveToNext()) {
+                    sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
+                    return true;
+                }
+                else
+                    return false;
             }
 
         } catch (Exception e) {
@@ -270,7 +279,7 @@ public class Sessions {
         }
     }
 
-    public boolean isNotifiedById(long id) {
+    public int isNotifiedById(long id) {
         ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
@@ -281,12 +290,12 @@ public class Sessions {
                     ClientBaseOpenHelper._ID + "=" + id, null, null, null, null);
             while (cursor.moveToNext()) {
                 isNotified = cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.IS_NOTIFIED));
-                return isNotified == 1;
+                return isNotified ; //== 1
             }
 
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
-            return false;
+            return -1;
 
         } finally {
             if (cursor != null && !cursor.isClosed()) {
@@ -297,7 +306,7 @@ public class Sessions {
                 helper.close();
             }
         }
-        return false;
+        return -1;
     }
 
     public int getDeleteSessionsById( long id ){
@@ -323,8 +332,6 @@ public class Sessions {
     }
 
 
-
-
     private String getClientName(int clientID) {
         return new Clients(ctx).getClientName(clientID);
     }
@@ -342,10 +349,10 @@ public class Sessions {
     }
 
     private String getIsNotified(int isNotifiedInt) {
-        if (isNotifiedInt == 1)
-            return "Оповещен";
-        else
+        if (isNotifiedInt == -1 || isNotifiedInt == 0)
             return "Не оповещен";
+        else
+            return "Оповещен";
     }
 
 }

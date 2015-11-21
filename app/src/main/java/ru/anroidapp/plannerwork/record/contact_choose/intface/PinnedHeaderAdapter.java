@@ -110,6 +110,13 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
                     Drawable drawable = mContext.getDrawable(R.drawable.ic_launcher);
                     holder.contactPhoto.setImageDrawable(drawable);
 
+
+                    String name = mListItems.get(position).toString();
+                    int visits = clients.getClientVisits(name);
+                    if(visits > 0) {
+                        ((TextView) convertView.findViewById(R.id.contact_status)).setText("Количество посещений " + visits);
+                        //holder.visitsTextView.setText("Количество посещений " + visits);
+                    }
                     //String name = mListItems.get(position).toString();
                     // лучше заранее проверить весь список уже приходивших клиентов
                     // чем каждого в записной книжке прогонять через бд

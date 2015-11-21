@@ -43,6 +43,7 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private WeekView mWeekView;
     WeekViewEvent event_del;
+    String textNotified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,6 +260,8 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
         final TextView textTime = (TextView) view.findViewById(R.id.calTime);
         final TextView textStatus = (TextView) view.findViewById(R.id.calStatus);
 
+        event_del = event;
+
         Sessions sessions = new Sessions(CalendarActivity.this);
         Object[] sessionInfo = sessions.getSessionById(event.getId());
         String clientName = (String) sessionInfo[0];
@@ -276,10 +279,23 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
         textClientName.setText(clientName);
         textProcedureName.setText(procedureName);
         textTime.setText(hourStart + ":" + minuteStart + "-" + hourEnd + ":" + minuteEnd);
-        textStatus.setText("Оповещен через Viber");
+        int numNotified = getNumNotified(CalendarActivity.this, event_del.getId());
+        textNotified = "Оповещен через ";
+        if (numNotified == -1 || numNotified == 0)
+            textNotified = "Не оповещен";
+        else if (numNotified == 1)
+            textNotified += "Viber";
+        else if (numNotified == 2)
+            textNotified += "WhatsApp";
+        else if (numNotified == 3)
+            textNotified += "Email";
+        else if (numNotified == 4)
+            textNotified += "SMS";
+
+        textStatus.setText(textNotified);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(CalendarActivity.this);
-        event_del = event;
+
 
 
         builder.setView(view)
@@ -308,4 +324,11 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
 
         Toast.makeText(CalendarActivity.this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
     }
+
+    private int getNumNotified(Context ctx,  long id) {
+        Sessions sessions = new Sessions(ctx);
+        int numNotifiedId = sessions.isNotifiedById(id);
+        return numNotifiedId;
+    }
+
 }

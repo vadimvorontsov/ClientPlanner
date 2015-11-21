@@ -80,6 +80,7 @@ public class CompletionTab4 extends Fragment {
     String mProcedureName;
     int mProcedurePrice;
     String mProcedureNote;
+    int contactSelect = -1;
 
     View.OnClickListener sendViberListener = new View.OnClickListener() {
         @Override
@@ -87,6 +88,7 @@ public class CompletionTab4 extends Fragment {
             if (phone != null || !phone.isEmpty()) {
                 Viber viber = new Viber(fa);
                 viber.sendMsg(mTextMsg);
+                contactSelect = 1;
             } else {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             }
@@ -98,6 +100,7 @@ public class CompletionTab4 extends Fragment {
             if (phone != null || !phone.isEmpty()) {
                 WhatsApp whatsApp = new WhatsApp(fa);
                 whatsApp.sendMsg(mTextMsg);
+                contactSelect = 2;
             } else {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             }
@@ -110,6 +113,7 @@ public class CompletionTab4 extends Fragment {
             if (email != null || !email.isEmpty()) {
                 Email email = new Email(fa);
                 email.sendEmail("voronczov-vadim@mail.ru", mTextMsg);
+                contactSelect = 3;
             } else {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_email));
             }
@@ -121,6 +125,7 @@ public class CompletionTab4 extends Fragment {
             if (phone != null || !phone.isEmpty()) {
                 SMS sms = new SMS(fa);
                 sms.sendSMS(phone, mTextMsg);
+                contactSelect = 4;
             } else {
                 showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
             }
@@ -130,19 +135,20 @@ public class CompletionTab4 extends Fragment {
         @Override
         public void onClick(View v) {
             Resources resources = getResources();
-
+            long sessinonId = 0;
+        if (iMessage == 0) {
             Sessions sessions = new Sessions(fa);
-            long sessinonId = sessions.addSession(mClientName, mProcedureName,
+             sessinonId = sessions.addSession(mClientName, mProcedureName,
                     mProcedurePrice, mProcedureNote, mMetaData.getProcedureColor(),
                     "" + mYear + "-" + mMonthNumb + "-" + mDay +
                             " " + mHourStart + ":" + mMinuteStart,
                     "" + mYear + "-" + mMonthNumb + "-" + mDay +
                             " " + mHourEnd + ":" + mMinuteEnd,
-                    mMetaData.getClientPhones().get(0), mMetaData.getClientEmails().get(0));
+                    mMetaData.getClientPhones().get(0), mMetaData.getClientEmails().get(0), contactSelect);
 
             Clients clients = new Clients(fa);
             clients.updateClientAddVisit(mClientName);
-
+        }
             if (sessinonId != -1) {
                 if (iMessage == 1)
                     sendMsgView().show();
@@ -158,6 +164,7 @@ public class CompletionTab4 extends Fragment {
     };
     private View mData;
     private EditText editMsg;
+
     Animation.AnimationListener fadeInAnimationListener = new Animation.AnimationListener() {
         @Override
         public void onAnimationStart(Animation animation) {
@@ -269,6 +276,29 @@ public class CompletionTab4 extends Fragment {
         builder.setNegativeButton(R.string.end_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                Resources resources = getResources();
+                Sessions sessions = new Sessions(fa);
+                long sessinonId = sessions.addSession(mClientName, mProcedureName,
+                        mProcedurePrice, mProcedureNote, mMetaData.getProcedureColor(),
+                        "" + mYear + "-" + mMonthNumb + "-" + mDay +
+                                " " + mHourStart + ":" + mMinuteStart,
+                        "" + mYear + "-" + mMonthNumb + "-" + mDay +
+                                " " + mHourEnd + ":" + mMinuteEnd,
+                        mMetaData.getClientPhones().get(0), mMetaData.getClientEmails().get(0), contactSelect);
+
+                Clients clients = new Clients(fa);
+                clients.updateClientAddVisit(mClientName);
+                if (sessinonId != -1) {
+                    if (iMessage == 1)
+                        sendMsgView().show();
+                    else {
+                        Toast.makeText(fa, "Запись завершена успешно", Toast.LENGTH_SHORT).show();
+                        //MainActivity.refreshList = true;
+                        fa.finish();
+                    }
+                } else {
+                    Toast.makeText(fa, resources.getString(R.string.end_error), Toast.LENGTH_SHORT).show();
+                }
                 dialog.cancel();
                 startActivity(new Intent(fa, MainActivity.class));
                 Toast.makeText(fa, "Запись завершена успешно", Toast.LENGTH_SHORT).show();

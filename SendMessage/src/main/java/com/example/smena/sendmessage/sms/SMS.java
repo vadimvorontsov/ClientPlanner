@@ -35,7 +35,6 @@ public class SMS extends Activity {
         ArrayList<String> messages = smsManager.divideMessage(text);
 
         smsManager.sendMultipartTextMessage("+" + reformatPhone(number), null, messages, sentPI, deliveredPI);
-        int a = 0;
     }
 
     private String reformatPhone(String phone) {

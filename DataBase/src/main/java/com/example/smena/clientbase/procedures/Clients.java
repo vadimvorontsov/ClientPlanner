@@ -140,7 +140,7 @@ public class Clients {
         ClientBaseOpenHelper helper = null;
         SQLiteDatabase db_read = null;
         Cursor cursor = null;
-        int visits = -1;
+        int visits = 0;
 
         try {
             helper = new ClientBaseOpenHelper(ctx);

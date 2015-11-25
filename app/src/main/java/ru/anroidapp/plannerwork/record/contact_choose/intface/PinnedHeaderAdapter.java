@@ -10,6 +10,7 @@ import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.smena.clientbase.procedures.Clients;
@@ -42,13 +43,15 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 
     private Clients clients;
     private ArrayList<String> allClients;
+    private String lastChooseName;
 
 
     public PinnedHeaderAdapter(Context context, List<String> listItems,
-                               ArrayList<Integer> listSectionPos) {
+                               ArrayList<Integer> listSectionPos, String lastChoose) {
         this.mContext = context;
         this.mListItems = listItems;
         this.mListSectionPos = listSectionPos;
+        this.lastChooseName = lastChoose;
 
         //mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -96,6 +99,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder;
+        //Log.i("123", "" + lastChooseName);
 
         if (convertView == null) {
             holder = new ViewHolder();
@@ -104,20 +108,22 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
             switch (type) {
                 case TYPE_ITEM:
                     convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
-                        //String name = holder.textView.getText().toString();
 
+                    holder.contactRow = (RelativeLayout) convertView.findViewById(R.id.contact_row);
                     holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
                     Drawable drawable = mContext.getDrawable(R.drawable.ic_launcher);
                     holder.contactPhoto.setImageDrawable(drawable);
 
-
-                    String name = mListItems.get(position).toString();
-                    int visits = clients.getClientVisits(name);
-                    if(visits > 0) {
-                        ((TextView) convertView.findViewById(R.id.contact_status)).setText("Количество посещений " + visits);
-                        //holder.visitsTextView.setText("Количество посещений " + visits);
+                    if (mListItems.get(position) == lastChooseName) {
+                        Log.i("123", "" + lastChooseName);
+                        Log.i("123", "" + position);
+                        holder.contactRow.setBackgroundColor(mContext.getResources().getColor(R.color.color_gray));
                     }
-                    //String name = mListItems.get(position).toString();
+//                    else
+//                        convertView.setBackgroundColor(mContext.getResources().getColor(R.color.color_white));
+                        //holder.contactRow.setBackgroundColor(mContext.getResources().getColor(R.color.color_gray));
+
+//                    String name = mListItems.get(position).toString();
                     // лучше заранее проверить весь список уже приходивших клиентов
                     // чем каждого в записной книжке прогонять через бд
                     // если найден то удаляем чтоб меньше потом искать
@@ -205,6 +211,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     }
 
     public static class ViewHolder {
+        public RelativeLayout contactRow;
         public TextView textView;
         public CircularImageView contactPhoto;
         public TextView visitsTextView;

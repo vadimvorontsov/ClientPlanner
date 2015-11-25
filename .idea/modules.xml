@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DataBase/DataBase.iml" filepath="$PROJECT_DIR$/DataBase/DataBase.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MaterialDialogsLib/MaterialDialogsLib.iml" filepath="$PROJECT_DIR$/MaterialDialogsLib/MaterialDialogsLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/PlannerWork.iml" filepath="$PROJECT_DIR$/PlannerWork.iml" />
       <module fileurl="file://$PROJECT_DIR$/SendMessage/SendMessage.iml" filepath="$PROJECT_DIR$/SendMessage/SendMessage.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />

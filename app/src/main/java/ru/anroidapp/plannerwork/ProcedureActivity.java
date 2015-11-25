@@ -1,6 +1,6 @@
 package ru.anroidapp.plannerwork;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -29,7 +29,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.clientbase.procedures.Procedures;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -110,13 +109,24 @@ public class ProcedureActivity extends AppCompatActivity {
             Integer procPriceTmp = (Integer) procInfoTmp[1];
             String procNoteTmp = (String) procInfoTmp[2];
 
-            new MaterialDialog.Builder(ProcedureActivity.this)
-                    .title(R.string.procedure_inf)
-                    .content(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
+//            new MaterialDialog.Builder(ProcedureActivity.this)
+//                    .title(R.string.procedure_inf)
+//                    .content(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
+//                            resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
+//                            resources.getString(R.string.note) + ": " + procNoteTmp)
+//                    .positiveText(R.string.back)
+//                    .show();
+            new AlertDialog.Builder(mContext)
+                    .setTitle(R.string.procedure_inf)
+                    .setMessage(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
                             resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
                             resources.getString(R.string.note) + ": " + procNoteTmp)
-                    .positiveText(R.string.back)
-                    .show();
+                    .setPositiveButton(R.string.back, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
             return true;
         }
     };

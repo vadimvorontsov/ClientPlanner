@@ -2,11 +2,12 @@ package com.example.smena.sendmessage.whatsapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.sendmessage.R;
 
 public class WhatsApp extends Activity {
@@ -29,15 +30,13 @@ public class WhatsApp extends Activity {
             sendIntent.setPackage(packageName);
             ctx.startActivity(sendIntent);
         } else {
-            new MaterialDialog.Builder(ctx)
-                    .iconRes(R.drawable.whatsapp).limitIconToDefaultSize()
-                    .title(R.string.not_install)
-                    .content(R.string.wish_install)
-                    .positiveText(R.string.yes)
-                    .negativeText(R.string.no)
-                    .callback(new MaterialDialog.ButtonCallback() {
+            new AlertDialog.Builder(ctx)
+                    .setIcon(R.drawable.whatsapp)
+                    .setTitle(R.string.not_install)
+                    .setMessage(R.string.wish_install)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onPositive(MaterialDialog dialog) {
+                        public void onClick(DialogInterface dialog, int which) {
                             try {
                                 ctx.startActivity(new Intent(Intent.ACTION_VIEW,
                                         Uri.parse("market://details?id=" + packageName)));
@@ -46,13 +45,38 @@ public class WhatsApp extends Activity {
                                         Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
                             }
                         }
-
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                         @Override
-                        public void onNegative(MaterialDialog dialog) {
-                            super.onNegative(dialog);
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
                         }
                     })
                     .show();
+//            new MaterialDialog.Builder(ctx)
+//                    .iconRes(R.drawable.whatsapp).limitIconToDefaultSize()
+//                    .title(R.string.not_install)
+//                    .content(R.string.wish_install)
+//                    .positiveText(R.string.yes)
+//                    .negativeText(R.string.no)
+//                    .callback(new MaterialDialog.ButtonCallback() {
+//                        @Override
+//                        public void onPositive(MaterialDialog dialog) {
+//                            try {
+//                                ctx.startActivity(new Intent(Intent.ACTION_VIEW,
+//                                        Uri.parse("market://details?id=" + packageName)));
+//                            } catch (android.content.ActivityNotFoundException anfe) {
+//                                ctx.startActivity(new Intent(Intent.ACTION_VIEW,
+//                                        Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onNegative(MaterialDialog dialog) {
+//                            super.onNegative(dialog);
+//                        }
+//                    })
+//                    .show();
         }
     }
 

@@ -25,13 +25,13 @@ public class PinnedHeaderListView extends ListView implements IIndexBarFilter {
     IPinnedHeader mAdapter;
 
     // view objects
-    View mHeaderView, mIndexBarView, mPreviewTextView;
+    View mHeaderView, /*mIndexBarView,*/ mPreviewTextView;
 
     // flags that decide view visibility
     boolean mHeaderVisibility = false;
     boolean mPreviewVisibility = false;
     // initially show index bar view with it's content
-    boolean mIndexBarVisibility = true;
+    //boolean mIndexBarVisibility = true;
 
     // context object
     Context mContext;
@@ -39,14 +39,14 @@ public class PinnedHeaderListView extends ListView implements IIndexBarFilter {
     // view height and width
     int mHeaderViewWidth,
             mHeaderViewHeight,
-            mIndexBarViewWidth,
-            mIndexBarViewHeight,
-            mIndexBarViewMargin,
+//            mIndexBarViewWidth,
+//            mIndexBarViewHeight,
+//            mIndexBarViewMargin,
             mPreviewTextViewWidth,
             mPreviewTextViewHeight;
 
     // touched index bar Y axis position used to decide preview text view position
-    float mIndexBarY;
+    //float mIndexBarY;
 
 
     public PinnedHeaderListView(Context context) {
@@ -85,10 +85,10 @@ public class PinnedHeaderListView extends ListView implements IIndexBarFilter {
     }
 
 
-    public void setIndexBarView(View indexBarView) {
-        mIndexBarViewMargin = (int) mContext.getResources().getDimension(R.dimen.index_bar_view_margin);
-        this.mIndexBarView = indexBarView;
-    }
+//    public void setIndexBarView(View indexBarView) {
+//        mIndexBarViewMargin = (int) mContext.getResources().getDimension(R.dimen.index_bar_view_margin);
+//        this.mIndexBarView = indexBarView;
+//    }
 
 
     public void setPreviewView(View previewTextView) {
@@ -106,11 +106,11 @@ public class PinnedHeaderListView extends ListView implements IIndexBarFilter {
             mHeaderViewHeight = mHeaderView.getMeasuredHeight();
         }
 
-        if (mIndexBarView != null && mIndexBarVisibility) {
-            measureChild(mIndexBarView, widthMeasureSpec, heightMeasureSpec);
-            mIndexBarViewWidth = mIndexBarView.getMeasuredWidth();
-            mIndexBarViewHeight = mIndexBarView.getMeasuredHeight();
-        }
+//        if (mIndexBarView != null && mIndexBarVisibility) {
+//            measureChild(mIndexBarView, widthMeasureSpec, heightMeasureSpec);
+//            mIndexBarViewWidth = mIndexBarView.getMeasuredWidth();
+//            mIndexBarViewHeight = mIndexBarView.getMeasuredHeight();
+//        }
 
         if (mPreviewTextView != null && mPreviewVisibility) {
             measureChild(mPreviewTextView, widthMeasureSpec, heightMeasureSpec);
@@ -129,25 +129,25 @@ public class PinnedHeaderListView extends ListView implements IIndexBarFilter {
             configureHeaderView(getFirstVisiblePosition());
         }
 
-        if (mIndexBarView != null && mIndexBarVisibility) {
-            mIndexBarView.layout(getMeasuredWidth() - mIndexBarViewMargin - mIndexBarViewWidth, mIndexBarViewMargin
-                    , getMeasuredWidth() - mIndexBarViewMargin, getMeasuredHeight() - mIndexBarViewMargin);
-        }
+//        if (mIndexBarView != null && mIndexBarVisibility) {
+//            mIndexBarView.layout(getMeasuredWidth() - mIndexBarViewMargin - mIndexBarViewWidth, mIndexBarViewMargin
+//                    , getMeasuredWidth() - mIndexBarViewMargin, getMeasuredHeight() - mIndexBarViewMargin);
+//        }
 
-        if (mPreviewTextView != null && mPreviewVisibility) {
-            mPreviewTextView.layout(mIndexBarView.getLeft() - mPreviewTextViewWidth, (int) mIndexBarY - (mPreviewTextViewHeight / 2)
-                    , mIndexBarView.getLeft(), (int) (mIndexBarY - (mPreviewTextViewHeight / 2)) + mPreviewTextViewHeight);
-        }
+//        if (mPreviewTextView != null && mPreviewVisibility) {
+//            mPreviewTextView.layout(mIndexBarView.getLeft() - mPreviewTextViewWidth, (int) mIndexBarY - (mPreviewTextViewHeight / 2)
+//                    , mIndexBarView.getLeft(), (int) (mIndexBarY - (mPreviewTextViewHeight / 2)) + mPreviewTextViewHeight);
+//        }
     }
 
 
-    public void setIndexBarVisibility(Boolean isVisible) {
-        if (isVisible) {
-            mIndexBarVisibility = true;
-        } else {
-            mIndexBarVisibility = false;
-        }
-    }
+//    public void setIndexBarVisibility(Boolean isVisible) {
+//        if (isVisible) {
+//            mIndexBarVisibility = true;
+//        } else {
+//            mIndexBarVisibility = false;
+//        }
+//    }
 
 
     private void setPreviewTextVisibility(Boolean isVisible) {
@@ -206,30 +206,30 @@ public class PinnedHeaderListView extends ListView implements IIndexBarFilter {
         if (mHeaderView != null && mHeaderVisibility) {
             drawChild(canvas, mHeaderView, getDrawingTime()); // draw pinned header view (zIndex == 2)
         }
-        if (mIndexBarView != null && mIndexBarVisibility) {
-            drawChild(canvas, mIndexBarView, getDrawingTime()); // draw index bar view (zIndex == 3)
-        }
+//        if (mIndexBarView != null && mIndexBarVisibility) {
+//            drawChild(canvas, mIndexBarView, getDrawingTime()); // draw index bar view (zIndex == 3)
+//        }
         if (mPreviewTextView != null && mPreviewVisibility) {
             drawChild(canvas, mPreviewTextView, getDrawingTime()); // draw preview text view (zIndex == 4)
         }
     }
 
 
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        if (mIndexBarView != null && (mIndexBarView).onTouchEvent(ev)) {
-            setPreviewTextVisibility(true);
-            return true;
-        } else {
-            setPreviewTextVisibility(false);
-            return super.onTouchEvent(ev);
-        }
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent ev) {
+//        if (mIndexBarView != null && (mIndexBarView).onTouchEvent(ev)) {
+//            setPreviewTextVisibility(true);
+//            return true;
+//        } else {
+//            setPreviewTextVisibility(false);
+//            return super.onTouchEvent(ev);
+//        }
+//    }
 
 
     @Override
     public void filterList(float indexBarY, int position, String previewText) {
-        this.mIndexBarY = indexBarY;
+        //this.mIndexBarY = indexBarY;
 
         if (mPreviewTextView instanceof TextView)
             ((TextView) mPreviewTextView).setText(previewText);

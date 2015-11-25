@@ -33,16 +33,10 @@ import ru.anroidapp.plannerwork.main_activity.slide_nearest_sessions.ScreenSlide
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String TAG = "MainActivity";
-    //Context mContext;
-    private ViewPager mPager;
-    private PagerAdapter mPagerAdapter;
-    //public static boolean refreshList = true;
-    Circle[] circleArray;
+    private Circle[] circleArray;
     private final int MAX_SESSIONS_COUNT = 5;
     private int sessionsCount;
-    LinearLayout circleTable;
-    Toolbar toolbar;
+    private LinearLayout circleTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         //mContext = this;
 
         //getDbFile();
-        toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPostResume() {
         super.onPostResume();
 
-        mPager = (ViewPager) findViewById(R.id.pagerMain);
+        ViewPager mPager = (ViewPager) findViewById(R.id.pagerMain);
         ArrayList<Long> nearestSessions = getNearestSessionsCount(this);
         sessionsCount = nearestSessions.size();
         TextView notRecord = (TextView) findViewById(R.id.txtNotRecord);
@@ -75,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
         mPager.addOnPageChangeListener(pageChangeListener);
 
             if (nearestSessions != null && !nearestSessions.isEmpty()) {
-                mPagerAdapter = new ScreenSlidePagerAdapter(this, getSupportFragmentManager(), nearestSessions);
+                PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter
+                        (this, getSupportFragmentManager(), nearestSessions);
                 mPager.setAdapter(mPagerAdapter);
                 notRecord.setVisibility(View.GONE);
                 mPager.setVisibility(View.VISIBLE);

@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import ru.anroidapp.plannerwork.calendar.DateTimeInterpreter;
 import ru.anroidapp.plannerwork.calendar.WeekView;
 import ru.anroidapp.plannerwork.calendar.WeekViewEvent;

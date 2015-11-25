@@ -76,7 +76,7 @@
     <RelativeLayout
         android:id="@+id/clients_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
         android:layout_below="@+id/LaySearch">
 
@@ -85,7 +85,7 @@
         <ru.anroidapp.plannerwork.record.contact_choose.PinnedHeaderListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:scrollingCache="false"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"

@@ -1,14 +1,11 @@
 package ru.anroidapp.plannerwork.record.contact_choose;
 
 import android.app.AlertDialog;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -38,8 +35,6 @@ import android.widget.Toast;
 import com.example.smena.clientbase.procedures.Clients;
 import com.melnykov.fab.FloatingActionButton;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -54,6 +49,8 @@ import ru.anroidapp.plannerwork.R;
 
 
 public class ContactTab1 extends Fragment {
+
+    private String lastChooseName = "";
 
     private final String TAG = "ContactTab1";
     MetaData mMetaData;
@@ -177,10 +174,12 @@ public class ContactTab1 extends Fragment {
             return true;
         }
     };
-    private TextView lastChoose;
+    //private TextView lastChooseName;
     AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+
+            lastChooseName = mListItems.get(position);
 
             Resources resources = getResources();
             String unknown = resources.getString(R.string.unknown);
@@ -202,14 +201,14 @@ public class ContactTab1 extends Fragment {
             }
             mMetaData.setClientEmails(clientEmails);
 
-            if (lastChoose != null) {
-                lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-            }
+//            if (lastChooseName != null) {
+//                lastChooseName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+//            }
 
 //            TextView textView = (TextView) view;
 //            textView.setCompoundDrawablesWithIntrinsicBounds
 //                    (R.drawable.btn_check_buttonless_on, 0, 0, 0);
-//            lastChoose = textView;
+//            lastChooseName = textView;
         }
     };
     private TextWatcher filterTextWatcher = new TextWatcher() {
@@ -264,6 +263,7 @@ public class ContactTab1 extends Fragment {
         if (savedInstanceState != null) {
             mListItems = savedInstanceState.getStringArrayList("mListItems");
             mListSectionPos = savedInstanceState.getIntegerArrayList("mListSectionPos");
+            lastChooseName = savedInstanceState.getString("lastChooseName");
 
             if (mListItems != null && mListItems.size() > 0 && mListSectionPos != null
                     && mListSectionPos.size() > 0) {
@@ -273,8 +273,10 @@ public class ContactTab1 extends Fragment {
             String constraint = savedInstanceState.getString("constraint");
             if (constraint != null && constraint.length() > 0) {
                 mSearchView.setText(constraint);
-                setIndexBarViewVisibility(constraint);
+                //setIndexBarViewVisibility(constraint);
             }
+
+
 
         } else {
             new Populate().execute(mContacts);
@@ -288,7 +290,7 @@ public class ContactTab1 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        new Populate().execute(getContacts());
+
     }
 
     private ArrayList<String> getContacts() {
@@ -314,7 +316,7 @@ public class ContactTab1 extends Fragment {
             }
         }
 
-        ignoreDublicateStrings(mContacts);
+        ignoreDuplicateStrings(mContacts);
 
         return mContacts;
     }
@@ -375,7 +377,7 @@ public class ContactTab1 extends Fragment {
 
     private void setListAdaptor() {
         // create instance of PinnedHeaderAdapter and set adapter to list view
-        mAdaptor = new PinnedHeaderAdapter(fa, mListItems, mListSectionPos);
+        mAdaptor = new PinnedHeaderAdapter(fa, mListItems, mListSectionPos, lastChooseName);
         mListView.setAdapter(mAdaptor);
         mListView.setOnItemClickListener(clickListener);
         mListView.setOnItemLongClickListener(longClickListener);
@@ -429,7 +431,7 @@ public class ContactTab1 extends Fragment {
             }
         }
 
-        phonesByName = ignoreDublicatePhones(phonesByName);
+        phonesByName = ignoreDuplicatePhones(phonesByName);
 
         return phonesByName;
 
@@ -463,14 +465,14 @@ public class ContactTab1 extends Fragment {
 
     }
 
-    private void setIndexBarViewVisibility(String constraint) {
-        // hide index bar for search results
-        if (constraint != null && constraint.length() > 0) {
-            mListView.setIndexBarVisibility(false);
-        } else {
-            mListView.setIndexBarVisibility(true);
-        }
-    }
+//    private void setIndexBarViewVisibility(String constraint) {
+//        // hide index bar for search results
+//        if (constraint != null && constraint.length() > 0) {
+//            mListView.setIndexBarVisibility(false);
+//        } else {
+//            mListView.setIndexBarVisibility(true);
+//        }
+//    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -485,17 +487,21 @@ public class ContactTab1 extends Fragment {
             outState.putString("constraint", searchText);
         }
 
+        if (lastChooseName != "") {
+            outState.putString("lastChooseName", lastChooseName);
+        }
+
         super.onSaveInstanceState(outState);
     }
 
-    private void ignoreDublicateStrings(List listWithDublicate) {
-        Set<String> listWithoutDublicate = new HashSet<>();
-        listWithoutDublicate.addAll(listWithDublicate);
-        listWithDublicate.clear();
-        listWithDublicate.addAll(listWithoutDublicate);
+    private void ignoreDuplicateStrings(List listWithDuplicate) {
+        Set<String> listWithoutDuplicate = new HashSet<>();
+        listWithoutDuplicate.addAll(listWithDuplicate);
+        listWithDuplicate.clear();
+        listWithDuplicate.addAll(listWithoutDuplicate);
     }
 
-    private ArrayList<String> ignoreDublicatePhones(ArrayList<String> phones) {
+    private ArrayList<String> ignoreDuplicatePhones(ArrayList<String> phones) {
 
         ArrayList<String> goodPhones = new ArrayList<>();
         for (int i = 0; i < phones.size(); i++) {
@@ -509,7 +515,6 @@ public class ContactTab1 extends Fragment {
             case 1:
                 return goodPhones;
             default:
-
                 Set<String> originalPhones = new HashSet<>();
                 originalPhones.addAll(goodPhones);
                 goodPhones.clear();
@@ -542,34 +547,34 @@ public class ContactTab1 extends Fragment {
         }
     }
 
-    private void getContactPhoto(Long contactID) {
-
-        Bitmap photo = null;
-        InputStream inputStream = null;
-
-        try {
-            inputStream = ContactsContract.Contacts.openContactPhotoInputStream(fa.getContentResolver(),
-                    ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, new Long(contactID)));
-
-            if (inputStream != null) {
-                photo = BitmapFactory.decodeStream(inputStream);
-                //ImageView imageView = (ImageView) fa.findViewById(R.id.img_contact);
-                //imageView.setImageBitmap(photo);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
+//    private void getContactPhoto(Long contactID) {
+//
+//        Bitmap photo = null;
+//        InputStream inputStream = null;
+//
+//        try {
+//            inputStream = ContactsContract.Contacts.openContactPhotoInputStream(fa.getContentResolver(),
+//                    ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, new Long(contactID)));
+//
+//            if (inputStream != null) {
+//                photo = BitmapFactory.decodeStream(inputStream);
+//                //ImageView imageView = (ImageView) fa.findViewById(R.id.img_contact);
+//                //imageView.setImageBitmap(photo);
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (inputStream != null) {
+//                try {
+//                    inputStream.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//
+//    }
 
     private class ListFilter extends Filter {
         @Override
@@ -611,7 +616,7 @@ public class ContactTab1 extends Fragment {
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             ArrayList<String> filtered = (ArrayList<String>) results.values;
-            setIndexBarViewVisibility(constraint.toString());
+            //setIndexBarViewVisibility(constraint.toString());
             // sort array and extract sections in background Thread
             new Populate().execute(filtered);
         }
@@ -680,13 +685,12 @@ public class ContactTab1 extends Fragment {
 
         @Override
         protected void onPostExecute(Void result) {
-            if (!isCancelled()) {
-                if (mListItems != null && mListItems.size() <= 0) {
-                    showEmptyText(mListView, mLoadingView, mEmptyView);
-                } else {
-                    if (mListItems != null)
-                        setListAdaptor();
+            if (!isCancelled() && mListItems != null) {
+                if (mListItems.size() > 0) {
+                    setListAdaptor();
                     showContent(mListView, mLoadingView, mEmptyView);
+                } else {
+                    showEmptyText(mListView, mLoadingView, mEmptyView);
                 }
             }
             super.onPostExecute(result);
@@ -696,6 +700,38 @@ public class ContactTab1 extends Fragment {
     public class SortIgnoreCase implements Comparator<String> {
         public int compare(String s1, String s2) {
             return s1.compareToIgnoreCase(s2);
+        }
+    }
+
+    private void loadContactList(ArrayList<String> items) {
+        if (mContacts.size() > 0) {
+
+            // NOT forget to sort array
+            Collections.sort(items, new SortIgnoreCase());
+
+            String prev_section = "";
+            for (String current_item : items) {
+                String current_section = current_item.substring(0, 1).toUpperCase(Locale.getDefault());
+
+                if (!prev_section.equals(current_section)) {
+                    mListItems.add(current_section);
+                    mListItems.add(current_item);
+                    // array list of section positions
+                    mListSectionPos.add(mListItems.indexOf(current_section));
+                    prev_section = current_section;
+                } else {
+                    mListItems.add(current_item);
+                }
+            }
+        }
+
+        if (mListItems != null) {
+            if (mListItems.size() > 0) {
+                setListAdaptor();
+                //showContent(mListView, mLoadingView, mEmptyView);
+            } else {
+                //showEmptyText(mListView, mLoadingView, mEmptyView);
+            }
         }
     }
 

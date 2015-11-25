@@ -1,6 +1,5 @@
 package ru.anroidapp.plannerwork.record.procedure_choose;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -9,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -30,7 +30,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.smena.clientbase.procedures.Procedures;
 import com.melnykov.fab.FloatingActionButton;
 
@@ -99,13 +98,24 @@ public class ProcedureTab3 extends Fragment {
             Integer procPriceTmp = (Integer) procInfoTmp[1];
             String procNoteTmp = (String) procInfoTmp[2];
 
-            new MaterialDialog.Builder(fa)
-                    .title(R.string.procedure_inf)
-                    .content(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
+//            new MaterialDialog.Builder(fa)
+//                    .title(R.string.procedure_inf)
+//                    .content(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
+//                            resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
+//                            resources.getString(R.string.note) + ": " + procNoteTmp)
+//                    .positiveText(R.string.back)
+//                    .show();
+            new AlertDialog.Builder(fa)
+                    .setTitle(R.string.procedure_inf)
+                    .setMessage(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
                             resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
                             resources.getString(R.string.note) + ": " + procNoteTmp)
-                    .positiveText(R.string.back)
-                    .show();
+                    .setPositiveButton(R.string.back, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
             return true;
         }
     };

@@ -62,22 +62,22 @@ public class IndexBarView extends View {
     }
 
 
-    public void setData(PinnedHeaderListView listView, ArrayList<String> listItems, ArrayList<Integer> listSections) {
-        this.mListItems = listItems;
-        this.mListSections = listSections;
-
-        // list view implements mIndexBarFilter interface
-        mIndexBarFilter = listView;
-
-        // set index bar margin from resources
-        mIndexbarMargin = mContext.getResources().getDimension(R.dimen.index_bar_view_margin);
-
-        // index bar item color and text size
-        mIndexPaint = new Paint();
-        mIndexPaint.setColor(mContext.getResources().getColor(R.color.color_white));
-        mIndexPaint.setAntiAlias(true);
-        mIndexPaint.setTextSize(mContext.getResources().getDimension(R.dimen.index_bar_view_text_size));
-    }
+//    public void setData(PinnedHeaderListView listView, ArrayList<String> listItems, ArrayList<Integer> listSections) {
+//        this.mListItems = listItems;
+//        this.mListSections = listSections;
+//
+//        // list view implements mIndexBarFilter interface
+//        mIndexBarFilter = listView;
+//
+//        // set index bar margin from resources
+//        mIndexbarMargin = mContext.getResources().getDimension(R.dimen.index_bar_view_margin);
+//
+//        // index bar item color and text size
+//        mIndexPaint = new Paint();
+//        mIndexPaint.setColor(mContext.getResources().getColor(R.color.color_white));
+//        mIndexPaint.setAntiAlias(true);
+//        mIndexPaint.setTextSize(mContext.getResources().getDimension(R.dimen.index_bar_view_text_size));
+//    }
 
 
     // draw view content on canvas using paint

@@ -1,1 +1,1 @@
-include ':app', ':SendMessage', ':MaterialDialogsLib', ':DataBase'
+include ':app', ':SendMessage', ':DataBase'

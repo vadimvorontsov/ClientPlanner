@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ru.anroidapp.plannerwork.record.contact_choose.IndexBarView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="fill_parent"
-    android:layout_width="@dimen/index_bar_view_width"
-    android:background="@drawable/rounded_rectangle_shape"
-    android:id="@+id/index" />

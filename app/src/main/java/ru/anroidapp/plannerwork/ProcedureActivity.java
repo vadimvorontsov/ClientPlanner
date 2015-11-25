@@ -411,11 +411,6 @@ public class ProcedureActivity extends AppCompatActivity {
         View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListViewProc, false);
         mListViewProc.setPinnedHeaderView(pinnedHeaderView);
 
-        // set index bar view
-       // ProcedureIndexBarView indexBarView = (ProcedureIndexBarView) inflater.inflate(R.layout.index_bar_view, mListViewProc, false);
-      // indexBarView.setData(mListViewProc, mListItemsProc, mListSectionPosProc);
-       /// mListViewProc.setIndexBarView(indexBarView);
-
         // set preview text view
         View previewTextView = inflater.inflate(R.layout.preview_view, mListViewProc, false);
         mListViewProc.setPreviewView(previewTextView);

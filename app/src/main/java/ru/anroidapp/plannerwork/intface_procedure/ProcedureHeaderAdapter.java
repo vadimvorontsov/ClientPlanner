@@ -1,6 +1,5 @@
 package ru.anroidapp.plannerwork.intface_procedure;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

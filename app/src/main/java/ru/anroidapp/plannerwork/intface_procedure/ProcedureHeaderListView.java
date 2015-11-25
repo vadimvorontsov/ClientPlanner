@@ -16,7 +16,7 @@ import ru.anroidapp.plannerwork.R;
  * pinned header can be pushed up and dissolved as needed.
  *
  */
-public class ProcedureHeaderListView extends ListView implements IIndexBarFilterProcedure {
+public class ProcedureHeaderListView extends ListView  {
 
     // interface object that configure pinned header view position in list view
     IPinnedHeaderProcedure mAdapter;
@@ -211,7 +211,6 @@ public class ProcedureHeaderListView extends ListView implements IIndexBarFilter
         }
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         if (mIndexBarView != null && (mIndexBarView).onTouchEvent(ev)) {
@@ -223,15 +222,5 @@ public class ProcedureHeaderListView extends ListView implements IIndexBarFilter
         }
     }
 
-
-    @Override
-    public void filterList(float indexBarY, int position, String previewText) {
-        this.mIndexBarY = indexBarY;
-
-        if (mPreviewTextView instanceof TextView)
-            ((TextView) mPreviewTextView).setText(previewText);
-
-        setSelection(position);
-    }
 }
 

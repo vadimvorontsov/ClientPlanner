@@ -1,16 +1,9 @@
 package ru.anroidapp.plannerwork.main_activity.slide_nearest_sessions;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

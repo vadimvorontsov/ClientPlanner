@@ -1,17 +1,17 @@
 package com.example.smena.sendmessage.viber;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 
 
 import com.example.smena.sendmessage.R;
 
-public class Viber extends Activity {
+public class Viber extends AppCompatActivity {
 
     private Context ctx;
     private boolean isViberInstalled;
@@ -54,30 +54,6 @@ public class Viber extends Activity {
                         }
                     })
                     .show();
-//            new MaterialDialog.Builder(ctx)
-//                    .iconRes(R.drawable.viber).limitIconToDefaultSize()
-//                    .title(R.string.not_install)
-//                    .content(R.string.wish_install)
-//                    .positiveText(R.string.yes)
-//                    .negativeText(R.string.no)
-//                    .callback(new MaterialDialog.ButtonCallback() {
-//                        @Override
-//                        public void onPositive(MaterialDialog dialog) {
-//                            try {
-//                                ctx.startActivity(new Intent(Intent.ACTION_VIEW,
-//                                        Uri.parse("market://details?id=" + packageName)));
-//                            } catch (android.content.ActivityNotFoundException anfe) {
-//                                ctx.startActivity(new Intent(Intent.ACTION_VIEW,
-//                                        Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onNegative(MaterialDialog dialog) {
-//                            super.onNegative(dialog);
-//                        }
-//                    })
-//                    .show();
         }
     }
 

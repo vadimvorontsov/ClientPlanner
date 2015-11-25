@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
 import ru.anroidapp.plannerwork.record.completion_choose.CompletionTab4;
 import ru.anroidapp.plannerwork.record.contact_choose.ContactTab1;

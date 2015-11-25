@@ -3,23 +3,19 @@ package ru.anroidapp.plannerwork.record.contact_choose;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import ru.anroidapp.plannerwork.record.contact_choose.intface.IIndexBarFilter;
 import ru.anroidapp.plannerwork.record.contact_choose.intface.IPinnedHeader;
 import ru.anroidapp.plannerwork.record.contact_choose.intface.PinnedHeaderAdapter;
-import ru.anroidapp.plannerwork.R;
 
 /*
  * A ListView that maintains a header pinned at the top of the list. The
  * pinned header can be pushed up and dissolved as needed.
  *
  */
-public class PinnedHeaderListView extends ListView implements IIndexBarFilter {
+public class PinnedHeaderListView extends ListView {
 
     // interface object that configure pinned header view position in list view
     IPinnedHeader mAdapter;
@@ -206,35 +202,11 @@ public class PinnedHeaderListView extends ListView implements IIndexBarFilter {
         if (mHeaderView != null && mHeaderVisibility) {
             drawChild(canvas, mHeaderView, getDrawingTime()); // draw pinned header view (zIndex == 2)
         }
-//        if (mIndexBarView != null && mIndexBarVisibility) {
-//            drawChild(canvas, mIndexBarView, getDrawingTime()); // draw index bar view (zIndex == 3)
-//        }
         if (mPreviewTextView != null && mPreviewVisibility) {
             drawChild(canvas, mPreviewTextView, getDrawingTime()); // draw preview text view (zIndex == 4)
         }
     }
 
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent ev) {
-//        if (mIndexBarView != null && (mIndexBarView).onTouchEvent(ev)) {
-//            setPreviewTextVisibility(true);
-//            return true;
-//        } else {
-//            setPreviewTextVisibility(false);
-//            return super.onTouchEvent(ev);
-//        }
-//    }
-
-
-    @Override
-    public void filterList(float indexBarY, int position, String previewText) {
-        //this.mIndexBarY = indexBarY;
-
-        if (mPreviewTextView instanceof TextView)
-            ((TextView) mPreviewTextView).setText(previewText);
-
-        setSelection(position);
-    }
 }
 

@@ -1,8 +1,5 @@
 package ru.anroidapp.plannerwork.record;
 
-/**
- * Created by Артём on 14.06.2015.
- */
 
 import android.R;
 import android.content.Context;

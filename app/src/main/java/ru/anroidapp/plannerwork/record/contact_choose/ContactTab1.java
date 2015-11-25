@@ -391,11 +391,6 @@ public class ContactTab1 extends Fragment {
         View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListView, false);
         mListView.setPinnedHeaderView(pinnedHeaderView);
 
-        // set index bar view
-//        IndexBarView indexBarView = (IndexBarView) inflater.inflate(R.layout.index_bar_view, mListView, false);
-//        indexBarView.setData(mListView, mListItems, mListSectionPos);
-//        mListView.setIndexBarView(indexBarView);
-
         // set preview text view
         View previewTextView = inflater.inflate(R.layout.preview_view, mListView, false);
         mListView.setPreviewView(previewTextView);

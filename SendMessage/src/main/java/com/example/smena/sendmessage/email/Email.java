@@ -1,16 +1,13 @@
 package com.example.smena.sendmessage.email;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-/**
- * Created by smena on 12.06.2015.
- */
-public class Email extends Activity {
+public class Email extends AppCompatActivity {
 
     Context ctx;
     final Intent emailIntent = new Intent(Intent.ACTION_SEND);

@@ -11,9 +11,6 @@ import com.example.smena.clientbase.ClientBaseOpenHelper;
 
 import java.util.ArrayList;
 
-/**
- * Created by smena on 20.06.2015.
- */
 public class Phones {
 
     private final String TAG = "Phones";

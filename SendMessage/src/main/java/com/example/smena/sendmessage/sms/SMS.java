@@ -1,15 +1,15 @@
 package com.example.smena.sendmessage.sms;
 
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 
 import java.util.ArrayList;
 
-public class SMS extends Activity {
+public class SMS extends AppCompatActivity {
 
     private final static String SENT = "SMS_SENT", DELIVERED = "SMS_DELIVERED";
     Context ctx;

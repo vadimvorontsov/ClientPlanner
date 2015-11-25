@@ -12,9 +12,6 @@ import com.example.smena.clientbase.ClientBaseOpenHelper;
 
 import java.util.ArrayList;
 
-/**
- * Created by smena on 25.06.2015.
- */
 public class Sessions {
 
     private final String TAG = "Sessions";

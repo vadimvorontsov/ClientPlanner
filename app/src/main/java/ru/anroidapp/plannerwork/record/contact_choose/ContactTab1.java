@@ -290,7 +290,6 @@ public class ContactTab1 extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     private ArrayList<String> getContacts() {
@@ -397,7 +396,6 @@ public class ContactTab1 extends Fragment {
 
         // for configure pinned header view on scroll change
         mListView.setOnScrollListener(mAdaptor);
-
 
     }
 

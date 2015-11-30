@@ -11,45 +11,48 @@ import android.util.Log;
 import com.example.smena.clientbase.ClientBaseOpenHelper;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Sessions {
 
     private final String TAG = "Sessions";
-    Context ctx;
+    private Context mContext;
 
     public Sessions(Context context) {
-        ctx = context;
+        mContext = context;
     }
 
     public long addSession(String clientName, String procedureName, int procedurePrice,
-                           String procedureNote,int procedureColor ,String sessionTimeStart, String sessionTimeEnd,
-                           String phone, String email, int isNotified) {
+                           String procedureNote, int procedureColor, String sessionTimeStart,
+                           String sessionTimeEnd, String phone, String email, int isNotified) {
 
-        Clients clients = new Clients(ctx);
+        long insertSessionID = 0;
+
+        Clients clients = new Clients(mContext);
         long clientID = clients.addClient(clientName);
         if (clientID == -1) {
             clientID = clients.getClientID(clientName);
         }
 
-        Phones phones = new Phones(ctx);
+        Phones phones = new Phones(mContext);
         long phoneID = phones.addPhone(phone, clientID);
         if (phoneID == -1) {
             phoneID = phones.getPhoneID(phone);
         }
 
-        Emails emails = new Emails(ctx);
+        Emails emails = new Emails(mContext);
         long emailID = emails.addEmail(email, clientID);
         if (emailID == -1) {
             emailID = emails.getEmailID(email);
         }
 
-        Procedures procedures = new Procedures(ctx);
+        Procedures procedures = new Procedures(mContext);
         long procedureID = procedures.addProcedure(procedureName, procedurePrice, procedureNote, procedureColor);
         if (procedureID == -1) {
             procedureID = procedures.getProcedureID(procedureName);
         }
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_write = helper.getWritableDatabase();
 
         try {
@@ -62,12 +65,15 @@ public class Sessions {
             cv.put(ClientBaseOpenHelper.ID_EMAIL, emailID);
             cv.put(ClientBaseOpenHelper.IS_NOTIFIED, isNotified);
             if (cv != null) {
-                return db_write.insert(ClientBaseOpenHelper.TABLE_SESSIONS, ClientBaseOpenHelper.ID_CLIENT_SESSION, cv);
+                insertSessionID = db_write.insert(ClientBaseOpenHelper.TABLE_SESSIONS,
+                        ClientBaseOpenHelper.ID_CLIENT_SESSION, cv);
             }
-            return 0;
+            return insertSessionID;
+
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
-            return 0;
+            return insertSessionID;
+
         } finally {
             if (db_write != null && db_write.isOpen()) {
                 db_write.close();
@@ -88,7 +94,7 @@ public class Sessions {
             timeEnd = " datetime('now') ";
         }
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         ArrayList<Integer> sessionsID = new ArrayList<>();
@@ -97,23 +103,33 @@ public class Sessions {
             cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
                     ClientBaseOpenHelper.TIME_START + " BETWEEN " + timeStart + " AND " + timeEnd + "",
                     null, null, null, null);
-            if (cursor.moveToNext()) {
+
+            while (cursor.moveToNext()) {
                 sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
-                return true;
-            } else {
+            }
+
+            if (sessionsID.isEmpty()) {
                 cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
                         ClientBaseOpenHelper.TIME_END + " BETWEEN " + timeStart + " AND " + timeEnd + "",
                         null, null, null, null);
-                if (cursor.moveToNext()) {
+                while (cursor.moveToNext()) {
                     sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
-                    return true;
                 }
-                else
-                    return false;
+            }
+
+            if (sessionsID.isEmpty()) {
+                return false;
+            } else {
+                HashSet<Integer> sessionsIdNotDuplicate = new HashSet<>();
+                sessionsIdNotDuplicate.addAll(sessionsID);
+                sessionsID.clear();
+                sessionsID.addAll(sessionsIdNotDuplicate);
+                return true;
             }
 
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
+            return !sessionsID.isEmpty();
 
         } finally {
             if (cursor != null && !cursor.isClosed()) {
@@ -126,29 +142,27 @@ public class Sessions {
                 helper.close();
             }
         }
-        return true;
+
     }
 
     public ArrayList<Integer> getSessionsBeforeTime(String time) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         ArrayList<Integer> sessionsID = new ArrayList<>();
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID},
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS,
+                    new String[]{BaseColumns._ID},
                     ClientBaseOpenHelper.TIME_END + " = '" + time + "'",
                     null, null, null, null);
             while (cursor.moveToNext()) {
                 sessionsID.add(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)));
             }
 
-            return sessionsID;
-
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
-            return null;
 
         } finally {
             if (cursor != null && !cursor.isClosed()) {
@@ -161,11 +175,12 @@ public class Sessions {
                 helper.close();
             }
         }
+        return sessionsID;
     }
 
     public ArrayList<Long> getSessionsAfterTime(String time, int count) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         ArrayList<Long> sessionsID = new ArrayList<>();
@@ -200,7 +215,7 @@ public class Sessions {
 
     public Object[] getSessionById(long sessionID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         Object[] session = null;
@@ -248,7 +263,7 @@ public class Sessions {
 
     public ArrayList<Long> getAllSessionsId() {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         ArrayList<Long> sessions = new ArrayList<>();
@@ -277,7 +292,7 @@ public class Sessions {
     }
 
     public int isNotifiedById(long id) {
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         Integer isNotified;
@@ -308,7 +323,7 @@ public class Sessions {
 
     public int getDeleteSessionsById( long id ){
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
         // удаляем по id
@@ -330,19 +345,19 @@ public class Sessions {
 
 
     private String getClientName(int clientID) {
-        return new Clients(ctx).getClientName(clientID);
+        return new Clients(mContext).getClientName(clientID);
     }
 
     private Object[] getProcedure(int procedureID) {
-        return new Procedures(ctx).getProcedureInfo(procedureID);
+        return new Procedures(mContext).getProcedureInfo(procedureID);
     }
 
     private String getPhone(int phoneID) {
-        return new Phones(ctx).getPhoneById(phoneID);
+        return new Phones(mContext).getPhoneById(phoneID);
     }
 
     private String getEmail(int emailID) {
-        return new Emails(ctx).getEmailById(emailID);
+        return new Emails(mContext).getEmailById(emailID);
     }
 
     private String getIsNotified(int isNotifiedInt) {

@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--<string name="choose_msg_type">"Выберите способ оповещения"</string>-->
-    <!--<string-array name="msg_types">-->
-    <!--<item>SMS</item>-->
-    <!--<item>Email</item>-->
-    <!--<item>Vk</item>-->
-    <!--<item>WhatsApp</item>-->
-    <!--<item>Viber</item>-->
-    <!--</string-array>-->
     <string name="choose">"Выбрать"</string>
     <string name="send">Отправить</string>
     <string name="yes">Да</string>

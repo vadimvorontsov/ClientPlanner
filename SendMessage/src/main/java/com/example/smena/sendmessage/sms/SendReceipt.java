@@ -9,10 +9,6 @@ import android.widget.Toast;
 
 import com.example.smena.sendmessage.R;
 
-
-/**
- * Created by smena on 08.06.2015.
- */
 public class SendReceipt extends BroadcastReceiver {
 
     @Override

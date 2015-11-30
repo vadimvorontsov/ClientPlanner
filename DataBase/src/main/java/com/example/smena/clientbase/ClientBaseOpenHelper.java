@@ -36,31 +36,39 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
     // db
     private static final String DATABASE_NAME = "sessions.db";
     private static final int DATABASE_VERSION = 24;
-    Context ctx;
+    private Context mContext;
 
     public ClientBaseOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        ctx = context;
+        mContext = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String CREATE_TABLE_CLIENTS = "CREATE TABLE " + TABLE_CLIENTS + " (" + ClientBaseOpenHelper._ID
-                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CLIENT + " TEXT UNIQUE, " + VISITS + " INTEGER DEFAULT 0);";
+        String CREATE_TABLE_CLIENTS = "CREATE TABLE " + TABLE_CLIENTS +
+                " (" + ClientBaseOpenHelper._ID
+                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + CLIENT + " TEXT UNIQUE, "
+                + VISITS + " INTEGER DEFAULT 0);";
         db.execSQL(CREATE_TABLE_CLIENTS);
 
         String CREATE_TABLE_PHONES = "CREATE TABLE " + TABLE_PHONES + " (" + ClientBaseOpenHelper._ID
-                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_CLIENT_PHONE + " INTEGER, " + PHONE + " TEXT UNIQUE, "
-                + "FOREIGN KEY(" + ID_CLIENT_PHONE + ") REFERENCES " + TABLE_CLIENTS + "(" + ClientBaseOpenHelper._ID + "));";
+                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_CLIENT_PHONE + " INTEGER, "
+                + PHONE + " TEXT UNIQUE, "
+                + "FOREIGN KEY(" + ID_CLIENT_PHONE + ") REFERENCES " + TABLE_CLIENTS +
+                "(" + ClientBaseOpenHelper._ID + "));";
         db.execSQL(CREATE_TABLE_PHONES);
 
-        String CREATE_TABLE_EMAILS = "CREATE TABLE " + TABLE_EMAILS + " (" + ClientBaseOpenHelper._ID
-                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_CLIENT_EMAIL + " INTEGER, " + EMAIL + " TEXT UNIQUE, "
-                + "FOREIGN KEY(" + ID_CLIENT_EMAIL + ") REFERENCES " + TABLE_CLIENTS + "(" + ClientBaseOpenHelper._ID + "));";
+        String CREATE_TABLE_EMAILS = "CREATE TABLE " + TABLE_EMAILS +
+                " (" + ClientBaseOpenHelper._ID
+                + " INTEGER PRIMARY KEY AUTOINCREMENT, " + ID_CLIENT_EMAIL + " INTEGER, "
+                + EMAIL + " TEXT UNIQUE, "
+                + "FOREIGN KEY(" + ID_CLIENT_EMAIL + ") REFERENCES " + TABLE_CLIENTS +
+                "(" + ClientBaseOpenHelper._ID + "));";
         db.execSQL(CREATE_TABLE_EMAILS);
 
-        String CREATE_TABLE_PROCEDURES = "CREATE TABLE " + TABLE_PROCEDURES + " (" + ClientBaseOpenHelper._ID
+        String CREATE_TABLE_PROCEDURES = "CREATE TABLE " + TABLE_PROCEDURES +
+                " (" + ClientBaseOpenHelper._ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + PROCEDURE + " TEXT UNIQUE, "
                 + PRICE + " REAL, " + NOTICE + " TEXT, " + COLOR + " INTEGER);";
         db.execSQL(CREATE_TABLE_PROCEDURES);
@@ -104,7 +112,7 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
 
         onCreate(db);
 
-        Toast.makeText(ctx, "Обновление базы данных до версии " + newVersion + "...",
+        Toast.makeText(mContext, "Обновление базы данных до версии " + newVersion + "...",
                 Toast.LENGTH_LONG).show();
     }
 

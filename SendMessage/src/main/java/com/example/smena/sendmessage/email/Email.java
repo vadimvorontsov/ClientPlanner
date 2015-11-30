@@ -4,30 +4,28 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-public class Email extends AppCompatActivity {
+public class Email {
 
-    Context ctx;
-    final Intent emailIntent = new Intent(Intent.ACTION_SEND);
+    private Context mContext;
 
     public Email(Context context) {
-        this.ctx = context;
+        this.mContext = context;
     }
 
     public void sendEmail(String address, String text) {
         try {
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
             emailIntent.setData(Uri.parse("mailto:"));
             emailIntent.setType("plain/text");
             emailIntent.putExtra(Intent.EXTRA_EMAIL, address); //кому
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Запись на процедуры"); //тема
             emailIntent.putExtra(Intent.EXTRA_TEXT, text);
-            //emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //???
-            ctx.startActivity(Intent.createChooser(emailIntent,
+            mContext.startActivity(Intent.createChooser(emailIntent,
                     "Отправка письма..."));
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(ctx, "У Вас не установлен почтовый клиент", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "У Вас не установлен почтовый клиент", Toast.LENGTH_LONG).show();
         }
 
     }

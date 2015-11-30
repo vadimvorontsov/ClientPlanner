@@ -14,22 +14,22 @@ import java.util.ArrayList;
 public class Phones {
 
     private final String TAG = "Phones";
-    Context ctx;
+    private Context mContext;
 
     public Phones(Context context) {
-        this.ctx = context;
+        this.mContext = context;
     }
 
-    public long getPhoneID(String clientPhone) {
+    public long getPhoneID(String phone) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         long phoneID = 0;
 
         try {
             cursor = db_read.query(helper.TABLE_PHONES, new String[]{helper._ID},
-                    helper.PHONE + "='" + clientPhone + "'", null, null, null, null);
+                    helper.PHONE + "='" + phone + "'", null, null, null, null);
             while (cursor.moveToNext()) {
                 phoneID = cursor.getLong(cursor.getColumnIndex(helper._ID));
             }
@@ -54,7 +54,7 @@ public class Phones {
 
     public String getPhoneById(long phoneID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         String phone = "";
@@ -84,16 +84,16 @@ public class Phones {
         }
     }
 
-    public ArrayList<String> getPhonesByClient(long id_client) {
+    public ArrayList<String> getPhonesByClientID(long clientID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         ArrayList<String> phone = new ArrayList<>();
 
         try {
             cursor = db_read.query(helper.TABLE_PHONES, new String[]{helper.PHONE},
-                    helper.ID_CLIENT_PHONE + "=" + id_client, null, null, null, null);
+                    helper.ID_CLIENT_PHONE + "=" + clientID, null, null, null, null);
             while (cursor.moveToNext()) {
                 phone.add(cursor.getString(cursor.getColumnIndex(helper.PHONE)));
             }
@@ -116,16 +116,16 @@ public class Phones {
         }
     }
 
-    public long addPhone(String clientPhone, long id_client) {
+    public long addPhone(String phone, long clientID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_write = helper.getWritableDatabase();
         long phoneID = 0;
 
         try {
             ContentValues cv = new ContentValues();
-            cv.put(helper.PHONE, clientPhone);
-            cv.put(helper.ID_CLIENT_PHONE, id_client);
+            cv.put(helper.PHONE, phone);
+            cv.put(helper.ID_CLIENT_PHONE, clientID);
             if (cv != null) {
                 phoneID = db_write.insert(helper.TABLE_PHONES, helper.PHONE, cv);
             }

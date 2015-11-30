@@ -8,9 +8,6 @@ import android.widget.Toast;
 
 import com.example.smena.sendmessage.R;
 
-/**
- * Created by smena on 08.06.2015.
- */
 public class DeliveryReceipt extends BroadcastReceiver {
 
     @Override
@@ -22,11 +19,9 @@ public class DeliveryReceipt extends BroadcastReceiver {
                 break;
             case Activity.RESULT_CANCELED:
                 msg = context.getResources().getString(R.string.undelivered);
-                ;
                 break;
             default:
                 msg = context.getResources().getString(R.string.delivery_unknown);
-                ;
         }
 
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();

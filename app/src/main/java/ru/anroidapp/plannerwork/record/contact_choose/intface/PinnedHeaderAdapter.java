@@ -58,8 +58,8 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
         //mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLayoutInflater = LayoutInflater.from(mContext);
 
-       // clients = new Clients(mContext);
-       // allClients = clients.getAllClientsNames();
+//        Clients clients = new Clients(mContext);
+//        allClients = clients.getAllClientsNames();
     }
 
     @Override
@@ -100,8 +100,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = null;
-        //Log.i("123", "" + lastChooseName);
+        ViewHolder holder;
 
         if (convertView == null) {
             holder = new ViewHolder();
@@ -110,63 +109,37 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
             switch (type) {
                 case TYPE_ITEM:
                     convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
-
-                  //  holder.contactRow = (RelativeLayout) convertView.findViewById(R.id.contact_row);
                     holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
-                    holder.visitsTextView = (TextView) convertView.findViewById(R.id.contact_status);
-                    holder.textView = (TextView) convertView.findViewById(R.id.row_title);
                     Drawable drawable = mContext.getDrawable(R.drawable.ic_launcher);
                     holder.contactPhoto.setImageDrawable(drawable);
-
-                    if (mListItems.get(position) == lastChooseName) {
-                        Log.i("123", "" + lastChooseName);
-                        Log.i("123", "" + position);
-                        holder.contactRow.setBackgroundColor(mContext.getResources().getColor(R.color.color_gray));
-                    }
-//                    else
-//                        convertView.setBackgroundColor(mContext.getResources().getColor(R.color.color_white));
-                        //holder.contactRow.setBackgroundColor(mContext.getResources().getColor(R.color.color_gray));
-
-//                    String name = mListItems.get(position).toString();
-                    // лучше заранее проверить весь список уже приходивших клиентов
-                    // чем каждого в записной книжке прогонять через бд
-                    // если найден то удаляем чтоб меньше потом искать
-//                    if (allClients.contains(name)) {
-//                        int visits = clients.getClientVisits(name);
-//                        if (visits > 0) {
-//                            holder.visitsTextView = (TextView) convertView.findViewById(R.id.contact_status);
-//                            holder.visitsTextView.setText("Количество посещений " + visits);
-//                        }
-//                        allClients.remove(name);
-//                    }
                     break;
                 case TYPE_SECTION:
                     convertView = mLayoutInflater.inflate(R.layout.section_row_view, null);
                     break;
             }
-
             holder.textView = (TextView) convertView.findViewById(R.id.row_title);
             convertView.setTag(holder);
-
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.textView.setText(mListItems.get(position).toString() + position);
-        int length = mListItems.get(position).toString().length();
+        String name = mListItems.get(position);
+        holder.textView.setText(name);
+        if (name.length() > 1) {
+            if (mListItems.get(position) == lastChooseName) {
+                holder.contactRow.setBackgroundColor(mContext.getResources().getColor(R.color.color_gray));
+            }
+            holder.visitsTextView = (TextView) convertView.findViewById(R.id.contact_status);
 
-        if (length > 1) {
-            String name = mListItems.get(position).toString();
-          //  if (allClients.contains(name)) {
-                //int visits = clients.getClientVisits(name);
+//            if (allClients.contains(name)) {
                 visits = getClientsVisits(name);
-                if (visits > 0) {
-                    holder.visitsTextView.setText("Количество посещений " + position);
-                }
-             //   allClients.remove(name);
-           // }
+                if (visits > 0)
+                    holder.visitsTextView.setText("Количество посещений " + visits);
+                else
+                    holder.visitsTextView.setText("Посещений не было");
+//                allClients.remove(name);
+//            }
         }
-
         return convertView;
     }
 
@@ -235,7 +208,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
         public TextView visitsTextView;
     }
 
-    private int getClientsVisits ( String name ){
+    private int getClientsVisits (String name) {
         Clients clients = new Clients(mContext);
         int visit = clients.getClientVisits(name);
         return visit;

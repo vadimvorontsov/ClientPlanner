@@ -14,23 +14,24 @@ import java.util.ArrayList;
 public class Procedures {
 
     private final String TAG = "Procedures";
-    Context ctx;
+    private Context mContext;
 
     public Procedures(Context context) {
-        this.ctx = context;
+        this.mContext = context;
     }
 
     public long getProcedureID(String procedureName) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         long procedureID = 0;
 
         try {
-
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES, new String[]{ClientBaseOpenHelper._ID},
-                    ClientBaseOpenHelper.PROCEDURE + "='" + procedureName + "'", null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES,
+                    new String[]{ClientBaseOpenHelper._ID},
+                    ClientBaseOpenHelper.PROCEDURE + "='" + procedureName + "'",
+                    null, null, null, null);
             while (cursor.moveToNext()) {
                 procedureID = cursor.getLong(cursor.getColumnIndex(ClientBaseOpenHelper._ID));
             }
@@ -53,7 +54,7 @@ public class Procedures {
 
     public Object[] getProcedureInfo(long procedureID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         Object[] procedureInfo = null;
@@ -64,18 +65,25 @@ public class Procedures {
             String procedureNote = "";
             Integer procedureColor = 0;
 
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES, new String[]{ClientBaseOpenHelper.PROCEDURE,
-                            ClientBaseOpenHelper.PRICE, ClientBaseOpenHelper.NOTICE, ClientBaseOpenHelper.COLOR},
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES,
+                    new String[]{ClientBaseOpenHelper.PROCEDURE,
+                            ClientBaseOpenHelper.PRICE, ClientBaseOpenHelper.NOTICE,
+                            ClientBaseOpenHelper.COLOR},
                     ClientBaseOpenHelper._ID + "=" + procedureID, null, null, null, null);
 
             while (cursor.moveToNext()) {
-                procedureName = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.PROCEDURE));
-                procedurePrice = cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.PRICE));
-                procedureNote = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.NOTICE));
-                procedureColor = cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.COLOR));
+                procedureName = cursor.getString
+                        (cursor.getColumnIndex(ClientBaseOpenHelper.PROCEDURE));
+                procedurePrice = cursor.getInt
+                        (cursor.getColumnIndex(ClientBaseOpenHelper.PRICE));
+                procedureNote = cursor.getString
+                        (cursor.getColumnIndex(ClientBaseOpenHelper.NOTICE));
+                procedureColor = cursor.getInt
+                        (cursor.getColumnIndex(ClientBaseOpenHelper.COLOR));
             }
             if (!procedureName.isEmpty()) {
-                procedureInfo = new Object[]{procedureName, procedurePrice, procedureNote, procedureColor};
+                procedureInfo = new Object[]{procedureName, procedurePrice,
+                        procedureNote, procedureColor};
             }
             return procedureInfo;
 
@@ -95,9 +103,10 @@ public class Procedures {
 
     }
 
-    public long addProcedure(String procedureName, Integer procedurePrice, String procedureNote, Integer procedureColor) {
+    public long addProcedure(String procedureName, Integer procedurePrice,
+                             String procedureNote, Integer procedureColor) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_write = helper.getWritableDatabase();
         long procedureID = 0;
 
@@ -108,7 +117,8 @@ public class Procedures {
             cv.put(ClientBaseOpenHelper.NOTICE, procedureNote);
             cv.put(ClientBaseOpenHelper.COLOR, procedureColor);
 
-            procedureID = db_write.insert(ClientBaseOpenHelper.TABLE_PROCEDURES, ClientBaseOpenHelper.PROCEDURE, cv);
+            procedureID = db_write.insert(ClientBaseOpenHelper.TABLE_PROCEDURES,
+                    ClientBaseOpenHelper.PROCEDURE, cv);
 
             return procedureID;
 
@@ -124,22 +134,20 @@ public class Procedures {
         }
     }
 
-    public int getDeleteProcedure( String id ){
+    public int deleteProcedure(String procedureName){
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
+        int deleteCount = 0;
 
-        if (id.equalsIgnoreCase("")) {
-            return 0;
-        }
-        // удаляем по id
         try {
-            int delCount = db.delete(ClientBaseOpenHelper.TABLE_PROCEDURES, "_id=" + id, null);
-            return 1;
+            deleteCount = db.delete(ClientBaseOpenHelper.TABLE_PROCEDURES,
+                    ClientBaseOpenHelper.PROCEDURE + "=" + procedureName, null);
+            return deleteCount;
 
         } catch (SQLiteConstraintException e) {
             Log.e(TAG, e.getMessage());
-            return 0;
+            return deleteCount;
 
         }finally {
             if (db != null && db.isOpen()) {
@@ -153,7 +161,7 @@ public class Procedures {
     public int getUpdateProcedure(String id, String procedureName,
                                   Integer procedurePrice, String procedureNote, Integer procedureColor){
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
@@ -184,7 +192,7 @@ public class Procedures {
 
     public ArrayList<String> getAllProceduresNames() {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         ArrayList<String> procedures = new ArrayList<>();
@@ -214,7 +222,7 @@ public class Procedures {
 
     public ArrayList<Integer> getAllProceduresColor() {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         ArrayList<Integer> colorProcedures = new ArrayList<>();
@@ -244,7 +252,7 @@ public class Procedures {
 
     public int getColorProcedureByName(String nameProcedure) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         int color = -1;
@@ -275,7 +283,7 @@ public class Procedures {
 
     public int getPriceProcedureByName(String nameProcedure) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         int price = -1;

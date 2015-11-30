@@ -15,22 +15,22 @@ import java.util.ArrayList;
 public class Emails {
 
     private final String TAG = "Emails";
-    Context ctx;
+    private Context mContext;
 
     public Emails(Context context) {
-        this.ctx = context;
+        this.mContext = context;
     }
 
-    public long getEmailID(String clientEmail) {
+    public long getEmailID(String email) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         long emailID = 0;
 
         try {
             cursor = db_read.query(ClientBaseOpenHelper.TABLE_EMAILS, new String[]{BaseColumns._ID},
-                    ClientBaseOpenHelper.EMAIL + "='" + clientEmail + "'", null, null, null, null);
+                    ClientBaseOpenHelper.EMAIL + "='" + email + "'", null, null, null, null);
             while (cursor.moveToNext()) {
                 emailID = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
             }
@@ -55,13 +55,14 @@ public class Emails {
 
     public String getEmailById(long emailID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         String email = "";
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_EMAILS, new String[]{ClientBaseOpenHelper.EMAIL},
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_EMAILS,
+                    new String[]{ClientBaseOpenHelper.EMAIL},
                     BaseColumns._ID + "=" + emailID, null, null, null, null);
             while (cursor.moveToNext()) {
                 email = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.EMAIL));
@@ -83,19 +84,19 @@ public class Emails {
                 helper.close();
             }
         }
-
     }
 
-    public ArrayList<String> getEmailsByClient(long id_client) {
+    public ArrayList<String> getEmailsByClientId(long clientID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         ArrayList<String> emails = new ArrayList<>();
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_EMAILS, new String[]{ClientBaseOpenHelper.EMAIL},
-                    ClientBaseOpenHelper.ID_CLIENT_EMAIL + "=" + id_client, null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_EMAILS,
+                    new String[]{ClientBaseOpenHelper.EMAIL},
+                    ClientBaseOpenHelper.ID_CLIENT_EMAIL + "=" + clientID, null, null, null, null);
             while (cursor.moveToNext()) {
                 emails.add(cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.EMAIL)));
             }
@@ -116,19 +117,18 @@ public class Emails {
                 helper.close();
             }
         }
-
     }
 
-    public long addEmail(String clientEmail, long id_client) {
+    public long addEmail(String email, long clientID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_write = helper.getWritableDatabase();
         long emailID = 0;
 
         try {
             ContentValues cv = new ContentValues();
-            cv.put(ClientBaseOpenHelper.ID_CLIENT_EMAIL, id_client);
-            cv.put(ClientBaseOpenHelper.EMAIL, clientEmail);
+            cv.put(ClientBaseOpenHelper.ID_CLIENT_EMAIL, clientID);
+            cv.put(ClientBaseOpenHelper.EMAIL, email);
             if (cv != null) {
                 emailID = db_write.insert(ClientBaseOpenHelper.TABLE_EMAILS, ClientBaseOpenHelper.EMAIL, cv);
             }

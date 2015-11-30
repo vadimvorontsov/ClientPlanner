@@ -14,21 +14,22 @@ import java.util.ArrayList;
 public class Clients {
 
     private final String TAG = "Clients";
-    Context ctx;
+    private Context mContext;
 
     public Clients(Context context) {
-        this.ctx = context;
+        this.mContext = context;
     }
 
     public long getClientID(String clientName) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         long clientID = 0;
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS, new String[]{ClientBaseOpenHelper._ID},
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS,
+                    new String[]{ClientBaseOpenHelper._ID},
                     ClientBaseOpenHelper.CLIENT + "='" + clientName + "'", null, null, null, null);
             while (cursor.moveToNext()) {
                 clientID = cursor.getLong(cursor.getColumnIndex(ClientBaseOpenHelper._ID));
@@ -52,13 +53,14 @@ public class Clients {
 
     public String getClientName(long clientID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         String client = "";
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS, new String[]{ClientBaseOpenHelper.CLIENT},
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS,
+                    new String[]{ClientBaseOpenHelper.CLIENT},
                     ClientBaseOpenHelper._ID + "=" + clientID, null, null, null, null);
             while (cursor.moveToNext()) {
                 client = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.CLIENT));
@@ -84,7 +86,7 @@ public class Clients {
 
         long clientID = 0;
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_write = helper.getWritableDatabase();
 
         try {
@@ -107,12 +109,12 @@ public class Clients {
         }
     }
 
-    public long updateClientAddVisit(String clientName) {
+    public int updateClientAddVisit(String clientName) {
 
         int visits = getClientVisits(clientName);
-        long countUpdates = 0;
+        int countUpdates = 0;
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_write = helper.getWritableDatabase();
 
         try {
@@ -143,10 +145,11 @@ public class Clients {
         int visits = 0;
 
         try {
-            helper = new ClientBaseOpenHelper(ctx);
+            helper = new ClientBaseOpenHelper(mContext);
             db_read = helper.getReadableDatabase();
 
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS, new String[]{ClientBaseOpenHelper.VISITS},
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS,
+                    new String[]{ClientBaseOpenHelper.VISITS},
                     ClientBaseOpenHelper.CLIENT + " = '" + clientName + "'", null, null, null, null);
             while (cursor.moveToNext()) {
                 visits = cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.VISITS));
@@ -166,13 +169,14 @@ public class Clients {
 
     public ArrayList<String> getAllClientsNames() {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(ctx);
+        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = helper.getReadableDatabase();
         Cursor cursor = null;
         ArrayList<String> clients = new ArrayList<>();
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS, new String[]{ClientBaseOpenHelper.CLIENT}, null,
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS,
+                    new String[]{ClientBaseOpenHelper.CLIENT}, null,
                     null, null, null, null);
             while (cursor.moveToNext()) {
                 clients.add(cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.CLIENT)));

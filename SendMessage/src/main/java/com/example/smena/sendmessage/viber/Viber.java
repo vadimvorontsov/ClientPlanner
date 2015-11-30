@@ -6,32 +6,29 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-
 
 import com.example.smena.sendmessage.R;
 
-public class Viber extends AppCompatActivity {
+public class Viber {
 
-    private Context ctx;
-    private boolean isViberInstalled;
-    private String packageName = "com.viber.voip";
+    private Context mContext;
+    private boolean mIsViberInstalled;
+    private String mPackageName = "com.viber.voip";
 
     public Viber(Context context) {
-        this.ctx = context;
-        isViberInstalled = viberInstalledOrNot(packageName);
+        this.mContext = context;
+        mIsViberInstalled = viberInstalledOrNot(mPackageName);
     }
 
     public void sendMsg(String text) {
-        if (isViberInstalled) {
-            //Uri uri = Uri.parse("smsto:" + phone);
+        if (mIsViberInstalled) {
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT, text);
             sendIntent.setType("text/plain");
-            sendIntent.setPackage(packageName);
-            ctx.startActivity(sendIntent);
+            sendIntent.setPackage(mPackageName);
+            mContext.startActivity(sendIntent);
         } else {
-            new AlertDialog.Builder(ctx)
+            new AlertDialog.Builder(mContext)
                     .setIcon(R.drawable.viber)
                     .setTitle(R.string.not_install)
                     .setMessage(R.string.wish_install)
@@ -39,11 +36,11 @@ public class Viber extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             try {
-                                ctx.startActivity(new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse("market://details?id=" + packageName)));
+                                mContext.startActivity(new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("market://details?id=" + mPackageName)));
                             } catch (android.content.ActivityNotFoundException anfe) {
-                                ctx.startActivity(new Intent(Intent.ACTION_VIEW,
-                                        Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+                                mContext.startActivity(new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("https://play.google.com/store/apps/details?id=" + mPackageName)));
                             }
                         }
                     })
@@ -58,16 +55,13 @@ public class Viber extends AppCompatActivity {
     }
 
     private boolean viberInstalledOrNot(String uri) {
-        PackageManager pm = ctx.getPackageManager();
-        boolean app_installed;
+        PackageManager pm = mContext.getPackageManager();
         try {
             pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
-            app_installed = true;
+            return true;
         } catch (PackageManager.NameNotFoundException e) {
-            app_installed = false;
+            return false;
         }
-        return app_installed;
     }
-
 
 }

@@ -96,7 +96,7 @@ public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.O
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder = null;
+        ViewHolder holder;
 
         if (convertView == null) {
             holder = new ViewHolder();
@@ -106,7 +106,7 @@ public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.O
                 case TYPE_ITEM:
                     convertView = mLayoutInflater.inflate(R.layout.procedure_row_view, null);
 
-                    holder.textView = (TextView) convertView.findViewById(R.id.row_title);
+                    //holder.textView = (TextView) convertView.findViewById(R.id.row_title);
                     holder.textPrice = (TextView) convertView.findViewById(R.id.contact_status);
                     holder.colorRes = (ImageView) convertView.findViewById(R.id.procedure_circle);
                     break;

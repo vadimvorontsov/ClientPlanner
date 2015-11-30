@@ -105,14 +105,10 @@ public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.O
             switch (type) {
                 case TYPE_ITEM:
                     convertView = mLayoutInflater.inflate(R.layout.procedure_row_view, null);
+
                     holder.textView = (TextView) convertView.findViewById(R.id.row_title);
-                    TextView price = (TextView) convertView.findViewById(R.id.contact_status);
-                    String name = mListItems.get(position).toString();
-                    testColor = getColorProceduresName(name);
-                    testPrice = getPriceProcedureName(name);
-                    ImageView icon = (ImageView) convertView.findViewById(R.id.procedure_circle);
-                    price.setText("Цена " + testPrice);
-                    icon.setImageResource(arColorProcedures[testColor]);
+                    holder.textPrice = (TextView) convertView.findViewById(R.id.contact_status);
+                    holder.colorRes = (ImageView) convertView.findViewById(R.id.procedure_circle);
                     break;
                 case TYPE_SECTION:
                     convertView = mLayoutInflater.inflate(R.layout.section_row_view, null);
@@ -126,6 +122,15 @@ public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.O
         }
 
         holder.textView.setText(mListItems.get(position).toString());
+        int length = mListItems.get(position).toString().length();
+
+        if (length > 1) {
+            String name = mListItems.get(position).toString();
+            testPrice = getPriceProcedureName(name);
+            testColor = getColorProceduresName(name);
+            holder.textPrice.setText("Цена: " + testPrice);
+            holder.colorRes.setImageResource(arColorProcedures[testColor]);
+        }
 
         return convertView;
     }
@@ -202,6 +207,8 @@ public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.O
 
     public static class ViewHolder {
         public TextView textView;
+        public TextView textPrice;
+        public ImageView colorRes;
     }
 
 }

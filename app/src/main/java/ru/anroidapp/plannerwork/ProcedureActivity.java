@@ -315,13 +315,18 @@ public class ProcedureActivity extends AppCompatActivity {
                         if (note.isEmpty())
                             note = "Примечаний нет";
 
-                        Integer color = choiceColor;
+                        Integer color;
+                        if (choiceColor == - 1)
+                            color = 0;
+                        else
+                            color = choiceColor;
 
                         if (!name.isEmpty()) {
                             Procedures procedures_update = new Procedures(ProcedureActivity.this);
                             int test = procedures_update.getUpdateProcedure(procIdTmp + "", name, price, note, color);
                             if (test == 1) {
                                 Toast.makeText(ProcedureActivity.this, "Процедура изменена", Toast.LENGTH_SHORT).show();
+                                choiceColor = -1;
                                 refreshList();
                             }
                         }
@@ -373,7 +378,11 @@ public class ProcedureActivity extends AppCompatActivity {
                         if (note.isEmpty())
                             note = "Примечаний нет";
 
-                        Integer color = choiceColor;
+                        Integer color;
+                        if (choiceColor == - 1)
+                            color = 0;
+                        else
+                            color = choiceColor;
 
                         if (!name.isEmpty()) {
                             long id = 0;
@@ -381,6 +390,7 @@ public class ProcedureActivity extends AppCompatActivity {
                             id = procedures.addProcedure(name, price, note, color);
                             if (id != 0) {
                                 Toast.makeText(ProcedureActivity.this, "Процедура добавлена", Toast.LENGTH_SHORT).show();
+                                choiceColor = -1;
                                 refreshList();
                             }
 

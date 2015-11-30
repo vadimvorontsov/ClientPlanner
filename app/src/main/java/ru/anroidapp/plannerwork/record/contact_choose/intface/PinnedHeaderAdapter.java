@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.smena.clientbase.procedures.Clients;
+import com.example.smena.clientbase.procedures.Procedures;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +42,10 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     // context object
     Context mContext;
 
-    private Clients clients;
+    //private Clients clients;
     private ArrayList<String> allClients;
     private String lastChooseName;
+    int visits = 0;
 
 
     public PinnedHeaderAdapter(Context context, List<String> listItems,
@@ -56,8 +58,8 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
         //mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLayoutInflater = LayoutInflater.from(mContext);
 
-        clients = new Clients(mContext);
-        allClients = clients.getAllClientsNames();
+       // clients = new Clients(mContext);
+       // allClients = clients.getAllClientsNames();
     }
 
     @Override
@@ -98,7 +100,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder holder;
+        ViewHolder holder = null;
         //Log.i("123", "" + lastChooseName);
 
         if (convertView == null) {
@@ -109,8 +111,10 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
                 case TYPE_ITEM:
                     convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
 
-                    holder.contactRow = (RelativeLayout) convertView.findViewById(R.id.contact_row);
+                  //  holder.contactRow = (RelativeLayout) convertView.findViewById(R.id.contact_row);
                     holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
+                    holder.visitsTextView = (TextView) convertView.findViewById(R.id.contact_status);
+                    holder.textView = (TextView) convertView.findViewById(R.id.row_title);
                     Drawable drawable = mContext.getDrawable(R.drawable.ic_launcher);
                     holder.contactPhoto.setImageDrawable(drawable);
 
@@ -148,7 +152,21 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.textView.setText(mListItems.get(position).toString());
+        holder.textView.setText(mListItems.get(position).toString() + position);
+        int length = mListItems.get(position).toString().length();
+
+        if (length > 1) {
+            String name = mListItems.get(position).toString();
+          //  if (allClients.contains(name)) {
+                //int visits = clients.getClientVisits(name);
+                visits = getClientsVisits(name);
+                if (visits > 0) {
+                    holder.visitsTextView.setText("Количество посещений " + position);
+                }
+             //   allClients.remove(name);
+           // }
+        }
+
         return convertView;
     }
 
@@ -215,6 +233,12 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
         public TextView textView;
         public CircularImageView contactPhoto;
         public TextView visitsTextView;
+    }
+
+    private int getClientsVisits ( String name ){
+        Clients clients = new Clients(mContext);
+        int visit = clients.getClientVisits(name);
+        return visit;
     }
 
 }

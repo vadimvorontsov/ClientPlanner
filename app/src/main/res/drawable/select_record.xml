@@ -4,7 +4,7 @@
     <item android:state_selected="true" >
         <!-- selected -->
         <shape>
-            <solid android:color="@color/calendar_second"/>
+            <solid android:color="@color/record_second"/>
             <padding
                 android:left="@dimen/main_activity_items_padding"
                 android:top="@dimen/main_activity_items_padding"
@@ -16,7 +16,7 @@
     <!-- pressed -->
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="@color/calendar_second"/>
+            <solid android:color="@color/record_second"/>
             <padding
                 android:left="@dimen/main_activity_items_padding"
                 android:top="@dimen/main_activity_items_padding"
@@ -28,7 +28,7 @@
     <!-- default state -->
     <item>
         <shape>
-            <solid android:color="@color/calendar_first"/>
+            <solid android:color="@color/record_first"/>
             <padding
                 android:left="@dimen/main_activity_items_padding"
                 android:top="@dimen/main_activity_items_padding"

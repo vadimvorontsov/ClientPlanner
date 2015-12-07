@@ -9,7 +9,7 @@
     <!--<string name="navDraw_4">Настройки</string>-->
     <!--<string name="navDraw_5">О приложении</string>-->
     <string name="change_language">Изменить язык</string>
-    <string name="title_activity_record">RecordActivity</string>
+    <string name="title_activity_record">Запись</string>
 
     <string name="start_record">Сделать запись</string>
 
@@ -33,18 +33,18 @@
 
     <string name="name">Имя</string>
     <string name="phone">Телефон</string>
-    <string name="email">Email</string>
+    <string name="email">Эл.почта</string>
 
-    <string name="sms">СМС</string>
-    <string name="whatsapp" translatable="false">WhatsApp</string>
-    <string name="viber" translatable="false">Viber</string>
+    <string name="sms">Сообщение</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="viber">Viber</string>
 
     <string name="back">Назад</string>
     <string name="save">Сохранить</string>
     <string name="cancel">Отмена</string>
 
     <string name="phone_choose">Выберите телефон</string>
-    <string name="email_choose">Выберите адрес эд.почты</string>
+    <string name="email_choose">Выберите адрес эл.почты</string>
 
     <string name="unknown">неизвестно</string>
     <string name="no_notes">примечаний нет</string>
@@ -74,6 +74,8 @@
         <item>Декабря</item>
     </string-array>
     <string name="title_activity_procedure">ProcedureActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
     <string name="choose_msg_type">Выберите способ оповещения</string>
 

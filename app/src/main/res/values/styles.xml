@@ -11,7 +11,7 @@
         <item name="colorPrimaryDark">@color/record_second</item>
     </style>
 
-    <style name="CalendareTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="CalendarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/calendar_first</item>
         <item name="colorPrimaryDark">@color/calendar_second</item>
     </style>
@@ -52,5 +52,57 @@
         <item name="material_drawer_selected_text">@color/material_drawer_selected_text</item>
         <item name="material_drawer_header_selection_text">@color/material_drawer_header_selection_text</item>
     </style>
+
+    /*----------------------------------------------------------------------------------*/
+
+    <style name="MainActivity"></style>
+
+    <style name="MainActivity.ItemLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="MainActivity.ItemCircle">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:paddingLeft">8dp</item>
+    </style>
+
+    <style name="MainActivity.ItemTextLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:weightSum">3</item>
+    </style>
+
+    <style name="MainActivity.ItemName">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#FFF</item>
+        <item name="android:textSize">@dimen/main_activity_text_size_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MainActivity.ItemDescription">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="MainActivity.Circle">
+        <item name="android:layout_width">15dp</item>
+        <item name="android:layout_height">15dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
 
 </resources>

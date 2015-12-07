@@ -7,4 +7,11 @@
     <dimen name="index_bar_view_width">10dp</dimen>
     <dimen name="index_bar_view_margin">5dp</dimen>
 
+    <dimen name="elevation_toolbar">2dp</dimen>
+
+    <dimen name="main_activity_items_padding">5dp</dimen>
+    <dimen name="main_activity_items_height">60dp</dimen>
+    <dimen name="main_activity_text_size_large">25sp</dimen>
+    <!--<dimen name="main_activity_items_weight">1</dimen>-->
+
 </resources>

@@ -14,7 +14,7 @@
         android:paddingLeft="8dp"
         android:src="@drawable/arni1"
         app:border="true"
-        app:border_color="@color/viewPagerTextDark"
+        app:border_color="@color/view_pager_text_dark"
         app:shadow="true" />
 
     <LinearLayout
@@ -30,7 +30,7 @@
             android:layout_marginLeft="30dp"
             android:gravity="left"
             android:text="Иван Велосипедов"
-            android:textColor="@color/viewPagerTextDark"
+            android:textColor="@color/view_pager_text_dark"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -41,7 +41,7 @@
             android:layout_marginLeft="30dp"
             android:gravity="left"
             android:text="8 августа"
-            android:textColor="@color/viewPagerText"
+            android:textColor="@color/view_pager_text"
             android:textStyle="bold" />
 
         <TextView
@@ -51,7 +51,7 @@
             android:layout_marginLeft="30dp"
             android:gravity="left"
             android:text="15:30 - 17:30"
-            android:textColor="@color/viewPagerText"
+            android:textColor="@color/view_pager_text"
             android:textStyle="bold" />
 
         <TextView
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:gravity="left"
-            android:textColor="@color/viewPagerText"
+            android:textColor="@color/view_pager_text"
             android:textStyle="bold" />
 
     </LinearLayout>

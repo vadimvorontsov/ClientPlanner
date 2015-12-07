@@ -1,13 +1,18 @@
 package ru.anroidapp.plannerwork.main_activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import ru.anroidapp.plannerwork.CalendarActivity;
 import ru.anroidapp.plannerwork.ProcedureActivity;
@@ -37,38 +43,64 @@ public class MainActivity extends AppCompatActivity {
     private final int MAX_SESSIONS_COUNT = 5;
     private int sessionsCount;
     private LinearLayout circleTable;
+    private Locale myLocale;
+    private boolean isRus;
+
+    private TextView startRecordTextView;
+    private TextView startCalendarTextView;
+    private TextView startProcedureTextView;
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //mContext = this;
+
+        startRecordTextView = (TextView) findViewById(R.id.start_record_textview);
+        startCalendarTextView = (TextView) findViewById(R.id.start_calendar_textview);
+        startProcedureTextView = (TextView) findViewById(R.id.start_procedure_textview);
 
         //getDbFile();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         toolbar.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
+
+        LinearLayout startRecordLayout = (LinearLayout) findViewById(R.id.start_record_layout);
+        startRecordLayout.setOnClickListener(startRecordListener);
+
+        LinearLayout startCalendarView = (LinearLayout) findViewById(R.id.start_calendar_view);
+        startCalendarView.setOnClickListener(startCalendarViewListener);
+
+        LinearLayout startProcedureView = (LinearLayout) findViewById(R.id.start_procedure_view);
+        startProcedureView.setOnClickListener(startProceduresViewListener);
+
+        loadLocale();
+
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
 
-        ViewPager mPager = (ViewPager) findViewById(R.id.pagerMain);
-        ArrayList<Long> nearestSessions = getNearestSessionsCount(this);
+        ViewPager mPager = (ViewPager) findViewById(R.id.preview_sessions_pager);
+        ArrayList<Long> nearestSessions = getNearestSessions(this);
         sessionsCount = nearestSessions.size();
-        TextView notRecord = (TextView) findViewById(R.id.txtNotRecord);
+        TextView notRecord = (TextView) findViewById(R.id.no_records_textview);
         circleTable = (LinearLayout) findViewById(R.id.circles);
-
-        initCircles();
 
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
         mPager.addOnPageChangeListener(pageChangeListener);
 
             if (nearestSessions != null && !nearestSessions.isEmpty()) {
+                initCircles();
                 PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter
                         (this, getSupportFragmentManager(), nearestSessions);
                 mPager.setAdapter(mPagerAdapter);
@@ -81,24 +113,24 @@ public class MainActivity extends AppCompatActivity {
             } else if (nearestSessions != null && nearestSessions.isEmpty()) {
                 notRecord.setVisibility(View.VISIBLE);
                 mPager.setVisibility(View.GONE);
-            } else {
             }
     }
 
-    public void onBtn1Click(View view) {
+    public void startRecord() {
         Intent intent = new Intent(this, RecordActivity.class);
         startActivity(intent);
     }
 
-    public void onBtn2Click(View view) {
+    public void startCalendarView() {
        // startActivity(new Intent(this, CalendarActivity.class));
-         Intent i = new Intent(MainActivity.this, CalendarActivity.class);
-         i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-          startActivity(i);
+        Intent intent = new Intent(this, CalendarActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        startActivity(intent);
     }
 
-    public void onBtn3Click(View view) {
-        startActivity(new Intent(this, ProcedureActivity.class));
+    public void startProceduresView() {
+        Intent intent = new Intent(this, ProcedureActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -113,8 +145,11 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId() == android.R.id.home){
             finish();
         }
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.change_language) {
+            if (!isRus)
+                changeLang("ru");
+            else
+                changeLang("en");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -143,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private ArrayList<Long> getNearestSessionsCount(Context ctx) {
+    private ArrayList<Long> getNearestSessions(Context ctx) {
         Sessions sessions = new Sessions(ctx);
         ArrayList<Long> nearestSessionsId = sessions.getSessionsAfterTime("datetime('now')",
                 MAX_SESSIONS_COUNT);
@@ -195,6 +230,71 @@ public class MainActivity extends AppCompatActivity {
         Circle circle_4 = (Circle) findViewById(R.id.circle_4);
 
         circleArray = new Circle[]{circle_0, circle_1, circle_2, circle_3, circle_4};
+    }
+
+    private View.OnClickListener startRecordListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startRecord();
+        }
+    };
+
+    private View.OnClickListener startCalendarViewListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startCalendarView();
+        }
+    };
+
+    private View.OnClickListener startProceduresViewListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startProceduresView();
+        }
+    };
+
+    private void changeLang(String lang) {
+        if (lang.equalsIgnoreCase(""))
+            return;
+        myLocale = new Locale(lang);
+        saveLocale(lang);
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+
+        if (lang.equals("en")) {
+            isRus = false;
+        }
+        else {
+            isRus = true;
+        }
+
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+        updateTexts();
+    }
+
+
+    private void saveLocale(String lang)
+    {
+        String langPref = "Language";
+        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(langPref, lang);
+        editor.commit();
+    }
+
+
+    private void loadLocale()
+    {
+        String langPref = "Language";
+        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+        String language = prefs.getString(langPref, "");
+        changeLang(language);
+    }
+
+    private void updateTexts() {
+        this.startRecordTextView.setText(R.string.start_record);
     }
 
 }

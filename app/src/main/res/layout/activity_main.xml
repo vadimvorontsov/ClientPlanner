@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,233 +8,160 @@
     android:orientation="vertical"
     tools:context="ru.anroidapp.plannerwork.main_activity.MainActivity">
 
-    <include
-        android:id="@+id/tool_bar"
-        layout="@layout/toolbar"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/procedure_first"
+        android:elevation="@dimen/elevation_toolbar"
+        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_weight="1"
-        android:background="@drawable/selected_record"
-        android:onClick="onBtn1Click">
+        android:id="@+id/start_record_layout"
+        style="@style/MainActivity.ItemLayout"
+        android:background="@drawable/select_record">
 
         <ru.anroidapp.plannerwork.CircularImageView
-            android:id="@+id/cntctImg1"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:paddingLeft="8dp"
+            style="@style/MainActivity.ItemCircle"
             android:src="@mipmap/ic_record"
-            app:border="true"
             app:border_color="@color/record_second"
+            app:border="true"
             app:shadow="true" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:weightSum="3">
+        <LinearLayout style="@style/MainActivity.ItemTextLayout">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="Сделать запись"
-                android:textColor="#FFF"
-                android:textSize="11pt"
-                android:textStyle="bold" />
+                android:id="@+id/start_record_textview"
+                style="@style/MainActivity.ItemName"
+                android:text="@string/start_record" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
+                style="@style/MainActivity.ItemDescription"
                 android:text="Выбор клиента, даты, услуги. \n Отправка сообщения." />
+
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_weight="1"
-        android:background="@drawable/selected_calendar"
-        android:onClick="onBtn2Click"
-        android:orientation="horizontal">
+        android:id="@+id/start_calendar_view"
+        style="@style/MainActivity.ItemLayout"
+        android:background="@drawable/selected_calendar">
 
         <ru.anroidapp.plannerwork.CircularImageView
-            android:id="@+id/cntctImg2"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:paddingLeft="8dp"
+            style="@style/MainActivity.ItemCircle"
             android:src="@mipmap/ic_calendar"
-            app:border="true"
             app:border_color="@color/calendar_second"
+            app:border="true"
             app:shadow="true" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="3">
+        <LinearLayout style="@style/MainActivity.ItemTextLayout">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="Календарь"
-                android:textColor="#FFF"
-                android:textSize="11pt"
-                android:textStyle="bold" />
+                android:id="@+id/start_calendar_textview"
+                style="@style/MainActivity.ItemName"
+                android:text="Календарь" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
+                style="@style/MainActivity.ItemDescription"
                 android:text="Просмотр записей клиентов." />
+
         </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_weight="1"
-        android:background="@drawable/selected_procedure"
-        android:onClick="onBtn3Click"
-        android:orientation="horizontal">
+        android:id="@+id/start_procedure_view"
+        style="@style/MainActivity.ItemLayout"
+        android:background="@drawable/selected_procedure">
 
         <ru.anroidapp.plannerwork.CircularImageView
-            android:id="@+id/cntctImg3"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:paddingLeft="8dp"
+            style="@style/MainActivity.ItemCircle"
             android:src="@mipmap/ic_procedure"
-            app:border="true"
             app:border_color="@color/procedure_second"
+            app:border="true"
             app:shadow="true" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="4">
+        <LinearLayout style="@style/MainActivity.ItemTextLayout">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="Услуги"
-                android:textColor="#FFF"
-                android:textSize="11pt"
-                android:textStyle="bold" />
+                android:id="@+id/start_procedure_textview"
+                style="@style/MainActivity.ItemName"
+                android:text="Услуги" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
+                style="@style/MainActivity.ItemDescription"
                 android:text="Заполнение процедур, их цена
                     и дополнительные примечания" />
         </LinearLayout>
-    </LinearLayout>
 
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:background="@color/viewPagerPrimary"
+        android:layout_weight="5"
+        android:background="@color/view_pager_primary"
         android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="2"
-        android:id="@+id/LayPagerMain"
-        android:orientation="vertical">
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/preview_sessions_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_marginTop="50dp"
-            android:text="Ближайших записей нет"
-            android:id="@+id/txtNotRecord"
-            android:textColor="@color/viewPagerTextDark"
-            android:textSize="11pt"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:weightSum="2">
 
-        <android.support.v4.view.ViewPager
-            android:layout_weight="1"
-            android:id="@+id/pagerMain"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:background="@color/viewPagerPrimary"/>
+            <TextView
+                android:id="@+id/no_records_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Ближайших записей нет"
+                android:textColor="@color/view_pager_text_dark"
+                android:textSize="@dimen/main_activity_text_size_large"
+                android:textStyle="bold" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/preview_sessions_pager"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:layout_weight="1"
+                android:background="@color/view_pager_primary" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/circles"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_below="@id/LayPagerMain"
+            android:layout_below="@id/preview_sessions_layout"
             android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="2"
-            android:visibility="gone">
+            android:visibility="gone"
+            android:weightSum="2">
 
             <ru.anroidapp.plannerwork.animation.Circle
                 android:id="@+id/circle_0"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                />
+                style="@style/MainActivity.Circle" />
 
             <ru.anroidapp.plannerwork.animation.Circle
                 android:id="@+id/circle_1"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                />
+                style="@style/MainActivity.Circle" />
 
             <ru.anroidapp.plannerwork.animation.Circle
                 android:id="@+id/circle_2"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                />
+                style="@style/MainActivity.Circle" />
 
             <ru.anroidapp.plannerwork.animation.Circle
                 android:id="@+id/circle_3"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                />
+                style="@style/MainActivity.Circle" />
 
             <ru.anroidapp.plannerwork.animation.Circle
                 android:id="@+id/circle_4"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                />
+                style="@style/MainActivity.Circle" />
 
         </LinearLayout>
 

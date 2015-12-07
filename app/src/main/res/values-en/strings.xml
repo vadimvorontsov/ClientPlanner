@@ -1,0 +1,95 @@
+<resources>
+    <string name="app_name">PlannerWork</string>
+
+    <string name="rec_title">To the begining</string>
+
+    <!--<string name="navDraw_1">Main</string>-->
+    <!--<string name="navDraw_2">Calendar</string>-->
+    <!--<string name="navDraw_3">Archive</string>-->
+    <!--<string name="navDraw_4">Settings</string>-->
+    <!--<string name="navDraw_5">About application</string>-->
+    <string name="change_language">Change language</string>
+    <string name="title_activity_record">RecordActivity</string>
+
+    <string name="start_record">Start record</string>
+
+    <string-array name="fragment_titles">
+        <item>Contact</item>
+        <item>Date</item>
+        <item>Procedure</item>
+        <item>Complete</item>
+    </string-array>
+
+    <string name="search_hint">search</string>
+    <string name="empty_list_msg">No results</string>
+
+    <string name="add">Add</string>
+    <string name="title_activity_calendar">Calendar</string>
+
+    <string name="contacts">Contacts</string>
+    <string name="history">History</string>
+
+    <string name="choose_title">Your choose is</string>
+
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+
+    <string name="sms">Message</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="viber">Viber</string>
+
+    <string name="back">Back</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="phone_choose">Select phone</string>
+    <string name="email_choose">Choose email</string>
+
+    <string name="unknown">unknown</string>
+    <string name="no_notes">No comments</string>
+
+    <string name="add_proc_title">New procedure</string>
+    <string name="procedure">Procedure</string>
+    <string name="services">Services</string>
+    <string name="record">Record</string>
+    <string name="price">Price</string>
+    <string name="note">Comments</string>
+
+    <string name="contact_inf">Information on the contact</string>
+    <string name="procedure_inf">Information on the procedure</string>
+
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+    <string name="title_activity_procedure">ProcedureActivity</string>
+
+
+    <string name="choose_msg_type">Select method of the notification</string>
+
+    <string-array name="msg_types">
+        <item>SMS</item>
+        <item>Email</item>
+        <item>WhatsApp</item>
+        <item>Viber</item>
+    </string-array>
+
+    <string name="end_btn">Complete the entry</string>
+
+    <string name="send_msg_title">Record successfully completed and added to the calendar</string>
+    <string name="send_msg_question">You wish to inform the client?</string>
+    <string name="end_error">Error in compliting the entry</string>
+
+
+</resources>

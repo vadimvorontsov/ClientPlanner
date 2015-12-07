@@ -4,45 +4,36 @@
     <item android:state_selected="true" >
         <!-- selected -->
         <shape>
-            <gradient
-                android:startColor="@color/procedure_second"
-                android:endColor="@color/procedure_second"
-                android:angle="270" />
+            <solid android:color="@color/procedure_second"/>
             <padding
-                android:left="5dp"
-                android:top="5dp"
-                android:right="5dp"
-                android:bottom="5dp" />
+                android:left="@dimen/main_activity_items_padding"
+                android:top="@dimen/main_activity_items_padding"
+                android:right="@dimen/main_activity_items_padding"
+                android:bottom="@dimen/main_activity_items_padding" />
         </shape>
     </item>
 
     <!-- pressed -->
     <item android:state_pressed="true">
         <shape>
-            <gradient
-                android:startColor="@color/procedure_second"
-                android:endColor="@color/procedure_second"
-                android:angle="270" />
+            <solid android:color="@color/procedure_second"/>
             <padding
-                android:left="5dp"
-                android:top="5dp"
-                android:right="5dp"
-                android:bottom="5dp" />
+                android:left="@dimen/main_activity_items_padding"
+                android:top="@dimen/main_activity_items_padding"
+                android:right="@dimen/main_activity_items_padding"
+                android:bottom="@dimen/main_activity_items_padding" />
         </shape>
     </item>
 
     <!-- default state -->
     <item>
         <shape>
-            <gradient
-                android:startColor="@color/procedure_first"
-                android:endColor="@color/procedure_first"
-                android:angle="270" />
+            <solid android:color="@color/procedure_first"/>
             <padding
-                android:left="5dp"
-                android:top="5dp"
-                android:right="5dp"
-                android:bottom="5dp" />
+                android:left="@dimen/main_activity_items_padding"
+                android:top="@dimen/main_activity_items_padding"
+                android:right="@dimen/main_activity_items_padding"
+                android:bottom="@dimen/main_activity_items_padding" />
         </shape>
     </item>
 

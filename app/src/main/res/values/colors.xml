@@ -26,9 +26,9 @@
     <color name="calendar_second">#5B6AC2</color>
     <color name="procedure_first">#ffd670</color>
     <color name="procedure_second">#FBC337</color>
-    <color name="viewPagerPrimary">#F0F4C3</color>
-    <color name="viewPagerText">#795548</color>
-    <color name="viewPagerTextDark">#6d4c41</color>
+    <color name="view_pager_primary">#F0F4C3</color>
+    <color name="view_pager_text">#795548</color>
+    <color name="view_pager_text_dark">#6d4c41</color>
 
     <!--colors chose procedures -->
     <color name="procedure_color_1">#03a9f4</color>

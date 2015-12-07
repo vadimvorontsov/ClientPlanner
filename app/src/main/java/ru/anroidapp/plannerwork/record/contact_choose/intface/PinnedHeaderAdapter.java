@@ -1,6 +1,7 @@
 package ru.anroidapp.plannerwork.record.contact_choose.intface;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
+import android.widget.Checkable;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.RelativeLayout;
@@ -43,17 +45,17 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     Context mContext;
 
     //private Clients clients;
-    private ArrayList<String> allClients;
-    private String lastChooseName;
-    int visits = 0;
+//    private ArrayList<String> allClients;
+//    private String lastChooseName;
+//    int visits = 0;
 
 
     public PinnedHeaderAdapter(Context context, List<String> listItems,
-                               ArrayList<Integer> listSectionPos, String lastChoose) {
+                               ArrayList<Integer> listSectionPos) {
         this.mContext = context;
         this.mListItems = listItems;
         this.mListSectionPos = listSectionPos;
-        this.lastChooseName = lastChoose;
+        //this.lastChooseName = lastChoose;
 
         //mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -109,6 +111,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
             switch (type) {
                 case TYPE_ITEM:
                     convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
+
                     holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
                     Drawable drawable = mContext.getDrawable(R.drawable.ic_launcher);
                     holder.contactPhoto.setImageDrawable(drawable);
@@ -123,16 +126,19 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.contactRow = convertView;
         String name = mListItems.get(position);
         holder.textView.setText(name);
         if (name.length() > 1) {
-            if (mListItems.get(position) == lastChooseName) {
-                holder.contactRow.setBackgroundColor(mContext.getResources().getColor(R.color.color_gray));
-            }
+//            if (name == lastChooseName) {
+//
+////            } else {
+////                holder.contactRow.setBackgroundColor(Color.WHITE);
+//            }
             holder.visitsTextView = (TextView) convertView.findViewById(R.id.contact_status);
 
 //            if (allClients.contains(name)) {
-                visits = getClientsVisits(name);
+                int visits = getClientsVisits(name);
                 if (visits > 0)
                     holder.visitsTextView.setText("Количество посещений " + visits);
                 else
@@ -202,7 +208,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     }
 
     public static class ViewHolder {
-        public RelativeLayout contactRow;
+        public View contactRow;
         public TextView textView;
         public CircularImageView contactPhoto;
         public TextView visitsTextView;

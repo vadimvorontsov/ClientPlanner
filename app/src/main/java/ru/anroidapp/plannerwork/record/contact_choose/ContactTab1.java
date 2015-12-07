@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -23,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Filter;
@@ -50,7 +52,7 @@ import ru.anroidapp.plannerwork.R;
 
 public class ContactTab1 extends Fragment {
 
-    private String lastChooseName = "";
+    //int lastChoosePosition = -1;
 
     private final String TAG = "ContactTab1";
     MetaData mMetaData;
@@ -179,7 +181,7 @@ public class ContactTab1 extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 
-            lastChooseName = mListItems.get(position);
+            //lastChoosePosition = position;
 
             Resources resources = getResources();
             String unknown = resources.getString(R.string.unknown);
@@ -263,7 +265,7 @@ public class ContactTab1 extends Fragment {
         if (savedInstanceState != null) {
             mListItems = savedInstanceState.getStringArrayList("mListItems");
             mListSectionPos = savedInstanceState.getIntegerArrayList("mListSectionPos");
-            lastChooseName = savedInstanceState.getString("lastChooseName");
+            //lastChoosePosition = savedInstanceState.getInt("lastChoosePosition");
 
             if (mListItems != null && mListItems.size() > 0 && mListSectionPos != null
                     && mListSectionPos.size() > 0) {
@@ -275,8 +277,6 @@ public class ContactTab1 extends Fragment {
                 mSearchView.setText(constraint);
                 //setIndexBarViewVisibility(constraint);
             }
-
-
 
         } else {
             new Populate().execute(mContacts);
@@ -376,10 +376,15 @@ public class ContactTab1 extends Fragment {
 
     private void setListAdaptor() {
         // create instance of PinnedHeaderAdapter and set adapter to list view
-        mAdaptor = new PinnedHeaderAdapter(fa, mListItems, mListSectionPos, lastChooseName);
+        mAdaptor = new PinnedHeaderAdapter(fa, mListItems, mListSectionPos);
         mListView.setAdapter(mAdaptor);
         mListView.setOnItemClickListener(clickListener);
         mListView.setOnItemLongClickListener(longClickListener);
+//        if (lastChoosePosition != -1) {
+//            mListView.setItemChecked(lastChoosePosition, true);
+//            //Log.i("123", "" + mListView.getCheckedItemPosition());
+//        }
+        //int a = mListView.getCheckedItemPosition();
 
         //TextView view = (TextView) mAdaptor.getView(0, mListView.getChildAt(0), mListView);
         //view.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_check_buttonless_on, 0, 0, 0);
@@ -480,9 +485,9 @@ public class ContactTab1 extends Fragment {
             outState.putString("constraint", searchText);
         }
 
-        if (lastChooseName != "") {
-            outState.putString("lastChooseName", lastChooseName);
-        }
+//        if (lastChoosePosition != -1) {
+//            outState.putInt("lastChoosePosition", lastChoosePosition);
+//        }
 
         super.onSaveInstanceState(outState);
     }

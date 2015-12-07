@@ -50,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView startCalendarTextView;
     private TextView startProcedureTextView;
 
+    private TextView startRecordDescriptionTextView;
+    private TextView startCalendarDescriptionTextView;
+    private TextView startProcedureDescriptionTextView;
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -62,8 +66,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         startRecordTextView = (TextView) findViewById(R.id.start_record_textview);
+        startRecordDescriptionTextView = (TextView)
+                findViewById(R.id.start_record_description_textview);
+
         startCalendarTextView = (TextView) findViewById(R.id.start_calendar_textview);
+        startCalendarDescriptionTextView = (TextView)
+                findViewById(R.id.start_calendar_description_textview);
+
         startProcedureTextView = (TextView) findViewById(R.id.start_procedure_textview);
+        startProcedureDescriptionTextView = (TextView)
+                findViewById(R.id.start_procedure_description_textview);
 
         //getDbFile();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -295,6 +307,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateTexts() {
         this.startRecordTextView.setText(R.string.start_record);
+        this.startRecordDescriptionTextView.setText(R.string.start_record_description);
+        this.startCalendarTextView.setText(R.string.calendar);
+        this.startCalendarDescriptionTextView.setText(R.string.start_calendar_description);
+        this.startCalendarTextView.setText(R.string.procedure);
+        this.startProcedureDescriptionTextView.setText(R.string.start_procedure_description);
     }
 
 }

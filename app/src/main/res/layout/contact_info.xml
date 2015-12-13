@@ -5,23 +5,18 @@
     android:layout_height="wrap_content"
     android:layout_weight="1"
     android:orientation="vertical"
-    android:paddingBottom="5dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:paddingTop="8dp">
+    android:padding="@dimen/padding">
 
     <TextView
         android:id="@+id/contact_info_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
         android:fontFamily="sans-serif"
-        android:textSize="22sp"
-        android:text="Информация о контакте"
+        android:textSize="@dimen/name_viewpager"
+        android:text="Информация: "
         android:textStyle="bold"
-        android:textColor="@color/ColorPrimary" />
+        android:textColor="@color/color_black" />
 
 
     <TextView
@@ -29,20 +24,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/padding_top"
         android:fontFamily="sans-serif"
-        android:textSize="20sp"
-        android:text="Имя"
-        android:textColor="@color/ColorPrimary" />
+        android:textColor="@color/color_black_light"
+        android:textSize="@dimen/header_comment_add_proc"
+        android:textStyle="bold"
+        android:text="Имя: " />
 
     <TextView
         android:id="@+id/contact_info_name_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:layout_marginBottom="1dp"
+        android:textSize="@dimen/dialog_edit"
         android:fontFamily="sans-serif"
-        android:textColor="@color/ColorPrimaryDark"
+        android:textColor="@color/color_black_light"
         android:singleLine="false"/>
 
     <TextView
@@ -50,20 +45,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/padding_betw_name"
         android:fontFamily="sans-serif"
-        android:textSize="20sp"
-        android:text="Номер телефона"
-        android:textColor="@color/ColorPrimary" />
+        android:textSize="@dimen/header_comment_add_proc"
+        android:text="Номер телефона: "
+        android:textStyle="bold"
+        android:textColor="@color/color_black_light" />
 
     <TextView
         android:id="@+id/contact_info_phone_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:layout_marginBottom="1dp"
+        android:textSize="@dimen/dialog_edit"
         android:fontFamily="sans-serif"
-        android:textColor="@color/ColorPrimaryDark"
         android:singleLine="false"
         android:autoLink="phone"/>
 
@@ -72,20 +66,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/padding_betw_name"
         android:fontFamily="sans-serif"
-        android:textSize="20sp"
-        android:text="Email"
-        android:textColor="@color/ColorPrimary" />
+        android:textColor="@color/color_black_light"
+        android:textSize="@dimen/header_comment_add_proc"
+        android:textStyle="bold"
+        android:text="Email:" />
 
     <TextView
         android:id="@+id/contact_info_email_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:layout_marginBottom="1dp"
+        android:textSize="@dimen/dialog_edit"
         android:fontFamily="sans-serif"
-        android:textColor="@color/ColorPrimaryDark"
+        android:textColor="@color/color_black_light"
         android:singleLine="false"
         android:autoLink="email"/>
 

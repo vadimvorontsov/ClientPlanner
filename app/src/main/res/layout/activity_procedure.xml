@@ -11,8 +11,8 @@
 
     <include
         android:id="@+id/tool_bar_procedure"
-        layout="@layout/toolbar_proc"
-        android:layout_height="wrap_content"
+        layout="@layout/toolbar"
+        android:layout_height="@dimen/toolbar"
         android:layout_width="match_parent" />
 
     <LinearLayout
@@ -30,8 +30,8 @@
             android:background="@drawable/contact_closelay"
             android:orientation="horizontal">
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/icon"
+                android:layout_height="@dimen/icon"
                 android:layout_gravity="center"
                 android:background="@color/color_white"
                 android:src="@mipmap/search_green"/>
@@ -40,16 +40,14 @@
         <EditText
             android:id="@+id/act_search_proc_view"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/top_search"
             android:hint="@string/search_hint"
             android:layout_weight="1"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:singleLine="true"
             android:background="@color/color_white"
-            android:textColor="@color/ColorPrimary"
-            android:textColorHint="@color/ColorPrimaryHint"
-            android:textSize="14sp" />
+            android:textColor="@color/color_black_light"
+            android:textColorHint="@color/md_grey_400"
+            android:textSize="@dimen/header_comment_button" />
 
         <LinearLayout
             android:id="@+id/LayCanselSearchProcAct"
@@ -96,11 +94,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:src="@drawable/ic_search"
-        fab:fab_colorNormal="@color/record_first"
-        fab:fab_colorPressed="@color/record_second"
-        fab:fab_colorRipple="@color/event_color_01"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
+        fab:fab_colorNormal="@color/procedure_first"
+        fab:fab_colorPressed="@color/procedure_second"
+        fab:fab_colorRipple="@color/procedure_second"
+        android:layout_marginRight="@dimen/padding_right"
+        android:layout_marginBottom="@dimen/padding_botton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

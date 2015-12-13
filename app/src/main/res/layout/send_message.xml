@@ -2,37 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                 android:padding="@dimen/padding"
                 android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/choose_phone_email_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="5dp"
-        android:layout_margin="5dp">
+        android:orientation="vertical">
        <!-- android:background="@drawable/grey_bckgrnd">-->
 
         <LinearLayout
             android:id="@+id/choose_phone_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="@dimen/distance_betw_lay"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/choose_phone_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Телефон: "
-                android:textSize="20sp"
-                android:textColor="@color/record_second"/>
+                android:textStyle="bold"
+                android:textSize="@dimen/header_comment_add_proc"
+                android:textColor="@color/color_black_light"/>
 
         </LinearLayout>
 
@@ -40,20 +35,20 @@
             android:id="@+id/choose_email_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginTop="@dimen/padding_betw_name"
+            android:layout_marginLeft="@dimen/distance_betw_lay"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/choose_email_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Почта: "
-                android:textSize="20sp"
-                android:textColor="@color/record_second"/>
+                android:textSize="@dimen/header_comment_add_proc"
+                android:textStyle="bold"
+
+                android:textColor="@color/color_black_light"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -63,7 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/choose_phone_email_layout"
-        android:layout_margin="5dp"
+        android:paddingTop="@dimen/padding_top"
         android:orientation="vertical">
 
     </LinearLayout>
@@ -71,19 +66,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/send_msg_edit_layout"
-        android:layout_margin="5dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp">
+        android:layout_below="@+id/send_msg_edit_layout">
        <!-- android:background="@drawable/grey_bckgrnd">-->
 
         <LinearLayout
             android:id="@+id/sms_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginBottom="@dimen/distance_betw_but"
+            android:layout_marginLeft="@dimen/distance_betw_lay"
+            android:layout_marginRight="@dimen/distance_betw_lay">
 
             <TextView
                 android:id="@+id/sms_text_view"
@@ -93,8 +85,9 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical"
                 android:text="@string/sms"
-                android:textColor="@color/record_second"
-                android:textSize="20sp"/>
+                android:textStyle="bold"
+                android:textColor="@color/color_black_light"
+                android:textSize="@dimen/header_comment_add_proc"/>
 
             <Button
                 android:id="@+id/send_sms_btn"
@@ -111,9 +104,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/sms_layout"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginBottom="@dimen/distance_betw_but"
+            android:layout_marginLeft="@dimen/distance_betw_lay"
+            android:layout_marginRight="@dimen/distance_betw_lay">
 
             <TextView
                 android:id="@+id/email_text_view"
@@ -123,8 +116,9 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical"
                 android:text="@string/email"
-                android:textColor="@color/record_second"
-                android:textSize="20sp"/>
+                android:textStyle="bold"
+                android:textColor="@color/color_black_light"
+                android:textSize="@dimen/header_comment_add_proc"/>
 
             <Button
                 android:id="@+id/send_email_btn"
@@ -141,9 +135,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/email_layout"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginBottom="@dimen/distance_betw_but"
+            android:layout_marginLeft="@dimen/distance_betw_lay"
+            android:layout_marginRight="@dimen/distance_betw_lay">
 
             <TextView
                 android:id="@+id/whatsapp_text_view"
@@ -153,8 +147,9 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical"
                 android:text="@string/whatsapp"
-                android:textColor="@color/record_second"
-                android:textSize="20sp"/>
+                android:textStyle="bold"
+                android:textColor="@color/color_black_light"
+                android:textSize="@dimen/header_comment_add_proc"/>
 
             <Button
                 android:id="@+id/send_whatsapp_btn"
@@ -171,9 +166,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/whatsapp_layout"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginBottom="@dimen/distance_betw_but"
+            android:layout_marginLeft="@dimen/distance_betw_lay"
+            android:layout_marginRight="@dimen/distance_betw_lay">
 
             <TextView
                 android:id="@+id/viber_text_view"
@@ -183,14 +178,15 @@
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical"
                 android:text="@string/viber"
-                android:textColor="@color/record_second"
-                android:textSize="20sp"/>
+                android:textStyle="bold"
+                android:textColor="@color/color_black_light"
+                android:textSize="@dimen/header_comment_add_proc"/>
 
             <Button
                 android:id="@+id/send_viber_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/distance_betw_lay"
                 android:background="@drawable/msg_send_btn"
                 android:text="@string/send"
                 android:textColor="@color/color_white"/>

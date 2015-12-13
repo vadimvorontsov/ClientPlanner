@@ -52,6 +52,7 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
 
         toolbar = (Toolbar) findViewById(R.id.tool_cal);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setBackgroundDrawable(this.getResources().getDrawable(R.color.calendar_first));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         // getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);

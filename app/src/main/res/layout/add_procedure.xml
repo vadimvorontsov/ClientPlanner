@@ -5,23 +5,18 @@
     android:layout_height="wrap_content"
     android:layout_weight="1"
     android:orientation="vertical"
-    android:paddingBottom="5dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:paddingTop="8dp">
+    android:padding="@dimen/padding_right">
 
     <TextView
         android:id="@+id/add_proc_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
         android:fontFamily="sans-serif"
-        android:textSize="18sp"
+        android:textSize="@dimen/name_viewpager"
         android:text="Новая процедура"
         android:textStyle="bold"
-        android:textColor="@color/ColorPrimary" />
+        android:textColor="@color/color_black" />
 
 
     <TextView
@@ -29,28 +24,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/padding_top"
         android:fontFamily="sans-serif"
-        android:textSize="16sp"
-        android:text="Название"
-        android:textColor="@color/ColorPrimary" />
+        android:textSize="@dimen/header_comment_add_proc"
+        android:textColor="@color/color_black_light"
+        android:text="Название" />
 
     <EditText
         android:id="@+id/input_proc_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_marginLeft="-2dp"
-        android:layout_marginRight="-2dp"
-        android:layout_marginBottom="1dp"
-        android:inputType="textAutoCorrect"
-        android:textColor="@color/ColorPrimaryDark" />
+        android:textSize="@dimen/dialog_edit"
+        android:textColor="@color/color_black_light"
+        android:inputType="textAutoCorrect" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/padding_top"
         android:weightSum="3">
 
 <LinearLayout
@@ -64,20 +56,17 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:fontFamily="sans-serif"
-        android:textSize="16sp"
-        android:text="Цена"
-        android:textColor="@color/ColorPrimary" />
+        android:textColor="@color/color_black_light"
+        android:textSize="@dimen/header_comment_add_proc"
+        android:text="Цена" />
 
     <EditText
         android:id="@+id/input_proc_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_marginLeft="-2dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="1dp"
-        android:inputType="number"
-        android:textColor="@color/ColorPrimaryDark" />
+        android:textSize="@dimen/dialog_edit"
+        android:textColor="@color/color_black_light"
+        android:inputType="number" />
     </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
@@ -90,9 +79,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="sans-serif"
-            android:textSize="16sp"
-            android:text="Цвет"
-            android:textColor="@color/ColorPrimary" />
+            android:textSize="@dimen/header_comment_add_proc"
+            android:textColor="@color/color_black_light"
+            android:text="Цвет" />
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -106,21 +95,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
         android:fontFamily="sans-serif"
-        android:textSize="16sp"
-        android:text="Примечание"
-        android:textColor="@color/ColorPrimary" />
+        android:textSize="@dimen/header_comment_add_proc"
+        android:textColor="@color/color_black_light"
+        android:text="Примечание" />
 
     <EditText
         android:id="@+id/input_proc_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_marginLeft="-2dp"
-        android:layout_marginRight="-2dp"
-        android:layout_marginBottom="1dp"
-        android:inputType="textAutoCorrect"
-        android:textColor="@color/ColorPrimaryDark" />
+        android:textSize="@dimen/dialog_edit"
+        android:textColor="@color/color_black_light"
+        android:inputType="textAutoCorrect" />
 
 </LinearLayout>

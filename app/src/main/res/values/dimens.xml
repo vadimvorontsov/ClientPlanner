@@ -14,4 +14,44 @@
     <dimen name="main_activity_text_size_large">25sp</dimen>
     <!--<dimen name="main_activity_items_weight">1</dimen>-->
 
+
+    <!-- MainActivity -->
+    <dimen name="bloc_button">100dp</dimen>
+    <dimen name="circle_in_button">90dp</dimen>
+    <dimen name="padding_left">16dp</dimen>
+    <dimen name="padding_right">16dp</dimen>
+    <dimen name="padding_top">16dp</dimen>
+    <dimen name="padding_botton">16dp</dimen>
+    <dimen name="padding">16dp</dimen>
+    <dimen name="anim_circle">15dp</dimen>
+    <dimen name="linlay_anim_circle">20dp</dimen>
+    <dimen name="indent_top_button">50dp</dimen>
+    <dimen name="height_viewpager">120dp</dimen>
+    <dimen name="padding_left_viewpager">30dp</dimen>
+    <dimen name="toolbar">56dp</dimen>
+    <dimen name="circle_list">56dp</dimen>
+
+    <!-- ActivityProcedure -->
+    <dimen name="icon">20dp</dimen>
+    <dimen name="top_search">40dp</dimen>
+
+    <!-- RecordActivity -->
+    <dimen name="elevation">2dp</dimen>
+
+    <!--calendare_info -->
+    <dimen name="padding_betw_name">10dp</dimen>
+
+    <!--completion_tab4 -->
+    <dimen name="distance_betw_but">5dp</dimen>
+
+    <!-- date_tab -->
+    <dimen name="distance_betw_lay">10dp</dimen>
+    <dimen name="left_select_data">40dp</dimen>
+
+    <dimen name="header_button">26sp</dimen>
+    <dimen name="header_comment_button">16sp</dimen>
+    <dimen name="name_viewpager">22sp</dimen>
+    <dimen name="header_comment_add_proc">20sp</dimen>
+    <dimen name="dialog_edit">18sp</dimen>
+
 </resources>

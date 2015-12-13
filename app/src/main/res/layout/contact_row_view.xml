@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/activity_horizontal_margin"
-    android:orientation="horizontal">
+    android:orientation="horizontal" >
 
     <ru.anroidapp.plannerwork.CircularImageView
         android:id="@+id/contact_circle"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/circle_list"
+        android:layout_height="@dimen/circle_list"
         android:src="@drawable/arni1"
         app:border="true"
         app:border_color="@color/ColorPrimary"
@@ -28,15 +28,15 @@
             android:id="@+id/row_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="20sp" />
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/name_viewpager" />
 
         <TextView
             android:id="@+id/contact_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#9f9f9f"
-            android:textSize="15sp"/>
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/dialog_edit"/>
 
     </LinearLayout>
 

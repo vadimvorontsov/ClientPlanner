@@ -20,8 +20,8 @@
             android:background="@drawable/contact_closelay"
             android:orientation="horizontal">
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/icon"
+                android:layout_height="@dimen/icon"
                 android:layout_gravity="center"
                 android:background="@color/color_white"
                 android:src="@mipmap/search_green"/>
@@ -30,16 +30,14 @@
         <EditText
             android:id="@+id/SearchViewProc"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:background="@color/color_white"
+            android:layout_height="@dimen/top_search"
             android:hint="@string/search_hint"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:layout_weight="1"
             android:singleLine="true"
-            android:textColor="@color/ColorPrimary"
-            android:textColorHint="@color/ColorPrimaryHint"
-            android:textSize="14sp" />
+            android:background="@color/color_white"
+            android:textColor="@color/color_black_light"
+            android:textColorHint="@color/md_grey_400"
+            android:textSize="@dimen/header_comment_button" />
 
         <LinearLayout
             android:id="@+id/LayCanselSearchProc"
@@ -51,8 +49,8 @@
 
             <ImageView
                 android:id="@+id/ImClose"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/icon"
+                android:layout_height="@dimen/icon"
                 android:layout_gravity="center"
                 android:src="@mipmap/close_1"/>
         </LinearLayout>
@@ -88,11 +86,11 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginBottom="@dimen/padding_botton"
+        android:layout_marginRight="@dimen/padding_right"
         android:src="@drawable/ic_search"
-        fab:fab_colorNormal="@color/record_first"
-        fab:fab_colorPressed="@color/record_second"
-        fab:fab_colorRipple="@color/event_color_01" />
+        fab:fab_colorNormal="@color/procedure_first"
+        fab:fab_colorPressed="@color/procedure_second"
+        fab:fab_colorRipple="@color/procedure_second" />
 
 </RelativeLayout>

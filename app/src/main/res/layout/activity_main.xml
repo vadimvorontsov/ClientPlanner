@@ -36,8 +36,9 @@
                 android:text="@string/start_record" />
 
             <TextView
+                android:id="@+id/start_record_description_textview"
                 style="@style/MainActivity.ItemDescription"
-                android:text="Выбор клиента, даты, услуги. \n Отправка сообщения." />
+                android:text="@string/start_record_description" />
 
         </LinearLayout>
 
@@ -60,11 +61,12 @@
             <TextView
                 android:id="@+id/start_calendar_textview"
                 style="@style/MainActivity.ItemName"
-                android:text="Календарь" />
+                android:text="@string/calendar" />
 
             <TextView
+                android:id="@+id/start_calendar_description_textview"
                 style="@style/MainActivity.ItemDescription"
-                android:text="Просмотр записей клиентов." />
+                android:text="@string/start_calendar_description" />
 
         </LinearLayout>
 
@@ -87,12 +89,12 @@
             <TextView
                 android:id="@+id/start_procedure_textview"
                 style="@style/MainActivity.ItemName"
-                android:text="Услуги" />
+                android:text="@string/services" />
 
             <TextView
+                android:id="@+id/start_procedure_description_textview"
                 style="@style/MainActivity.ItemDescription"
-                android:text="Заполнение процедур, их цена
-                    и дополнительные примечания" />
+                android:text="@string/start_procedure_description" />
         </LinearLayout>
 
     </LinearLayout>

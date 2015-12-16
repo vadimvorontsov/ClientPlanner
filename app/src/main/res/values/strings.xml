@@ -12,6 +12,9 @@
     <string name="title_activity_record">RecordActivity</string>
 
     <string name="start_record">Сделать запись</string>
+    <string name="start_record_description">Выбор клиента, даты, услуги \n Отправка сообщения</string>
+    <string name="start_calendar_description">Просмотр и удаление записей</string>
+    <string name="start_procedure_description">Просмотр и редактирование процедур</string>
 
     <string-array name="fragment_titles">
         <item>Контакт</item>
@@ -24,7 +27,7 @@
     <string name="empty_list_msg">Нет результов</string>
 
     <string name="add">Добавить</string>
-    <string name="title_activity_calendar">Календарь</string>
+    <string name="calendar">Календарь</string>
 
     <string name="contacts">Контакты</string>
     <string name="history">История</string>

@@ -12,6 +12,10 @@
     <string name="title_activity_record">RecordActivity</string>
 
     <string name="start_record">Start record</string>
+    <string name="start_record_description">
+        Select client, date and service \n Sending message</string>
+    <string name="start_calendar_description">Viewing and deleting records</string>
+    <string name="start_procedure_description">Viewing and editing procedures</string>
 
     <string-array name="fragment_titles">
         <item>Contact</item>
@@ -24,7 +28,7 @@
     <string name="empty_list_msg">No results</string>
 
     <string name="add">Add</string>
-    <string name="title_activity_calendar">Calendar</string>
+    <string name="calendar">Calendar</string>
 
     <string name="contacts">Contacts</string>
     <string name="history">History</string>

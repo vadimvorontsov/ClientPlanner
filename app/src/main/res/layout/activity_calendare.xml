@@ -10,16 +10,16 @@
     <!--высота верхнего блока(дни) headerRowPadding-->
 
     <include
-        layout="@layout/toolbar_cal"
+        layout="@layout/toolbar"
         android:id="@+id/tool_cal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="@dimen/toolbar"/>
 
     <ru.anroidapp.plannerwork.calendar.WeekView
         android:id="@+id/weekView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="@dimen/toolbar"
         app:eventTextColor="@android:color/white"
         app:textSize="12sp"
         app:hourHeight="60dp"

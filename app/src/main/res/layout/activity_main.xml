@@ -38,7 +38,7 @@
             <TextView
                 android:id="@+id/start_record_description_textview"
                 style="@style/MainActivity.ItemDescription"
-                android:text="@string/start_record_description" />
+                android:text="Выбор клиента, даты, услуги. \n Отправка сообщения." />
 
         </LinearLayout>
 
@@ -114,15 +114,14 @@
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/no_records_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:layout_weight="1"
                 android:gravity="center"
+                android:layout_weight="1"
+                android:layout_marginTop="@dimen/indent_top_button"
                 android:text="Ближайших записей нет"
-                android:textColor="@color/view_pager_text_dark"
-                android:textSize="@dimen/main_activity_text_size_large"
+                android:id="@+id/no_records_textview"
+                android:textSize="@dimen/header_button"
                 android:textStyle="bold" />
 
             <android.support.v4.view.ViewPager
@@ -132,18 +131,22 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
                 android:layout_weight="1"
-                android:background="@color/view_pager_primary" />
+                android:layout_height="@dimen/height_viewpager"
+                android:layout_marginLeft="@dimen/padding_left"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/indent_top_button"
+                android:background="@color/viewPagerPrimary"/>
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/circles"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="@dimen/linlay_anim_circle"
             android:layout_below="@id/preview_sessions_layout"
             android:gravity="center"
             android:orientation="horizontal"
-            android:visibility="gone"
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="gone">
 
             <ru.anroidapp.plannerwork.animation.Circle
                 android:id="@+id/circle_0"

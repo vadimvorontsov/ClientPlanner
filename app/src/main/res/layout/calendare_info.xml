@@ -5,115 +5,98 @@
     android:layout_height="wrap_content"
     android:layout_weight="1"
     android:orientation="vertical"
-    android:paddingBottom="5dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:paddingTop="8dp">
+    android:padding="@dimen/padding_right">
 
     <TextView
         android:id="@+id/add_proc_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
         android:fontFamily="sans-serif"
-        android:textSize="20sp"
+        android:textSize="@dimen/name_viewpager"
         android:text="Информация"
         android:textStyle="bold"
-        android:textColor="@color/ColorPrimary" />
+        android:textColor="@color/color_black" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
+        android:layout_marginTop="@dimen/padding_top"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
             android:gravity="left"
-            android:text="Имя:"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:text="Имя: "
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/header_comment_add_proc" />
 
         <TextView
             android:id="@+id/calClientName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
             android:fontFamily="sans-serif-light"
             android:gravity="left"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"/>
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/dialog_edit"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="@dimen/padding_betw_name"
         android:layout_weight="1"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
             android:gravity="left"
-            android:text="Услуга:"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:text="Услуга: "
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/header_comment_add_proc" />
 
         <TextView
             android:id="@+id/calProcedureName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
             android:fontFamily="sans-serif-light"
             android:gravity="left"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"/>
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/dialog_edit"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="@dimen/padding_betw_name"
         android:layout_weight="1"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
             android:gravity="left"
-            android:text="Время:"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:text="Время: "
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/header_comment_add_proc" />
 
         <TextView
             android:id="@+id/calTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
             android:fontFamily="sans-serif-light"
             android:gravity="left"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"/>
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/dialog_edit"/>
 
     </LinearLayout>
 
@@ -121,31 +104,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="@dimen/padding_betw_name"
         android:layout_weight="1"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
             android:gravity="left"
-            android:text="Статус:"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:text="Статус: "
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/header_comment_add_proc" />
 
         <TextView
             android:id="@+id/calStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
             android:fontFamily="sans-serif-light"
+            android:textColor="@color/color_black_light"
             android:gravity="left"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"/>
+            android:textSize="@dimen/dialog_edit"/>
 
     </LinearLayout>
 

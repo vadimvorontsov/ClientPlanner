@@ -14,12 +14,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/distance_betw_but"
+            android:layout_marginTop="@dimen/distance_betw_but"
             android:gravity="left"
             android:text="Имя:"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="20sp"
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/header_comment_add_proc"
             android:textStyle="bold"/>
 
         <TextView
@@ -27,12 +27,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/distance_betw_but"
+            android:layout_marginTop="@dimen/distance_betw_but"
             android:fontFamily="sans-serif-light"
             android:gravity="left"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"/>
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/dialog_edit"/>
     </LinearLayout>
 
 
@@ -46,12 +46,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/distance_betw_but"
+            android:layout_marginTop="@dimen/distance_betw_but"
             android:gravity="left"
             android:text="Дата:"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="20sp"
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/header_comment_add_proc"
             android:textStyle="bold"/>
 
         <TextView
@@ -59,12 +59,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/distance_betw_but"
+            android:layout_marginTop="@dimen/distance_betw_but"
             android:fontFamily="sans-serif-light"
             android:gravity="left"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"/>
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/dialog_edit"/>
     </LinearLayout>
 
     <LinearLayout
@@ -77,12 +77,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/distance_betw_but"
+            android:layout_marginTop="@dimen/distance_betw_but"
             android:gravity="left"
             android:text="Время:"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="20sp"
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/header_comment_add_proc"
             android:textStyle="bold"/>
 
         <TextView
@@ -90,12 +90,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/distance_betw_but"
+            android:layout_marginTop="@dimen/distance_betw_but"
             android:fontFamily="sans-serif-light"
             android:gravity="left"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"/>
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/dialog_edit"/>
 
     </LinearLayout>
 
@@ -110,12 +110,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/distance_betw_but"
+            android:layout_marginTop="@dimen/distance_betw_but"
             android:gravity="left"
             android:text="Процедура:"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="20sp"
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/header_comment_add_proc"
             android:textStyle="bold"/>
 
         <TextView
@@ -123,12 +123,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/distance_betw_but"
+            android:layout_marginTop="@dimen/distance_betw_but"
             android:fontFamily="sans-serif-light"
             android:gravity="left"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"/>
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/dialog_edit"/>
     </LinearLayout>
 
     <LinearLayout
@@ -141,12 +141,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/distance_betw_but"
+            android:layout_marginTop="@dimen/distance_betw_but"
             android:gravity="left"
             android:text="Сумма:"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="20sp"
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/header_comment_add_proc"
             android:textStyle="bold"/>
 
         <TextView
@@ -154,12 +154,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/distance_betw_but"
+            android:layout_marginTop="@dimen/distance_betw_but"
             android:fontFamily="sans-serif-light"
             android:gravity="left"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"/>
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/dialog_edit"/>
 
     </LinearLayout>
 
@@ -173,12 +173,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/distance_betw_but"
+            android:layout_marginTop="@dimen/distance_betw_but"
             android:gravity="left"
             android:text="Примечания:"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="20sp"
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/header_comment_add_proc"
             android:textStyle="bold"/>
 
         <TextView
@@ -186,12 +186,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="@dimen/distance_betw_but"
+            android:layout_marginTop="@dimen/distance_betw_but"
             android:fontFamily="sans-serif-light"
             android:gravity="left"
-            android:textColor="@color/ColorPrimary"
-            android:textSize="18sp"/>
+            android:textColor="@color/color_black_light"
+            android:textSize="@dimen/dialog_edit"/>
 
     </LinearLayout>
 

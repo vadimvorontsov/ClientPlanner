@@ -159,6 +159,7 @@ public class ProcedureActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.tool_bar_procedure);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setBackgroundDrawable(this.getResources().getDrawable(R.color.procedure_first));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 

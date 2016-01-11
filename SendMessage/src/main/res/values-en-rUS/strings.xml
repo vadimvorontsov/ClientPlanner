@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delivered">Delivered</string>
+    <string name="undelivered">Not delivered</string>
+    <string name="delivery_unknown">Delivery status unknown</string>
+
+    <string name="sending">Sending...</string>
+    <string name="send_error_unknown">Unknown error</string>
+    <string name="send_error_service">Sending error! No network</string>
+    <string name="send_error_module">Sending error! You may have turned on "Airplane mode"</string>
+    <string name="send_error_pdu">Sending error! Problem with PDU module</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="wish_install">Do you want to install</string>
+    <string name="not_install">Application not installed</string>
+
+    <string name="no_phone">No phone</string>
+    <string name="no_email">No email</string>
+
+</resources>

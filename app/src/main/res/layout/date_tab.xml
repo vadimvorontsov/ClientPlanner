@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:hint="дата"
+                    android:hint="@string/date"
                     android:textColor="@color/color_black_light"
                     android:textSize="@dimen/header_comment_add_proc"
                     android:textStyle="bold"/>
@@ -54,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:hint="время"
+                    android:hint="@string/time"
                     android:textColor="@color/color_black_light"
                     android:textSize="@dimen/header_comment_add_proc"
                     android:textStyle="bold"/>
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Выберите дату"
+                android:text="@string/choose_date"
                 android:textColor="@color/color_black"
                 android:textSize="@dimen/header_button"/>
 
@@ -135,7 +135,7 @@
                 android:layout_marginLeft="@dimen/left_select_data"
                 android:gravity="center"
                 android:layout_weight="1"
-                android:text="Выберите время"
+                android:text="@string/choose_time"
                 android:textColor="@color/color_black"
                 android:textSize="@dimen/header_button"/>
 
@@ -157,7 +157,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/color_black"
-                    android:text="дата"/>
+                    android:text="@string/date"/>
 
             </LinearLayout>
             </LinearLayout>
@@ -197,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_btn_shakespeare"
                         android:onClick="BtnTime1"
-                        android:text="с"
+                        android:text="@string/from"
                         android:textSize="8pt"/>
                 </LinearLayout>
                 <LinearLayout
@@ -213,7 +213,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_btn_shakespeare"
                         android:onClick="BtnTime2"
-                        android:text="по"
+                        android:text="@string/on"
                         android:textSize="8pt"/>
                 </LinearLayout>
             </LinearLayout>

@@ -32,7 +32,7 @@ public class SendReceipt extends BroadcastReceiver {
                 msg = context.getResources().getString(R.string.send_error_pdu);
                 break;
             default:
-                msg = context.getResources().getString(R.string.send_unknown);
+                msg = context.getResources().getString(R.string.send_error_unknown);
         }
 
         Toast.makeText(context, msg, Toast.LENGTH_LONG).show();

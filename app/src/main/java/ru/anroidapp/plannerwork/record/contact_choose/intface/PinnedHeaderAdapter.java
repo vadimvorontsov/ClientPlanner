@@ -140,9 +140,10 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 //            if (allClients.contains(name)) {
                 int visits = getClientsVisits(name);
                 if (visits > 0)
-                    holder.visitsTextView.setText("Количество посещений " + visits);
+                    holder.visitsTextView.setText(mContext.getResources().getString(R.string.visits_number)
+                            + " " + visits);
                 else
-                    holder.visitsTextView.setText("Посещений не было");
+                    holder.visitsTextView.setText(mContext.getResources().getString(R.string.no_records));
 //                allClients.remove(name);
 //            }
         }

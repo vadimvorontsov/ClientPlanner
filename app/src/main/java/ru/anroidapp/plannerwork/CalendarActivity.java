@@ -20,7 +20,6 @@ import ru.anroidapp.plannerwork.calendar.DateTimeInterpreter;
 import ru.anroidapp.plannerwork.calendar.WeekView;
 import ru.anroidapp.plannerwork.calendar.WeekViewEvent;
 
-import com.example.smena.clientbase.procedures.Procedures;
 import com.example.smena.clientbase.procedures.Sessions;
 
 import java.text.SimpleDateFormat;
@@ -46,7 +45,7 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendare);
+        setContentView(R.layout.activity_calendar);
 
         //mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
 

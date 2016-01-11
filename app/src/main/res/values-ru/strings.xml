@@ -95,6 +95,17 @@
     <string name="send_msg_title">Запись успешно завершена и добавлена в календарь</string>
     <string name="send_msg_question">Желаете оповестить клиента?</string>
     <string name="end_error">Ошибка завершения записи!</string>
+    <string name="send">Отправить</string>
+
+    <string name="date">дата</string>
+    <string name="time">время</string>
+    <string name="choose_date">Выберите дату</string>
+    <string name="choose_time">Выберите время</string>
+    <string name="from">с</string>
+    <string name="on">по</string>
+
+    <string name="no_records">Ближайших записей нет</string>
+    <string name="visits_number">Количество посещений</string>
 
 
 </resources>

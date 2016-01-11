@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">PlannerWork</string>
 
-    <string name="rec_title">To the begining</string>
+    <string name="rec_title">To the beginning</string>
 
     <!--<string name="navDraw_1">Main</string>-->
     <!--<string name="navDraw_2">Calendar</string>-->
@@ -60,8 +60,8 @@
     <string name="price">Price</string>
     <string name="note">Comments</string>
 
-    <string name="contact_inf">Information on the contact</string>
-    <string name="procedure_inf">Information on the procedure</string>
+    <string name="contact_inf">Information about contact</string>
+    <string name="procedure_inf">Information about procedure</string>
 
     <string-array name="months">
         <item>January</item>
@@ -93,7 +93,18 @@
 
     <string name="send_msg_title">Record successfully completed and added to the calendar</string>
     <string name="send_msg_question">You wish to inform the client?</string>
-    <string name="end_error">Error in compliting the entry</string>
+    <string name="end_error">Error in completion the entry</string>
+    <string name="send">Send</string>
+
+    <string name="date">date</string>
+    <string name="time">time</string>
+    <string name="choose_date">Select date</string>
+    <string name="choose_time">Select time</string>
+    <string name="from">from</string>
+    <string name="on">on</string>
+
+    <string name="no_records">The nearest records are not</string>
+    <string name="visits_number">Number of visits</string>
 
 
 </resources>

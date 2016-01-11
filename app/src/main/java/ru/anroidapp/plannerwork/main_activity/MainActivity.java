@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import ru.anroidapp.plannerwork.CalendarActivity;
+import ru.anroidapp.plannerwork.LangUpdateText;
+import ru.anroidapp.plannerwork.LanguageManager;
 import ru.anroidapp.plannerwork.ProcedureActivity;
 import ru.anroidapp.plannerwork.R;
 import ru.anroidapp.plannerwork.animation.Circle;
@@ -37,14 +39,16 @@ import ru.anroidapp.plannerwork.record.RecordActivity;
 import ru.anroidapp.plannerwork.main_activity.slide_nearest_sessions.ScreenSlidePagerAdapter;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LangUpdateText {
 
     private Circle[] circleArray;
     private final int MAX_SESSIONS_COUNT = 5;
     private int sessionsCount;
     private LinearLayout circleTable;
-    private Locale myLocale;
-    private boolean isRus;
+
+    private LanguageManager langManager;
+//    private Locale myLocale;
+//    private boolean isRus;
 
     private TextView startRecordTextView;
     private TextView startCalendarTextView;
@@ -94,7 +98,8 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout startProcedureView = (LinearLayout) findViewById(R.id.start_procedure_view);
         startProcedureView.setOnClickListener(startProceduresViewListener);
 
-        loadLocale();
+        langManager = new LanguageManager(this);
+        langManager.loadLocale();
 
     }
 
@@ -158,10 +163,11 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
         if (id == R.id.change_language) {
-            if (!isRus)
-                changeLang("ru");
+            if (!langManager.isRus)
+                langManager.changeLang("ru");
             else
-                changeLang("en");
+                langManager.changeLang("en");
+            updateTexts();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -265,53 +271,63 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private void changeLang(String lang) {
-        if (lang.equalsIgnoreCase(""))
-            return;
-        myLocale = new Locale(lang);
-        saveLocale(lang);
-        Locale.setDefault(myLocale);
-        android.content.res.Configuration config = new android.content.res.Configuration();
-        config.locale = myLocale;
-
-        if (lang.equals("en")) {
-            isRus = false;
-        }
-        else {
-            isRus = true;
-        }
-
-        getBaseContext().getResources().updateConfiguration(config,
-                getBaseContext().getResources().getDisplayMetrics());
-        updateTexts();
-    }
-
-
-    private void saveLocale(String lang)
-    {
-        String langPref = "Language";
-        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(langPref, lang);
-        editor.commit();
-    }
-
-
-    private void loadLocale()
-    {
-        String langPref = "Language";
-        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-        String language = prefs.getString(langPref, "");
-        changeLang(language);
-    }
-
-    private void updateTexts() {
+    @Override
+    public void updateTexts() {
         this.startRecordTextView.setText(R.string.start_record);
         this.startRecordDescriptionTextView.setText(R.string.start_record_description);
         this.startCalendarTextView.setText(R.string.calendar);
         this.startCalendarDescriptionTextView.setText(R.string.start_calendar_description);
-        this.startCalendarTextView.setText(R.string.procedure);
+        this.startProcedureTextView.setText(R.string.procedure);
         this.startProcedureDescriptionTextView.setText(R.string.start_procedure_description);
     }
+
+//    private void changeLang(String lang) {
+//        if (lang.equalsIgnoreCase(""))
+//            return;
+//        myLocale = new Locale(lang);
+//        saveLocale(lang);
+//        Locale.setDefault(myLocale);
+//        android.content.res.Configuration config = new android.content.res.Configuration();
+//        config.locale = myLocale;
+//
+//        if (lang.equals("en")) {
+//            isRus = false;
+//        }
+//        else {
+//            isRus = true;
+//        }
+//
+//        getBaseContext().getResources().updateConfiguration(config,
+//                getBaseContext().getResources().getDisplayMetrics());
+//        updateTexts();
+//    }
+//
+//
+//    private void saveLocale(String lang)
+//    {
+//        String langPref = "Language";
+//        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = prefs.edit();
+//        editor.putString(langPref, lang);
+//        editor.commit();
+//    }
+//
+//
+//    private void loadLocale()
+//    {
+//        String langPref = "Language";
+//        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
+//        String language = prefs.getString(langPref, "");
+//        changeLang(language);
+//    }
+
+//    public void updateTexts() {
+//        this.startRecordTextView.setText(R.string.start_record);
+//        this.startRecordDescriptionTextView.setText(R.string.start_record_description);
+//        this.startCalendarTextView.setText(R.string.calendar);
+//        this.startCalendarDescriptionTextView.setText(R.string.start_calendar_description);
+//        this.startProcedureTextView.setText(R.string.procedure);
+//        this.startProcedureDescriptionTextView.setText(R.string.start_procedure_description);
+//    }
 
 }

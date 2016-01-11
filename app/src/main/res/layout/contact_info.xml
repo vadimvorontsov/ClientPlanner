@@ -14,7 +14,7 @@
         android:layout_gravity="center_horizontal"
         android:fontFamily="sans-serif"
         android:textSize="@dimen/name_viewpager"
-        android:text="Информация: "
+        android:text="@string/contact_inf"
         android:textStyle="bold"
         android:textColor="@color/color_black" />
 
@@ -29,7 +29,7 @@
         android:textColor="@color/color_black_light"
         android:textSize="@dimen/header_comment_add_proc"
         android:textStyle="bold"
-        android:text="Имя: " />
+        android:text="@string/name" />
 
     <TextView
         android:id="@+id/contact_info_name_input"
@@ -48,7 +48,7 @@
         android:layout_marginTop="@dimen/padding_betw_name"
         android:fontFamily="sans-serif"
         android:textSize="@dimen/header_comment_add_proc"
-        android:text="Номер телефона: "
+        android:text="@string/phone"
         android:textStyle="bold"
         android:textColor="@color/color_black_light" />
 
@@ -71,7 +71,7 @@
         android:textColor="@color/color_black_light"
         android:textSize="@dimen/header_comment_add_proc"
         android:textStyle="bold"
-        android:text="Email:" />
+        android:text="@string/email" />
 
     <TextView
         android:id="@+id/contact_info_email_input"

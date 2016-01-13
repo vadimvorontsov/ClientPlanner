@@ -143,7 +143,8 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
                     holder.visitsTextView.setText(mContext.getResources().getString(R.string.visits_number)
                             + " " + visits);
                 else
-                    holder.visitsTextView.setText(mContext.getResources().getString(R.string.no_records));
+                    holder.visitsTextView.setText
+                            (mContext.getResources().getString(R.string.no_visits));
 //                allClients.remove(name);
 //            }
         }
@@ -171,7 +172,8 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
     }
 
     public int getCurrentSectionPosition(int position) {
-        String listChar = mListItems.get(position).toString().substring(0, 1).toUpperCase(Locale.getDefault());
+        String listChar = mListItems.get(position).toString().
+                substring(0, 1).toUpperCase(Locale.getDefault());
         return mListItems.indexOf(listChar);
     }
 

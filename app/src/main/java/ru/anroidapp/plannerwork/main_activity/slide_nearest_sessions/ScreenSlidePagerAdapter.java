@@ -12,15 +12,15 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
     private Context mContext;
     private ArrayList<Long> mSessions;
-    private Map<Integer, String> mFragmentTags;
-    private FragmentManager mFM;
+//    private Map<Integer, String> mFragmentTags;
+//    private FragmentManager mFM;
 
     public ScreenSlidePagerAdapter(Context ctx, FragmentManager fm, ArrayList<Long> sessions) {
         super(fm);
         this.mContext = ctx;
-        this.mFM = fm;
+//        this.mFM = fm;
         mSessions = sessions;
-        mFragmentTags = new HashMap<>();
+//        mFragmentTags = new HashMap<>();
     }
 
     @Override

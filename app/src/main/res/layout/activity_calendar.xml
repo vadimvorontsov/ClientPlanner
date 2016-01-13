@@ -13,9 +13,7 @@
 
     <include
         layout="@layout/toolbar"
-        android:id="@+id/tool_cal"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar"/>
+        android:id="@+id/tool_cal" />
 
     <ru.anroidapp.plannerwork.calendar.WeekView
         android:id="@+id/weekView"

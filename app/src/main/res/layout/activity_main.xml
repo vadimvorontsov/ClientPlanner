@@ -8,13 +8,9 @@
     android:orientation="vertical"
     tools:context="ru.anroidapp.plannerwork.main_activity.MainActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/procedure_first"
-        android:elevation="@dimen/elevation_toolbar"
-        android:theme="@style/Base.ThemeOverlay.AppCompat.Dark" />
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/toolbar" />
 
     <LinearLayout
         android:id="@+id/start_record_layout"
@@ -38,7 +34,7 @@
             <TextView
                 android:id="@+id/start_record_description_textview"
                 style="@style/MainActivity.ItemDescription"
-                android:text="Выбор клиента, даты, услуги. \n Отправка сообщения." />
+                android:text="@string/start_record_description" />
 
         </LinearLayout>
 

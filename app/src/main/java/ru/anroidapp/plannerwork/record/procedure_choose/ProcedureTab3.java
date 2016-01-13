@@ -107,7 +107,7 @@ public class ProcedureTab3 extends Fragment {
 //                    .show();
             new AlertDialog.Builder(fa)
                     .setTitle(R.string.procedure_inf)
-                    .setMessage(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
+                    .setMessage(resources.getString(R.string.services) + ": " + procNameTmp + "\n" +
                             resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
                             resources.getString(R.string.note) + ": " + procNoteTmp)
                     .setPositiveButton(R.string.back, new DialogInterface.OnClickListener() {

@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">PlannerWork</string>
-
     <string name="rec_title">To the beginning</string>
 
     <!--<string name="navDraw_1">Main</string>-->
@@ -15,12 +13,12 @@
     <string name="start_record_description">
         Select client, date and service \n Sending message</string>
     <string name="start_calendar_description">Viewing and deleting records</string>
-    <string name="start_procedure_description">Viewing and editing procedures</string>
+    <string name="start_procedure_description">Viewing and editing services</string>
 
     <string-array name="fragment_titles">
-        <item>Contact</item>
+        <item>Contacts</item>
         <item>Date</item>
-        <item>Procedure</item>
+        <item>Service</item>
         <item>Complete</item>
     </string-array>
 
@@ -53,15 +51,15 @@
     <string name="unknown">unknown</string>
     <string name="no_notes">No comments</string>
 
-    <string name="add_proc_title">New procedure</string>
-    <string name="procedure">Procedure</string>
+    <string name="add_proc_title">New service</string>
+    <!--string name="procedure">Procedure</string-->
     <string name="services">Services</string>
     <string name="record">Record</string>
     <string name="price">Price</string>
     <string name="note">Comments</string>
 
     <string name="contact_inf">Information about contact</string>
-    <string name="procedure_inf">Information about procedure</string>
+    <string name="procedure_inf">Information about service</string>
 
     <string-array name="months">
         <item>January</item>
@@ -105,6 +103,18 @@
 
     <string name="no_records">The nearest records are not</string>
     <string name="visits_number">Number of visits</string>
+    <string name="no_visits">Visits were not</string>
 
+    <string name="today">Today</string>
+    <string name="one_day">1 day</string>
+    <string name="three_days">3 days</string>
+    <string name="week">Week</string>
+
+    <string name="name_">Name:</string>
+    <string name="date_">Date:</string>
+    <string name="time_">Time:</string>
+    <string name="service_">Service:</string>
+    <string name="price_">Price:</string>
+    <string name="note_">Note:</string>
 
 </resources>

@@ -11,9 +11,7 @@
 
     <include
         android:id="@+id/tool_bar_procedure"
-        layout="@layout/toolbar"
-        android:layout_height="@dimen/toolbar"
-        android:layout_width="match_parent" />
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">PlannerWork</string>
-
     <string name="rec_title">В начало</string>
 
     <!--<string name="navDraw_1">Главная</string>-->
@@ -15,10 +13,10 @@
     <string name="start_record_description">
         Выбор клиента, даты, услуги \n Отправка сообщения</string>
     <string name="start_calendar_description">Просмотр и удаление записей</string>
-    <string name="start_procedure_description">Просмотр и редактирование процедур</string>
+    <string name="start_procedure_description">Просмотр и редактирование услуг</string>
 
     <string-array name="fragment_titles">
-        <item>Контакт</item>
+        <item>Контакты</item>
         <item>Дата</item>
         <item>Процедура</item>
         <item>Завершение</item>
@@ -53,15 +51,15 @@
     <string name="unknown">неизвестно</string>
     <string name="no_notes">примечаний нет</string>
 
-    <string name="add_proc_title">Новая процедура</string>
-    <string name="procedure">Процедура</string>
+    <string name="add_proc_title">Новая услуга</string>
+    <!--string name="procedure">Процедура</string-->
     <string name="services">Услуги</string>
     <string name="record">Запись</string>
     <string name="price">Цена</string>
     <string name="note">Примечание</string>
 
     <string name="contact_inf">Информация о контакте</string>
-    <string name="procedure_inf">Информация о процедуре</string>
+    <string name="procedure_inf">Информация об услуге</string>
 
     <string-array name="months">
         <item>Января</item>
@@ -106,6 +104,19 @@
 
     <string name="no_records">Ближайших записей нет</string>
     <string name="visits_number">Количество посещений</string>
+    <string name="no_visits">Посещений не было</string>
+
+    <string name="today">Сегодня</string>
+    <string name="one_day">1 день</string>
+    <string name="three_days">3 дня</string>
+    <string name="week">Неделя</string>
+
+    <string name="name_">Имя:</string>
+    <string name="date_">Дата:</string>
+    <string name="time_">Время:</string>
+    <string name="service_">Услуга:</string>
+    <string name="price_">Стоимость:</string>
+    <string name="note_">Примечание:</string>
 
 
 </resources>

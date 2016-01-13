@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
     private TextView startRecordDescriptionTextView;
     private TextView startCalendarDescriptionTextView;
     private TextView startProcedureDescriptionTextView;
-
+    private TextView noNearestRecordsTextView;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
         startProcedureTextView = (TextView) findViewById(R.id.start_procedure_textview);
         startProcedureDescriptionTextView = (TextView)
                 findViewById(R.id.start_procedure_description_textview);
+
+        noNearestRecordsTextView = (TextView) findViewById(R.id.no_records_textview);
 
         //getDbFile();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -106,31 +108,7 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-
-        ViewPager mPager = (ViewPager) findViewById(R.id.preview_sessions_pager);
-        ArrayList<Long> nearestSessions = getNearestSessions(this);
-        sessionsCount = nearestSessions.size();
-        TextView notRecord = (TextView) findViewById(R.id.no_records_textview);
-        circleTable = (LinearLayout) findViewById(R.id.circles);
-
-        mPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        mPager.addOnPageChangeListener(pageChangeListener);
-
-            if (nearestSessions != null && !nearestSessions.isEmpty()) {
-                initCircles();
-                PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter
-                        (this, getSupportFragmentManager(), nearestSessions);
-                mPager.setAdapter(mPagerAdapter);
-                notRecord.setVisibility(View.GONE);
-                mPager.setVisibility(View.VISIBLE);
-                circleTable.setVisibility(View.VISIBLE);
-
-                setCircleVisibility(sessionsCount);
-
-            } else if (nearestSessions != null && nearestSessions.isEmpty()) {
-                notRecord.setVisibility(View.VISIBLE);
-                mPager.setVisibility(View.GONE);
-            }
+        loadNearestSessions();
     }
 
     public void startRecord() {
@@ -271,14 +249,44 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
         }
     };
 
+    private void loadNearestSessions() {
+        ViewPager mPager = (ViewPager) findViewById(R.id.preview_sessions_pager);
+        ArrayList<Long> nearestSessions = getNearestSessions(this);
+        sessionsCount = nearestSessions.size();
+        TextView notRecord = (TextView) findViewById(R.id.no_records_textview);
+        circleTable = (LinearLayout) findViewById(R.id.circles);
+
+        mPager.setPageTransformer(true, new ZoomOutPageTransformer());
+        mPager.addOnPageChangeListener(pageChangeListener);
+
+        if (nearestSessions != null && !nearestSessions.isEmpty()) {
+            initCircles();
+            PagerAdapter mPagerAdapter = new ScreenSlidePagerAdapter
+                    (this, getSupportFragmentManager(), nearestSessions);
+            mPager.setAdapter(mPagerAdapter);
+            notRecord.setVisibility(View.GONE);
+            mPager.setVisibility(View.VISIBLE);
+            circleTable.setVisibility(View.VISIBLE);
+
+            setCircleVisibility(sessionsCount);
+
+        } else if (nearestSessions != null && nearestSessions.isEmpty()) {
+            notRecord.setVisibility(View.VISIBLE);
+            mPager.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void updateTexts() {
         this.startRecordTextView.setText(R.string.start_record);
         this.startRecordDescriptionTextView.setText(R.string.start_record_description);
         this.startCalendarTextView.setText(R.string.calendar);
         this.startCalendarDescriptionTextView.setText(R.string.start_calendar_description);
-        this.startProcedureTextView.setText(R.string.procedure);
+        this.startProcedureTextView.setText(R.string.services);
         this.startProcedureDescriptionTextView.setText(R.string.start_procedure_description);
+        this.noNearestRecordsTextView.setText(R.string.no_records);
+
+        loadNearestSessions();
     }
 
 //    private void changeLang(String lang) {

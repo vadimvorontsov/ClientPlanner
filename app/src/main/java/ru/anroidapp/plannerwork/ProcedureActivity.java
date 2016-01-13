@@ -118,7 +118,7 @@ public class ProcedureActivity extends AppCompatActivity {
 //                    .show();
             new AlertDialog.Builder(mContext)
                     .setTitle(R.string.procedure_inf)
-                    .setMessage(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
+                    .setMessage(resources.getString(R.string.services) + ": " + procNameTmp + "\n" +
                             resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
                             resources.getString(R.string.note) + ": " + procNoteTmp)
                     .setPositiveButton(R.string.back, new DialogInterface.OnClickListener() {

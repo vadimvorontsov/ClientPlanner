@@ -7,9 +7,7 @@
 
     <include
         android:id="@+id/tool_record"
-        layout="@layout/toolbar"
-        android:layout_height="@dimen/toolbar"
-        android:layout_width="match_parent" />
+        layout="@layout/toolbar" />
 
     <ru.anroidapp.plannerwork.record.SlidingTabLayout
         android:id="@+id/tabs_record"

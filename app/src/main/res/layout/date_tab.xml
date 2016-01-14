@@ -213,7 +213,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/custom_btn_shakespeare"
                         android:onClick="BtnTime2"
-                        android:text="@string/on"
+                        android:text="@string/to"
                         android:textSize="8pt"/>
                 </LinearLayout>
             </LinearLayout>

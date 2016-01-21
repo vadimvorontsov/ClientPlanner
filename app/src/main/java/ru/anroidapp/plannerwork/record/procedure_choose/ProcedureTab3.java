@@ -47,168 +47,77 @@ import ru.anroidapp.plannerwork.intface_procedure.ProcedureHeaderListView;
 public class ProcedureTab3 extends Fragment {
 
     private final String TAG = "ProcedureTab3";
-    ArrayList<String> mProcedures;
-    ArrayList<Integer> mListSectionPosProc;
-    ArrayList<Integer> mColorProcedures;
-    ArrayList<String> mListItemsProc;
-    ProcedureHeaderListView mListViewProc;
-    ProcedureHeaderAdapter mAdaptorProc;
-    EditText mSearchViewProc;
-    ProgressBar mLoadingViewProc;
-    TextView mEmptyViewProc;
-    LinearLayout laySearch, layCanselSearch;
-    FloatingActionButton fab;
-    FragmentActivity fa;
-    MetaData mMetaData;
-    int choiceColor = 0;
-    int position_pencil = 0;
-    long procIdTmp = 0;
-    String[] data = {"one", "two", "three", "four"};
-    View.OnClickListener oclFabClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            laySearch.setVisibility(View.VISIBLE);
-            fab.hide();
-            mSearchViewProc.requestFocus();
-            InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            keyboard.showSoftInput(mSearchViewProc, 0);
-            Toast.makeText(fa, "Проверка fab", Toast.LENGTH_SHORT).show();
-        }
-    };
-    View.OnClickListener oclCloseSearch = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            laySearch.setVisibility(View.GONE);
-            fab.show();
-            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(mSearchViewProc.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
-        }
-    };
-    AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-            Resources resources = getResources();
-            Procedures procedures = new Procedures(fa);
-
-            String procNameTmp = mListItemsProc.get(position);
-            long procIdTmp = procedures.getProcedureID(procNameTmp);
-            Object[] procInfoTmp = procedures.getProcedureInfo(procIdTmp);
-            Integer procPriceTmp = (Integer) procInfoTmp[1];
-            String procNoteTmp = (String) procInfoTmp[2];
-
-//            new MaterialDialog.Builder(fa)
-//                    .title(R.string.procedure_inf)
-//                    .content(resources.getString(R.string.procedure) + ": " + procNameTmp + "\n" +
-//                            resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
-//                            resources.getString(R.string.note) + ": " + procNoteTmp)
-//                    .positiveText(R.string.back)
-//                    .show();
-            new AlertDialog.Builder(fa)
-                    .setTitle(R.string.procedure_inf)
-                    .setMessage(resources.getString(R.string.services) + ": " + procNameTmp + "\n" +
-                            resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
-                            resources.getString(R.string.note) + ": " + procNoteTmp)
-                    .setPositiveButton(R.string.back, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    }).show();
-            return true;
-        }
-    };
+    private ArrayList<String> mProcedures;
+    private ArrayList<Integer> mListSectionPosProcedure;
+    private ArrayList<Integer> mColorProcedures;
+    private ArrayList<String> mListItemsProcedure;
+    private ProcedureHeaderListView mListViewProcedure;
+    private ProcedureHeaderAdapter mAdaptorProcedure;
+    private EditText mSearchViewProcedure;
+    private ProgressBar mLoadingViewProcedure;
+    private TextView mEmptyViewProcedure;
+    private LinearLayout mSearchLayout, mCancelSearchLayout;
+    private FloatingActionButton mFab;
+    private FragmentActivity mContext;
+    private MetaData mMetaData;
+    private int mColorChoice;
+    private int mPencilPosition;
+    private long mProcedureIdTmp;
+    private String[] data = {"one", "two", "three", "four"};
     private TextView lastChoose;
-    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            position_pencil = position;
-            Procedures procedures = new Procedures(fa);
 
-            String procedureName = mListItemsProc.get(position);
-            mMetaData.setProcedureName(procedureName);
-            long procedureId = procedures.getProcedureID(procedureName);
-            Object[] procedureInfo = procedures.getProcedureInfo(procedureId);
-            Integer procedurePrice = (Integer) procedureInfo[1];
-            mMetaData.setProcedurePrice(procedurePrice);
-            String procedureNote = (String) procedureInfo[2];
-            mMetaData.setProcedureNote(procedureNote);
-
-            if (lastChoose != null) {
-                lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-            }
-
-            //         TextView textView = (TextView) view;
-            //          textView.setCompoundDrawablesWithIntrinsicBounds
-            //                  (R.drawable.btn_check_buttonless_on, 0, 0, 0);
-            //          lastChoose = textView;
-
-            Toast.makeText(fa.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
-                            + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
-                    Toast.LENGTH_SHORT).show();
-        }
-    };
-    private TextWatcher filterTextWatcher = new TextWatcher() {
-        public void afterTextChanged(Editable s) {
-            String str = s.toString();
-            if (mAdaptorProc != null)
-                (new ListFilter()).filter(str);
-        }
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-    };
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
-        fa = super.getActivity();
+        mContext = super.getActivity();
         mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
+        mColorChoice = 0;
+        mPencilPosition = 0;
+        mProcedureIdTmp = 0;
 
-        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.procedure_tab, container, false);
+        RelativeLayout relativeLayout = (RelativeLayout)
+                inflater.inflate(R.layout.procedure_tab, container, false);
 
         mProcedures = new ArrayList<>();
         mColorProcedures = new ArrayList<>();
         getColorProcedures();
         getProcedures();
 
-        mSearchViewProc = (EditText) relativeLayout.findViewById(R.id.SearchViewProc);
-        mLoadingViewProc = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);
-        mListViewProc = (ProcedureHeaderListView) relativeLayout.findViewById(R.id.proc_list_view);
-        mEmptyViewProc = (TextView) relativeLayout.findViewById(R.id.empty_view);
-        laySearch = (LinearLayout) relativeLayout.findViewById(R.id.LaySearchProc);
-        layCanselSearch = (LinearLayout) relativeLayout.findViewById(R.id.LayCanselSearchProc);
+        mSearchViewProcedure = (EditText) relativeLayout.findViewById(R.id.SearchViewProc);
+        mLoadingViewProcedure = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);
+        mListViewProcedure = (ProcedureHeaderListView) relativeLayout.findViewById(R.id.proc_list_view);
+        mEmptyViewProcedure = (TextView) relativeLayout.findViewById(R.id.empty_view);
+        mSearchLayout = (LinearLayout) relativeLayout.findViewById(R.id.LaySearchProc);
+        mCancelSearchLayout = (LinearLayout) relativeLayout.findViewById(R.id.LayCanselSearchProc);
 
-        fab = (FloatingActionButton) relativeLayout.findViewById(R.id.fab_proc);
-        fab.attachToListView(mListViewProc);
-        fab.setOnClickListener(oclFabClick);
-        layCanselSearch.setOnClickListener(oclCloseSearch);
+        mFab = (FloatingActionButton) relativeLayout.findViewById(R.id.fab_proc);
+        mFab.attachToListView(mListViewProcedure);
+        mFab.setOnClickListener(oclFabClick);
+        mCancelSearchLayout.setOnClickListener(oclCloseSearch);
 
-        laySearch.setVisibility(View.GONE);
+        mSearchLayout.setVisibility(View.GONE);
 
         relativeLayout.findViewById(R.id.procedure_tab);
 
-        mListSectionPosProc = new ArrayList<>();
-        mListItemsProc = new ArrayList<>();
+        mListSectionPosProcedure = new ArrayList<>();
+        mListItemsProcedure = new ArrayList<>();
 
         // for handling configuration change
         if (savedInstanceState != null) {
-            mListItemsProc = savedInstanceState.getStringArrayList("mListItemsProc");
-            mListSectionPosProc = savedInstanceState.getIntegerArrayList("mListSectionPosProc");
+            mListItemsProcedure = savedInstanceState.getStringArrayList("mListItemsProcedure");
+            mListSectionPosProcedure = savedInstanceState.
+                    getIntegerArrayList("mListSectionPosProcedure");
 
-            if (mListItemsProc != null && mListItemsProc.size() > 0
-                    && mListSectionPosProc != null && mListSectionPosProc.size() > 0) {
+            if (mListItemsProcedure != null && mListItemsProcedure.size() > 0
+                    && mListSectionPosProcedure != null && mListSectionPosProcedure.size() > 0) {
                 setListAdaptor();
             }
 
             String constraint = savedInstanceState.getString("constraint");
             if (constraint != null && constraint.length() > 0) {
-                mSearchViewProc.setText(constraint);
+                mSearchViewProcedure.setText(constraint);
                 setIndexBarViewVisibility(constraint);
             }
 
@@ -218,20 +127,19 @@ public class ProcedureTab3 extends Fragment {
 
         setHasOptionsMenu(true);
 
-        //hide fab if procedure < 5
-        if (mListItemsProc != null && mListItemsProc.size() < 6)
-            fab.setVisibility(View.GONE);
+        if (mListItemsProcedure != null && mListItemsProcedure.size() < 6)
+            mFab.setVisibility(View.GONE);
 
         return relativeLayout;
     }
 
     private void getProcedures() {
-        Procedures procedures = new Procedures(fa);
+        Procedures procedures = new Procedures(mContext);
         mProcedures = procedures.getAllProceduresNames();
     }
 
     private void getColorProcedures() {
-        Procedures procedures = new Procedures(fa);
+        Procedures procedures = new Procedures(mContext);
         mColorProcedures = procedures.getAllProceduresColor();
     }
 
@@ -249,45 +157,41 @@ public class ProcedureTab3 extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.add_procedure, null);
         final EditText nameEditText = (EditText) view.findViewById(R.id.input_proc_name);
         final EditText priceEditText = (EditText) view.findViewById(R.id.input_proc_price);
         final EditText noteEditText = (EditText) view.findViewById(R.id.input_proc_note);
 
         Spinner spinner = (Spinner) view.findViewById(R.id.spin_proc_color);
-        MyCustomAdapter adapter = new MyCustomAdapter(fa, R.layout.row, data);
+        MyCustomAdapter adapter = new MyCustomAdapter(mContext, R.layout.row, data);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(fa);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
 
         switch (item.getItemId()) {
             case R.id.action_pencil:
-                //###########
-                if (position_pencil == 0) {
-                    Toast.makeText(fa, "Выберите процедуру", Toast.LENGTH_SHORT).show();
+                if (mPencilPosition == 0) {
+                    Toast.makeText(mContext, "Выберите процедуру", Toast.LENGTH_SHORT).show();
                     break;
                 }
 
-                Resources resources = getResources();
-                Procedures procedures = new Procedures(fa);
-                String procNameTmp = mListItemsProc.get(position_pencil);
-                procIdTmp = procedures.getProcedureID(procNameTmp);
-                Object[] procInfoTmp = procedures.getProcedureInfo(procIdTmp);
+                Procedures procedures = new Procedures(mContext);
+                String procNameTmp = mListItemsProcedure.get(mPencilPosition);
+                mProcedureIdTmp = procedures.getProcedureID(procNameTmp);
+                Object[] procInfoTmp = procedures.getProcedureInfo(mProcedureIdTmp);
                 Integer procPriceTmp = (Integer) procInfoTmp[1];
                 String procNoteTmp = (String) procInfoTmp[2];
                 Integer procColorTmp = (Integer) procInfoTmp[3];
-                //###########
 
-                //#######__adapter__#########
                 spinner.setAdapter(adapter);
                 spinner.setSelection(procColorTmp, true);
-                //обработчик нажатия
+
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Toast toast = Toast.makeText(fa,
+                        Toast toast = Toast.makeText(mContext,
                                 "Ваш выбор: " + position, Toast.LENGTH_SHORT);
-                        choiceColor = position;
+                        mColorChoice = position;
                         toast.show();
                     }
 
@@ -296,12 +200,11 @@ public class ProcedureTab3 extends Fragment {
 
                     }
                 });
-                //#######################
 
                 nameEditText.setText(procNameTmp);
                 priceEditText.setText(procPriceTmp + "");
                 noteEditText.setText(procNoteTmp);
-                choiceColor = procColorTmp;
+                mColorChoice = procColorTmp;
 
                 builder.setView(view)
                         .setCancelable(true);
@@ -319,13 +222,13 @@ public class ProcedureTab3 extends Fragment {
                         if (note.isEmpty())
                             note = "Примечаний нет";
 
-                        Integer color = choiceColor;
+                        Integer color = mColorChoice;
 
                         if (!name.isEmpty()) {
-                            Procedures procedures_update = new Procedures(fa);
-                            int test = procedures_update.getUpdateProcedure(procIdTmp + "", name, price, note, color);
+                            Procedures procedures_update = new Procedures(mContext);
+                            int test = procedures_update.getUpdateProcedure(mProcedureIdTmp + "", name, price, note, color);
                             if (test == 1) {
-                                Toast.makeText(fa, "Процедура изменена", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, "Процедура изменена", Toast.LENGTH_SHORT).show();
                                 refreshList();
                             }
                         }
@@ -342,17 +245,16 @@ public class ProcedureTab3 extends Fragment {
                 break;
 
             case R.id.add_procedure:
-                //#######__adapter__#########
 
                 spinner.setAdapter(adapter);
                 spinner.setSelection(0, true);
-                //обработчик нажатия
+                
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Toast toast = Toast.makeText(fa,
+                        Toast toast = Toast.makeText(mContext,
                                 "Ваш выбор: " + position, Toast.LENGTH_SHORT);
-                        choiceColor = position;
+                        mColorChoice = position;
                         toast.show();
                     }
 
@@ -381,10 +283,10 @@ public class ProcedureTab3 extends Fragment {
 
                         if (!name.isEmpty()) {
                             long id = 0;
-                            Procedures procedures = new Procedures(fa);
-                            id = procedures.addProcedure(name, price, note, choiceColor);
+                            Procedures procedures = new Procedures(mContext);
+                            id = procedures.addProcedure(name, price, note, mColorChoice);
                             if (id != 0) {
-                                Toast.makeText(fa, "Процедура добавлена", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, "Процедура добавлена", Toast.LENGTH_SHORT).show();
                                 refreshList();
                             }
 
@@ -406,50 +308,50 @@ public class ProcedureTab3 extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        mSearchViewProc.addTextChangedListener(filterTextWatcher);
+        mSearchViewProcedure.addTextChangedListener(filterTextWatcher);
         super.onActivityCreated(savedInstanceState);
     }
 
     private void setListAdaptor() {
         // create instance of PinnedHeaderAdapter and set adapter to list view
-        mAdaptorProc = new ProcedureHeaderAdapter(fa, mListItemsProc, mListSectionPosProc, mColorProcedures);
-        mListViewProc.setAdapter(mAdaptorProc);
+        mAdaptorProcedure = new ProcedureHeaderAdapter(mContext, mListItemsProcedure, mListSectionPosProcedure, mColorProcedures);
+        mListViewProcedure.setAdapter(mAdaptorProcedure);
 
-        LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // set header view
-        View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListViewProc, false);
-        mListViewProc.setPinnedHeaderView(pinnedHeaderView);
+        View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListViewProcedure, false);
+        mListViewProcedure.setPinnedHeaderView(pinnedHeaderView);
 
 
         // set preview text view
-        View previewTextView = inflater.inflate(R.layout.preview_view, mListViewProc, false);
-        mListViewProc.setPreviewView(previewTextView);
+        View previewTextView = inflater.inflate(R.layout.preview_view, mListViewProcedure, false);
+        mListViewProcedure.setPreviewView(previewTextView);
 
         // for configure pinned header view on scroll change
-        mListViewProc.setOnScrollListener(mAdaptorProc);
-        mListViewProc.setOnItemClickListener(mClickListener);
-        mListViewProc.setOnItemLongClickListener(mLongClickListener);
+        mListViewProcedure.setOnScrollListener(mAdaptorProcedure);
+        mListViewProcedure.setOnItemClickListener(mClickListener);
+        mListViewProcedure.setOnItemLongClickListener(mLongClickListener);
     }
 
     private void setIndexBarViewVisibility(String constraint) {
         // hide index bar for search results
         if (constraint != null && constraint.length() > 0) {
-            mListViewProc.setIndexBarVisibility(false);
+            mListViewProcedure.setIndexBarVisibility(false);
         } else {
-            mListViewProc.setIndexBarVisibility(true);
+            mListViewProcedure.setIndexBarVisibility(true);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        if (mListItemsProc != null && mListItemsProc.size() > 0) {
-            outState.putStringArrayList("mListItemsProc", mListItemsProc);
+        if (mListItemsProcedure != null && mListItemsProcedure.size() > 0) {
+            outState.putStringArrayList("mListItemsProcedure", mListItemsProcedure);
         }
-        if (mListSectionPosProc != null && mListSectionPosProc.size() > 0) {
-            outState.putIntegerArrayList("mListSectionPosProc", mListSectionPosProc);
+        if (mListSectionPosProcedure != null && mListSectionPosProcedure.size() > 0) {
+            outState.putIntegerArrayList("mListSectionPosProcedure", mListSectionPosProcedure);
         }
-        String searchText = mSearchViewProc.getText().toString();
+        String searchText = mSearchViewProcedure.getText().toString();
         if (searchText.length() > 0) {
             outState.putString("constraint", searchText);
         }
@@ -473,7 +375,7 @@ public class ProcedureTab3 extends Fragment {
         }
 
         public View getCustomView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = inflater.inflate(R.layout.row, parent, false);
             TextView label = (TextView) row.findViewById(R.id.color_circle);
             label.setText(data[position]);
@@ -567,14 +469,14 @@ public class ProcedureTab3 extends Fragment {
         @Override
         protected void onPreExecute() {
             // show loading indicator
-            showLoading(mListViewProc, mLoadingViewProc, mEmptyViewProc);
+            showLoading(mListViewProcedure, mLoadingViewProcedure, mEmptyViewProcedure);
             super.onPreExecute();
         }
 
         @Override
         protected Void doInBackground(ArrayList<String>... params) {
-            mListItemsProc.clear();
-            mListSectionPosProc.clear();
+            mListItemsProcedure.clear();
+            mListSectionPosProcedure.clear();
             ArrayList<String> items = params[0];
             if (mProcedures.size() > 0) {
 
@@ -586,13 +488,13 @@ public class ProcedureTab3 extends Fragment {
                     String current_section = current_item.substring(0, 1).toUpperCase(Locale.getDefault());
 
                     if (!prev_section.equals(current_section)) {
-                        mListItemsProc.add(current_section);
-                        mListItemsProc.add(current_item);
+                        mListItemsProcedure.add(current_section);
+                        mListItemsProcedure.add(current_item);
                         // array list of section positions
-                        mListSectionPosProc.add(mListItemsProc.indexOf(current_section));
+                        mListSectionPosProcedure.add(mListItemsProcedure.indexOf(current_section));
                         prev_section = current_section;
                     } else {
-                        mListItemsProc.add(current_item);
+                        mListItemsProcedure.add(current_item);
                     }
                 }
             }
@@ -602,11 +504,11 @@ public class ProcedureTab3 extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             if (!isCancelled()) {
-                if (mListItemsProc.size() <= 0) {
-                    showEmptyText(mListViewProc, mLoadingViewProc, mEmptyViewProc);
+                if (mListItemsProcedure.size() <= 0) {
+                    showEmptyText(mListViewProcedure, mLoadingViewProcedure, mEmptyViewProcedure);
                 } else {
                     setListAdaptor();
-                    showContent(mListViewProc, mLoadingViewProc, mEmptyViewProc);
+                    showContent(mListViewProcedure, mLoadingViewProcedure, mEmptyViewProcedure);
                 }
             }
             super.onPostExecute(result);
@@ -618,5 +520,94 @@ public class ProcedureTab3 extends Fragment {
             return s1.compareToIgnoreCase(s2);
         }
     }
+
+    View.OnClickListener oclFabClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mSearchLayout.setVisibility(View.VISIBLE);
+            mFab.hide();
+            mSearchViewProcedure.requestFocus();
+            InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            keyboard.showSoftInput(mSearchViewProcedure, 0);
+            Toast.makeText(mContext, "Проверка mFab", Toast.LENGTH_SHORT).show();
+        }
+    };
+    View.OnClickListener oclCloseSearch = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            mSearchLayout.setVisibility(View.GONE);
+            mFab.show();
+            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(mSearchViewProcedure.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
+        }
+    };
+    AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Resources resources = getResources();
+            Procedures procedures = new Procedures(mContext);
+
+            String procNameTmp = mListItemsProcedure.get(position);
+            long procIdTmp = procedures.getProcedureID(procNameTmp);
+            Object[] procInfoTmp = procedures.getProcedureInfo(procIdTmp);
+            Integer procPriceTmp = (Integer) procInfoTmp[1];
+            String procNoteTmp = (String) procInfoTmp[2];
+
+            new AlertDialog.Builder(mContext)
+                    .setTitle(R.string.procedure_inf)
+                    .setMessage(resources.getString(R.string.services) + ": " + procNameTmp + "\n" +
+                            resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
+                            resources.getString(R.string.note) + ": " + procNoteTmp)
+                    .setPositiveButton(R.string.back, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
+            return true;
+        }
+    };
+
+    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            mPencilPosition = position;
+            Procedures procedures = new Procedures(mContext);
+
+            String procedureName = mListItemsProcedure.get(position);
+            mMetaData.setProcedureName(procedureName);
+            long procedureId = procedures.getProcedureID(procedureName);
+            Object[] procedureInfo = procedures.getProcedureInfo(procedureId);
+            Integer procedurePrice = (Integer) procedureInfo[1];
+            mMetaData.setProcedurePrice(procedurePrice);
+            String procedureNote = (String) procedureInfo[2];
+            mMetaData.setProcedureNote(procedureNote);
+
+            if (lastChoose != null) {
+                lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            }
+
+            Toast.makeText(mContext.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
+                            + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
+                    Toast.LENGTH_SHORT).show();
+        }
+    };
+
+    private TextWatcher filterTextWatcher = new TextWatcher() {
+        public void afterTextChanged(Editable s) {
+            String str = s.toString();
+            if (mAdaptorProcedure != null)
+                (new ListFilter()).filter(str);
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+    };
 
 }

@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
     private LinearLayout circleTable;
 
     private LanguageManager langManager;
-//    private Locale myLocale;
-//    private boolean isRus;
 
     private TextView startRecordTextView;
     private TextView startCalendarTextView;
@@ -58,6 +56,9 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
     private TextView startCalendarDescriptionTextView;
     private TextView startProcedureDescriptionTextView;
     private TextView noNearestRecordsTextView;
+
+    private MenuItem changeLangMenuItem;
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -117,9 +118,7 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
     }
 
     public void startCalendarView() {
-       // startActivity(new Intent(this, CalendarActivity.class));
         Intent intent = new Intent(this, CalendarActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
 
@@ -136,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        changeLangMenuItem = item;
         int id = item.getItemId();
         if(item.getItemId() == android.R.id.home){
             finish();
@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
                 langManager.changeLang("en");
             updateTexts();
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -285,6 +286,7 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
         this.startProcedureTextView.setText(R.string.services);
         this.startProcedureDescriptionTextView.setText(R.string.start_procedure_description);
         this.noNearestRecordsTextView.setText(R.string.no_records);
+        this.changeLangMenuItem.setTitle(R.string.change_language);
 
         loadNearestSessions();
     }

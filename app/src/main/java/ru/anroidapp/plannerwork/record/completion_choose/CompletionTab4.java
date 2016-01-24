@@ -44,170 +44,51 @@ import ru.anroidapp.plannerwork.main_activity.MainActivity;
 public class CompletionTab4 extends Fragment {
 
     private static final String TAG = "CompletionTab4";
-    int iMessage = 0;
+    private int mMessage = 0;
 
-    TextView clientNameTextView;
-    TextView dateTextView;
-    TextView timeTextView;
-    TextView procedureNameTextView;
-    TextView procedurePriceTextView;
-    TextView procedureNoteTextView;
-    Button btnClickOK, btnMessage;
+    private Button mMessageBtn;
 
+    private FragmentActivity mContext;
 
-    FragmentActivity fa;
+    private String mTextMsg;
+    private ArrayList<String> mPhones;
+    private String phone;
+    private ArrayList<String> mEmails;
+    private String emailAddress;
+    private RelativeLayout relativeLayout;
+    private LinearLayout mDataLayout, mDataAllLayout;
 
-    Toast mToast;
-    String mTextMsg;
-    ArrayList<String> mPhones;
-    String phone;
-    ArrayList<String> mEmails;
-    String email;
-    RelativeLayout relativeLayout;
-    LayoutInflater mInflater;
-    LinearLayout mDataLayout, mDataAllLayout;
-    boolean mAlpha = false;
-    MetaData mMetaData;
-    String mClientName;
-    String mYear;
-    String mMonthName;
-    String mMonthNumb;
-    String mDay;
-    String mHourStart;
-    String mHourEnd;
-    String mMinuteStart;
-    String mMinuteEnd;
-    String mProcedureName;
-    int mProcedurePrice;
-    String mProcedureNote;
-    int contactSelect = -1;
+    private MetaData mMetaData;
+    private String mClientName;
+    private String mYear;
+    private String mMonthName;
+    private String mMonthNumb;
+    private String mDay;
+    private String mHourStart;
+    private String mHourEnd;
+    private String mMinuteStart;
+    private String mMinuteEnd;
+    private String mProcedureName;
+    private int mProcedurePrice;
+    private String mProcedureNote;
+    private int contactSelect;
 
-    View.OnClickListener sendViberListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (phone != null || !phone.isEmpty()) {
-                Viber viber = new Viber(fa);
-                viber.sendMsg(mTextMsg);
-                contactSelect = 1;
-            } else {
-                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
-            }
-        }
-    };
-    View.OnClickListener sendWhatsAppListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (phone != null || !phone.isEmpty()) {
-                WhatsApp whatsApp = new WhatsApp(fa);
-                whatsApp.sendMsg(mTextMsg);
-                contactSelect = 2;
-            } else {
-                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
-            }
-        }
-    };
-    View.OnClickListener sendEmailListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            ArrayList<String> emails = mMetaData.getClientEmails();
-            if (email != null || !email.isEmpty()) {
-                Email email = new Email(fa);
-                email.sendEmail("voronczov-vadim@mail.ru", mTextMsg);
-                contactSelect = 3;
-            } else {
-                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_email));
-            }
-        }
-    };
-    View.OnClickListener sendSmsListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (phone != null || !phone.isEmpty()) {
-                SMS sms = new SMS(fa);
-                sms.sendSMS(phone, mTextMsg);
-                contactSelect = 4;
-            } else {
-                showToast(fa.getString(com.example.smena.sendmessage.R.string.no_phone));
-            }
-        }
-    };
-    View.OnClickListener oclBtnOK = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Resources resources = getResources();
-            long sessinonId = 0;
-        if (iMessage == 0) {
-            Sessions sessions = new Sessions(fa);
-             sessinonId = sessions.addSession(mClientName, mProcedureName,
-                    mProcedurePrice, mProcedureNote, mMetaData.getProcedureColor(),
-                    "" + mYear + "-" + mMonthNumb + "-" + mDay +
-                            " " + mHourStart + ":" + mMinuteStart,
-                    "" + mYear + "-" + mMonthNumb + "-" + mDay +
-                            " " + mHourEnd + ":" + mMinuteEnd,
-                    mMetaData.getClientPhones().get(0), mMetaData.getClientEmails().get(0), contactSelect);
-
-            Clients clients = new Clients(fa);
-            clients.updateClientAddVisit(mClientName);
-        }
-            if (sessinonId != -1) {
-                if (iMessage == 1)
-                    sendMsgView().show();
-                else {
-                    Toast.makeText(fa, "Запись завершена успешно", Toast.LENGTH_SHORT).show();
-                    //MainActivity.refreshList = true;
-                    fa.finish();
-                }
-            } else {
-                Toast.makeText(fa, resources.getString(R.string.end_error), Toast.LENGTH_SHORT).show();
-            }
-        }
-    };
     private View mData;
     private EditText editMsg;
 
-    Animation.AnimationListener fadeInAnimationListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation animation) {
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            Animation animation_out = AnimationUtils.loadAnimation(fa, R.anim.scale_out);
-            mDataLayout.removeAllViews();
-            btnMessage.setVisibility(View.GONE);
-            mTextMsg = createMsg();
-            editMsg.setText(mTextMsg);
-            mDataLayout.addView(editMsg);
-            mDataAllLayout.startAnimation(animation_out);
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
-    };
-    View.OnClickListener oclBtnMessage = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Animation animation_in = AnimationUtils.loadAnimation(fa, R.anim.scale_in);
-            animation_in.setAnimationListener(fadeInAnimationListener);
-            mDataAllLayout.startAnimation(animation_in);
-            iMessage = 1;
-        }
-    };
 
     @Override
     public void onAttach(Activity activity) {
-        fa = super.getActivity();
+        mContext = super.getActivity();
         super.onAttach(activity);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        mInflater = inflater;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
         relativeLayout = (RelativeLayout) inflater.inflate(R.layout.completion_tab4, container, false);
+        contactSelect = -1;
 
         mDataLayout = (LinearLayout) relativeLayout.findViewById(R.id.data_layout);
         mData = inflater.inflate(R.layout.layout_tab4, null);
@@ -218,12 +99,12 @@ public class CompletionTab4 extends Fragment {
         mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
         initValues();
 
-        editMsg = (EditText) mInflater.inflate(R.layout.edit_msg_tab4, null);
+        editMsg = (EditText) inflater.inflate(R.layout.edit_msg_tab4, null);
 
-        btnClickOK = (Button) relativeLayout.findViewById(R.id.BtnCompletionOK);
+        Button btnClickOK = (Button) relativeLayout.findViewById(R.id.BtnCompletionOK);
         btnClickOK.setOnClickListener(oclBtnOK);
-        btnMessage = (Button) relativeLayout.findViewById(R.id.BtnCompletionMessage);
-        btnMessage.setOnClickListener(oclBtnMessage);
+        mMessageBtn = (Button) relativeLayout.findViewById(R.id.BtnCompletionMessage);
+        mMessageBtn.setOnClickListener(oclBtnMessage);
 
         setHasOptionsMenu(true);
         return relativeLayout;
@@ -240,7 +121,7 @@ public class CompletionTab4 extends Fragment {
         mPhones = mMetaData.getClientPhones();
         mEmails = mMetaData.getClientEmails();
 
-        LayoutInflater inflater = (LayoutInflater) fa.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.send_message, null);
 
         LinearLayout choosePhoneEmail = (LinearLayout) view.findViewById(R.id.choose_phone_email_layout);
@@ -270,14 +151,14 @@ public class CompletionTab4 extends Fragment {
         btnSendWhatsApp.setOnClickListener(sendWhatsAppListener);
         btnSendViber.setOnClickListener(sendViberListener);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(fa);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setView(view).
                 setCancelable(false);
         builder.setNegativeButton(R.string.end_btn, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Resources resources = getResources();
-                Sessions sessions = new Sessions(fa);
+                Sessions sessions = new Sessions(mContext);
                 long sessinonId = sessions.addSession(mClientName, mProcedureName,
                         mProcedurePrice, mProcedureNote, mMetaData.getProcedureColor(),
                         "" + mYear + "-" + mMonthNumb + "-" + mDay +
@@ -286,23 +167,27 @@ public class CompletionTab4 extends Fragment {
                                 " " + mHourEnd + ":" + mMinuteEnd,
                         mMetaData.getClientPhones().get(0), mMetaData.getClientEmails().get(0), contactSelect);
 
-                Clients clients = new Clients(fa);
+                Clients clients = new Clients(mContext);
                 clients.updateClientAddVisit(mClientName);
                 if (sessinonId != -1) {
-                    if (iMessage == 1)
+                    if (mMessage == 1)
                         sendMsgView().show();
                     else {
-                        Toast.makeText(fa, "Запись завершена успешно", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext,
+                                mContext.getResources().getString(R.string.record_complete),
+                                Toast.LENGTH_SHORT).show();
                         //MainActivity.refreshList = true;
-                        fa.finish();
+                        mContext.finish();
                     }
                 } else {
-                    Toast.makeText(fa, resources.getString(R.string.end_error), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, resources.getString(R.string.end_error), Toast.LENGTH_SHORT).show();
                 }
                 dialog.cancel();
-                startActivity(new Intent(fa, MainActivity.class));
-                Toast.makeText(fa, "Запись завершена успешно", Toast.LENGTH_SHORT).show();
-                fa.finish();
+                startActivity(new Intent(mContext, MainActivity.class));
+                Toast.makeText(mContext,
+                        mContext.getResources().getString(R.string.record_complete),
+                        Toast.LENGTH_SHORT).show();
+                mContext.finish();
             }
         });
 
@@ -318,10 +203,10 @@ public class CompletionTab4 extends Fragment {
 
     private Spinner setupPhonesSpinner() {
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(fa,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext,
                 R.layout.my_spinner, mPhones);
         adapter.setDropDownViewResource(R.layout.my_spinner_dropdown_item);
-        Spinner spinner = new Spinner(fa);
+        Spinner spinner = new Spinner(mContext);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -341,21 +226,21 @@ public class CompletionTab4 extends Fragment {
 
     private Spinner setupEmailsSpinner() {
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(fa,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext,
                 R.layout.my_spinner, mEmails);
         adapter.setDropDownViewResource(R.layout.my_spinner_dropdown_item);
-        Spinner spinner = new Spinner(fa);
+        Spinner spinner = new Spinner(mContext);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-                email = mEmails.get(position);
+                emailAddress = mEmails.get(position);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                email = mEmails.get(0);
+                emailAddress = mEmails.get(0);
             }
         });
 
@@ -364,9 +249,9 @@ public class CompletionTab4 extends Fragment {
 
     private TextView setupPhoneTextView() {
 
-        TextView phoneTextView = new TextView(fa);
+        TextView phoneTextView = new TextView(mContext);
         if (mPhones == null || mPhones.isEmpty()) {
-            phoneTextView.setText("неизвестно");
+            phoneTextView.setText(mContext.getResources().getString(R.string.unknown));
             phone = null;
         } else {
             phone = mPhones.get(0);
@@ -380,13 +265,13 @@ public class CompletionTab4 extends Fragment {
 
     private TextView setupEmailTextView() {
 
-        TextView emailTextView = new TextView(fa);
+        TextView emailTextView = new TextView(mContext);
         if (mPhones == null || mEmails.isEmpty()) {
-            emailTextView.setText("неизвестно");
-            email = null;
+            emailTextView.setText(mContext.getResources().getString(R.string.unknown));
+            emailAddress = null;
         } else {
-            email = mEmails.get(0);
-            emailTextView.setText(email);
+            emailAddress = mEmails.get(0);
+            emailTextView.setText(emailAddress);
         }
         emailTextView.setTextColor(getResources().getColor(R.color.ColorPrimary));
         emailTextView.setTextSize(16);
@@ -395,19 +280,19 @@ public class CompletionTab4 extends Fragment {
     }
 
     private void setInfoView(RelativeLayout relativeLayout) {
-        clientNameTextView = (TextView) relativeLayout.findViewById(R.id.client_name_textview);
+        TextView clientNameTextView = (TextView) relativeLayout.findViewById(R.id.client_name_textview);
         clientNameTextView.setText(mClientName);
-        dateTextView = (TextView) relativeLayout.findViewById(R.id.date_textview);
+        TextView dateTextView = (TextView) relativeLayout.findViewById(R.id.date_textview);
         dateTextView.setText(mDay + " " + mMonthName + " " + mYear);
-        timeTextView = (TextView) relativeLayout.findViewById(R.id.time_textview);
+        TextView timeTextView = (TextView) relativeLayout.findViewById(R.id.time_textview);
 
         timeTextView.setText("c " + mHourStart + ":" + mMinuteStart +
                 " по " + mHourEnd + ":" + mMinuteEnd);
-        procedureNameTextView = (TextView) relativeLayout.findViewById(R.id.procedure_name_textview);
+        TextView procedureNameTextView = (TextView) relativeLayout.findViewById(R.id.procedure_name_textview);
         procedureNameTextView.setText(mProcedureName);
-        procedurePriceTextView = (TextView) relativeLayout.findViewById(R.id.procedure_price_textview);
+        TextView procedurePriceTextView = (TextView) relativeLayout.findViewById(R.id.procedure_price_textview);
         procedurePriceTextView.setText("" + mProcedurePrice);
-        procedureNoteTextView = (TextView) relativeLayout.findViewById(R.id.procedure_note_textview);
+        TextView procedureNoteTextView = (TextView) relativeLayout.findViewById(R.id.procedure_note_textview);
         procedureNoteTextView.setText(mProcedureNote);
 
         mDataLayout = (LinearLayout) relativeLayout.findViewById(R.id.data_layout);
@@ -422,20 +307,17 @@ public class CompletionTab4 extends Fragment {
     }
 
     private void showToast(String message) {
-        if (mToast != null) {
-            mToast.cancel();
-            mToast = null;
-        }
-        mToast = Toast.makeText(fa, message, Toast.LENGTH_SHORT);
-        mToast.show();
+        Toast toast = Toast.makeText(mContext, message, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
     private String createMsg() {
-        return "Здравствуйте, " + mClientName + "!" +
-                "Вы записаны на " + mProcedureName + " " +
-                mDay + " " + mMonthName + "," +
-                "время " + mHourStart + ":" + mMinuteStart + "." +
-                "Цена " + mProcedurePrice + ". До встречи!";
+        return mContext.getResources().getString(R.string.hello) + " " + mClientName + "!"
+                + mContext.getResources().getString(R.string.you_appointment) + " " + mProcedureName
+                + " " + mDay + " " + mMonthName + "," +
+                mContext.getResources().getString(R.string.time_) + mHourStart + ":" + mMinuteStart
+                + "." + mContext.getResources().getString(R.string.price_) + " " + mProcedurePrice
+                + "."  + mContext.getResources().getString(R.string.bye);
     }
 
     private String getMonthName(String monthNumb) {
@@ -457,5 +339,124 @@ public class CompletionTab4 extends Fragment {
         mProcedureNote = mMetaData.getProcedureNote();
     }
 
+
+    View.OnClickListener sendViberListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (phone != null || !phone.isEmpty()) {
+                Viber viber = new Viber(mContext);
+                viber.sendMsg(mTextMsg);
+                contactSelect = 1;
+            } else {
+                showToast(mContext.getString(R.string.no_phone));
+            }
+        }
+    };
+
+    View.OnClickListener sendWhatsAppListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (phone != null || !phone.isEmpty()) {
+                WhatsApp whatsApp = new WhatsApp(mContext);
+                whatsApp.sendMsg(mTextMsg);
+                contactSelect = 2;
+            } else {
+                showToast(mContext.getString(R.string.no_phone));
+            }
+        }
+    };
+
+    View.OnClickListener sendEmailListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //ArrayList<String> emails = mMetaData.getClientEmails();
+            if (emailAddress != null || !emailAddress.isEmpty()) {
+                Email email = new Email(mContext);
+                email.sendEmail(emailAddress, mTextMsg);
+                contactSelect = 3;
+            } else {
+                showToast(mContext.getString(R.string.no_email));
+            }
+        }
+    };
+
+    View.OnClickListener sendSmsListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (phone != null || !phone.isEmpty()) {
+                SMS sms = new SMS(mContext);
+                sms.sendSMS(phone, mTextMsg);
+                contactSelect = 4;
+            } else {
+                showToast(mContext.getString(R.string.no_phone));
+            }
+        }
+    };
+
+    View.OnClickListener oclBtnOK = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Resources resources = getResources();
+            long sessionId = 0;
+            if (mMessage == 0) {
+                Sessions sessions = new Sessions(mContext);
+                sessionId = sessions.addSession(mClientName, mProcedureName,
+                        mProcedurePrice, mProcedureNote, mMetaData.getProcedureColor(),
+                        "" + mYear + "-" + mMonthNumb + "-" + mDay +
+                                " " + mHourStart + ":" + mMinuteStart,
+                        "" + mYear + "-" + mMonthNumb + "-" + mDay +
+                                " " + mHourEnd + ":" + mMinuteEnd,
+                        mMetaData.getClientPhones().get(0), mMetaData.getClientEmails().get(0),
+                        contactSelect);
+
+                Clients clients = new Clients(mContext);
+                clients.updateClientAddVisit(mClientName);
+            }
+            if (sessionId != -1) {
+                if (mMessage == 1)
+                    sendMsgView().show();
+                else {
+                    Toast.makeText(mContext,
+                            mContext.getResources().getString(R.string.record_complete),
+                            Toast.LENGTH_SHORT).show();
+                    mContext.finish();
+                }
+            } else {
+                Toast.makeText(mContext, resources.getString(R.string.end_error), Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    Animation.AnimationListener fadeInAnimationListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation animation) {
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            Animation animation_out = AnimationUtils.loadAnimation(mContext, R.anim.scale_out);
+            mDataLayout.removeAllViews();
+            mMessageBtn.setVisibility(View.GONE);
+            mTextMsg = createMsg();
+            editMsg.setText(mTextMsg);
+            mDataLayout.addView(editMsg);
+            mDataAllLayout.startAnimation(animation_out);
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    };
+
+    View.OnClickListener oclBtnMessage = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Animation animation_in = AnimationUtils.loadAnimation(mContext, R.anim.scale_in);
+            animation_in.setAnimationListener(fadeInAnimationListener);
+            mDataAllLayout.startAnimation(animation_in);
+            mMessage = 1;
+        }
+    };
 
 }

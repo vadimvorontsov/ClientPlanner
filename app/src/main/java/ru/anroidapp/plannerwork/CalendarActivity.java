@@ -49,13 +49,12 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
 
         //mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
 
-        toolbar = (Toolbar) findViewById(R.id.tool_cal);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_calendar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setBackgroundDrawable(this.getResources().getDrawable(R.color.calendar_first));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        // getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);
-
+        getSupportActionBar().setTitle(R.string.calendar);
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);

@@ -94,8 +94,8 @@ public class ProcedureTab3 extends Fragment {
 
         mFab = (FloatingActionButton) relativeLayout.findViewById(R.id.fab_proc);
         mFab.attachToListView(mListViewProcedure);
-        mFab.setOnClickListener(oclFabClick);
-        mCancelSearchLayout.setOnClickListener(oclCloseSearch);
+        mFab.setOnClickListener(new OnFabClickListener());
+        mCancelSearchLayout.setOnClickListener(new OnSearchCloseListener());
 
         mSearchLayout.setVisibility(View.GONE);
 
@@ -171,7 +171,9 @@ public class ProcedureTab3 extends Fragment {
         switch (item.getItemId()) {
             case R.id.action_pencil:
                 if (mPencilPosition == 0) {
-                    Toast.makeText(mContext, "Выберите процедуру", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,
+                            mContext.getResources().getString(R.string.select_service),
+                            Toast.LENGTH_SHORT).show();
                     break;
                 }
 
@@ -190,7 +192,8 @@ public class ProcedureTab3 extends Fragment {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         Toast toast = Toast.makeText(mContext,
-                                "Ваш выбор: " + position, Toast.LENGTH_SHORT);
+                                mContext.getResources().getString(R.string.your_choice) + " "
+                                        + position, Toast.LENGTH_SHORT);
                         mColorChoice = position;
                         toast.show();
                     }
@@ -208,7 +211,8 @@ public class ProcedureTab3 extends Fragment {
 
                 builder.setView(view)
                         .setCancelable(true);
-                builder.setPositiveButton("Изменить", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(mContext.getResources().getString(R.string.change),
+                        new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -220,15 +224,18 @@ public class ProcedureTab3 extends Fragment {
 
                         String note = noteEditText.getText().toString();
                         if (note.isEmpty())
-                            note = "Примечаний нет";
+                            note = mContext.getResources().getString(R.string.no_notes);
 
                         Integer color = mColorChoice;
 
                         if (!name.isEmpty()) {
                             Procedures procedures_update = new Procedures(mContext);
-                            int test = procedures_update.getUpdateProcedure(mProcedureIdTmp + "", name, price, note, color);
+                            int test = procedures_update.getUpdateProcedure(mProcedureIdTmp + "",
+                                    name, price, note, color);
                             if (test == 1) {
-                                Toast.makeText(mContext, "Процедура изменена", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext,
+                                        mContext.getResources().getString(R.string.service_changed),
+                                        Toast.LENGTH_SHORT).show();
                                 refreshList();
                             }
                         }
@@ -248,12 +255,13 @@ public class ProcedureTab3 extends Fragment {
 
                 spinner.setAdapter(adapter);
                 spinner.setSelection(0, true);
-                
+
                 spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         Toast toast = Toast.makeText(mContext,
-                                "Ваш выбор: " + position, Toast.LENGTH_SHORT);
+                                mContext.getResources().getString(R.string.your_choice) + " "
+                                        + position, Toast.LENGTH_SHORT);
                         mColorChoice = position;
                         toast.show();
                     }
@@ -263,7 +271,6 @@ public class ProcedureTab3 extends Fragment {
 
                     }
                 });
-                //#######################
 
                 builder.setView(view)
                         .setCancelable(true);
@@ -279,14 +286,16 @@ public class ProcedureTab3 extends Fragment {
 
                         String note = noteEditText.getText().toString();
                         if (note.isEmpty())
-                            note = "Примечаний нет";
+                            note = mContext.getResources().getString(R.string.no_notes);
 
                         if (!name.isEmpty()) {
                             long id = 0;
                             Procedures procedures = new Procedures(mContext);
                             id = procedures.addProcedure(name, price, note, mColorChoice);
                             if (id != 0) {
-                                Toast.makeText(mContext, "Процедура добавлена", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext,
+                                        mContext.getResources().getString(R.string.service_added),
+                                        Toast.LENGTH_SHORT).show();
                                 refreshList();
                             }
 
@@ -308,34 +317,32 @@ public class ProcedureTab3 extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        mSearchViewProcedure.addTextChangedListener(filterTextWatcher);
+        mSearchViewProcedure.addTextChangedListener(new TextWatch());
         super.onActivityCreated(savedInstanceState);
     }
 
     private void setListAdaptor() {
-        // create instance of PinnedHeaderAdapter and set adapter to list view
-        mAdaptorProcedure = new ProcedureHeaderAdapter(mContext, mListItemsProcedure, mListSectionPosProcedure, mColorProcedures);
+
+        mAdaptorProcedure = new ProcedureHeaderAdapter(mContext, mListItemsProcedure,
+                mListSectionPosProcedure, mColorProcedures);
         mListViewProcedure.setAdapter(mAdaptorProcedure);
 
-        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.
+                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        // set header view
-        View pinnedHeaderView = inflater.inflate(R.layout.section_row_view, mListViewProcedure, false);
+        View pinnedHeaderView = inflater.inflate(R.layout.section_row_view,
+                mListViewProcedure, false);
         mListViewProcedure.setPinnedHeaderView(pinnedHeaderView);
 
-
-        // set preview text view
         View previewTextView = inflater.inflate(R.layout.preview_view, mListViewProcedure, false);
         mListViewProcedure.setPreviewView(previewTextView);
 
-        // for configure pinned header view on scroll change
         mListViewProcedure.setOnScrollListener(mAdaptorProcedure);
-        mListViewProcedure.setOnItemClickListener(mClickListener);
-        mListViewProcedure.setOnItemLongClickListener(mLongClickListener);
+        mListViewProcedure.setOnItemClickListener(new OnItemClickListener());
+        mListViewProcedure.setOnItemLongClickListener(new OnItemLongClickListener());
     }
 
     private void setIndexBarViewVisibility(String constraint) {
-        // hide index bar for search results
         if (constraint != null && constraint.length() > 0) {
             mListViewProcedure.setIndexBarVisibility(false);
         } else {
@@ -383,16 +390,16 @@ public class ProcedureTab3 extends Fragment {
 
             ImageView icon = (ImageView) row.findViewById(R.id.icon_circle);
 
-            if (data[position] == "one") {
+            if (data[position].equals("one")) {
                 icon.setImageResource(R.mipmap.ic_launcher_blue);
                 //icon.setImageResource(R.mipmap.ic_launcher);
-            } else if (data[position] == "two") {
+            } else if (data[position].equals("two")) {
                 icon.setImageResource(R.mipmap.ic_launcher_orange);
                 //icon.setImageResource(R.mipmap.ic_launcher);
-            } else if (data[position] == "three") {
+            } else if (data[position].equals("three")) {
                 icon.setImageResource(R.mipmap.ic_launcher_green);
                 //icon.setImageResource(R.mipmap.ic_launcher);
-            } else if (data[position] == "four") {
+            } else if (data[position].equals("four")) {
                 icon.setImageResource(R.mipmap.ic_launcher_red);
                 //icon.setImageResource(R.mipmap.ic_launcher);
             }
@@ -403,9 +410,6 @@ public class ProcedureTab3 extends Fragment {
     private class ListFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            // NOTE: this function is *always* called from a background thread,
-            // and
-            // not the UI thread.
             String constraintStr = constraint.toString().toLowerCase(Locale.getDefault());
             Filter.FilterResults result = new FilterResults();
 
@@ -415,12 +419,12 @@ public class ProcedureTab3 extends Fragment {
                 synchronized (this) {
                     LOOP_FOR_PROCEDURES:
                     for (String item : mProcedures) {
-                        String[] subNames = item.split(" ");
-                        LOOP_FOR_SUBNAMES:
-                        for (String subName : subNames) {
-                            if (subName.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
+                        String[] surNames = item.split(" ");
+                        LOOP_FOR_SURNAMES:
+                        for (String surName : surNames) {
+                            if (surName.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
                                 filterItems.add(item);
-                                break LOOP_FOR_SUBNAMES;
+                                break LOOP_FOR_SURNAMES;
                             }
                         }
                     }
@@ -441,7 +445,6 @@ public class ProcedureTab3 extends Fragment {
         protected void publishResults(CharSequence constraint, FilterResults results) {
             ArrayList<String> filtered = (ArrayList<String>) results.values;
             setIndexBarViewVisibility(constraint.toString());
-            // sort array and extract sections in background Thread
             new Populate().execute(filtered);
         }
     }
@@ -468,7 +471,6 @@ public class ProcedureTab3 extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            // show loading indicator
             showLoading(mListViewProcedure, mLoadingViewProcedure, mEmptyViewProcedure);
             super.onPreExecute();
         }
@@ -490,7 +492,6 @@ public class ProcedureTab3 extends Fragment {
                     if (!prev_section.equals(current_section)) {
                         mListItemsProcedure.add(current_section);
                         mListItemsProcedure.add(current_item);
-                        // array list of section positions
                         mListSectionPosProcedure.add(mListItemsProcedure.indexOf(current_section));
                         prev_section = current_section;
                     } else {
@@ -521,7 +522,7 @@ public class ProcedureTab3 extends Fragment {
         }
     }
 
-    View.OnClickListener oclFabClick = new View.OnClickListener() {
+    private class OnFabClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             mSearchLayout.setVisibility(View.VISIBLE);
@@ -529,20 +530,22 @@ public class ProcedureTab3 extends Fragment {
             mSearchViewProcedure.requestFocus();
             InputMethodManager keyboard = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             keyboard.showSoftInput(mSearchViewProcedure, 0);
-            Toast.makeText(mContext, "Проверка mFab", Toast.LENGTH_SHORT).show();
         }
-    };
-    View.OnClickListener oclCloseSearch = new View.OnClickListener() {
+    }
+
+    private class OnSearchCloseListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             mSearchLayout.setVisibility(View.GONE);
             mFab.show();
-            InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(mSearchViewProcedure.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-
+            InputMethodManager inputManager = (InputMethodManager) getActivity().
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(mSearchViewProcedure.getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
         }
-    };
-    AdapterView.OnItemLongClickListener mLongClickListener = new AdapterView.OnItemLongClickListener() {
+    }
+
+    private class OnItemLongClickListener implements AdapterView.OnItemLongClickListener {
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -557,7 +560,7 @@ public class ProcedureTab3 extends Fragment {
 
             new AlertDialog.Builder(mContext)
                     .setTitle(R.string.procedure_inf)
-                    .setMessage(resources.getString(R.string.services) + ": " + procNameTmp + "\n" +
+                    .setMessage(resources.getString(R.string.service) + ": " + procNameTmp + "\n" +
                             resources.getString(R.string.price) + ": " + procPriceTmp + "\n" +
                             resources.getString(R.string.note) + ": " + procNoteTmp)
                     .setPositiveButton(R.string.back, new DialogInterface.OnClickListener() {
@@ -568,9 +571,9 @@ public class ProcedureTab3 extends Fragment {
                     }).show();
             return true;
         }
-    };
+    }
 
-    AdapterView.OnItemClickListener mClickListener = new AdapterView.OnItemClickListener() {
+    private class OnItemClickListener implements AdapterView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             mPencilPosition = position;
@@ -588,14 +591,10 @@ public class ProcedureTab3 extends Fragment {
             if (lastChoose != null) {
                 lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             }
-
-            Toast.makeText(mContext.getApplicationContext(), "Выбрана процедура " + procedureName + "\n"
-                            + "цена " + procedurePrice + "\n" + "примечание " + procedureNote,
-                    Toast.LENGTH_SHORT).show();
         }
-    };
+    }
 
-    private TextWatcher filterTextWatcher = new TextWatcher() {
+    private class TextWatch implements TextWatcher {
         public void afterTextChanged(Editable s) {
             String str = s.toString();
             if (mAdaptorProcedure != null)
@@ -608,6 +607,6 @@ public class ProcedureTab3 extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
         }
-    };
+    }
 
 }

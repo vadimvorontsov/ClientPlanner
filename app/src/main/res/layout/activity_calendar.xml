@@ -13,7 +13,7 @@
 
     <include
         layout="@layout/toolbar"
-        android:id="@+id/tool_cal" />
+        android:id="@+id/toolbar_calendar" />
 
     <ru.anroidapp.plannerwork.calendar.WeekView
         android:id="@+id/weekView"

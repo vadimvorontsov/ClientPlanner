@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="1"
-        android:id="@+id/LaySearch">
+        android:id="@+id/search_layout">
 
     <LinearLayout
         android:id="@+id/LayImageSearch"
@@ -41,7 +41,7 @@
         android:textSize="@dimen/header_comment_button" />
 
     <LinearLayout
-        android:id="@+id/LayCancelSearch"
+        android:id="@+id/cancel_search_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:onClick="LayCanselClick"
@@ -76,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:layout_below="@+id/LaySearch">
+        android:layout_below="@+id/search_layout">
 
         <include layout="@layout/loading_empty_view" />
 

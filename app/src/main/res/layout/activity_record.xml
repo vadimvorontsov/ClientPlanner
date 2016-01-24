@@ -6,7 +6,7 @@
     tools:context="ru.anroidapp.plannerwork.record.RecordActivity">
 
     <include
-        android:id="@+id/tool_record"
+        android:id="@+id/toolbar_record"
         layout="@layout/toolbar" />
 
     <ru.anroidapp.plannerwork.record.SlidingTabLayout

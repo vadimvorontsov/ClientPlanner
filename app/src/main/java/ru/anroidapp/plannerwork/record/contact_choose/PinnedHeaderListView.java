@@ -10,39 +10,22 @@ import android.widget.ListView;
 import ru.anroidapp.plannerwork.record.contact_choose.intface.IPinnedHeader;
 import ru.anroidapp.plannerwork.record.contact_choose.intface.PinnedHeaderAdapter;
 
-/*
- * A ListView that maintains a header pinned at the top of the list. The
- * pinned header can be pushed up and dissolved as needed.
- *
- */
 public class PinnedHeaderListView extends ListView {
 
-    // interface object that configure pinned header view position in list view
-    IPinnedHeader mAdapter;
+    private IPinnedHeader mAdapter;
 
-    // view objects
-    View mHeaderView, /*mIndexBarView,*/ mPreviewTextView;
+    private View mHeaderView, mPreviewTextView;
 
-    // flags that decide view visibility
-    boolean mHeaderVisibility = false;
-    boolean mPreviewVisibility = false;
-    // initially show index bar view with it's content
-    //boolean mIndexBarVisibility = true;
+    private boolean mHeaderVisibility = false;
+    private boolean mPreviewVisibility = false;
 
-    // context object
-    Context mContext;
+    private Context mContext;
 
     // view height and width
-    int mHeaderViewWidth,
+    private int mHeaderViewWidth,
             mHeaderViewHeight,
-//            mIndexBarViewWidth,
-//            mIndexBarViewHeight,
-//            mIndexBarViewMargin,
             mPreviewTextViewWidth,
             mPreviewTextViewHeight;
-
-    // touched index bar Y axis position used to decide preview text view position
-    //float mIndexBarY;
 
 
     public PinnedHeaderListView(Context context) {
@@ -72,20 +55,10 @@ public class PinnedHeaderListView extends ListView {
 
     public void setPinnedHeaderView(View headerView) {
         this.mHeaderView = headerView;
-        // Disable vertical fading when the pinned header is present
-        // TODO change ListView to allow separate measures for top and bottom fading edge;
-        // in this particular case we would like to disable the top, but not the bottom edge.
         if (mHeaderView != null) {
             setFadingEdgeLength(0);
         }
     }
-
-
-//    public void setIndexBarView(View indexBarView) {
-//        mIndexBarViewMargin = (int) mContext.getResources().getDimension(R.dimen.index_bar_view_margin);
-//        this.mIndexBarView = indexBarView;
-//    }
-
 
     public void setPreviewView(View previewTextView) {
         this.mPreviewTextView = previewTextView;
@@ -101,12 +74,6 @@ public class PinnedHeaderListView extends ListView {
             mHeaderViewWidth = mHeaderView.getMeasuredWidth();
             mHeaderViewHeight = mHeaderView.getMeasuredHeight();
         }
-
-//        if (mIndexBarView != null && mIndexBarVisibility) {
-//            measureChild(mIndexBarView, widthMeasureSpec, heightMeasureSpec);
-//            mIndexBarViewWidth = mIndexBarView.getMeasuredWidth();
-//            mIndexBarViewHeight = mIndexBarView.getMeasuredHeight();
-//        }
 
         if (mPreviewTextView != null && mPreviewVisibility) {
             measureChild(mPreviewTextView, widthMeasureSpec, heightMeasureSpec);
@@ -125,35 +92,7 @@ public class PinnedHeaderListView extends ListView {
             configureHeaderView(getFirstVisiblePosition());
         }
 
-//        if (mIndexBarView != null && mIndexBarVisibility) {
-//            mIndexBarView.layout(getMeasuredWidth() - mIndexBarViewMargin - mIndexBarViewWidth, mIndexBarViewMargin
-//                    , getMeasuredWidth() - mIndexBarViewMargin, getMeasuredHeight() - mIndexBarViewMargin);
-//        }
-
-//        if (mPreviewTextView != null && mPreviewVisibility) {
-//            mPreviewTextView.layout(mIndexBarView.getLeft() - mPreviewTextViewWidth, (int) mIndexBarY - (mPreviewTextViewHeight / 2)
-//                    , mIndexBarView.getLeft(), (int) (mIndexBarY - (mPreviewTextViewHeight / 2)) + mPreviewTextViewHeight);
-//        }
     }
-
-
-//    public void setIndexBarVisibility(Boolean isVisible) {
-//        if (isVisible) {
-//            mIndexBarVisibility = true;
-//        } else {
-//            mIndexBarVisibility = false;
-//        }
-//    }
-
-
-    private void setPreviewTextVisibility(Boolean isVisible) {
-        if (isVisible) {
-            mPreviewVisibility = true;
-        } else {
-            mPreviewVisibility = false;
-        }
-    }
-
 
     public void configureHeaderView(int position) {
         if (mHeaderView == null) {
@@ -177,7 +116,6 @@ public class PinnedHeaderListView extends ListView {
             case IPinnedHeader.PINNED_HEADER_PUSHED_UP:
                 View firstView = getChildAt(0);
                 int bottom = firstView.getBottom();
-                // int itemHeight = firstView.getHeight();
                 int headerHeight = mHeaderView.getHeight();
                 int y;
                 if (bottom < headerHeight) {
@@ -197,13 +135,13 @@ public class PinnedHeaderListView extends ListView {
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
-        super.dispatchDraw(canvas);// draw list view elements (zIndex == 1)
+        super.dispatchDraw(canvas);
 
         if (mHeaderView != null && mHeaderVisibility) {
-            drawChild(canvas, mHeaderView, getDrawingTime()); // draw pinned header view (zIndex == 2)
+            drawChild(canvas, mHeaderView, getDrawingTime());
         }
         if (mPreviewTextView != null && mPreviewVisibility) {
-            drawChild(canvas, mPreviewTextView, getDrawingTime()); // draw preview text view (zIndex == 4)
+            drawChild(canvas, mPreviewTextView, getDrawingTime());
         }
     }
 

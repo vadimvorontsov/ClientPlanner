@@ -26,28 +26,22 @@ import ru.anroidapp.plannerwork.record.contact_choose.PinnedHeaderListView;
 import ru.anroidapp.plannerwork.CircularImageView;
 import ru.anroidapp.plannerwork.R;
 
-public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnScrollListener, IPinnedHeader, Filterable {
+public class PinnedHeaderAdapter extends BaseAdapter
+        implements AbsListView.OnScrollListener, IPinnedHeader, Filterable {
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_SECTION = 1;
     private static final int TYPE_MAX_COUNT = TYPE_SECTION + 1;
 
-    LayoutInflater mLayoutInflater;
-    int mCurrentSectionPosition = 0, mNextSectionPosition = 0;
+    private LayoutInflater mLayoutInflater;
+    private int mCurrentSectionPosition = 0,
+                mNextSectionPosition = 0;
 
-    // array list to store section positions
-    ArrayList<Integer> mListSectionPos;
+    private ArrayList<Integer> mListSectionPos;
 
-    // array list to store list view data
-    List<String> mListItems;
+    private List<String> mListItems;
 
-    // context object
-    Context mContext;
-
-    //private Clients clients;
-//    private ArrayList<String> allClients;
-//    private String lastChooseName;
-//    int visits = 0;
+    private Context mContext;
 
 
     public PinnedHeaderAdapter(Context context, List<String> listItems,
@@ -55,13 +49,9 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
         this.mContext = context;
         this.mListItems = listItems;
         this.mListSectionPos = listSectionPos;
-        //this.lastChooseName = lastChoose;
 
-        //mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mLayoutInflater = LayoutInflater.from(mContext);
 
-//        Clients clients = new Clients(mContext);
-//        allClients = clients.getAllClientsNames();
     }
 
     @Override
@@ -113,7 +103,7 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
                     convertView = mLayoutInflater.inflate(R.layout.contact_row_view, null);
 
                     holder.contactPhoto = (CircularImageView) convertView.findViewById(R.id.contact_circle);
-                    Drawable drawable = mContext.getDrawable(R.drawable.ic_launcher);
+                    Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_launcher);
                     holder.contactPhoto.setImageDrawable(drawable);
                     break;
                 case TYPE_SECTION:
@@ -130,14 +120,8 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
         String name = mListItems.get(position);
         holder.textView.setText(name);
         if (name.length() > 1) {
-//            if (name == lastChooseName) {
-//
-////            } else {
-////                holder.contactRow.setBackgroundColor(Color.WHITE);
-//            }
             holder.visitsTextView = (TextView) convertView.findViewById(R.id.contact_status);
 
-//            if (allClients.contains(name)) {
                 int visits = getClientsVisits(name);
                 if (visits > 0)
                     holder.visitsTextView.setText(mContext.getResources().getString(R.string.visits_number)
@@ -145,23 +129,16 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
                 else
                     holder.visitsTextView.setText
                             (mContext.getResources().getString(R.string.no_visits));
-//                allClients.remove(name);
-//            }
         }
         return convertView;
     }
 
     @Override
     public int getPinnedHeaderState(int position) {
-        // hide pinned header when items count is zero OR position is less than
-        // zero OR
-        // there is already a header in list view
         if (getCount() == 0 || position < 0 || mListSectionPos.indexOf(position) != -1) {
             return PINNED_HEADER_GONE;
         }
 
-        // the header should get pushed up if the top item shown
-        // is the last item in a section for a particular letter.
         mCurrentSectionPosition = getCurrentSectionPosition(position);
         mNextSectionPosition = getNextSectionPosition(mCurrentSectionPosition);
         if (mNextSectionPosition != -1 && position == mNextSectionPosition - 1) {
@@ -187,7 +164,6 @@ public class PinnedHeaderAdapter extends BaseAdapter implements AbsListView.OnSc
 
     @Override
     public void configurePinnedHeader(View v, int position) {
-        // set text in pinned header
         TextView header = (TextView) v;
         mCurrentSectionPosition = getCurrentSectionPosition(position);
         header.setText(mListItems.get(mCurrentSectionPosition));

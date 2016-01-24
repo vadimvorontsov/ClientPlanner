@@ -41,12 +41,10 @@ public class RecordActivity extends AppCompatActivity {
         titles = getResources().getTextArray(R.array.fragment_titles);
         numbOfTabs = titles.length;
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_record);
-
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_record);
         setSupportActionBar(toolbar);
         getSupportActionBar().setBackgroundDrawable(this.getResources().getDrawable(R.color.record_first));
         getSupportActionBar().setTitle(R.string.record);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_home);

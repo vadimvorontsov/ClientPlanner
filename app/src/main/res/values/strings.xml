@@ -8,12 +8,16 @@
     <!--<string name="navDraw_3">Архив</string>-->
     <!--<string name="navDraw_4">Настройки</string>-->
     <!--<string name="navDraw_5">О приложении</string>-->
+
     <string name="change_language">Изменить язык</string>
     <string name="title_activity_record">RecordActivity</string>
 
     <string name="start_record">Сделать запись</string>
     <string name="start_record_description">Выбор клиента, даты, услуги \n Отправка сообщения</string>
+    <string name="calendar">Календарь</string>
     <string name="start_calendar_description">Просмотр и удаление записей</string>
+    <string name="services">Услуги</string>
+    <string name="service">Услуга</string>
     <string name="start_procedure_description">Просмотр и редактирование услуг</string>
 
     <string-array name="fragment_titles">
@@ -27,7 +31,6 @@
     <string name="empty_list_msg">Нет результов</string>
 
     <string name="add">Добавить</string>
-    <string name="calendar">Календарь</string>
 
     <string name="contacts">Контакты</string>
     <string name="history">История</string>
@@ -53,9 +56,6 @@
     <string name="no_notes">примечаний нет</string>
 
     <string name="add_proc_title">Новая услуга</string>
-    <!--string name="procedure">Процедуры</string-->
-    <string name="services">Услуги</string>
-    <string name="record">Запись++++++</string>
     <string name="price">Цена</string>
     <string name="note">Примечание</string>
 
@@ -101,7 +101,7 @@
     <string name="choose_date">Выберите дату</string>
     <string name="choose_time">Выберите время</string>
     <string name="from">с</string>
-    <string name="on">по</string>
+    <string name="to">по</string>
 
     <string name="no_records">Ближайших записей нет</string>
     <string name="visits_number">Количество посещений</string>
@@ -118,8 +118,36 @@
     <string name="date_">Дата:</string>
     <string name="time_">Время:</string>
     <string name="service_">Услуга:</string>
-    <string name="price_">Стоимость:</string>
+    <string name="price_">Цена:</string>
     <string name="note_">Примечание:</string>
+
+    <string name="wrong_end_time">Время завершения задано неверно</string>
+    <string name="wrong_start_time">Время начала задано неверно</string>
+    <string name="appointment_already_exist">Запись на это время уже существует</string>
+
+    <string name="incorrect_record">записан неверно</string>
+
+    <string name="select_service">Выберите услугу</string>
+    <string name="your_choice">Ваш выбор</string>
+    <string name="change">Изменить</string>
+    <string name="service_changed">Услуга изменена</string>
+    <string name="service_added">Услуга добавлена</string>
+
+    <string name="record_complete">Запись успешно завершена</string>
+    <string name="hello">Здравствуйте,</string>
+    <string name="bye">До свидания!</string>
+    <string name="you_appointment">Вы записаны на</string>
+
+    <string name="new_service">Новая услуга</string>
+    <string name="service_name">Название</string>
+    <string name="color">Цвет</string>
+
+    <string name="completion_record">Завершение записи</string>
+
+    <string name="ok">Завершение записи</string>
+    <string name="complete">Завершить</string>
+    <string name="message">Сообщение</string>
+
 
 
 </resources>

@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="Завершение записи"
+        android:text="@string/completion_record"
         android:textColor="@color/color_black_light"
         android:textStyle="bold"
         android:textSize="@dimen/header_button"/>
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_btn_shakespeare"
                 android:onClick="BtnComOK"
-                android:text="OK"
+                android:text="@string/complete"
                 android:layout_weight="1"
                 android:textSize="@dimen/header_comment_add_proc"/>
 
@@ -67,7 +67,7 @@
                 android:layout_marginLeft="@dimen/distance_betw_but"
                 android:background="@drawable/custom_btn_shakespeare"
                 android:onClick="BtnComOK"
-                android:text="СООБЩЕНИЕ"
+                android:text="@string/message"
                 android:layout_weight="1"
                 android:textSize="@dimen/header_comment_add_proc"/>
         </LinearLayout>

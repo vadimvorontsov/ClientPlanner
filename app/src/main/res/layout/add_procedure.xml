@@ -14,7 +14,7 @@
         android:layout_gravity="center_horizontal"
         android:fontFamily="sans-serif"
         android:textSize="@dimen/name_viewpager"
-        android:text="Новая процедура"
+        android:text="@string/new_service"
         android:textStyle="bold"
         android:textColor="@color/color_black" />
 
@@ -28,7 +28,7 @@
         android:fontFamily="sans-serif"
         android:textSize="@dimen/header_comment_add_proc"
         android:textColor="@color/color_black_light"
-        android:text="Название" />
+        android:text="@string/service_name" />
 
     <EditText
         android:id="@+id/input_proc_name"
@@ -58,7 +58,7 @@
         android:fontFamily="sans-serif"
         android:textColor="@color/color_black_light"
         android:textSize="@dimen/header_comment_add_proc"
-        android:text="Цена" />
+        android:text="@string/price" />
 
     <EditText
         android:id="@+id/input_proc_price"
@@ -81,7 +81,7 @@
             android:fontFamily="sans-serif"
             android:textSize="@dimen/header_comment_add_proc"
             android:textColor="@color/color_black_light"
-            android:text="Цвет" />
+            android:text="@string/color" />
         <Spinner
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
         android:fontFamily="sans-serif"
         android:textSize="@dimen/header_comment_add_proc"
         android:textColor="@color/color_black_light"
-        android:text="Примечание" />
+        android:text="@string/note" />
 
     <EditText
         android:id="@+id/input_proc_note"

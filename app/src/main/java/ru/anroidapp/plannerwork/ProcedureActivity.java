@@ -157,11 +157,12 @@ public class ProcedureActivity extends AppCompatActivity {
         setContentView(R.layout.activity_procedure);
         mContext = this;
 
-        toolbar = (Toolbar) findViewById(R.id.tool_bar_procedure);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_procedure);
         setSupportActionBar(toolbar);
         getSupportActionBar().setBackgroundDrawable(this.getResources().getDrawable(R.color.procedure_first));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setTitle(R.string.services);
 
         mProcedures = new ArrayList<>();
         mColorProcedures = new ArrayList<>();

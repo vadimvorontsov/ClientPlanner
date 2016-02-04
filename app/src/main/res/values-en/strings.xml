@@ -143,4 +143,10 @@
     <string name="complete">Complete</string>
     <string name="message">Message</string>
 
+    <string name="notified_by">Notified by</string>
+    <string name="not_notified">Not notified</string>
+
+    <string name="delete">Delete</string>
+
+
 </resources>

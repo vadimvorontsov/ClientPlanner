@@ -144,4 +144,10 @@
     <string name="complete">Завершить</string>
     <string name="message">Сообщение</string>
 
+    <string name="notified_by">Оповещен через</string>
+    <string name="not_notified">Не оповещен</string>
+
+    <string name="delete">Удалить</string>
+
+
 </resources>

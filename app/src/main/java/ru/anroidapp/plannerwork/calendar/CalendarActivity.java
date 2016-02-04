@@ -1,9 +1,9 @@
-package ru.anroidapp.plannerwork;
+package ru.anroidapp.plannerwork.calendar;
 
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,12 +13,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import ru.anroidapp.plannerwork.calendar.DateTimeInterpreter;
-import ru.anroidapp.plannerwork.calendar.WeekView;
-import ru.anroidapp.plannerwork.calendar.WeekViewEvent;
+import ru.anroidapp.plannerwork.R;
 
 import com.example.smena.clientbase.procedures.Sessions;
 
@@ -31,46 +31,31 @@ import java.util.Locale;
 public class CalendarActivity extends AppCompatActivity implements WeekView.MonthChangeListener,
         WeekView.EventClickListener, WeekView.EventLongPressListener {
 
-    private final static String TAG = "CalendarActivity";
-    private static final int TYPE_DAY_VIEW = 1;
-    private static final int TYPE_THREE_DAY_VIEW = 2;
-    private static final int TYPE_WEEK_VIEW = 3;
-    Toolbar toolbar;
-    MetaData mMetaData;
-    private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private WeekView mWeekView;
-    WeekViewEvent event_del;
-    String textNotified;
+    private Context mContext;
+    private int mYear;
+    private int mMonth;
+    //private RelativeLayout mMainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
+
         setContentView(R.layout.activity_calendar);
 
-        //mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar_calendar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_calendar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setBackgroundDrawable(this.getResources().getDrawable(R.color.calendar_first));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setTitle(R.string.calendar);
 
-        // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
-
-        // Show a toast message about the touched event.
         mWeekView.setOnEventClickListener(this);
-
-        // The week view has infinite scrolling horizontally. We have to provide the events of a
-        // month every time the month changes on the week view.
         mWeekView.setMonthChangeListener(this);
-
-        // Set long press listener for events.
         mWeekView.setEventLongPressListener(this);
 
-        // Set up a date time interpreter to interpret how the date and time will be formatted in
-        // the week view. This is optional.
         setupDateTimeInterpreter(false);
     }
 
@@ -82,6 +67,11 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //final int TYPE_DAY_VIEW = 1;
+        //final int TYPE_THREE_DAY_VIEW = 2;
+        //final int TYPE_WEEK_VIEW = 3;
+        //int mWeekViewType = TYPE_THREE_DAY_VIEW;
+
         int id = item.getItemId();
         if(id == android.R.id.home){
             finish();
@@ -92,60 +82,52 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
                 mWeekView.goToToday();
                 return true;
             case R.id.action_day_view:
-                if (mWeekViewType != TYPE_DAY_VIEW) {
+                //if (mWeekViewType != TYPE_DAY_VIEW) {
                     item.setChecked(!item.isChecked());
-                    mWeekViewType = TYPE_DAY_VIEW;
+                    //mWeekViewType = TYPE_DAY_VIEW;
                     mWeekView.setNumberOfVisibleDays(1);
 
-                    // Lets change some dimensions to best fit the view.
                     mWeekView.setColumnGap((int) TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
                     mWeekView.setTextSize((int) TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
                     mWeekView.setEventTextSize((int) TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
-                }
+                //}
                 return true;
             case R.id.action_three_day_view:
-                if (mWeekViewType != TYPE_THREE_DAY_VIEW) {
+                //if (mWeekViewType != TYPE_THREE_DAY_VIEW) {
                     item.setChecked(!item.isChecked());
-                    mWeekViewType = TYPE_THREE_DAY_VIEW;
+                    //mWeekViewType = TYPE_THREE_DAY_VIEW;
                     mWeekView.setNumberOfVisibleDays(3);
 
-                    // Lets change some dimensions to best fit the view.
                     mWeekView.setColumnGap((int) TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
                     mWeekView.setTextSize((int) TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
                     mWeekView.setEventTextSize((int) TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
-                }
+                //}
                 return true;
             case R.id.action_week_view:
-                if (mWeekViewType != TYPE_WEEK_VIEW) {
+                //if (mWeekViewType != TYPE_WEEK_VIEW) {
                     item.setChecked(!item.isChecked());
-                    mWeekViewType = TYPE_WEEK_VIEW;
+                    //mWeekViewType = TYPE_WEEK_VIEW;
                     mWeekView.setNumberOfVisibleDays(7);
 
-                    // Lets change some dimensions to best fit the view.
                     mWeekView.setColumnGap((int) TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()));
                     mWeekView.setTextSize((int) TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
                     mWeekView.setEventTextSize((int) TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_SP, 10, getResources().getDisplayMetrics()));
-                }
+                //}
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Set up a date time interpreter which will show short date values when in week view and long
-     * date values otherwise.
-     * @param shortDate True if the date values should be short.
-     */
     private void setupDateTimeInterpreter(final boolean shortDate) {
         mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
             @Override
@@ -154,13 +136,6 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
                 String weekday = weekdayNameFormat.format(date.getTime());
                 SimpleDateFormat format = new SimpleDateFormat(" M/d", Locale.getDefault());
 
-               /* Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd-MMM-yyyy");
-                String foregroundTaskLaunchTime = sdf.format(c.getTime());*/
-
-                // All android api level do not have a standard way of getting the first letter of
-                // the week day name. Hence we get the first char programmatically.
-                // Details: http://stackoverflow.com/questions/16959502/get-one-letter-abbreviation-of-week-day-of-a-date-in-java#answer-16959657
                 if (shortDate)
                     weekday = String.valueOf(weekday.charAt(0));
                 return weekday.toUpperCase() + format.format(date.getTime());
@@ -168,7 +143,7 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
 
             @Override
             public String interpretTime(int hour) {
-                return /*hour > 11 ? (hour - 12) + " PM" : */(hour == 0 ? "00:00" : hour + ":00");//����������� � ������
+                return (hour == 0 ? "00:00" : hour + ":00");
             }
         });
     }
@@ -176,7 +151,8 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
 
-        // Populate the week view with some events.
+        this.mYear = newYear;
+        this.mMonth = newMonth;
         List<WeekViewEvent> events = new ArrayList<>();
 
         Sessions sessions = new Sessions(CalendarActivity.this);
@@ -188,13 +164,13 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
 
             Object[] sessionInfo = sessions.getSessionById(id);
             String clientName = (String) sessionInfo[0];
-            String clientPhone = (String) sessionInfo[1];
-            String clientEmail = (String) sessionInfo[2];
+//            String clientPhone = (String) sessionInfo[1];
+//            String clientEmail = (String) sessionInfo[2];
 
             Object[] procedureInfo = (Object[]) sessionInfo[3];
-            String procedureName = (String) procedureInfo[0];
-            int procedurePrice = Integer.parseInt(procedureInfo[1].toString());
-            String procedureNote = (String) procedureInfo[2];
+//            String procedureName = (String) procedureInfo[0];
+//            int procedurePrice = Integer.parseInt(procedureInfo[1].toString());
+//            String procedureNote = (String) procedureInfo[2];
             int procedureColor = Integer.parseInt(procedureInfo[3].toString());
 
             String[] timeStartArray = ((String) sessionInfo[4]).split("\\D");
@@ -242,22 +218,19 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
                 event.setColor(getResources().getColor(R.color.procedure_color_4));
             events.add(event);
         }
-
         return events;
     }
 
 
     @Override
-    public void onEventClick(WeekViewEvent event, RectF eventRect) {
+    public void onEventClick(final WeekViewEvent event, RectF eventRect) {
 
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.calendare_info, null);
+        View view = inflater.inflate(R.layout.calendar_info, null);
         final TextView textClientName = (TextView) view.findViewById(R.id.calClientName);
         final TextView textProcedureName = (TextView) view.findViewById(R.id.calProcedureName);
         final TextView textTime = (TextView) view.findViewById(R.id.calTime);
         final TextView textStatus = (TextView) view.findViewById(R.id.calStatus);
-
-        event_del = event;
 
         Sessions sessions = new Sessions(CalendarActivity.this);
         Object[] sessionInfo = sessions.getSessionById(event.getId());
@@ -270,40 +243,38 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
         int minuteStart = Integer.parseInt(timeStartArray[4]);
         int hourEnd = Integer.parseInt(timeEndArray[3]);
         int minuteEnd = Integer.parseInt(timeEndArray[4]);
-        //.customView(R.layout.custom_view, wrapInScrollView)
-        //.positiveText(R.string.positive)
 
         textClientName.setText(clientName);
         textProcedureName.setText(procedureName);
         textTime.setText(hourStart + ":" + minuteStart + "-" + hourEnd + ":" + minuteEnd);
-        int numNotified = getNumNotified(CalendarActivity.this, event_del.getId());
-        textNotified = "Оповещен через ";
+        int numNotified = getNumNotified(CalendarActivity.this, event.getId());
+        String textNotified = this.getResources().getString(R.string.notified_by) + " ";
         if (numNotified == -1 || numNotified == 0)
-            textNotified = "Не оповещен";
+            textNotified = this.getResources().getString(R.string.not_notified);
         else if (numNotified == 1)
-            textNotified += "Viber";
+            textNotified += this.getResources().getString(R.string.viber);
         else if (numNotified == 2)
-            textNotified += "WhatsApp";
+            textNotified += this.getResources().getString(R.string.whatsapp);
         else if (numNotified == 3)
-            textNotified += "Email";
+            textNotified += this.getResources().getString(R.string.email);
         else if (numNotified == 4)
-            textNotified += "SMS";
+            textNotified += this.getResources().getString(R.string.sms);
 
         textStatus.setText(textNotified);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(CalendarActivity.this);
 
-
-
         builder.setView(view)
             .setCancelable(true);
-        builder.setPositiveButton("Удалить", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(this.getResources().getString(R.string.delete),
+                new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Sessions sessions_del = new Sessions(CalendarActivity.this);
-                sessions_del.getDeleteSessionsById(event_del.getId());
+                sessions_del.deleteSessionById(event.getId());
+                //onMonthChange(mYear, mMonth);
                 Intent i = new Intent(CalendarActivity.this, CalendarActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
             }
         });
@@ -318,11 +289,10 @@ public class CalendarActivity extends AppCompatActivity implements WeekView.Mont
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-
-        Toast.makeText(CalendarActivity.this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(CalendarActivity.this, event.getName(), Toast.LENGTH_SHORT).show();
     }
 
-    private int getNumNotified(Context ctx,  long id) {
+    private int getNumNotified(Context ctx, long id) {
         Sessions sessions = new Sessions(ctx);
         int numNotifiedId = sessions.isNotifiedById(id);
         return numNotifiedId;

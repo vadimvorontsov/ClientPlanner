@@ -38,7 +38,7 @@
     <!-- RecordActivity -->
     <dimen name="elevation">2dp</dimen>
 
-    <!--calendare_info -->
+    <!--calendar_info -->
     <dimen name="padding_betw_name">10dp</dimen>
 
     <!--completion_tab4 -->

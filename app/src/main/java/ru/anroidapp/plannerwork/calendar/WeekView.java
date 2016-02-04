@@ -108,110 +108,7 @@ public class WeekView extends View {
     private MonthChangeListener mMonthChangeListener;
     private EmptyViewClickListener mEmptyViewClickListener;
     private EmptyViewLongPressListener mEmptyViewLongPressListener;
-    private final GestureDetector.SimpleOnGestureListener mGestureListener = new GestureDetector.SimpleOnGestureListener() {
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            mScroller.forceFinished(true);
-            mStickyScroller.forceFinished(true);
-            return true;
-        }
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            if (mCurrentScrollDirection == Direction.NONE) {
-                if (Math.abs(distanceX) > Math.abs(distanceY)){
-                    mCurrentScrollDirection = Direction.HORIZONTAL;
-                    mCurrentFlingDirection = Direction.HORIZONTAL;
-                }
-                else {
-                    mCurrentFlingDirection = Direction.VERTICAL;
-                    mCurrentScrollDirection = Direction.VERTICAL;
-                }
-            }
-            mDistanceX = distanceX * mXScrollingSpeed;
-            mDistanceY = distanceY;
-            invalidate();
-            return true;
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            mScroller.forceFinished(true);
-            mStickyScroller.forceFinished(true);
-
-            if (mCurrentFlingDirection == Direction.HORIZONTAL){
-                mScroller.fling((int) mCurrentOrigin.x, 0, (int) (velocityX * mXScrollingSpeed),
-                        0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 0);
-            }
-            else if (mCurrentFlingDirection == Direction.VERTICAL){
-                mScroller.fling(0, (int) mCurrentOrigin.y, 0, (int) velocityY, 0, 0,
-                        (int) -(mHourHeight * 24 + mHeaderTextHeight + mHeaderRowPadding * 2 - getHeight()), 0);
-            }
-
-            ViewCompat.postInvalidateOnAnimation(WeekView.this);
-            return true;
-        }
-
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
-            // If the tap was on an event then trigger the callback.
-            if (mEventRects != null && mEventClickListener != null) {
-                List<EventRect> reversedEventRects = mEventRects;
-                Collections.reverse(reversedEventRects);
-                for (EventRect event : reversedEventRects) {
-                    if (event.rectF != null && e.getX() > event.rectF.left &&
-                            e.getX() < event.rectF.right && e.getY() > event.rectF.top &&
-                            e.getY() < event.rectF.bottom) {
-                        mEventClickListener.onEventClick(event.originalEvent, event.rectF);
-                        playSoundEffect(SoundEffectConstants.CLICK);
-                        return super.onSingleTapConfirmed(e);
-                    }
-                }
-            }
-
-            // If the tap was on in an empty space, then trigger the callback.
-            if (mEmptyViewClickListener != null && e.getX() > mHeaderColumnWidth &&
-                    e.getY() > (mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom)) {
-                Calendar selectedTime = getTimeFromPoint(e.getX(), e.getY());
-                if (selectedTime != null) {
-                    playSoundEffect(SoundEffectConstants.CLICK);
-                    mEmptyViewClickListener.onEmptyViewClicked(selectedTime);
-                }
-            }
-
-            return super.onSingleTapConfirmed(e);
-        }
-
-        @Override
-        public void onLongPress(MotionEvent e) {
-            super.onLongPress(e);
-
-            if (mEventLongPressListener != null && mEventRects != null) {
-                List<EventRect> reversedEventRects = mEventRects;
-                Collections.reverse(reversedEventRects);
-                for (EventRect event : reversedEventRects) {
-                    if (event.rectF != null && e.getX() > event.rectF.left &&
-                            e.getX() < event.rectF.right && e.getY() > event.rectF.top && e.getY() < event.rectF.bottom) {
-                        mEventLongPressListener.onEventLongPress(event.originalEvent, event.rectF);
-                        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                        return;
-                    }
-                }
-            }
-
-            // If the tap was on in an empty space, then trigger the callback.
-            if (mEmptyViewLongPressListener != null && e.getX() > mHeaderColumnWidth &&
-                    e.getY() > (mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom)) {
-                Calendar selectedTime = getTimeFromPoint(e.getX(), e.getY());
-                if (selectedTime != null) {
-                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-                    mEmptyViewLongPressListener.onEmptyViewLongPress(selectedTime);
-                }
-            }
-        }
-    };
+    private GestureListener mGestureListener = new GestureListener();
     private DateTimeInterpreter mDateTimeInterpreter;
     private ScrollListener mScrollListener;
 
@@ -353,10 +250,14 @@ public class WeekView extends View {
         drawTimeColumnAndAxes(canvas);
 
         // Hide everything in the first cell (top left corner).
-        canvas.drawRect(0, 0, mTimeTextWidth + mHeaderColumnPadding * 2, mHeaderTextHeight + mHeaderRowPadding * 2, mHeaderBackgroundPaint);
+        canvas.drawRect(0, 0, mTimeTextWidth + mHeaderColumnPadding * 2,
+                mHeaderTextHeight + mHeaderRowPadding * 2, mHeaderBackgroundPaint);
 
         // Hide anything that is in the bottom margin of the header row.
-        canvas.drawRect(mHeaderColumnWidth, mHeaderTextHeight + mHeaderRowPadding * 2, getWidth(), mHeaderRowPadding * 2 + mHeaderTextHeight + mHeaderMarginBottom + mTimeTextHeight / 2 - mHourSeparatorHeight / 2, mHeaderColumnBackgroundPaint);
+        canvas.drawRect(mHeaderColumnWidth, mHeaderTextHeight + mHeaderRowPadding * 2, getWidth(),
+                mHeaderRowPadding * 2 + mHeaderTextHeight + mHeaderMarginBottom
+                        + mTimeTextHeight / 2 - mHourSeparatorHeight / 2,
+                mHeaderColumnBackgroundPaint);
     }
 
     private void drawTimeColumnAndAxes(Canvas canvas) {
@@ -1525,5 +1426,110 @@ public class WeekView extends View {
             this.originalEvent = originalEvent;
         }
     }
+
+    private final class GestureListener extends GestureDetector.SimpleOnGestureListener {
+
+                @Override
+                public boolean onDown(MotionEvent e) {
+                    mScroller.forceFinished(true);
+                    mStickyScroller.forceFinished(true);
+                    return true;
+                }
+
+                @Override
+                public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                    if (mCurrentScrollDirection == Direction.NONE) {
+                        if (Math.abs(distanceX) > Math.abs(distanceY)){
+                            mCurrentScrollDirection = Direction.HORIZONTAL;
+                            mCurrentFlingDirection = Direction.HORIZONTAL;
+                        }
+                        else {
+                            mCurrentFlingDirection = Direction.VERTICAL;
+                            mCurrentScrollDirection = Direction.VERTICAL;
+                        }
+                    }
+                    mDistanceX = distanceX * mXScrollingSpeed;
+                    mDistanceY = distanceY;
+                    invalidate();
+                    return true;
+                }
+
+                @Override
+                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                    mScroller.forceFinished(true);
+                    mStickyScroller.forceFinished(true);
+
+                    if (mCurrentFlingDirection == Direction.HORIZONTAL){
+                        mScroller.fling((int) mCurrentOrigin.x, 0, (int) (velocityX * mXScrollingSpeed),
+                                0, Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 0);
+                    }
+                    else if (mCurrentFlingDirection == Direction.VERTICAL){
+                        mScroller.fling(0, (int) mCurrentOrigin.y, 0, (int) velocityY, 0, 0,
+                                (int) -(mHourHeight * 24 + mHeaderTextHeight + mHeaderRowPadding * 2 - getHeight()), 0);
+                    }
+
+                    ViewCompat.postInvalidateOnAnimation(WeekView.this);
+                    return true;
+                }
+
+
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    // If the tap was on an event then trigger the callback.
+                    if (mEventRects != null && mEventClickListener != null) {
+                        List<EventRect> reversedEventRects = mEventRects;
+                        Collections.reverse(reversedEventRects);
+                        for (EventRect event : reversedEventRects) {
+                            if (event.rectF != null && e.getX() > event.rectF.left &&
+                                    e.getX() < event.rectF.right && e.getY() > event.rectF.top &&
+                                    e.getY() < event.rectF.bottom) {
+                                mEventClickListener.onEventClick(event.originalEvent, event.rectF);
+                                playSoundEffect(SoundEffectConstants.CLICK);
+                                return super.onSingleTapConfirmed(e);
+                            }
+                        }
+                    }
+
+                    // If the tap was on in an empty space, then trigger the callback.
+                    if (mEmptyViewClickListener != null && e.getX() > mHeaderColumnWidth &&
+                            e.getY() > (mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom)) {
+                        Calendar selectedTime = getTimeFromPoint(e.getX(), e.getY());
+                        if (selectedTime != null) {
+                            playSoundEffect(SoundEffectConstants.CLICK);
+                            mEmptyViewClickListener.onEmptyViewClicked(selectedTime);
+                        }
+                    }
+
+                    return super.onSingleTapConfirmed(e);
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    super.onLongPress(e);
+
+                    if (mEventLongPressListener != null && mEventRects != null) {
+                        List<EventRect> reversedEventRects = mEventRects;
+                        Collections.reverse(reversedEventRects);
+                        for (EventRect event : reversedEventRects) {
+                            if (event.rectF != null && e.getX() > event.rectF.left &&
+                                    e.getX() < event.rectF.right && e.getY() > event.rectF.top && e.getY() < event.rectF.bottom) {
+                                mEventLongPressListener.onEventLongPress(event.originalEvent, event.rectF);
+                                performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                                return;
+                            }
+                        }
+                    }
+
+                    // If the tap was on in an empty space, then trigger the callback.
+                    if (mEmptyViewLongPressListener != null && e.getX() > mHeaderColumnWidth &&
+                            e.getY() > (mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom)) {
+                        Calendar selectedTime = getTimeFromPoint(e.getX(), e.getY());
+                        if (selectedTime != null) {
+                            performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                            mEmptyViewLongPressListener.onEmptyViewLongPress(selectedTime);
+                        }
+                    }
+                }
+            };
 
 }

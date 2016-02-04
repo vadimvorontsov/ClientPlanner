@@ -286,8 +286,9 @@ public class CompletionTab4 extends Fragment {
         dateTextView.setText(mDay + " " + mMonthName + " " + mYear);
         TextView timeTextView = (TextView) relativeLayout.findViewById(R.id.time_textview);
 
-        timeTextView.setText("c " + mHourStart + ":" + mMinuteStart +
-                " по " + mHourEnd + ":" + mMinuteEnd);
+        timeTextView.setText(mContext.getResources().getString(R.string.from) + " " + mHourStart +
+                ":" + mMinuteStart + " " +
+                mContext.getResources().getString(R.string.to) + " " + mHourEnd + ":" + mMinuteEnd);
         TextView procedureNameTextView = (TextView) relativeLayout.findViewById(R.id.procedure_name_textview);
         procedureNameTextView.setText(mProcedureName);
         TextView procedurePriceTextView = (TextView) relativeLayout.findViewById(R.id.procedure_price_textview);
@@ -321,7 +322,7 @@ public class CompletionTab4 extends Fragment {
     }
 
     private String getMonthName(String monthNumb) {
-        return DateFormatSymbols.getInstance().getMonths()[Integer.parseInt(monthNumb)]; //вернуть к нумерации с 0
+        return DateFormatSymbols.getInstance().getMonths()[Integer.parseInt(monthNumb)];
     }
 
     private void initValues() {

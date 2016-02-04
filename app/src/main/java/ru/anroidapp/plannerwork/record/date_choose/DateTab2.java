@@ -211,7 +211,6 @@ public class DateTab2 extends Fragment {
             }
             mTextTime.setText(mTimeViewStart + mTimeViewEnd);
 
-            //Проверка есть ли запись на это время? " datetime('2015-01-01 01:01:01') "
             String timeStart = "datetime('" + mYear + "-" + mMonthStr + "-"
                     + mDayStr + " " + mHourStartStr + ":" + mMinuteStartStr + ":00')";
             String timeEnd = "datetime('" + mYear + "-" + mMonthStr + "-" + mDayStr +

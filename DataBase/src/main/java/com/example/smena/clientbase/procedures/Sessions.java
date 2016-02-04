@@ -321,14 +321,13 @@ public class Sessions {
         return -1;
     }
 
-    public int getDeleteSessionsById( long id ){
+    public int deleteSessionById(long id){
 
         ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        // удаляем по id
         try {
-            int delCount = db.delete(ClientBaseOpenHelper.TABLE_SESSIONS, "_id=" + id, null);
+            int index = db.delete(ClientBaseOpenHelper.TABLE_SESSIONS, "_id=" + id, null);
             return 1;
 
         } catch (SQLiteConstraintException e) {

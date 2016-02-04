@@ -31,7 +31,7 @@
             android:theme="@style/RecordTheme"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".CalendarActivity"
+            android:name=".calendar.CalendarActivity"
             android:label="@string/calendar"
             android:theme="@style/CalendarTheme">
         </activity>

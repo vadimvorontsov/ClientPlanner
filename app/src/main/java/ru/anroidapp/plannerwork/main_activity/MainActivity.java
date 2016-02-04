@@ -1,18 +1,14 @@
 package ru.anroidapp.plannerwork.main_activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,9 +22,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.Locale;
 
-import ru.anroidapp.plannerwork.CalendarActivity;
+import ru.anroidapp.plannerwork.calendar.CalendarActivity;
 import ru.anroidapp.plannerwork.LangUpdateText;
 import ru.anroidapp.plannerwork.LanguageManager;
 import ru.anroidapp.plannerwork.ProcedureActivity;
@@ -151,6 +146,12 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        getDbFile();
+        super.onDestroy();
+    }
+
     private void getDbFile() {
         try {
             File sd = Environment.getExternalStorageDirectory();
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
 
             if (sd.canWrite()) {
                 String currentDBPath = data + "/data/" + getPackageName() + "/databases/sessions.db";
-                String backupDBPath = "2.db";
+                String backupDBPath = "client.db";
                 File currentDB = new File(currentDBPath);
                 File backupDB = new File(sd, backupDBPath);
 
@@ -212,10 +213,15 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
         }
 
         circleArray[0].setColor(getResources().getColor(android.R.color.holo_purple));
-        for (int i = 0; i < sessionCount && i < MAX_SESSIONS_COUNT; i++) {
-            circleArray[i].setVisibility(View.VISIBLE);
-            if (i != 0)
-                circleArray[i].setColor(getResources().getColor(android.R.color.white));
+        for (int i = 0; i < MAX_SESSIONS_COUNT; i++) {
+            if (i < sessionCount) {
+                circleArray[i].setVisibility(View.VISIBLE);
+                if (i != 0)
+                    circleArray[i].setColor(getResources().getColor(android.R.color.white));
+            } else {
+                circleArray[i].setVisibility(View.GONE);
+            }
+
         }
     }
 
@@ -290,54 +296,4 @@ public class MainActivity extends AppCompatActivity implements LangUpdateText {
 
         loadNearestSessions();
     }
-
-//    private void changeLang(String lang) {
-//        if (lang.equalsIgnoreCase(""))
-//            return;
-//        myLocale = new Locale(lang);
-//        saveLocale(lang);
-//        Locale.setDefault(myLocale);
-//        android.content.res.Configuration config = new android.content.res.Configuration();
-//        config.locale = myLocale;
-//
-//        if (lang.equals("en")) {
-//            isRus = false;
-//        }
-//        else {
-//            isRus = true;
-//        }
-//
-//        getBaseContext().getResources().updateConfiguration(config,
-//                getBaseContext().getResources().getDisplayMetrics());
-//        updateTexts();
-//    }
-//
-//
-//    private void saveLocale(String lang)
-//    {
-//        String langPref = "Language";
-//        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = prefs.edit();
-//        editor.putString(langPref, lang);
-//        editor.commit();
-//    }
-//
-//
-//    private void loadLocale()
-//    {
-//        String langPref = "Language";
-//        SharedPreferences prefs = getSharedPreferences("CommonPrefs", Activity.MODE_PRIVATE);
-//        String language = prefs.getString(langPref, "");
-//        changeLang(language);
-//    }
-
-//    public void updateTexts() {
-//        this.startRecordTextView.setText(R.string.start_record);
-//        this.startRecordDescriptionTextView.setText(R.string.start_record_description);
-//        this.startCalendarTextView.setText(R.string.calendar);
-//        this.startCalendarDescriptionTextView.setText(R.string.start_calendar_description);
-//        this.startProcedureTextView.setText(R.string.procedure);
-//        this.startProcedureDescriptionTextView.setText(R.string.start_procedure_description);
-//    }
-
 }

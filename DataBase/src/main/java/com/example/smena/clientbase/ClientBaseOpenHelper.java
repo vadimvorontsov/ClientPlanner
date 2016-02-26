@@ -35,10 +35,18 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
     public static final String IS_NOTIFIED = "is_notified";
     // db
     private static final String DATABASE_NAME = "sessions.db";
-    private static final int DATABASE_VERSION = 24;
-    private Context mContext;
+    private static final int DATABASE_VERSION = 26;
 
-    public ClientBaseOpenHelper(Context context) {
+    private Context mContext;
+    private static ClientBaseOpenHelper instance;
+
+    public static synchronized ClientBaseOpenHelper getHelper(Context context) {
+        if (instance == null)
+            instance = new ClientBaseOpenHelper(context);
+        return instance;
+    }
+
+    private ClientBaseOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         mContext = context;
     }

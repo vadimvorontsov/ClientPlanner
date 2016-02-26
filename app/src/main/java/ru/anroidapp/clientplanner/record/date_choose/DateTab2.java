@@ -1,10 +1,12 @@
 package ru.anroidapp.clientplanner.record.date_choose;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +27,10 @@ import ru.anroidapp.clientplanner.MetaData;
 import ru.anroidapp.clientplanner.R;
 
 
-public class DateTab2 extends Fragment {
+public class DateTab2 extends Fragment implements LoaderManager.LoaderCallbacks<Boolean> {
 
     private static final String TAG = "DateTab2";
-
+    private static final int CHECK_TIME = 0;
     private FragmentActivity mFragmentActivity;
 
     private DatePicker mDatePicker;
@@ -44,7 +46,136 @@ public class DateTab2 extends Fragment {
     private Button mBtnTimeStart, mBtnTimeEnd, mBtnDate;
     private TextView mTextDate, mTextTime;
     private LinearLayout mLayDate, mLayTime, mLayReturnDate, mLayDateTime;
-    View.OnClickListener oclLayReturnDate = new View.OnClickListener() {
+
+    private MetaData mMetaData;
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
+        mFragmentActivity = super.getActivity();
+        mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
+
+        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.date_tab,
+                container, false);
+        setupViews(relativeLayout);
+
+        mLayTime.setVisibility(View.GONE);
+        mBtnTimeStart.setVisibility(View.GONE);
+        mBtnTimeEnd.setVisibility(View.GONE);
+        mLayReturnDate.setVisibility(View.GONE);
+
+        mTimeViewStart = "";
+        mTimeViewEnd = "";
+
+        mBtnTimeStart.setOnClickListener(new onTimeStartButtonListener());
+        mBtnTimeEnd.setOnClickListener(new onTimeEndButtonListener());
+        mBtnDate.setOnClickListener(new onDateButtonListener());
+        mLayReturnDate.setOnClickListener(new onReturnDateListener());
+
+        setDefaultTime();
+        setHasOptionsMenu(true);
+
+        return relativeLayout;
+
+    }
+
+    private void setDefaultTime() {
+        mHour = mTimePicker.getCurrentHour();
+        mMinute = mTimePicker.getCurrentMinute();
+    }
+
+    private void setupViews(RelativeLayout relativeLayout) {
+        mBtnTimeStart = (Button) relativeLayout.findViewById(R.id.BtnTimeHour);
+        mBtnTimeEnd = (Button) relativeLayout.findViewById(R.id.BtnTimeMin);
+        mBtnDate = (Button) relativeLayout.findViewById(R.id.BtnDate);
+
+        mTextDate = (TextView) relativeLayout.findViewById(R.id.TextDate);
+        mTextTime = (TextView) relativeLayout.findViewById(R.id.TextTime);
+
+        mLayDate = (LinearLayout) relativeLayout.findViewById(R.id.LinDatePick);
+        mLayTime = (LinearLayout) relativeLayout.findViewById(R.id.LinTimePick);
+        mLayReturnDate = (LinearLayout) relativeLayout.findViewById(R.id.cancelLayDate);
+        mLayDateTime = (LinearLayout) relativeLayout.findViewById(R.id.LinDateTime);
+
+        mDatePicker = (DatePicker) relativeLayout.findViewById(R.id.datePicker);
+        Calendar calendar = Calendar.getInstance();
+        mDatePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH), new DateChangedListener());
+
+        mTimePicker = (TimePicker) relativeLayout.findViewById(R.id.timePicker);
+        mTimePicker.setIs24HourView(true);
+        mTimePicker.setOnTimeChangedListener(new TimeChangedListener());
+    }
+
+    private String getMonthName(String monthNumb) {
+        return DateFormatSymbols.getInstance().getMonths()[Integer.parseInt(monthNumb)];
+    }
+
+    @Override
+    public Loader<Boolean> onCreateLoader(int id, Bundle args) {
+        switch (id) {
+            case CHECK_TIME:
+                String startTime = args.getString("start");
+                String endTime = args.getString("end");
+                return new CheckTimeLoader(mFragmentActivity, startTime, endTime);
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Boolean> loader, Boolean data) {
+        if (data) {
+            Toast.makeText(mFragmentActivity,
+                    mFragmentActivity.getResources().getString(R.string.appointment_already_exist),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Boolean> loader) {
+
+    }
+
+    private static class CheckTimeLoader extends AsyncTaskLoader<Boolean> {
+        String timeStart;
+        String timeEnd;
+        private FragmentActivity context;
+
+        public CheckTimeLoader(FragmentActivity context, String timeStart, String timeEnd) {
+            super(context);
+            this.context = context;
+            this.timeStart = timeStart;
+            this.timeEnd = timeEnd;
+        }
+
+        @Override
+        public Boolean loadInBackground() {
+            Sessions sessions = new Sessions(context);
+            return sessions.getSessionsBetweenTimes(timeStart, timeEnd);
+        }
+    }
+
+    public class DateChangedListener implements DatePicker.OnDateChangedListener {
+        @Override
+        public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            mYear = year;
+            mMonth = monthOfYear;
+            mDay = dayOfMonth;
+        }
+    }
+
+    public class TimeChangedListener implements android.widget.TimePicker.OnTimeChangedListener {
+        @Override
+        public void onTimeChanged(android.widget.TimePicker view, int hourOfDay, int minute) {
+            mHour = hourOfDay;
+            mMinute = minute;
+        }
+    }
+
+    private class onReturnDateListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             mLayDate.setVisibility(View.VISIBLE);
@@ -54,9 +185,9 @@ public class DateTab2 extends Fragment {
             mLayTime.setVisibility(View.GONE);
             mLayReturnDate.setVisibility(View.GONE);
         }
-    };
-    private MetaData mMetaData;
-    View.OnClickListener oclBtnDate = new View.OnClickListener() {
+    }
+
+    private class onDateButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             mDay = mDatePicker.getDayOfMonth();
@@ -85,8 +216,9 @@ public class DateTab2 extends Fragment {
             mAllTime = Integer.toString(mDay) + " " + getMonthName("" + mMonth) + " " + Integer.toString(mYear);
             mTextDate.setText(mAllTime);
         }
-    };
-    View.OnClickListener oclBtnTimeEnd = new View.OnClickListener() {
+    }
+
+    private class onTimeEndButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             mHourEnd = mHour;
@@ -123,13 +255,15 @@ public class DateTab2 extends Fragment {
             String timeEnd = "datetime('" + mYear + "-" + mMonthStr + "-" + mDayStr +
                     " " + mHourEndStr + ":" + mMinuteEndStr + ":00')";
 
-            if (checkData(mFragmentActivity, timeStart, timeEnd))
-                Toast.makeText(mFragmentActivity,
-                        mFragmentActivity.getResources().getString(R.string.appointment_already_exist),
-                        Toast.LENGTH_SHORT).show();
+            Bundle b = new Bundle(2);
+            b.putString("start", timeStart);
+            b.putString("end", timeEnd);
+            getLoaderManager().initLoader(CHECK_TIME, b, DateTab2.this).forceLoad();
+
         }
-    };
-    View.OnClickListener oclBtnTimeStart = new View.OnClickListener() {
+    }
+
+    private class onTimeStartButtonListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             mHourStart = mHour;
@@ -170,93 +304,7 @@ public class DateTab2 extends Fragment {
 
             mTextTime.setText(mTimeViewStart + mTimeViewEnd);
         }
-    };
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-
-        mFragmentActivity = super.getActivity();
-        mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
-
-        RelativeLayout relativeLayout = (RelativeLayout) inflater.inflate(R.layout.date_tab,
-                container, false);
-        setupViews(relativeLayout);
-
-        mLayTime.setVisibility(View.GONE);
-        mBtnTimeStart.setVisibility(View.GONE);
-        mBtnTimeEnd.setVisibility(View.GONE);
-        mLayReturnDate.setVisibility(View.GONE);
-
-        mTimeViewStart = "";
-        mTimeViewEnd = "";
-
-        mBtnTimeStart.setOnClickListener(oclBtnTimeStart);
-        mBtnTimeEnd.setOnClickListener(oclBtnTimeEnd);
-        mBtnDate.setOnClickListener(oclBtnDate);
-        mLayReturnDate.setOnClickListener(oclLayReturnDate);
-
-        setDefaultTime();
-
-        //relativeLayout.findViewById(R.id.date_tab);
-        setHasOptionsMenu(true);
-
-        return relativeLayout;
-
-    }
-
-    private void setDefaultTime() {
-        mHour = mTimePicker.getCurrentHour();
-        mMinute = mTimePicker.getCurrentMinute();
-    }
-
-    private void setupViews(RelativeLayout relativeLayout) {
-        mBtnTimeStart = (Button) relativeLayout.findViewById(R.id.BtnTimeHour);
-        mBtnTimeEnd = (Button) relativeLayout.findViewById(R.id.BtnTimeMin);
-        mBtnDate = (Button) relativeLayout.findViewById(R.id.BtnDate);
-
-        mTextDate = (TextView) relativeLayout.findViewById(R.id.TextDate);
-        mTextTime = (TextView) relativeLayout.findViewById(R.id.TextTime);
-
-        mLayDate = (LinearLayout) relativeLayout.findViewById(R.id.LinDatePick);
-        mLayTime = (LinearLayout) relativeLayout.findViewById(R.id.LinTimePick);
-        mLayReturnDate = (LinearLayout) relativeLayout.findViewById(R.id.cancelLayDate);
-        mLayDateTime = (LinearLayout) relativeLayout.findViewById(R.id.LinDateTime);
-
-        mDatePicker = (DatePicker) relativeLayout.findViewById(R.id.datePicker);
-        Calendar calendar = Calendar.getInstance();
-        mDatePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH), new DateChangedListener());
-
-        mTimePicker = (TimePicker) relativeLayout.findViewById(R.id.timePicker);
-        mTimePicker.setIs24HourView(true);
-        mTimePicker.setOnTimeChangedListener(new TimeChangedListener());
-    }
-
-    private boolean checkData(Context ctx, String start_time, String end_time) {
-        Sessions sessions = new Sessions(ctx);
-        return sessions.getSessionsBetweenTimes(start_time, end_time);
-    }
-
-    private String getMonthName(String monthNumb) {
-        return DateFormatSymbols.getInstance().getMonths()[Integer.parseInt(monthNumb)];
-    }
-
-    public class DateChangedListener implements DatePicker.OnDateChangedListener {
-        @Override
-        public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            mYear = year;
-            mMonth = monthOfYear;
-            mDay = dayOfMonth;
-        }
-    }
-
-    public class TimeChangedListener implements android.widget.TimePicker.OnTimeChangedListener {
-        @Override
-        public void onTimeChanged(android.widget.TimePicker view, int hourOfDay, int minute) {
-            mHour = hourOfDay;
-            mMinute = minute;
-        }
     }
 
 }
+

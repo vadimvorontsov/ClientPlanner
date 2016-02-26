@@ -532,16 +532,10 @@ public class ContactTab1 extends Fragment implements LoaderCallbacks<ArrayList<S
         }
     }
 
-    public static class SortIgnoreCase implements Comparator<String> {
-        public int compare(String s1, String s2) {
-            return s1.compareToIgnoreCase(s2);
-        }
-    }
-
     private static class ContactLoader extends AsyncTaskLoader<ArrayList<String>> {
         private Context context;
 
-        public ContactLoader(Context context) {
+        private ContactLoader(Context context) {
             super(context);
             this.context = context;
         }
@@ -579,7 +573,7 @@ public class ContactTab1 extends Fragment implements LoaderCallbacks<ArrayList<S
     private static class ClientLoader extends AsyncTaskLoader<ArrayList<String>> {
         private Context context;
 
-        public ClientLoader(Context context) {
+        private ClientLoader(Context context) {
             super(context);
             this.context = context;
         }
@@ -604,10 +598,16 @@ public class ContactTab1 extends Fragment implements LoaderCallbacks<ArrayList<S
         }
     }
 
+    private static class SortIgnoreCase implements Comparator<String> {
+        public int compare(String s1, String s2) {
+            return s1.compareToIgnoreCase(s2);
+        }
+    }
+
     private class ListFilter extends Filter {
         ArrayList<String> list;
 
-        public ListFilter(ArrayList<String> list) {
+        private ListFilter(ArrayList<String> list) {
             this.list = list;
         }
 

@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.widget.Toast;
 
+import ru.androidapp.clientplanner.clientbase.R;
+
 
 public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumns {
 
@@ -36,19 +38,18 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
     // db
     private static final String DATABASE_NAME = "sessions.db";
     private static final int DATABASE_VERSION = 26;
-
-    private Context mContext;
     private static ClientBaseOpenHelper instance;
+    private Context mContext;
+
+    private ClientBaseOpenHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mContext = context;
+    }
 
     public static synchronized ClientBaseOpenHelper getHelper(Context context) {
         if (instance == null)
             instance = new ClientBaseOpenHelper(context);
         return instance;
-    }
-
-    private ClientBaseOpenHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        mContext = context;
     }
 
     @Override
@@ -120,7 +121,8 @@ public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumn
 
         onCreate(db);
 
-        Toast.makeText(mContext, "Обновление базы данных до версии " + newVersion + "...",
+        Toast.makeText(mContext, mContext.getResources().getString(R.string.update) +
+                        " " + newVersion + "...",
                 Toast.LENGTH_LONG).show();
     }
 

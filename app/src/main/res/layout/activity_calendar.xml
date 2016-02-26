@@ -1,9 +1,9 @@
 <RelativeLayout
-    android:id="@+id/calendar_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calendar_layout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".calendar.CalendarActivity">
 
@@ -13,25 +13,25 @@
     <!--высота верхнего блока(дни) headerRowPadding-->
 
     <include
-        layout="@layout/toolbar"
-        android:id="@+id/toolbar_calendar" />
+        android:id="@+id/toolbar_calendar"
+        layout="@layout/toolbar" />
 
-    <ru.anroidapp.plannerwork.calendar.WeekView
+    <ru.anroidapp.clientplanner.calendar.WeekView
         android:id="@+id/weekView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/toolbar"
+        app:columnGap="8dp"
+        app:dayBackgroundColor="#05000000"
         app:eventTextColor="@android:color/white"
-        app:textSize="12sp"
-        app:hourHeight="60dp"
+        app:headerColumnBackground="#ffffffff"
         app:headerColumnPadding="8dp"
         app:headerColumnTextColor="#8f000000"
-        app:headerRowPadding="22dp"
-        app:columnGap="8dp"
-        app:noOfVisibleDays="3"
         app:headerRowBackgroundColor="#ffefefef"
-        app:dayBackgroundColor="#05000000"
-        app:todayBackgroundColor="#1848adff"
-        app:headerColumnBackground="#ffffffff"/>
+        app:headerRowPadding="22dp"
+        app:hourHeight="60dp"
+        app:noOfVisibleDays="3"
+        app:textSize="12sp"
+        app:todayBackgroundColor="#1848adff" />
 
 </RelativeLayout>

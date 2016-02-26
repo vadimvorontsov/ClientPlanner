@@ -3,23 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ru.anroidapp.plannerwork.record.RecordActivity">
+    tools:context="ru.anroidapp.clientplanner.record.RecordActivity">
 
     <include
         android:id="@+id/toolbar_record"
         layout="@layout/toolbar" />
 
-    <ru.anroidapp.plannerwork.record.SlidingTabLayout
+    <ru.anroidapp.clientplanner.record.SlidingTabLayout
         android:id="@+id/tabs_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/elevation"
-        android:background="@color/record_first" />
+        android:background="@color/record_first"
+        android:elevation="@dimen/elevation" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager_record"
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"></android.support.v4.view.ViewPager>
 
 </LinearLayout>

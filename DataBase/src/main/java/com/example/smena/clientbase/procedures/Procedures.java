@@ -22,8 +22,7 @@ public class Procedures {
 
     public long getProcedureID(String procedureName) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         long procedureID = 0;
 
@@ -47,15 +46,14 @@ public class Procedures {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public Object[] getProcedureInfo(long procedureID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         Object[] procedureInfo = null;
 
@@ -97,7 +95,7 @@ public class Procedures {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
 
@@ -106,8 +104,7 @@ public class Procedures {
     public long addProcedure(String procedureName, Integer procedurePrice,
                              String procedureNote, Integer procedureColor) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_write = helper.getWritableDatabase();
+        SQLiteDatabase db_write = ClientBaseOpenHelper.getHelper(mContext).getWritableDatabase();
         long procedureID = 0;
 
         try {
@@ -129,15 +126,14 @@ public class Procedures {
         } finally {
             if (db_write != null && db_write.isOpen()) {
                 db_write.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public int deleteProcedure(String procedureName){
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db = ClientBaseOpenHelper.getHelper(mContext).getWritableDatabase();
         int deleteCount = 0;
 
         try {
@@ -152,17 +148,17 @@ public class Procedures {
         }finally {
             if (db != null && db.isOpen()) {
                 db.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
 
     public int getUpdateProcedure(String id, String procedureName,
-                                  Integer procedurePrice, String procedureNote, Integer procedureColor){
+                                  Integer procedurePrice, String procedureNote,
+                                  Integer procedureColor) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db = ClientBaseOpenHelper.getHelper(mContext).getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         if (id.equalsIgnoreCase("")) {
@@ -184,7 +180,7 @@ public class Procedures {
         } finally {
             if (db != null && db.isOpen()) {
                 db.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
 
@@ -192,13 +188,13 @@ public class Procedures {
 
     public ArrayList<String> getAllProceduresNames() {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         ArrayList<String> procedures = new ArrayList<>();
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES, new String[]{ClientBaseOpenHelper.PROCEDURE}, null,
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES,
+                    new String[]{ClientBaseOpenHelper.PROCEDURE}, null,
                     null, null, null, null);
             while (cursor.moveToNext()) {
                 procedures.add(cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.PROCEDURE)));
@@ -215,23 +211,24 @@ public class Procedures {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public ArrayList<Integer> getAllProceduresColor() {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         ArrayList<Integer> colorProcedures = new ArrayList<>();
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES, new String[]{ClientBaseOpenHelper.COLOR}, null,
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES,
+                    new String[]{ClientBaseOpenHelper.COLOR}, null,
                     null, null, null, null);
             while (cursor.moveToNext()) {
-                colorProcedures.add(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.COLOR)));
+                colorProcedures.add(cursor.getInt(cursor.getColumnIndex
+                        (ClientBaseOpenHelper.COLOR)));
             }
             return colorProcedures;
 
@@ -245,22 +242,21 @@ public class Procedures {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public int getColorProcedureByName(String nameProcedure) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         int color = -1;
 
         try {
             cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES,
-                    new String[]{ClientBaseOpenHelper.COLOR}, ClientBaseOpenHelper.PROCEDURE + "='" + nameProcedure + "'",
-                    null, null, null, null);
+                    new String[]{ClientBaseOpenHelper.COLOR}, ClientBaseOpenHelper.PROCEDURE +
+                            "='" + nameProcedure + "'", null, null, null, null);
 
             while (cursor.moveToNext()) {
                 color = cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.COLOR));
@@ -275,7 +271,7 @@ public class Procedures {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
         return color;
@@ -283,14 +279,14 @@ public class Procedures {
 
     public int getPriceProcedureByName(String nameProcedure) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         int price = -1;
 
         try {
             cursor = db_read.query(ClientBaseOpenHelper.TABLE_PROCEDURES,
-                    new String[]{ClientBaseOpenHelper.PRICE}, ClientBaseOpenHelper.PROCEDURE + "='" + nameProcedure + "'",
+                    new String[]{ClientBaseOpenHelper.PRICE}, ClientBaseOpenHelper.PROCEDURE +
+                            "='" + nameProcedure + "'",
                     null, null, null, null);
 
             while (cursor.moveToNext()) {
@@ -306,7 +302,7 @@ public class Procedures {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
         return price;

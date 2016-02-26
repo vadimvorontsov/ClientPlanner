@@ -8,11 +8,11 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="1"
-        android:id="@+id/search_layout">
+        android:weightSum="1">
 
     <LinearLayout
         android:id="@+id/LayImageSearch"
@@ -32,10 +32,10 @@
         android:id="@+id/search_view"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/top_search"
-        android:hint="@string/search_hint"
         android:layout_weight="1"
-        android:singleLine="true"
         android:background="@color/color_white"
+        android:hint="@string/search_hint"
+        android:singleLine="true"
         android:textColor="@color/color_black_light"
         android:textColorHint="@color/md_grey_400"
         android:textSize="@dimen/header_comment_button" />
@@ -44,14 +44,14 @@
         android:id="@+id/cancel_search_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:onClick="LayCanselClick"
         android:background="@drawable/contact_closelay"
+        android:onClick="LayCanselClick"
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/ImClose"
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
-            android:id="@+id/ImClose"
             android:layout_gravity="center"
             android:src="@mipmap/close_1"/>
         </LinearLayout>
@@ -75,21 +75,21 @@
         android:id="@+id/clients_layout"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/search_layout">
+        android:layout_below="@+id/search_layout"
+        android:orientation="vertical">
 
         <include layout="@layout/loading_empty_view" />
 
-        <ru.anroidapp.plannerwork.record.contact_choose.PinnedHeaderListView
+        <ru.anroidapp.clientplanner.record.contact_choose.PinnedHeaderListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:scrollingCache="false"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:choiceMode="singleChoice"
-            android:listSelector="@color/color_gray"/>
+            android:listSelector="@color/color_gray"
+            android:scrollingCache="false" />
 
     </RelativeLayout>
 
@@ -97,15 +97,15 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
+        android:layout_marginBottom="@dimen/padding_botton"
+        android:layout_marginRight="@dimen/padding_right"
         android:src="@drawable/ic_search"
         fab:fab_colorNormal="@color/record_first"
         fab:fab_colorPressed="@color/record_second"
-        fab:fab_colorRipple="@color/record_second"
-        android:layout_marginRight="@dimen/padding_right"
-        android:layout_marginBottom="@dimen/padding_botton"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        fab:fab_colorRipple="@color/record_second" />
 
 </RelativeLayout>

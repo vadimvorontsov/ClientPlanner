@@ -22,8 +22,8 @@ public class Clients {
 
     public long getClientID(String clientName) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         long clientID = 0;
 
@@ -46,15 +46,15 @@ public class Clients {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public String getClientName(long clientID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         String client = "";
 
@@ -77,7 +77,7 @@ public class Clients {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
@@ -86,8 +86,8 @@ public class Clients {
 
         long clientID = 0;
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_write = helper.getWritableDatabase();
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
+        SQLiteDatabase db_write = ClientBaseOpenHelper.getHelper(mContext).getWritableDatabase();
 
         try {
             ContentValues cv = new ContentValues();
@@ -104,7 +104,7 @@ public class Clients {
         } finally {
             if (db_write != null && db_write.isOpen()) {
                 db_write.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
@@ -114,8 +114,8 @@ public class Clients {
         int visits = getClientVisits(clientName);
         int countUpdates = 0;
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_write = helper.getWritableDatabase();
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
+        SQLiteDatabase db_write = ClientBaseOpenHelper.getHelper(mContext).getWritableDatabase();
 
         try {
             ContentValues cv = new ContentValues();
@@ -132,21 +132,21 @@ public class Clients {
         } finally {
             if (db_write != null && db_write.isOpen()) {
                 db_write.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public int getClientVisits(String clientName) {
 
-        ClientBaseOpenHelper helper = null;
+        //ClientBaseOpenHelper helper = null;
         SQLiteDatabase db_read = null;
         Cursor cursor = null;
         int visits = 0;
 
         try {
-            helper = new ClientBaseOpenHelper(mContext);
-            db_read = helper.getReadableDatabase();
+            //helper = new ClientBaseOpenHelper(mContext);
+            db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
 
             cursor = db_read.query(ClientBaseOpenHelper.TABLE_CLIENTS,
                     new String[]{ClientBaseOpenHelper.VISITS},
@@ -161,7 +161,7 @@ public class Clients {
                 cursor.close();
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
         return visits;
@@ -169,8 +169,8 @@ public class Clients {
 
     public ArrayList<String> getAllClientsNames() {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         ArrayList<String> clients = new ArrayList<>();
 
@@ -193,7 +193,7 @@ public class Clients {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }

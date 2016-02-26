@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.anroidapp.plannerwork" >
+    package="ru.anroidapp.clientplanner">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -16,28 +16,31 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".main_activity.MainActivity"
+            android:name="ru.anroidapp.clientplanner.main_activity.MainActivity"
+            android:configChanges="locale|orientation"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            android:configChanges="locale|orientation">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".record.RecordActivity"
+            android:name="ru.anroidapp.clientplanner.record.RecordActivity"
             android:label="@string/title_activity_record"
+            android:screenOrientation="portrait"
             android:theme="@style/RecordTheme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".calendar.CalendarActivity"
+            android:name="ru.anroidapp.clientplanner.calendar.CalendarActivity"
             android:label="@string/calendar"
             android:theme="@style/CalendarTheme">
         </activity>
         <activity
-            android:name=".ProcedureActivity"
+            android:name="ru.anroidapp.clientplanner.ProcedureActivity"
             android:label="@string/services"
+            android:screenOrientation="portrait"
             android:theme="@style/ProcedureTheme">
         </activity>
     </application>

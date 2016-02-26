@@ -52,8 +52,8 @@ public class Sessions {
             procedureID = procedures.getProcedureID(procedureName);
         }
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_write = helper.getWritableDatabase();
+        //ClientBaseOpenHelper ClientBaseOpenHelper.getHelper(mContext) = new ClientBaseOpenHelper(mContext);
+        SQLiteDatabase db_write = ClientBaseOpenHelper.getHelper(mContext).getWritableDatabase();
 
         try {
             ContentValues cv = new ContentValues();
@@ -78,8 +78,8 @@ public class Sessions {
             if (db_write != null && db_write.isOpen()) {
                 db_write.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
@@ -94,8 +94,7 @@ public class Sessions {
             timeEnd = " datetime('now') ";
         }
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         ArrayList<Integer> sessionsID = new ArrayList<>();
 
@@ -138,8 +137,8 @@ public class Sessions {
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
 
@@ -147,8 +146,7 @@ public class Sessions {
 
     public ArrayList<Integer> getSessionsBeforeTime(String time) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         ArrayList<Integer> sessionsID = new ArrayList<>();
 
@@ -171,8 +169,8 @@ public class Sessions {
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
         return sessionsID;
@@ -180,8 +178,7 @@ public class Sessions {
 
     public ArrayList<Long> getSessionsAfterTime(String time, int count) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         ArrayList<Long> sessionsID = new ArrayList<>();
 
@@ -207,16 +204,15 @@ public class Sessions {
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public Object[] getSessionById(long sessionID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         Object[] session = null;
 
@@ -229,18 +225,29 @@ public class Sessions {
             String email = "";
             String isNotified = "";
 
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{ClientBaseOpenHelper.ID_CLIENT_SESSION,
-                            ClientBaseOpenHelper.ID_PROCEDURE, ClientBaseOpenHelper.TIME_START, ClientBaseOpenHelper.TIME_END,
-                            ClientBaseOpenHelper.ID_PHONE, ClientBaseOpenHelper.ID_EMAIL, ClientBaseOpenHelper.IS_NOTIFIED},
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS,
+                    new String[]{ClientBaseOpenHelper.ID_CLIENT_SESSION,
+                            ClientBaseOpenHelper.ID_PROCEDURE, ClientBaseOpenHelper.TIME_START,
+                            ClientBaseOpenHelper.TIME_END,
+                            ClientBaseOpenHelper.ID_PHONE, ClientBaseOpenHelper.ID_EMAIL,
+                            ClientBaseOpenHelper.IS_NOTIFIED},
                     BaseColumns._ID + "=" + sessionID, null, null, null, null);
+
             while (cursor.moveToNext()) {
-                clientName = getClientName(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.ID_CLIENT_SESSION)));
-                procedureName = getProcedure(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.ID_PROCEDURE)));
-                time_start = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.TIME_START));
-                time_end = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.TIME_END));
-                phone = getPhone(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.ID_PHONE)));
-                email = getEmail(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.ID_EMAIL)));
-                isNotified = getIsNotified(cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.IS_NOTIFIED)));
+                clientName = getClientName(cursor.getInt(cursor.getColumnIndex
+                        (ClientBaseOpenHelper.ID_CLIENT_SESSION)));
+                procedureName = getProcedure(cursor.getInt(cursor.getColumnIndex
+                        (ClientBaseOpenHelper.ID_PROCEDURE)));
+                time_start = cursor.getString(cursor.getColumnIndex
+                        (ClientBaseOpenHelper.TIME_START));
+                time_end = cursor.getString(cursor.getColumnIndex
+                        (ClientBaseOpenHelper.TIME_END));
+                phone = getPhone(cursor.getInt(cursor.getColumnIndex
+                        (ClientBaseOpenHelper.ID_PHONE)));
+                email = getEmail(cursor.getInt(cursor.getColumnIndex
+                        (ClientBaseOpenHelper.ID_EMAIL)));
+                isNotified = getIsNotified(cursor.getInt(cursor.getColumnIndex
+                        (ClientBaseOpenHelper.IS_NOTIFIED)));
             }
             session = new Object[]{clientName, phone, email, procedureName, time_start, time_end, isNotified};
 
@@ -255,21 +262,21 @@ public class Sessions {
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public ArrayList<Long> getAllSessionsId() {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         ArrayList<Long> sessions = new ArrayList<>();
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{BaseColumns._ID}, null,
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS,
+                    new String[]{BaseColumns._ID}, null,
                     null, null, null, null);
             while (cursor.moveToNext()) {
                 sessions.add(cursor.getLong(cursor.getColumnIndex(BaseColumns._ID)));
@@ -286,19 +293,20 @@ public class Sessions {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public int isNotifiedById(long id) {
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         Integer isNotified;
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS, new String[]{ClientBaseOpenHelper.IS_NOTIFIED},
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_SESSIONS
+                    , new String[]{ClientBaseOpenHelper.IS_NOTIFIED},
                     ClientBaseOpenHelper._ID + "=" + id, null, null, null, null);
             while (cursor.moveToNext()) {
                 isNotified = cursor.getInt(cursor.getColumnIndex(ClientBaseOpenHelper.IS_NOTIFIED));
@@ -315,7 +323,7 @@ public class Sessions {
             }
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
         return -1;
@@ -323,8 +331,7 @@ public class Sessions {
 
     public int deleteSessionById(long id){
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db = ClientBaseOpenHelper.getHelper(mContext).getWritableDatabase();
 
         try {
             int index = db.delete(ClientBaseOpenHelper.TABLE_SESSIONS, "_id=" + id, null);
@@ -337,7 +344,7 @@ public class Sessions {
         }finally {
             if (db != null && db.isOpen()) {
                 db.close();
-                helper.close();
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }

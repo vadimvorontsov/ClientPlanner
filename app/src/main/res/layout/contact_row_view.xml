@@ -5,10 +5,10 @@
     android:id="@+id/contact_row"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/activity_horizontal_margin"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:padding="@dimen/activity_horizontal_margin">
 
-    <ru.anroidapp.plannerwork.CircularImageView
+    <ru.anroidapp.clientplanner.CircularImageView
         android:id="@+id/contact_circle"
         android:layout_width="@dimen/circle_list"
         android:layout_height="@dimen/circle_list"
@@ -21,8 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/contact_circle"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_toRightOf="@+id/contact_circle"
         android:orientation="vertical">
 
         <TextView

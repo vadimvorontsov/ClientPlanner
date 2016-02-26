@@ -23,8 +23,8 @@ public class Emails {
 
     public long getEmailID(String email) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         long emailID = 0;
 
@@ -47,16 +47,16 @@ public class Emails {
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public String getEmailById(long emailID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         String email = "";
 
@@ -80,16 +80,16 @@ public class Emails {
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public ArrayList<String> getEmailsByClientId(long clientID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         ArrayList<String> emails = new ArrayList<>();
 
@@ -113,16 +113,16 @@ public class Emails {
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public long addEmail(String email, long clientID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_write = helper.getWritableDatabase();
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
+        SQLiteDatabase db_write = ClientBaseOpenHelper.getHelper(mContext).getWritableDatabase();
         long emailID = 0;
 
         try {
@@ -142,8 +142,8 @@ public class Emails {
             if (db_write != null && db_write.isOpen()) {
                 db_write.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }

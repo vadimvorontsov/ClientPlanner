@@ -22,16 +22,18 @@ public class Phones {
 
     public long getPhoneID(String phone) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        //ClientBaseOpenHelper ClientBaseOpenHelper.getHelper(mContext) = new ClientBaseOpenHelper(mContext);
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         long phoneID = 0;
 
         try {
-            cursor = db_read.query(helper.TABLE_PHONES, new String[]{helper._ID},
-                    helper.PHONE + "='" + phone + "'", null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PHONES,
+                    new String[]{ClientBaseOpenHelper._ID},
+                    ClientBaseOpenHelper.PHONE + "='" + phone + "'",
+                    null, null, null, null);
             while (cursor.moveToNext()) {
-                phoneID = cursor.getLong(cursor.getColumnIndex(helper._ID));
+                phoneID = cursor.getLong(cursor.getColumnIndex(ClientBaseOpenHelper._ID));
             }
             return phoneID;
 
@@ -46,24 +48,27 @@ public class Phones {
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public String getPhoneById(long phoneID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        //ClientBaseOpenHelper ClientBaseOpenHelper.getHelper(mContext) = new ClientBaseOpenHelper(mContext);
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         String phone = "";
 
         try {
-            cursor = db_read.query(helper.TABLE_PHONES, new String[]{helper.PHONE},
-                    helper._ID + "=" + phoneID, null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PHONES,
+                    new String[]{ClientBaseOpenHelper.PHONE},
+                    ClientBaseOpenHelper._ID + "=" + phoneID,
+                    null, null, null, null);
             while (cursor.moveToNext()) {
-                phone = cursor.getString(cursor.getColumnIndex(helper.PHONE));
+                phone = cursor.getString(cursor.getColumnIndex
+                        (ClientBaseOpenHelper.PHONE));
             }
             return phone;
 
@@ -78,24 +83,26 @@ public class Phones {
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public ArrayList<String> getPhonesByClientID(long clientID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_read = helper.getReadableDatabase();
+        SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
         ArrayList<String> phone = new ArrayList<>();
 
         try {
-            cursor = db_read.query(helper.TABLE_PHONES, new String[]{helper.PHONE},
-                    helper.ID_CLIENT_PHONE + "=" + clientID, null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PHONES,
+                    new String[]{ClientBaseOpenHelper.PHONE},
+                    ClientBaseOpenHelper.ID_CLIENT_PHONE + "=" + clientID,
+                    null, null, null, null);
             while (cursor.moveToNext()) {
-                phone.add(cursor.getString(cursor.getColumnIndex(helper.PHONE)));
+                phone.add(cursor.getString(cursor.getColumnIndex
+                        (ClientBaseOpenHelper.PHONE)));
             }
             return phone;
 
@@ -110,24 +117,24 @@ public class Phones {
             if (db_read != null && db_read.isOpen()) {
                 db_read.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }
 
     public long addPhone(String phone, long clientID) {
 
-        ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
-        SQLiteDatabase db_write = helper.getWritableDatabase();
+        SQLiteDatabase db_write = ClientBaseOpenHelper.getHelper(mContext).getWritableDatabase();
         long phoneID = 0;
 
         try {
             ContentValues cv = new ContentValues();
-            cv.put(helper.PHONE, phone);
-            cv.put(helper.ID_CLIENT_PHONE, clientID);
+            cv.put(ClientBaseOpenHelper.PHONE, phone);
+            cv.put(ClientBaseOpenHelper.ID_CLIENT_PHONE, clientID);
             if (cv != null) {
-                phoneID = db_write.insert(helper.TABLE_PHONES, helper.PHONE, cv);
+                phoneID = db_write.insert(ClientBaseOpenHelper.TABLE_PHONES,
+                        ClientBaseOpenHelper.PHONE, cv);
             }
             return phoneID;
 
@@ -139,8 +146,8 @@ public class Phones {
             if (db_write != null && db_write.isOpen()) {
                 db_write.close();
             }
-            if (helper != null) {
-                helper.close();
+            if (ClientBaseOpenHelper.getHelper(mContext) != null) {
+                ClientBaseOpenHelper.getHelper(mContext).close();
             }
         }
     }

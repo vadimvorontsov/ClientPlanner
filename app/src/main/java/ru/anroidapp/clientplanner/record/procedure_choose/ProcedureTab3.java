@@ -43,7 +43,6 @@ import ru.anroidapp.clientplanner.R;
 import ru.anroidapp.clientplanner.intface_procedure.ProcedureHeaderAdapter;
 import ru.anroidapp.clientplanner.intface_procedure.ProcedureHeaderListView;
 
-
 public class ProcedureTab3 extends Fragment {
 
     private final String TAG = "ProcedureTab3";
@@ -64,33 +63,26 @@ public class ProcedureTab3 extends Fragment {
     private int mPencilPosition;
     private long mProcedureIdTmp;
     private String[] data = {"one", "two", "three", "four"};
-    private TextView lastChoose;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        mContext = super.getActivity();
-        mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
-        mColorChoice = 0;
-        mPencilPosition = 0;
-        mProcedureIdTmp = 0;
+        initVariables();
 
         RelativeLayout relativeLayout = (RelativeLayout)
                 inflater.inflate(R.layout.procedure_tab, container, false);
-
-        mProcedures = new ArrayList<>();
-        mColorProcedures = new ArrayList<>();
-        getColorProcedures();
-        getProcedures();
-
+        relativeLayout.findViewById(R.id.procedure_tab);
         mSearchViewProcedure = (EditText) relativeLayout.findViewById(R.id.SearchViewProc);
         mLoadingViewProcedure = (ProgressBar) relativeLayout.findViewById(R.id.loading_view);
         mListViewProcedure = (ProcedureHeaderListView) relativeLayout.findViewById(R.id.proc_list_view);
         mEmptyViewProcedure = (TextView) relativeLayout.findViewById(R.id.empty_view);
         mSearchLayout = (LinearLayout) relativeLayout.findViewById(R.id.LaySearchProc);
         mCancelSearchLayout = (LinearLayout) relativeLayout.findViewById(R.id.LayCanselSearchProc);
+
+        getColorProcedures();
+        getProcedures();
 
         mFab = (FloatingActionButton) relativeLayout.findViewById(R.id.fab_proc);
         mFab.attachToListView(mListViewProcedure);
@@ -99,12 +91,6 @@ public class ProcedureTab3 extends Fragment {
 
         mSearchLayout.setVisibility(View.GONE);
 
-        relativeLayout.findViewById(R.id.procedure_tab);
-
-        mListSectionPosProcedure = new ArrayList<>();
-        mListItemsProcedure = new ArrayList<>();
-
-        // for handling configuration change
         if (savedInstanceState != null) {
             mListItemsProcedure = savedInstanceState.getStringArrayList("mListItemsProcedure");
             mListSectionPosProcedure = savedInstanceState.
@@ -118,7 +104,6 @@ public class ProcedureTab3 extends Fragment {
             String constraint = savedInstanceState.getString("constraint");
             if (constraint != null && constraint.length() > 0) {
                 mSearchViewProcedure.setText(constraint);
-                setIndexBarViewVisibility(constraint);
             }
 
         } else {
@@ -322,7 +307,6 @@ public class ProcedureTab3 extends Fragment {
     }
 
     private void setListAdaptor() {
-
         mAdaptorProcedure = new ProcedureHeaderAdapter(mContext, mListItemsProcedure,
                 mListSectionPosProcedure, mColorProcedures);
         mListViewProcedure.setAdapter(mAdaptorProcedure);
@@ -342,13 +326,7 @@ public class ProcedureTab3 extends Fragment {
         mListViewProcedure.setOnItemLongClickListener(new OnItemLongClickListener());
     }
 
-    private void setIndexBarViewVisibility(String constraint) {
-        if (constraint != null && constraint.length() > 0) {
-            mListViewProcedure.setIndexBarVisibility(false);
-        } else {
-            mListViewProcedure.setIndexBarVisibility(true);
-        }
-    }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -363,6 +341,21 @@ public class ProcedureTab3 extends Fragment {
             outState.putString("constraint", searchText);
         }
         super.onSaveInstanceState(outState);
+    }
+
+    private void initVariables() {
+        mContext = super.getActivity();
+        mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
+        mColorChoice = 0;
+        mPencilPosition = 0;
+        mProcedureIdTmp = 0;
+
+        mProcedures = new ArrayList<>();
+        mColorProcedures = new ArrayList<>();
+
+        mListSectionPosProcedure = new ArrayList<>();
+        mListItemsProcedure = new ArrayList<>();
+
     }
 
     public class MyCustomAdapter extends ArrayAdapter<String> {
@@ -444,7 +437,6 @@ public class ProcedureTab3 extends Fragment {
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             ArrayList<String> filtered = (ArrayList<String>) results.values;
-            setIndexBarViewVisibility(constraint.toString());
             new Populate().execute(filtered);
         }
     }
@@ -588,9 +580,6 @@ public class ProcedureTab3 extends Fragment {
             String procedureNote = (String) procedureInfo[2];
             mMetaData.setProcedureNote(procedureNote);
 
-            if (lastChoose != null) {
-                lastChoose.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-            }
         }
     }
 

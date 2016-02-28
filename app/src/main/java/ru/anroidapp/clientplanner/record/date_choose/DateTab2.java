@@ -136,7 +136,14 @@ public class DateTab2 extends Fragment implements LoaderManager.LoaderCallbacks<
 
     @Override
     public void onLoaderReset(Loader<Boolean> loader) {
+        //TODO
+    }
 
+    private void checkDate(String timeStart, String timeEnd) {
+        Bundle b = new Bundle(2);
+        b.putString("start", timeStart);
+        b.putString("end", timeEnd);
+        getLoaderManager().initLoader(CHECK_TIME, b, DateTab2.this).forceLoad();
     }
 
     private static class CheckTimeLoader extends AsyncTaskLoader<Boolean> {
@@ -213,7 +220,8 @@ public class DateTab2 extends Fragment implements LoaderManager.LoaderCallbacks<
             mBtnTimeEnd.setVisibility(View.VISIBLE);
             mLayReturnDate.setVisibility(View.VISIBLE);
 
-            mAllTime = Integer.toString(mDay) + " " + getMonthName("" + mMonth) + " " + Integer.toString(mYear);
+            mAllTime = Integer.toString(mDay) + " " + getMonthName("" + mMonth) +
+                    " " + Integer.toString(mYear);
             mTextDate.setText(mAllTime);
         }
     }
@@ -254,12 +262,7 @@ public class DateTab2 extends Fragment implements LoaderManager.LoaderCallbacks<
                     + mDayStr + " " + mHourStartStr + ":" + mMinuteStartStr + ":00')";
             String timeEnd = "datetime('" + mYear + "-" + mMonthStr + "-" + mDayStr +
                     " " + mHourEndStr + ":" + mMinuteEndStr + ":00')";
-
-            Bundle b = new Bundle(2);
-            b.putString("start", timeStart);
-            b.putString("end", timeEnd);
-            getLoaderManager().initLoader(CHECK_TIME, b, DateTab2.this).forceLoad();
-
+            checkDate(timeStart, timeEnd);
         }
     }
 

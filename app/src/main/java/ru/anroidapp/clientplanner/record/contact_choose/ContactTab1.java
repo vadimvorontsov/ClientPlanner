@@ -68,154 +68,8 @@ public class ContactTab1 extends Fragment implements LoaderCallbacks<ArrayList<S
     private TextView mEmptyView;
     private LinearLayout mSearchLayout, mCancelSearchLayout;
     private FloatingActionButton mFab;
-    View.OnClickListener onFabClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mSearchLayout.setVisibility(View.VISIBLE);
-            mFab.hide();
-            mSearchView.requestFocus();
-            final InputMethodManager keyboard = (InputMethodManager) getActivity().
-                    getSystemService(Context.INPUT_METHOD_SERVICE);
-            keyboard.showSoftInput(mSearchView, 0);
-
-            mSearchView.setOnKeyListener(new View.OnKeyListener() {
-                @Override
-                public boolean onKey(View v, int keyCode, KeyEvent event) {
-                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                        switch (keyCode) {
-                            case KeyEvent.KEYCODE_ENTER:
-                                keyboard.hideSoftInputFromWindow(mSearchView.getWindowToken(),
-                                        InputMethodManager.HIDE_NOT_ALWAYS);
-                                return true;
-                            default:
-                                break;
-                        }
-                    }
-                    return false;
-                }
-            });
-        }
-    };
     private FragmentActivity mContext;
-    AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
-        @Override
-        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-            Resources resources = getResources();
-
-            String nameTmp = mListItems.get(position);
-            String allPhones = "";
-            String allEmails = "";
-            ArrayList<String> phonesTmp = getPhonesByName(nameTmp);
-
-            if (phonesTmp == null || phonesTmp.isEmpty()) {
-                allPhones = resources.getString(R.string.unknown) + "\n";
-            } else {
-                for (int i = 0; i < phonesTmp.size(); i++) {
-                    if (i != phonesTmp.size() - 1) {
-                        allPhones += phonesTmp.get(i) + "\n";
-                    } else {
-                        allPhones += phonesTmp.get(i);
-                    }
-                }
-            }
-
-            ArrayList<String> emailsTmp = getEmailsByName(nameTmp);
-            if (emailsTmp == null || emailsTmp.isEmpty()) {
-                allEmails = resources.getString(R.string.unknown) + "\n";
-            } else {
-                for (int i = 0; i < emailsTmp.size(); i++) {
-                    if (i != emailsTmp.size() - 1) {
-                        allEmails += emailsTmp.get(i) + "\n";
-                    } else {
-                        allEmails += emailsTmp.get(i);
-                    }
-                }
-            }
-
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View contactInfo = inflater.inflate(R.layout.contact_info, null);
-            final TextView contactNameTextView = (TextView) contactInfo.findViewById(R.id.contact_info_name_input);
-            contactNameTextView.setText(nameTmp);
-            final TextView contactPhoneTextView = (TextView) contactInfo.findViewById(R.id.contact_info_phone_input);
-            contactPhoneTextView.setText(allPhones);
-            final TextView contactEmailTextView = (TextView) contactInfo.findViewById(R.id.contact_info_email_input);
-            contactEmailTextView.setText(allEmails);
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-            builder.setView(contactInfo)
-                    .setCancelable(true)
-                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-            builder.show();
-            return true;
-        }
-    };
-    AdapterView.OnItemClickListener clickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-
-            Resources resources = getResources();
-            String unknown = resources.getString(R.string.unknown);
-
-            String clientName = mListItems.get(position);
-            mMetaData.setClientName(clientName);
-
-            ArrayList<String> clientPhones = getPhonesByName(clientName);
-            if (clientPhones == null || clientPhones.isEmpty()) {
-                clientPhones = new ArrayList<>();
-                clientPhones.add(unknown);
-            }
-            mMetaData.setClientPhones(clientPhones);
-
-            ArrayList<String> clientEmails = getEmailsByName(clientName);
-            if (clientEmails == null || clientEmails.isEmpty()) {
-                clientEmails = new ArrayList<>();
-                clientEmails.add(unknown);
-            }
-            mMetaData.setClientEmails(clientEmails);
-
-        }
-    };
-    View.OnClickListener onCloseSearchListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            mSearchLayout.setVisibility(View.GONE);
-            mFab.show();
-            InputMethodManager inputManager = (InputMethodManager) getActivity()
-                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-            inputManager.hideSoftInputFromWindow(mSearchView.getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
-
-            if (isContactLoaded)
-                showResults(mContacts);
-            else
-                showResults(mClients);
-
-        }
-    };
-    private TextWatcher filterTextWatcher = new TextWatcher() {
-        public void afterTextChanged(Editable s) {
-            String str = s.toString();
-            if (mAdaptor != null) {
-                if (isContactLoaded)
-                    (new ListFilter(mContacts)).filter(str);
-                else
-                    (new ListFilter(mClients)).filter(str);
-            }
-
-        }
-
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        }
-
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-        }
-    };
 
     private static void ignoreDuplicateStrings(List listWithDuplicate) {
         Set<String> listWithoutDuplicate = new HashSet<>();
@@ -248,8 +102,8 @@ public class ContactTab1 extends Fragment implements LoaderCallbacks<ArrayList<S
         mCancelSearchLayout = (LinearLayout) relativeLayout.findViewById(R.id.cancel_search_layout);
 
         mFab.attachToListView(mListView);
-        mFab.setOnClickListener(onFabClickListener);
-        mCancelSearchLayout.setOnClickListener(onCloseSearchListener);
+        mFab.setOnClickListener(new FabClickListener());
+        mCancelSearchLayout.setOnClickListener(new CloseSearchListener());
 
         mSearchLayout.setVisibility(View.GONE);
 
@@ -314,7 +168,7 @@ public class ContactTab1 extends Fragment implements LoaderCallbacks<ArrayList<S
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        mSearchView.addTextChangedListener(filterTextWatcher);
+        mSearchView.addTextChangedListener(new FilterTextWatcher());
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -322,8 +176,8 @@ public class ContactTab1 extends Fragment implements LoaderCallbacks<ArrayList<S
 
         mAdaptor = new PinnedHeaderAdapter(mContext, mListItems, mListSectionPos);
         mListView.setAdapter(mAdaptor);
-        mListView.setOnItemClickListener(clickListener);
-        mListView.setOnItemLongClickListener(longClickListener);
+        mListView.setOnItemClickListener(new ItemClickListener());
+        mListView.setOnItemLongClickListener(new LongClickListener());
 
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -648,6 +502,158 @@ public class ContactTab1 extends Fragment implements LoaderCallbacks<ArrayList<S
         protected void publishResults(CharSequence constraint, FilterResults results) {
             ArrayList<String> filtered = (ArrayList<String>) results.values;
             showResults(filtered);
+        }
+    }
+
+    private class FabClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            mSearchLayout.setVisibility(View.VISIBLE);
+            mFab.hide();
+            mSearchView.requestFocus();
+            final InputMethodManager keyboard = (InputMethodManager) getActivity().
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
+            keyboard.showSoftInput(mSearchView, 0);
+
+            mSearchView.setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                        switch (keyCode) {
+                            case KeyEvent.KEYCODE_ENTER:
+                                keyboard.hideSoftInputFromWindow(mSearchView.getWindowToken(),
+                                        InputMethodManager.HIDE_NOT_ALWAYS);
+                                return true;
+                            default:
+                                break;
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
+    }
+
+    private class LongClickListener implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+            Resources resources = getResources();
+
+            String nameTmp = mListItems.get(position);
+            String allPhones = "";
+            String allEmails = "";
+            ArrayList<String> phonesTmp = getPhonesByName(nameTmp);
+
+            if (phonesTmp == null || phonesTmp.isEmpty()) {
+                allPhones = resources.getString(R.string.unknown) + "\n";
+            } else {
+                for (int i = 0; i < phonesTmp.size(); i++) {
+                    if (i != phonesTmp.size() - 1) {
+                        allPhones += phonesTmp.get(i) + "\n";
+                    } else {
+                        allPhones += phonesTmp.get(i);
+                    }
+                }
+            }
+
+            ArrayList<String> emailsTmp = getEmailsByName(nameTmp);
+            if (emailsTmp == null || emailsTmp.isEmpty()) {
+                allEmails = resources.getString(R.string.unknown) + "\n";
+            } else {
+                for (int i = 0; i < emailsTmp.size(); i++) {
+                    if (i != emailsTmp.size() - 1) {
+                        allEmails += emailsTmp.get(i) + "\n";
+                    } else {
+                        allEmails += emailsTmp.get(i);
+                    }
+                }
+            }
+
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View contactInfo = inflater.inflate(R.layout.contact_info, null);
+            final TextView contactNameTextView = (TextView) contactInfo.findViewById(R.id.contact_info_name_input);
+            contactNameTextView.setText(nameTmp);
+            final TextView contactPhoneTextView = (TextView) contactInfo.findViewById(R.id.contact_info_phone_input);
+            contactPhoneTextView.setText(allPhones);
+            final TextView contactEmailTextView = (TextView) contactInfo.findViewById(R.id.contact_info_email_input);
+            contactEmailTextView.setText(allEmails);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setView(contactInfo)
+                    .setCancelable(true)
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            builder.show();
+            return true;
+        }
+    }
+
+    private class ItemClickListener implements AdapterView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+
+            Resources resources = getResources();
+            String unknown = resources.getString(R.string.unknown);
+
+            String clientName = mListItems.get(position);
+            mMetaData.setClientName(clientName);
+
+            ArrayList<String> clientPhones = getPhonesByName(clientName);
+            if (clientPhones == null || clientPhones.isEmpty()) {
+                clientPhones = new ArrayList<>();
+                clientPhones.add(unknown);
+            }
+            mMetaData.setClientPhones(clientPhones);
+
+            ArrayList<String> clientEmails = getEmailsByName(clientName);
+            if (clientEmails == null || clientEmails.isEmpty()) {
+                clientEmails = new ArrayList<>();
+                clientEmails.add(unknown);
+            }
+            mMetaData.setClientEmails(clientEmails);
+
+        }
+    }
+
+    private class CloseSearchListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            mSearchLayout.setVisibility(View.GONE);
+            mFab.show();
+            InputMethodManager inputManager = (InputMethodManager) getActivity()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(mSearchView.getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+
+            if (isContactLoaded)
+                showResults(mContacts);
+            else
+                showResults(mClients);
+
+        }
+    }
+
+    private class FilterTextWatcher implements TextWatcher {
+        public void afterTextChanged(Editable s) {
+            String str = s.toString();
+            if (mAdaptor != null) {
+                if (isContactLoaded)
+                    (new ListFilter(mContacts)).filter(str);
+                else
+                    (new ListFilter(mClients)).filter(str);
+            }
+
+        }
+
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
     }
 

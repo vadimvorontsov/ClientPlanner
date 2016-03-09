@@ -49,14 +49,14 @@ import ru.anroidapp.clientplanner.record.contact_choose.intface.PinnedHeaderAdap
 
 public class ContactTab1 extends Fragment {
 
-    private static boolean isContactLoaded = true;
-    private static ArrayList<String> mContacts;
-    private static ArrayList<String> mClients;
     private final String TAG = "ContactTab1";
     private final int GET_CONTACT = 0;
     private final int GET_CLIENT = 1;
     private final int GET_PHONE_EMAIL_BY_NAME_LONG = 2;
     private final int GET_PHONE_EMAIL_BY_NAME_SHORT = 3;
+    private final boolean NEW_LIST = true;
+    private boolean isContactLoaded = true;
+    private ArrayList<String> mCurrentList;
     private MetaData mMetaData;
     private ArrayList<Integer> mListSectionPos;
     private ArrayList<String> mListItems;
@@ -71,8 +71,6 @@ public class ContactTab1 extends Fragment {
 
     private PhoneEmailByNameLoaderCallback peCallback;
     private ContactsClientsLoaderCallback ccCallback;
-
-    private Menu menu;
 
     private static String reformatPhones(String oldPhone) {
 
@@ -109,8 +107,8 @@ public class ContactTab1 extends Fragment {
 
         mContext = super.getActivity();
         mMetaData = (MetaData) getArguments().getSerializable(MetaData.TAG);
-        mContacts = new ArrayList<>();
-        mClients = new ArrayList<>();
+
+        mCurrentList = new ArrayList<>();
         peCallback = new PhoneEmailByNameLoaderCallback();
         ccCallback = new ContactsClientsLoaderCallback();
         getLoaderManager().initLoader(GET_CONTACT, null, ccCallback);
@@ -142,40 +140,27 @@ public class ContactTab1 extends Fragment {
         if (savedInstanceState != null) {
             isContactLoaded = savedInstanceState.getBoolean("isContactLoaded");
 
+            mListItems = savedInstanceState.getStringArrayList("mListItems");
+            if (mListItems == null)
+                mListItems = new ArrayList<>();
+            mListSectionPos = savedInstanceState.getIntegerArrayList("mListSectionPos");
+            if (mListSectionPos == null)
+                mListSectionPos = new ArrayList<>();
+
             String constraint = savedInstanceState.getString("constraint");
-            if (constraint != null && constraint.length() > 0) {
-                mListItems = savedInstanceState.getStringArrayList("mListItems");
-                mListSectionPos = savedInstanceState.getIntegerArrayList("mListSectionPos");
-
-                if (mListItems != null && mListItems.size() > 0 && mListSectionPos != null
-                        && mListSectionPos.size() > 0) {
-                    setListAdaptor();
-                }
-
-                if (isContactLoaded)
-                    (new ListFilter(mContacts)).filter(constraint);
-                else
-                    (new ListFilter(mClients)).filter(constraint);
-
+            if (mListItems != null && mListItems.size() > 0 &&
+                    mListSectionPos != null && mListSectionPos.size() > 0 &&
+                    constraint != null && constraint.length() > 0) {
+                mSearchLayout.setVisibility(View.VISIBLE);
+                mFab.setVisibility(View.GONE);
+                mSearchView.setText(constraint);
+                showResults(mListItems, !NEW_LIST);
             } else {
-                showLoading(mListView, mLoadingView, mEmptyView);
-                if (isContactLoaded) {
-                    menu.getItem(1).setTitle
-                            (getResources().getString(R.string.history));
-                    getLoaderManager().getLoader(GET_CONTACT).forceLoad();
-                } else {
-                    menu.getItem(1).setTitle
-                            (getResources().getString(R.string.history));
-                    getLoaderManager().getLoader(GET_CLIENT).forceLoad();
-                }
+                showList();
             }
 
         } else {
-            showLoading(mListView, mLoadingView, mEmptyView);
-            if (isContactLoaded)
-                getLoaderManager().getLoader(GET_CONTACT).forceLoad();
-            else
-                getLoaderManager().getLoader(GET_CLIENT).forceLoad();
+            showList();
         }
 
         setHasOptionsMenu(true);
@@ -183,18 +168,23 @@ public class ContactTab1 extends Fragment {
         return relativeLayout;
     }
 
+//    @Override
+//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        mSearchView.addTextChangedListener(new FilterTextWatcher());
+//        super.onActivityCreated(savedInstanceState);
+//    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.client_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
         if (isContactLoaded) {
-            menu.getItem(1).setTitle
+            menu.getItem(0).setTitle
                     (getResources().getString(R.string.history));
         } else {
-            menu.getItem(1).setTitle
+            menu.getItem(0).setTitle
                     (getResources().getString(R.string.contacts));
         }
-        this.menu = menu;
     }
 
     @Override
@@ -208,13 +198,12 @@ public class ContactTab1 extends Fragment {
             case R.id.watch_clients_mode:
                 if (isContactLoaded) {
                     item.setTitle(getResources().getString(R.string.contacts));
-                    showLoading(mListView, mLoadingView, mEmptyView);
-                    getLoaderManager().getLoader(GET_CLIENT).forceLoad();
+                    isContactLoaded = false;
                 } else {
                     item.setTitle(getResources().getString(R.string.history));
-                    showLoading(mListView, mLoadingView, mEmptyView);
-                    getLoaderManager().getLoader(GET_CONTACT).forceLoad();
+                    isContactLoaded = true;
                 }
+                showList();
                 break;
         }
 
@@ -222,9 +211,9 @@ public class ContactTab1 extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onResume() {
         mSearchView.addTextChangedListener(new FilterTextWatcher());
-        super.onActivityCreated(savedInstanceState);
+        super.onResume();
     }
 
     private void setListAdaptor() {
@@ -284,22 +273,24 @@ public class ContactTab1 extends Fragment {
         emptyView.setVisibility(View.VISIBLE);
     }
 
-    private void showResults(ArrayList<String> data) {
-        if (mListItems != null)
-            mListItems.clear();
-        if (mListSectionPos != null)
-            mListSectionPos.clear();
+    private void showResults(ArrayList<String> data, boolean isNewList) {
+        if (isNewList) {
+            if (mListItems != null)
+                mListItems.clear();
+            if (mListSectionPos != null)
+                mListSectionPos.clear();
 
-        String prev_section = "";
+            String prev_section = "";
 
-        for (String current_item : data) {
-            String current_section = current_item.substring(0, 1).toUpperCase(Locale.getDefault());
-            if (!prev_section.equals(current_section)) {
-                mListItems.add(current_section);
-                mListSectionPos.add(mListItems.indexOf(current_section));
-                prev_section = current_section;
+            for (String current_item : data) {
+                String current_section = current_item.substring(0, 1).toUpperCase(Locale.getDefault());
+                if (!prev_section.equals(current_section)) {
+                    mListItems.add(current_section);
+                    mListSectionPos.add(mListItems.indexOf(current_section));
+                    prev_section = current_section;
+                }
+                mListItems.add(current_item);
             }
-            mListItems.add(current_item);
         }
 
         if (mListItems != null) {
@@ -339,6 +330,14 @@ public class ContactTab1 extends Fragment {
         builder.show();
     }
 
+    private void showList() {
+        if (isContactLoaded) {
+            getLoaderManager().getLoader(GET_CONTACT).forceLoad();
+        } else {
+            getLoaderManager().getLoader(GET_CLIENT).forceLoad();
+        }
+    }
+
     private static class ContactLoader extends AsyncTaskLoader<ArrayList<String>> {
         private Context context;
 
@@ -351,7 +350,6 @@ public class ContactTab1 extends Fragment {
         public ArrayList<String> loadInBackground() {
 
             ArrayList<String> contacts = new ArrayList<>();
-            isContactLoaded = true;
             if (contacts.isEmpty()) {
                 Cursor cursor = context.getContentResolver().
                         query(ContactsContract.Contacts.CONTENT_URI,
@@ -388,7 +386,6 @@ public class ContactTab1 extends Fragment {
 
             ArrayList<String> clients = new ArrayList<>();
 
-            isContactLoaded = false;
             if (clients.isEmpty()) {
                 clients = new Clients(context).getAllClientsNames();
 
@@ -489,6 +486,30 @@ public class ContactTab1 extends Fragment {
         }
     }
 
+    private class ContactsClientsLoaderCallback implements LoaderCallbacks<ArrayList<String>> {
+        @Override
+        public Loader<ArrayList<String>> onCreateLoader(int id, Bundle args) {
+            switch (id) {
+                case GET_CONTACT:
+                    return new ContactLoader(mContext);
+                case GET_CLIENT:
+                    return new ClientLoader(mContext);
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public void onLoadFinished(Loader<ArrayList<String>> loader, ArrayList<String> data) {
+            mCurrentList = data;
+            showResults(mCurrentList, NEW_LIST);
+        }
+
+        @Override
+        public void onLoaderReset(Loader<ArrayList<String>> loader) {
+        }
+    }
+
     private class PhoneEmailByNameLoaderCallback
             implements LoaderCallbacks<ArrayList<ArrayList<String>>> {
         String unknown = mContext.getResources().getString(R.string.unknown);
@@ -544,40 +565,6 @@ public class ContactTab1 extends Fragment {
         }
     }
 
-    private class ContactsClientsLoaderCallback implements LoaderCallbacks<ArrayList<String>> {
-        @Override
-        public Loader<ArrayList<String>> onCreateLoader(int id, Bundle args) {
-            switch (id) {
-                case GET_CONTACT:
-                    return new ContactLoader(mContext);
-                case GET_CLIENT:
-                    return new ClientLoader(mContext);
-                default:
-                    return null;
-            }
-        }
-
-        @Override
-        public void onLoadFinished(Loader<ArrayList<String>> loader, ArrayList<String> data) {
-            switch (loader.getId()) {
-                case GET_CLIENT:
-                    mClients = data;
-                    showResults(mClients);
-                    break;
-                case GET_CONTACT:
-                    mContacts = data;
-                    showResults(mContacts);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        @Override
-        public void onLoaderReset(Loader<ArrayList<String>> loader) {
-        }
-    }
-
     private class ListFilter extends Filter {
         ArrayList<String> list;
 
@@ -587,6 +574,10 @@ public class ContactTab1 extends Fragment {
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+
+//            if (list.isEmpty())
+//                return new FilterResults();
+
             String constraintStr = constraint.toString().toLowerCase(Locale.getDefault());
             Filter.FilterResults result = new FilterResults();
 
@@ -594,13 +585,15 @@ public class ContactTab1 extends Fragment {
                 ArrayList<String> filterItems = new ArrayList<>();
 
                 synchronized (this) {
+                    //boolean found = false;
                     LOOP_FOR_CONTACTS:
                     for (String item : list) {
                         String[] surnames = item.split(" ");
                         LOOP_FOR_SURNAMES:
                         for (String subName : surnames) {
-                            if (subName.toLowerCase(Locale.getDefault()).startsWith(constraintStr)) {
+                            if (subName.toLowerCase(Locale.getDefault()).contains(constraintStr)) {
                                 filterItems.add(item);
+                                //found = true;
                                 break LOOP_FOR_SURNAMES;
                             }
                         }
@@ -621,7 +614,8 @@ public class ContactTab1 extends Fragment {
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             ArrayList<String> filtered = (ArrayList<String>) results.values;
-            showResults(filtered);
+            //if (filtered != null /*&& !filtered.isEmpty()*/)
+            showResults(filtered, NEW_LIST);
         }
     }
 
@@ -641,8 +635,10 @@ public class ContactTab1 extends Fragment {
                     if (event.getAction() == KeyEvent.ACTION_DOWN) {
                         switch (keyCode) {
                             case KeyEvent.KEYCODE_ENTER:
-                                keyboard.hideSoftInputFromWindow(mSearchView.getWindowToken(),
-                                        InputMethodManager.HIDE_NOT_ALWAYS);
+                                keyboard.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
+                                return true;
+                            case KeyEvent.KEYCODE_BACK:
+                                keyboard.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
                                 return true;
                             default:
                                 break;
@@ -672,7 +668,6 @@ public class ContactTab1 extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
 
-            //isLongClick = false;
             String clientName = mListItems.get(position);
             mMetaData.setClientName(clientName);
             Bundle b = new Bundle();
@@ -686,16 +681,14 @@ public class ContactTab1 extends Fragment {
         @Override
         public void onClick(View v) {
             mSearchLayout.setVisibility(View.GONE);
+            mSearchView.setText("");
             mFab.show();
             InputMethodManager inputManager = (InputMethodManager) getActivity()
                     .getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.hideSoftInputFromWindow(mSearchView.getWindowToken(),
                     InputMethodManager.HIDE_NOT_ALWAYS);
 
-            if (isContactLoaded)
-                showResults(mContacts);
-            else
-                showResults(mClients);
+            showList();
 
         }
     }
@@ -703,11 +696,8 @@ public class ContactTab1 extends Fragment {
     private class FilterTextWatcher implements TextWatcher {
         public void afterTextChanged(Editable s) {
             String str = s.toString();
-            if (mAdaptor != null) {
-                if (isContactLoaded)
-                    (new ListFilter(mContacts)).filter(str);
-                else
-                    (new ListFilter(mClients)).filter(str);
+            if (mAdaptor != null/* && !str.isEmpty()*/) {
+                (new ListFilter(mCurrentList)).filter(str);
             }
 
         }
@@ -718,5 +708,4 @@ public class ContactTab1 extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
     }
-
 }

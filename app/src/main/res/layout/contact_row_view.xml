@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:padding="10dp">
 
     <ru.anroidapp.clientplanner.CircularImageView
         android:id="@+id/contact_circle"
@@ -30,14 +30,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_black"
-            android:textSize="@dimen/name_viewpager" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/contact_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/color_black_light"
-            android:textSize="@dimen/dialog_edit"/>
+            android:textSize="15sp" />
 
     </LinearLayout>
 

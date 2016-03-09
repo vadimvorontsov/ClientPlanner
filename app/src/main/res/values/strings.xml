@@ -21,7 +21,7 @@
     <string name="start_procedure_description">Просмотр и редактирование услуг</string>
 
     <string-array name="fragment_titles">
-        <item>Контакты</item>
+        <item>Клиенты</item>
         <item>Дата</item>
         <item>Услуги</item>
         <item>Завершение</item>

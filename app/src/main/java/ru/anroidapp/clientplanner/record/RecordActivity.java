@@ -22,10 +22,10 @@ public class RecordActivity extends AppCompatActivity {
 
     private final String TAG = "RecordActivity";
 
-    CharSequence[] titles;
-    int numbOfTabs;
+    private CharSequence[] titles;
+    private int numbOfTabs;
 
-    MetaData mMetaData;
+    private MetaData mMetaData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +161,8 @@ public class RecordActivity extends AppCompatActivity {
         public int getCount() {
             return numbOfTabs;
         }
+
+
     }
 
 }

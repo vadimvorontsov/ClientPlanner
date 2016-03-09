@@ -93,8 +93,14 @@ public class ProcedureTab3 extends Fragment {
 
         if (savedInstanceState != null) {
             mListItemsProcedure = savedInstanceState.getStringArrayList("mListItemsProcedure");
+            if (mListItemsProcedure == null) {
+                mListItemsProcedure = new ArrayList<>();
+            }
             mListSectionPosProcedure = savedInstanceState.
                     getIntegerArrayList("mListSectionPosProcedure");
+            if (mListSectionPosProcedure == null) {
+                mListSectionPosProcedure = new ArrayList<>();
+            }
 
             if (mListItemsProcedure != null && mListItemsProcedure.size() > 0
                     && mListSectionPosProcedure != null && mListSectionPosProcedure.size() > 0) {

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.example.smena.sendmessage.R;
+import app.clientplanner.sendmessage.R;
 
 public class DeliveryReceipt extends BroadcastReceiver {
 

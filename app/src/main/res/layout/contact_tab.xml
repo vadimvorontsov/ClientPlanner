@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/contact_tab"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -37,7 +35,7 @@
         android:hint="@string/search_hint"
         android:singleLine="true"
         android:textColor="@color/color_black_light"
-        android:textColorHint="@color/md_grey_400"
+        android:textColorHint="@color/material_blue_grey_800"
         android:textSize="@dimen/header_comment_button" />
 
     <LinearLayout
@@ -80,7 +78,7 @@
 
         <include layout="@layout/loading_empty_view" />
 
-        <ru.anroidapp.clientplanner.record.contact_choose.PinnedHeaderListView
+        <app.clientplanner.record.contact_choose.PinnedHeaderListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
@@ -93,19 +91,19 @@
 
     </RelativeLayout>
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="@dimen/padding_botton"
-        android:layout_marginRight="@dimen/padding_right"
-        android:src="@drawable/ic_search"
-        fab:fab_colorNormal="@color/record_first"
-        fab:fab_colorPressed="@color/record_second"
-        fab:fab_colorRipple="@color/record_second" />
+    <!--<app.clientplanner.FloatingActionButton-->
+    <!--android:id="@+id/fab"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_gravity="bottom|right"-->
+    <!--android:layout_marginBottom="@dimen/padding_botton"-->
+    <!--android:layout_marginRight="@dimen/padding_right"-->
+    <!--android:src="@drawable/ic_search"/>-->
+    <!--fab:fab_colorNormal="@color/record_first"-->
+    <!--fab:fab_colorPressed="@color/record_second"-->
+    <!--fab:fab_colorRipple="@color/record_second" />-->
 
 </RelativeLayout>

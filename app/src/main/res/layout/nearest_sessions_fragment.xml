@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <ru.anroidapp.clientplanner.CircularImageView
+    <app.clientplanner.CircularImageView
         android:id="@+id/nearest_contact_image"
         android:layout_width="@dimen/circle_in_button"
         android:layout_height="@dimen/circle_in_button"

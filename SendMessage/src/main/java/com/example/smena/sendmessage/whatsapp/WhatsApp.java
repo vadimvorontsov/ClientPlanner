@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 
-import com.example.smena.sendmessage.R;
+import app.clientplanner.sendmessage.R;
 
 public class WhatsApp {
 

@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.widget.Toast;
 
-import ru.androidapp.clientplanner.clientbase.R;
+import app.clientplanner.clientbase.R;
 
 
 public class ClientBaseOpenHelper extends SQLiteOpenHelper implements BaseColumns {

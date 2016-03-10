@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.telephony.SmsManager;
 import android.widget.Toast;
 
-import com.example.smena.sendmessage.R;
+import app.clientplanner.sendmessage.R;
 
 public class SendReceipt extends BroadcastReceiver {
 

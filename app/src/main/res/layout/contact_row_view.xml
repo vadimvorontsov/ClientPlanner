@@ -8,7 +8,7 @@
     android:orientation="horizontal"
     android:padding="10dp">
 
-    <ru.anroidapp.clientplanner.CircularImageView
+    <app.clientplanner.CircularImageView
         android:id="@+id/contact_circle"
         android:layout_width="@dimen/circle_list"
         android:layout_height="@dimen/circle_list"

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ru.anroidapp.clientplanner.ProcedureActivity">
+    tools:context="app.clientplanner.ProcedureActivity">
 
     <include
         android:id="@+id/toolbar_procedure"
@@ -42,7 +41,7 @@
             android:hint="@string/search_hint"
             android:singleLine="true"
             android:textColor="@color/color_black_light"
-            android:textColorHint="@color/md_grey_400"
+            android:textColorHint="@color/material_blue_grey_800"
             android:textSize="@dimen/header_comment_button" />
 
         <LinearLayout
@@ -71,7 +70,7 @@
 
         <include layout="@layout/loading_empty_view" />
 
-        <ru.anroidapp.clientplanner.intface_procedure.ProcedureHeaderListView
+        <app.clientplanner.intface_procedure.ProcedureHeaderListView
             android:id="@+id/act_proc_list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,7 +83,7 @@
 
     </RelativeLayout>
 
-    <com.melnykov.fab.FloatingActionButton
+    <FloatingActionButton
         android:id="@+id/fab_proc_act"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,8 +93,8 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="@dimen/padding_botton"
         android:layout_marginRight="@dimen/padding_right"
-        android:src="@drawable/ic_search"
-        fab:fab_colorNormal="@color/procedure_first"
+        android:src="@drawable/ic_search" />
+    /*fab:fab_colorNormal="@color/procedure_first"
         fab:fab_colorPressed="@color/procedure_second"
         fab:fab_colorRipple="@color/procedure_second" />
 

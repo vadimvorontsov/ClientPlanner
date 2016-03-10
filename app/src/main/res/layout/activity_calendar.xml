@@ -16,7 +16,7 @@
         android:id="@+id/toolbar_calendar"
         layout="@layout/toolbar" />
 
-    <ru.anroidapp.clientplanner.calendar.WeekView
+    <app.clientplanner.calendar.WeekView
         android:id="@+id/weekView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

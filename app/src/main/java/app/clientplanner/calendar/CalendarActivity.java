@@ -16,8 +16,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.smena.clientbase.procedures.Sessions;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 
 import app.clientplanner.R;
+import lib.clientbase.procedures.Sessions;
 
 public class CalendarActivity extends AppCompatActivity implements WeekView.MonthChangeListener,
         WeekView.EventClickListener, WeekView.EventLongPressListener {

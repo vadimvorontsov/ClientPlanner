@@ -1,4 +1,4 @@
-package com.example.smena.sendmessage.whatsapp;
+package lib.sendmessage.whatsapp;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 
-import com.example.smena.sendmessage.R;
+import app.sendmessage.R;
 
 public class WhatsApp {
 

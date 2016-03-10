@@ -18,8 +18,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.smena.clientbase.procedures.Sessions;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -35,6 +33,7 @@ import app.clientplanner.animation.ZoomOutPageTransformer;
 import app.clientplanner.calendar.CalendarActivity;
 import app.clientplanner.main_activity.slide_nearest_sessions.ScreenSlidePagerAdapter;
 import app.clientplanner.record.RecordActivity;
+import lib.clientbase.procedures.Sessions;
 
 
 public class MainActivity extends AppCompatActivity implements LoaderCallbacks<ArrayList<Long>>,

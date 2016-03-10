@@ -32,8 +32,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.smena.clientbase.procedures.Procedures;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -44,6 +42,7 @@ import app.clientplanner.MetaData;
 import app.clientplanner.R;
 import app.clientplanner.intface_procedure.ProcedureHeaderAdapter;
 import app.clientplanner.intface_procedure.ProcedureHeaderListView;
+import lib.clientbase.procedures.Procedures;
 
 public class ProcedureTab3 extends Fragment {
 

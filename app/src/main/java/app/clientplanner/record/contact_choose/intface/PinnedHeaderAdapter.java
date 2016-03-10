@@ -11,8 +11,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.example.smena.clientbase.procedures.Clients;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -20,6 +18,7 @@ import java.util.Locale;
 import app.clientplanner.CircularImageView;
 import app.clientplanner.R;
 import app.clientplanner.record.contact_choose.PinnedHeaderListView;
+import lib.clientbase.procedures.Clients;
 
 public class PinnedHeaderAdapter extends BaseAdapter
         implements AbsListView.OnScrollListener, IPinnedHeader, Filterable {

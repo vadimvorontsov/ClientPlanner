@@ -11,13 +11,12 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.smena.clientbase.procedures.Procedures;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import app.clientplanner.R;
+import lib.clientbase.procedures.Procedures;
 
 public class ProcedureHeaderAdapter extends BaseAdapter implements AbsListView.OnScrollListener,
         IPinnedHeaderProcedure, Filterable {

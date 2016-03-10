@@ -1,4 +1,4 @@
-package com.example.smena.sendmessage.sms;
+package lib.sendmessage.sms;
 
 import android.app.PendingIntent;
 import android.content.Context;

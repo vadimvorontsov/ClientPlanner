@@ -1,4 +1,4 @@
-package com.example.smena.clientbase;
+package lib.clientbase;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

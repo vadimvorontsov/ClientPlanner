@@ -1,4 +1,4 @@
-package com.example.smena.sendmessage.email;
+package lib.sendmessage.email;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;

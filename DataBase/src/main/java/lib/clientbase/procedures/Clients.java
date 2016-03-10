@@ -1,4 +1,4 @@
-package com.example.smena.clientbase.procedures;
+package lib.clientbase.procedures;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.smena.clientbase.ClientBaseOpenHelper;
-
 import java.util.ArrayList;
+
+import lib.clientbase.ClientBaseOpenHelper;
 
 public class Clients {
 

@@ -1,4 +1,4 @@
-package com.example.smena.clientbase.procedures;
+package lib.clientbase.procedures;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,10 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 import android.util.Log;
 
-import com.example.smena.clientbase.ClientBaseOpenHelper;
-
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import lib.clientbase.ClientBaseOpenHelper;
 
 public class Sessions {
 

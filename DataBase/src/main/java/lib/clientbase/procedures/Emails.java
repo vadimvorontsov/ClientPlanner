@@ -1,45 +1,44 @@
-package com.example.smena.clientbase.procedures;
+package lib.clientbase.procedures;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.BaseColumns;
 import android.util.Log;
-
-import com.example.smena.clientbase.ClientBaseOpenHelper;
 
 import java.util.ArrayList;
 
-public class Phones {
+import lib.clientbase.ClientBaseOpenHelper;
 
-    private final String TAG = "Phones";
+public class Emails {
+
+    private final String TAG = "Emails";
     private Context mContext;
 
-    public Phones(Context context) {
+    public Emails(Context context) {
         this.mContext = context;
     }
 
-    public long getPhoneID(String phone) {
+    public long getEmailID(String email) {
 
-        //ClientBaseOpenHelper ClientBaseOpenHelper.getHelper(mContext) = new ClientBaseOpenHelper(mContext);
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
-        long phoneID = 0;
+        long emailID = 0;
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PHONES,
-                    new String[]{ClientBaseOpenHelper._ID},
-                    ClientBaseOpenHelper.PHONE + "='" + phone + "'",
-                    null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_EMAILS, new String[]{BaseColumns._ID},
+                    ClientBaseOpenHelper.EMAIL + "='" + email + "'", null, null, null, null);
             while (cursor.moveToNext()) {
-                phoneID = cursor.getLong(cursor.getColumnIndex(ClientBaseOpenHelper._ID));
+                emailID = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
             }
-            return phoneID;
+            return emailID;
 
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
-            return phoneID;
+            return emailID;
 
         } finally {
             if (cursor != null && !cursor.isClosed()) {
@@ -54,27 +53,25 @@ public class Phones {
         }
     }
 
-    public String getPhoneById(long phoneID) {
+    public String getEmailById(long emailID) {
 
-        //ClientBaseOpenHelper ClientBaseOpenHelper.getHelper(mContext) = new ClientBaseOpenHelper(mContext);
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
-        String phone = "";
+        String email = "";
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PHONES,
-                    new String[]{ClientBaseOpenHelper.PHONE},
-                    ClientBaseOpenHelper._ID + "=" + phoneID,
-                    null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_EMAILS,
+                    new String[]{ClientBaseOpenHelper.EMAIL},
+                    BaseColumns._ID + "=" + emailID, null, null, null, null);
             while (cursor.moveToNext()) {
-                phone = cursor.getString(cursor.getColumnIndex
-                        (ClientBaseOpenHelper.PHONE));
+                email = cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.EMAIL));
             }
-            return phone;
+            return email;
 
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
-            return phone;
+            return email;
 
         } finally {
             if (cursor != null && !cursor.isClosed()) {
@@ -89,26 +86,25 @@ public class Phones {
         }
     }
 
-    public ArrayList<String> getPhonesByClientID(long clientID) {
+    public ArrayList<String> getEmailsByClientId(long clientID) {
 
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_read = ClientBaseOpenHelper.getHelper(mContext).getReadableDatabase();
         Cursor cursor = null;
-        ArrayList<String> phone = new ArrayList<>();
+        ArrayList<String> emails = new ArrayList<>();
 
         try {
-            cursor = db_read.query(ClientBaseOpenHelper.TABLE_PHONES,
-                    new String[]{ClientBaseOpenHelper.PHONE},
-                    ClientBaseOpenHelper.ID_CLIENT_PHONE + "=" + clientID,
-                    null, null, null, null);
+            cursor = db_read.query(ClientBaseOpenHelper.TABLE_EMAILS,
+                    new String[]{ClientBaseOpenHelper.EMAIL},
+                    ClientBaseOpenHelper.ID_CLIENT_EMAIL + "=" + clientID, null, null, null, null);
             while (cursor.moveToNext()) {
-                phone.add(cursor.getString(cursor.getColumnIndex
-                        (ClientBaseOpenHelper.PHONE)));
+                emails.add(cursor.getString(cursor.getColumnIndex(ClientBaseOpenHelper.EMAIL)));
             }
-            return phone;
+            return emails;
 
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
-            return phone;
+            return emails;
 
         } finally {
             if (cursor != null && !cursor.isClosed()) {
@@ -123,24 +119,24 @@ public class Phones {
         }
     }
 
-    public long addPhone(String phone, long clientID) {
+    public long addEmail(String email, long clientID) {
 
+        //ClientBaseOpenHelper helper = new ClientBaseOpenHelper(mContext);
         SQLiteDatabase db_write = ClientBaseOpenHelper.getHelper(mContext).getWritableDatabase();
-        long phoneID = 0;
+        long emailID = 0;
 
         try {
             ContentValues cv = new ContentValues();
-            cv.put(ClientBaseOpenHelper.PHONE, phone);
-            cv.put(ClientBaseOpenHelper.ID_CLIENT_PHONE, clientID);
+            cv.put(ClientBaseOpenHelper.ID_CLIENT_EMAIL, clientID);
+            cv.put(ClientBaseOpenHelper.EMAIL, email);
             if (cv != null) {
-                phoneID = db_write.insert(ClientBaseOpenHelper.TABLE_PHONES,
-                        ClientBaseOpenHelper.PHONE, cv);
+                emailID = db_write.insert(ClientBaseOpenHelper.TABLE_EMAILS, ClientBaseOpenHelper.EMAIL, cv);
             }
-            return phoneID;
+            return emailID;
 
         } catch (SQLiteConstraintException e) {
             Log.e(TAG, e.getMessage());
-            return phoneID;
+            return emailID;
 
         } finally {
             if (db_write != null && db_write.isOpen()) {

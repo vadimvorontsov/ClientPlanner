@@ -18,13 +18,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.smena.clientbase.procedures.Sessions;
-
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 import app.clientplanner.MetaData;
 import app.clientplanner.R;
+import lib.clientbase.procedures.Sessions;
 
 
 public class DateTab2 extends Fragment implements LoaderManager.LoaderCallbacks<Boolean> {

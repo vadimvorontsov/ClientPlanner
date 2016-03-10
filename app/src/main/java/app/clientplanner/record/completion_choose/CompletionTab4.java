@@ -27,19 +27,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.smena.clientbase.procedures.Clients;
-import com.example.smena.clientbase.procedures.Sessions;
-import com.example.smena.sendmessage.email.Email;
-import com.example.smena.sendmessage.sms.SMS;
-import com.example.smena.sendmessage.viber.Viber;
-import com.example.smena.sendmessage.whatsapp.WhatsApp;
-
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 
 import app.clientplanner.MetaData;
 import app.clientplanner.R;
 import app.clientplanner.main_activity.MainActivity;
+import lib.clientbase.procedures.Clients;
+import lib.clientbase.procedures.Sessions;
+import lib.sendmessage.email.Email;
+import lib.sendmessage.sms.SMS;
+import lib.sendmessage.viber.Viber;
+import lib.sendmessage.whatsapp.WhatsApp;
 
 public class CompletionTab4 extends Fragment {
 

@@ -1,4 +1,4 @@
-package com.example.smena.sendmessage;
+package app.sendmessage;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

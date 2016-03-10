@@ -9,11 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.smena.clientbase.procedures.Sessions;
-
 import java.text.DateFormatSymbols;
 
 import app.clientplanner.R;
+import lib.clientbase.procedures.Sessions;
 
 public class NearestSessionFragment extends Fragment {
 

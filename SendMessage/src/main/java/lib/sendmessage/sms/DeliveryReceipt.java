@@ -1,4 +1,4 @@
-package com.example.smena.sendmessage.sms;
+package lib.sendmessage.sms;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 
-import com.example.smena.sendmessage.R;
+import app.sendmessage.R;
 
 
 public class DeliveryReceipt extends BroadcastReceiver {

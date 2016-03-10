@@ -31,9 +31,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import com.example.smena.clientbase.procedures.Procedures;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,6 +38,7 @@ import java.util.Locale;
 
 import app.clientplanner.intface_procedure.ProcedureHeaderAdapter;
 import app.clientplanner.intface_procedure.ProcedureHeaderListView;
+import lib.clientbase.procedures.Procedures;
 
 
 

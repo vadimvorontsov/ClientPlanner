@@ -33,8 +33,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.smena.clientbase.procedures.Clients;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,6 +45,7 @@ import app.clientplanner.FloatingActionButton;
 import app.clientplanner.MetaData;
 import app.clientplanner.R;
 import app.clientplanner.record.contact_choose.intface.PinnedHeaderAdapter;
+import lib.clientbase.procedures.Clients;
 
 
 public class ContactTab1 extends Fragment {

@@ -7,7 +7,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 
-import app.clientplanner.sendmessage.R;
+import com.example.smena.sendmessage.R;
+
 
 public class Viber {
 

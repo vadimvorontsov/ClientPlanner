@@ -1,168 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="app.clientplanner.main_activity.MainActivity">
+
 
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar" />
 
     <LinearLayout
-        android:id="@+id/start_record_layout"
-        style="@style/MainActivity.ItemLayout"
-        android:background="@drawable/select_record">
-
-        <app.clientplanner.CircularImageView
-            style="@style/MainActivity.ItemCircle"
-            android:src="@mipmap/ic_record"
-            app:border="true"
-            app:border_color="@color/record_second"
-            app:shadow="true" />
-
-        <LinearLayout style="@style/MainActivity.ItemTextLayout">
-
-            <TextView
-                android:id="@+id/start_record_textview"
-                style="@style/MainActivity.ItemName"
-                android:text="@string/start_record" />
-
-            <TextView
-                android:id="@+id/start_record_description_textview"
-                style="@style/MainActivity.ItemDescription"
-                android:text="@string/start_record_description" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/start_calendar_view"
-        style="@style/MainActivity.ItemLayout"
-        android:background="@drawable/selected_calendar">
-
-        <app.clientplanner.CircularImageView
-            style="@style/MainActivity.ItemCircle"
-            android:src="@mipmap/ic_calendar"
-            app:border="true"
-            app:border_color="@color/calendar_second"
-            app:shadow="true" />
-
-        <LinearLayout style="@style/MainActivity.ItemTextLayout">
-
-            <TextView
-                android:id="@+id/start_calendar_textview"
-                style="@style/MainActivity.ItemName"
-                android:text="@string/calendar" />
-
-            <TextView
-                android:id="@+id/start_calendar_description_textview"
-                style="@style/MainActivity.ItemDescription"
-                android:text="@string/start_calendar_description" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/start_procedure_view"
-        style="@style/MainActivity.ItemLayout"
-        android:background="@drawable/selected_procedure">
-
-        <app.clientplanner.CircularImageView
-            style="@style/MainActivity.ItemCircle"
-            android:src="@mipmap/ic_procedure"
-            app:border="true"
-            app:border_color="@color/procedure_second"
-            app:shadow="true" />
-
-        <LinearLayout style="@style/MainActivity.ItemTextLayout">
-
-            <TextView
-                android:id="@+id/start_procedure_textview"
-                style="@style/MainActivity.ItemName"
-                android:text="@string/services" />
-
-            <TextView
-                android:id="@+id/start_procedure_description_textview"
-                style="@style/MainActivity.ItemDescription"
-                android:text="@string/start_procedure_description" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:background="@color/view_pager_primary"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/preview_sessions_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="2">
+            android:id="@+id/start_record_layout"
+            style="@style/MainActivity.ItemLayout"
+            android:background="@drawable/select_record">
 
-            <TextView
-                android:id="@+id/no_records_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/indent_top_button"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/no_records"
-                android:textSize="@dimen/header_button"
-                android:textStyle="bold" />
+            <app.clientplanner.CircularImageView
+                style="@style/MainActivity.ItemCircle"
+                android:src="@mipmap/ic_record"
+                app:border="true"
+                app:border_color="@color/record_second"
+                app:shadow="true" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/preview_sessions_pager"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_viewpager"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/padding_left"
-                android:layout_marginTop="@dimen/indent_top_button"
-                android:layout_weight="1"
-                android:background="@color/viewPagerPrimary"/>
+            <LinearLayout style="@style/MainActivity.ItemTextLayout">
+
+                <TextView
+                    android:id="@+id/start_record_textview"
+                    style="@style/MainActivity.ItemName"
+                    android:text="@string/start_record" />
+
+                <TextView
+                    android:id="@+id/start_record_description_textview"
+                    style="@style/MainActivity.ItemDescription"
+                    android:text="@string/start_record_description" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/circles"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/linlay_anim_circle"
-            android:layout_below="@id/preview_sessions_layout"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            android:weightSum="2">
+            android:id="@+id/start_calendar_view"
+            style="@style/MainActivity.ItemLayout"
+            android:background="@drawable/selected_calendar">
 
-            <app.clientplanner.animation.Circle
-                android:id="@+id/circle_0"
-                style="@style/MainActivity.Circle" />
+            <app.clientplanner.CircularImageView
+                style="@style/MainActivity.ItemCircle"
+                android:src="@mipmap/ic_calendar"
+                app:border="true"
+                app:border_color="@color/calendar_second"
+                app:shadow="true" />
 
-            <app.clientplanner.animation.Circle
-                android:id="@+id/circle_1"
-                style="@style/MainActivity.Circle" />
+            <LinearLayout style="@style/MainActivity.ItemTextLayout">
 
-            <app.clientplanner.animation.Circle
-                android:id="@+id/circle_2"
-                style="@style/MainActivity.Circle" />
+                <TextView
+                    android:id="@+id/start_calendar_textview"
+                    style="@style/MainActivity.ItemName"
+                    android:text="@string/calendar" />
 
-            <app.clientplanner.animation.Circle
-                android:id="@+id/circle_3"
-                style="@style/MainActivity.Circle" />
+                <TextView
+                    android:id="@+id/start_calendar_description_textview"
+                    style="@style/MainActivity.ItemDescription"
+                    android:text="@string/start_calendar_description" />
 
-            <app.clientplanner.animation.Circle
-                android:id="@+id/circle_4"
-                style="@style/MainActivity.Circle" />
+            </LinearLayout>
 
         </LinearLayout>
 
-    </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/start_procedure_view"
+            style="@style/MainActivity.ItemLayout"
+            android:background="@drawable/selected_procedure">
+
+            <app.clientplanner.CircularImageView
+                style="@style/MainActivity.ItemCircle"
+                android:src="@mipmap/ic_procedure"
+                app:border="true"
+                app:border_color="@color/procedure_second"
+                app:shadow="true" />
+
+            <LinearLayout style="@style/MainActivity.ItemTextLayout">
+
+                <TextView
+                    android:id="@+id/start_procedure_textview"
+                    style="@style/MainActivity.ItemName"
+                    android:text="@string/services" />
+
+                <TextView
+                    android:id="@+id/start_procedure_description_textview"
+                    style="@style/MainActivity.ItemDescription"
+                    android:text="@string/start_procedure_description" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:background="@color/view_pager_primary"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/preview_sessions_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/no_records_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/indent_top_button"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/no_records"
+                    android:textSize="@dimen/header_button"
+                    android:textStyle="bold" />
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/preview_sessions_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_viewpager"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/padding_left"
+                    android:layout_marginTop="@dimen/indent_top_button"
+                    android:layout_weight="1"
+                    android:background="@color/viewPagerPrimary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/circles"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/linlay_anim_circle"
+                android:layout_below="@id/preview_sessions_layout"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="2">
+
+                <app.clientplanner.animation.Circle
+                    android:id="@+id/circle_0"
+                    style="@style/MainActivity.Circle" />
+
+                <app.clientplanner.animation.Circle
+                    android:id="@+id/circle_1"
+                    style="@style/MainActivity.Circle" />
+
+                <app.clientplanner.animation.Circle
+                    android:id="@+id/circle_2"
+                    style="@style/MainActivity.Circle" />
+
+                <app.clientplanner.animation.Circle
+                    android:id="@+id/circle_3"
+                    style="@style/MainActivity.Circle" />
+
+                <app.clientplanner.animation.Circle
+                    android:id="@+id/circle_4"
+                    style="@style/MainActivity.Circle" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/navigation_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        tools:layout="@layout/drawer_main" />
+
+    <!--<fragment-->
+    <!--android:id="@+id/navigation_drawer"-->
+    <!--android:name="app.clientplanner.main_activity.NavigationDrawerFragment"-->
+    <!--android:layout_width="240dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_gravity="start"-->
+    <!--tools:layout="@layout/drawer_main" />-->
 
 </LinearLayout>

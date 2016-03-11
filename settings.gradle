@@ -1,1 +1,1 @@
-include ':app', ':SendMessage', ':DataBase'
+include ':app', ':SendMessage', ':DataBase', ':myapplication'

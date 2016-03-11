@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/DataBase" />
             <option value="$PROJECT_DIR$/SendMessage" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/myapplication" />
           </set>
         </option>
       </GradleProjectSettings>

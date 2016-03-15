@@ -12,10 +12,10 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,7 +43,7 @@ import app.clientplanner.record.RecordActivity;
 import lib.clientbase.procedures.Sessions;
 
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends ActionBarActivity implements
         LoaderCallbacks<ArrayList<Long>>,
         NavigationDrawerFragment.NavigationDrawerCallbacks,
         LangUpdateText {
@@ -84,11 +84,11 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        toolbar.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
 
 //        FragmentManager fm = getSupportFragmentManager();
 //        mNavigationDrawerFragment = new NavigationDrawerFragment();
@@ -121,13 +121,13 @@ public class MainActivity extends AppCompatActivity implements
         startProcedureView.setOnClickListener(new StartProceduresViewListener());
 
 
-////        mNavigationDrawerFragment = (NavigationDrawerFragment)
-////                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-////        mTitle = getTitle();
-////
-////        // Set up the drawer.
-////        mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
-////                (DrawerLayout) findViewById(R.id.main_activity));
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mTitle = getTitle();
+
+        // Set up the drawer.
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.main_activity));
 //
         langManager = new LanguageManager(this);
         langManager.loadLocale();

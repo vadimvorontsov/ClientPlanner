@@ -28,6 +28,8 @@ public class RecordActivity extends AppCompatActivity {
 
     private MetaData mMetaData;
 
+    public static ViewPager pager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +63,7 @@ public class RecordActivity extends AppCompatActivity {
         RecViewPagerAdapter adapter = new RecViewPagerAdapter(getSupportFragmentManager());
 
         // Assigning ViewPager View and setting the adapter
-        ViewPager pager = (ViewPager) findViewById(R.id.pager_record);
+        pager = (ViewPager) findViewById(R.id.pager_record);
         pager.setAdapter(adapter);
         SlidingTabLayout tabs = (SlidingTabLayout) findViewById(R.id.tabs_record);
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
@@ -162,8 +164,10 @@ public class RecordActivity extends AppCompatActivity {
         public int getCount() {
             return numbOfTabs;
         }
+    }
 
-
+    public static void showTab(int numTab){
+        pager.setCurrentItem(numTab);
     }
 
 }

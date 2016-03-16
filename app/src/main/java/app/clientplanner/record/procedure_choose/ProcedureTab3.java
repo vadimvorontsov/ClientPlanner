@@ -1,10 +1,12 @@
 package app.clientplanner.record.procedure_choose;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -66,6 +68,7 @@ public class ProcedureTab3 extends Fragment {
     private String[] data = {"one", "two", "three", "four"};
 
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -89,7 +92,7 @@ public class ProcedureTab3 extends Fragment {
         //mFab.attachToListView(mListViewProcedure);
         mFab = new FloatingActionButton.Builder(mContext)
                 .withDrawable(mContext.getDrawable(android.R.drawable.ic_menu_search))
-                .withButtonColor(Color.WHITE)
+                .withButtonColor(getResources().getColor(R.color.record_first))
                 .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
                 .withMargins(0, 0, 16, 16)
                 .create();

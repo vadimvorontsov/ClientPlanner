@@ -5,13 +5,6 @@
     <item
         android:id="@+id/change_language"
         android:title="@string/change_language"
-        android:orderInCategory="1"
-        app:showAsAction="always" />
-
-    <item
-        android:id="@+id/menu_data"
-        android:title="@string/menu_data"
-        android:orderInCategory="2"
-        app:showAsAction="always" />
-
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 </menu>

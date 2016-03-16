@@ -83,5 +83,19 @@
 
     </RelativeLayout>
 
+    <FloatingActionButton
+        android:id="@+id/fab_proc_act"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="@dimen/padding_botton"
+        android:layout_marginRight="@dimen/padding_right"
+        android:src="@drawable/ic_search" />
+    /*fab:fab_colorNormal="@color/procedure_first"
+        fab:fab_colorPressed="@color/procedure_second"
+        fab:fab_colorRipple="@color/procedure_second" />
 
 </RelativeLayout>

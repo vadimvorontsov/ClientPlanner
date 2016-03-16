@@ -1,11 +1,13 @@
 package app.clientplanner.record.contact_choose;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
@@ -37,12 +39,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
 import app.clientplanner.FloatingActionButton;
 import app.clientplanner.MetaData;
 import app.clientplanner.R;
+import app.clientplanner.record.RecordActivity;
 import app.clientplanner.record.contact_choose.intface.PinnedHeaderAdapter;
 import lib.clientbase.procedures.Clients;
 
@@ -72,7 +76,36 @@ public class ContactTab1 extends Fragment {
     private PhoneEmailByNameLoaderCallback peCallback;
     private ContactsClientsLoaderCallback ccCallback;
 
+    private static String reformatPhones(String oldPhone) {
 
+        if (oldPhone.length() < 11)
+            return oldPhone;
+
+        if (oldPhone.startsWith("8")) {
+            oldPhone = "7" + oldPhone.substring(1, oldPhone.length());
+        }
+
+        String newPhone = oldPhone.replaceAll("\\D", "");
+        newPhone.replace(" ", "");
+
+        newPhone = "+" + newPhone.substring(0, 1) + " (" + newPhone.substring(1, 4) + ") " +
+                newPhone.substring(4, 7) + "-" + newPhone.substring(7, 9) +
+                "-" + newPhone.substring(9, newPhone.length());
+        if (newPhone.length() == 18) {
+            return newPhone;
+        } else {
+            return null;
+        }
+    }
+
+    private static void ignoreDuplicateStrings(List listWithDuplicate) {
+        Set<String> listWithoutDuplicate = new HashSet<>();
+        listWithoutDuplicate.addAll(listWithDuplicate);
+        listWithDuplicate.clear();
+        listWithDuplicate.addAll(listWithoutDuplicate);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -100,8 +133,8 @@ public class ContactTab1 extends Fragment {
 
         //mFab.attachToListView(mListView);
         mFab = new FloatingActionButton.Builder(mContext)
-                .withDrawable(getResources().getDrawable(android.R.drawable.ic_menu_search))
-                .withButtonColor(Color.WHITE)
+                .withDrawable(mContext.getDrawable(android.R.drawable.ic_menu_search))
+                .withButtonColor(getResources().getColor(R.color.record_first))
                 .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
                 .withMargins(0, 0, 16, 16)
                 .create();
@@ -309,7 +342,6 @@ public class ContactTab1 extends Fragment {
     }
 
     private void showList() {
-        showLoading(mListView, mLoadingView, mEmptyView);
         if (isContactLoaded) {
             getLoaderManager().getLoader(GET_CONTACT).forceLoad();
         } else {
@@ -334,7 +366,7 @@ public class ContactTab1 extends Fragment {
                         query(ContactsContract.Contacts.CONTENT_URI,
                                 null, null, null, null);
 
-                while (cursor != null && cursor.moveToNext()) {
+                while (cursor.moveToNext()) {
                     String name = cursor.getString(cursor
                             .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                     if (name != null && !name.isEmpty()) {
@@ -413,7 +445,7 @@ public class ContactTab1 extends Fragment {
                         query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, column,
                                 selection, null, null);
 
-                while (cursor != null && cursor.moveToNext()) {
+                while (cursor.moveToNext()) {
                     String phone = reformatPhones(cursor.getString(cursor.getColumnIndex
                             (ContactsContract.CommonDataKinds.Phone.NUMBER)));
                     if (!phonesByName.contains(phone))
@@ -421,7 +453,7 @@ public class ContactTab1 extends Fragment {
                 }
 
             } catch (Exception e) {
-                //TODO
+
             } finally {
                 if (cursor != null) {
                     cursor.close();
@@ -443,7 +475,7 @@ public class ContactTab1 extends Fragment {
                         query(ContactsContract.CommonDataKinds.Email.CONTENT_URI, column,
                                 selection, null, null);
 
-                while (cursor != null && cursor.moveToNext()) {
+                while (cursor.moveToNext()) {
                     emailsByName.add(cursor.getString(cursor.getColumnIndex
                             (ContactsContract.CommonDataKinds.Email.ADDRESS)));
                 }
@@ -456,27 +488,6 @@ public class ContactTab1 extends Fragment {
                 }
             }
             return emailsByName;
-        }
-
-        private String reformatPhones(String oldPhone) {
-
-            if (oldPhone.length() < 11)
-                return oldPhone;
-
-            if (oldPhone.startsWith("8")) {
-                oldPhone = "7" + oldPhone.substring(1, oldPhone.length());
-            }
-
-            String newPhone = oldPhone.replaceAll("\\D", "").replace(" ", "");
-
-            newPhone = "+" + newPhone.substring(0, 1) + " (" + newPhone.substring(1, 4) + ") " +
-                    newPhone.substring(4, 7) + "-" + newPhone.substring(7, 9) +
-                    "-" + newPhone.substring(9, newPhone.length());
-            if (newPhone.length() == 18) {
-                return newPhone;
-            } else {
-                return null;
-            }
         }
     }
 
@@ -575,6 +586,9 @@ public class ContactTab1 extends Fragment {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
+//            if (list.isEmpty())
+//                return new FilterResults();
+
             String constraintStr = constraint.toString().toLowerCase(Locale.getDefault());
             Filter.FilterResults result = new FilterResults();
 
@@ -582,6 +596,7 @@ public class ContactTab1 extends Fragment {
                 ArrayList<String> filterItems = new ArrayList<>();
 
                 synchronized (this) {
+                    //boolean found = false;
                     LOOP_FOR_CONTACTS:
                     for (String item : list) {
                         String[] surnames = item.split(" ");
@@ -589,6 +604,7 @@ public class ContactTab1 extends Fragment {
                         for (String subName : surnames) {
                             if (subName.toLowerCase(Locale.getDefault()).contains(constraintStr)) {
                                 filterItems.add(item);
+                                //found = true;
                                 break LOOP_FOR_SURNAMES;
                             }
                         }
@@ -669,6 +685,8 @@ public class ContactTab1 extends Fragment {
             b.putString("name", clientName);
             getLoaderManager().restartLoader(GET_PHONE_EMAIL_BY_NAME_SHORT, b, peCallback);
             getLoaderManager().getLoader(GET_PHONE_EMAIL_BY_NAME_SHORT).forceLoad();
+
+            RecordActivity.showTab(1);
         }
     }
 
@@ -703,12 +721,4 @@ public class ContactTab1 extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
     }
-
-    private static void ignoreDuplicateStrings(ArrayList<String> listWithDuplicate) {
-        Set<String> listWithoutDuplicate = new HashSet<>();
-        listWithoutDuplicate.addAll(listWithDuplicate);
-        listWithDuplicate.clear();
-        listWithDuplicate.addAll(listWithoutDuplicate);
-    }
-
 }

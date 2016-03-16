@@ -17,13 +17,16 @@ import lib.clientbase.procedures.Sessions;
 public class NearestSessionFragment extends Fragment {
 
     private static final String ID_SESSION = "id_session";
+    //private static final String POSITION = "position";
     private Context mContext;
     private long mSessionId;
+    private int mPosition;
 
     static NearestSessionFragment newInstance(long sessionId) {
         NearestSessionFragment pageFragment = new NearestSessionFragment();
         Bundle arguments = new Bundle();
         arguments.putLong(ID_SESSION, sessionId);
+        //arguments.putInt(POSITION, position);
         pageFragment.setArguments(arguments);
         return pageFragment;
     }

@@ -1,20 +1,27 @@
 package app.clientplanner.main_activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.PopupMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,28 +43,15 @@ import app.clientplanner.record.RecordActivity;
 import lib.clientbase.procedures.Sessions;
 
 
-public class MainActivity extends AppCompatActivity implements LoaderCallbacks<ArrayList<Long>>,
+public class MainActivity extends ActionBarActivity implements
+        LoaderCallbacks<ArrayList<Long>>,
+        NavigationDrawerFragment.NavigationDrawerCallbacks,
         LangUpdateText {
 
     private static final int MAX_SESSIONS_COUNT = 5;
     private final int GET_NEAREST_SESSIONS = 0;
     private Circle[] circleArray;
     private int sessionsCount;
-    ViewPager.OnPageChangeListener pageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageSelected(int position) {
-            setCircleChoose(position);
-        }
-
-        @Override
-        public void onPageScrolled(int position, float positionOffset,
-                                   int positionOffsetPixels) {
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int state) {
-        }
-    };
     private LinearLayout circleTable;
     private LanguageManager langManager;
     private TextView startRecordTextView;
@@ -68,24 +62,17 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
     private TextView startProcedureDescriptionTextView;
     private TextView noNearestRecordsTextView;
     private MenuItem changeLangMenuItem;
-    private View.OnClickListener startRecordListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            startRecord();
-        }
-    };
-    private View.OnClickListener startCalendarViewListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            startCalendarView();
-        }
-    };
-    private View.OnClickListener startProceduresViewListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            startProceduresView();
-        }
-    };
+
+    /**
+     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
+     */
+    private NavigationDrawerFragment mNavigationDrawerFragment;
+
+    /**
+     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
+     */
+    private CharSequence mTitle;
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -96,6 +83,19 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        toolbar.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
+
+//        FragmentManager fm = getSupportFragmentManager();
+//        mNavigationDrawerFragment = new NavigationDrawerFragment();
+//        FragmentTransaction ftr = fm.beginTransaction();
+//        ftr.add(R.id.navigation_drawer, mNavigationDrawerFragment, "tag");
+//        ftr.commit();
+
 
         startRecordTextView = (TextView) findViewById(R.id.start_record_textview);
         startRecordDescriptionTextView = (TextView)
@@ -111,23 +111,24 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
 
         noNearestRecordsTextView = (TextView) findViewById(R.id.no_records_textview);
 
-        //getDbFile();
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
-
         LinearLayout startRecordLayout = (LinearLayout) findViewById(R.id.start_record_layout);
-        startRecordLayout.setOnClickListener(startRecordListener);
+        startRecordLayout.setOnClickListener(new StartRecordListener());
 
         LinearLayout startCalendarView = (LinearLayout) findViewById(R.id.start_calendar_view);
-        startCalendarView.setOnClickListener(startCalendarViewListener);
+        startCalendarView.setOnClickListener(new StartCalendarViewListener());
 
         LinearLayout startProcedureView = (LinearLayout) findViewById(R.id.start_procedure_view);
-        startProcedureView.setOnClickListener(startProceduresViewListener);
+        startProcedureView.setOnClickListener(new StartProceduresViewListener());
 
+
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+        mTitle = getTitle();
+
+        // Set up the drawer.
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.main_activity));
+//
         langManager = new LanguageManager(this);
         langManager.loadLocale();
 
@@ -165,40 +166,126 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
     public boolean onOptionsItemSelected(MenuItem item) {
         changeLangMenuItem = item;
         int id = item.getItemId();
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-        }
-        if (id == R.id.change_language) {
-            if (!langManager.isRus)
-                langManager.changeLang("ru");
-            else
-                langManager.changeLang("en");
-            updateTexts();
+        switch (id) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.change_language:
+                if (!langManager.isRus)
+                    langManager.changeLang("ru");
+                else
+                    langManager.changeLang("en");
+                updateTexts();
+                break;
+            case R.id.menu_data:
+                showPopup(R.id.menu_data);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onDestroy() {
-        getDbFile();
-        super.onDestroy();
+    public void showPopup(int id) {
+        View menuItemView = findViewById(id);
+        PopupMenu popup = new PopupMenu(this, menuItemView);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.popup_main_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.save_data:
+                        dbSaveToBackup();
+                        break;
+                    case R.id.load_data:
+                        dbLoadFromBackup();
+                        break;
+                }
+                return false;
+            }
+        });
+        popup.show();
     }
 
-    private void getDbFile() {
+
+    private class StartCalendarViewListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            startCalendarView();
+        }
+    }
+
+    private class StartProceduresViewListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            startProceduresView();
+        }
+    }
+
+    private class StartRecordListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            startRecord();
+        }
+    }
+
+    private class PageChangeListener implements ViewPager.OnPageChangeListener {
+        @Override
+        public void onPageSelected(int position) {
+            setCircleChoose(position);
+        }
+
+        @Override
+        public void onPageScrolled(int position, float positionOffset,
+                                   int positionOffsetPixels) {
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+        }
+    }
+
+    private void dbSaveToBackup() {
         try {
             File sd = Environment.getExternalStorageDirectory();
             File data = Environment.getDataDirectory();
 
             if (sd.canWrite()) {
-                String currentDBPath = data + "/data/" + getPackageName() + "/databases/sessions.db";
-                String backupDBPath = "backupDB.db";
+                String currentDBPath = data + "/data/" + getPackageName()
+                        + "/databases/sessions.db";
+                String backupDBPath = data + "/data/" + getPackageName()
+                        + "/databases/backup_sessions.db";
                 File currentDB = new File(currentDBPath);
                 File backupDB = new File(sd, backupDBPath);
 
                 if (currentDB.exists()) {
                     FileChannel src = new FileInputStream(currentDB).getChannel();
                     FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void dbLoadFromBackup() {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String dbPath = data + "/data/" + getPackageName()
+                        + "/databases/sessions.db";
+                String backupDBPath = data + "/data/" + getPackageName()
+                        + "/databases/backup_sessions.db";
+                File db = new File(dbPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                if (backupDB.exists()) {
+                    FileChannel src = new FileInputStream(backupDB).getChannel();
+                    FileChannel dst = new FileOutputStream(db).getChannel();
                     dst.transferFrom(src, 0, src.size());
                     src.close();
                     dst.close();
@@ -254,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
         circleTable = (LinearLayout) findViewById(R.id.circles);
 
         mPager.setPageTransformer(true, new ZoomOutPageTransformer());
-        mPager.addOnPageChangeListener(pageChangeListener);
+        mPager.addOnPageChangeListener(new PageChangeListener());
 
         if (nearestSessions != null && !nearestSessions.isEmpty()) {
             initCircles();
@@ -323,4 +410,75 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<A
             return nearestSessionsId;
         }
     }
+
+    @Override
+    public void onNavigationDrawerItemSelected(int position) {
+//        // update the main content by replacing fragments
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction()
+//                .replace(R.id.main_without_navigation, PlaceholderFragment.newInstance(position + 1))
+//                .commit();
+    }
+
+    public void onSectionAttached(int number) {
+        switch (number) {
+            case 1:
+                mTitle = "Serction 1";
+                break;
+            case 2:
+                mTitle = "Serction 2";
+                break;
+            case 3:
+                mTitle = "Serction 3";
+                break;
+        }
+    }
+
+    public void restoreActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setTitle(mTitle);
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public PlaceholderFragment() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            return rootView;
+        }
+
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            ((MainActivity) activity).onSectionAttached(
+                    getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+    }
+
 }

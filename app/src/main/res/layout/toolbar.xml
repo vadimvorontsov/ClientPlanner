@@ -5,4 +5,5 @@
     android:layout_height="?attr/actionBarSize"
     android:background="@color/procedure_first"
     android:elevation="@dimen/elevation_toolbar"
-    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark" />
+    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+    android:title="R.string.app_name" />

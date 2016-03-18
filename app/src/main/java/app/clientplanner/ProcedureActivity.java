@@ -1,12 +1,10 @@
 package app.clientplanner;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -156,7 +154,6 @@ public class ProcedureActivity extends AppCompatActivity {
     };
 
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -192,7 +189,7 @@ public class ProcedureActivity extends AppCompatActivity {
         //fab.attachToListView(mListViewProc);
         fab = new FloatingActionButton.Builder(this)
                 .withDrawable(mContext.getDrawable(android.R.drawable.ic_menu_search))
-                .withButtonColor(getResources().getColor(R.color.procedure_first))
+                .withButtonColor(Color.WHITE)
                 .withGravity(Gravity.BOTTOM | Gravity.RIGHT)
                 .withMargins(0, 0, 16, 16)
                 .create();
